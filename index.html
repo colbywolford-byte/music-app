@@ -748,6 +748,7 @@ body.topen:not(.tdrag) #tray{transform:none!important}
 .wz-nav button{flex:1;min-height:2.7rem;font-weight:700}
 .wz-nav .wz-pri{background:var(--acc);color:var(--bg);border-color:var(--acc)}
 #hnav button#hbSetup{font-weight:600}
+.wz-opts{display:flex;flex-direction:column;gap:8px;margin-top:6px}.wz-opt{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:2px;padding:10px 14px;min-height:3.4rem}.wz-opt b{font-size:1rem}.wz-opt span{font-size:.82rem;opacity:.8}.wz-opt.on{background:var(--acc);color:var(--bg);border-color:var(--acc)}
 @media (prefers-reduced-motion:reduce){#wz{transition:none}}
 
 /* dial v2: matches the tuner tape (inset drum shading, thin dark frame, fixed marker) */
@@ -1270,7 +1271,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-function aboutHtml(){return '<p><b>Plucky Music</b> (working title)</p><p class="hint">ver. 0.10.2-2026-11-04</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Strumming patterns 1\u201332: chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p><p class="hint">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p>'}
+function aboutHtml(){return '<p><b>Plucky Music</b> (working title)</p><p class="hint">ver. 0.10.3-2026-11-04</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Strumming patterns 1\u201332: chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p><p class="hint">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
 var pgc=$('rngCz').closest('.pg'),chT=null;pgc.insertAdjacentHTML('beforeend','<label>Chord Color <select id="chCol"><option value="">Palette Color</option><option value="ink">Same as Lyrics</option><option value="#e69f00">Orange</option><option value="#56b4e9">Sky Blue</option><option value="#009e73">Green</option><option value="#cc79a7">Pink</option><option value="#f0e442">Yellow</option><option value="#d55e00">Vermilion</option><option value="#0072b2">Blue</option></select></label><div class="hint" id="chRd"></div><label>Chord Size <input type="range" id="chSz" min="0.7" max="1.6" step="0.05" value="1"></label><label>Chord Weight <select id="chWt"><option value="400">Normal</option><option value="600">Medium</option><option value="700">Bold</option><option value="800" selected>Extra Bold</option></select></label>');
@@ -2202,8 +2203,14 @@ function(b){head(b,'Pedals and song folder','If you use a Bluetooth pedal, pair 
  var rs=$('pdReset');if(rs){var rb=document.createElement('button');rb.type='button';rb.textContent='Reset Pedal Keys';rb.onclick=function(){rs.click();tick()};b.appendChild(rb)}
  var m=document.createElement('div');m.className='wz-msg';m.id='wzMsg';b.appendChild(m);
  if($('libDef')){b.appendChild(H('Song folder'));b.appendChild(selF('Default import folder','libDef'));var h2=document.createElement('p');h2.className='wz-sub';h2.textContent='Imported songs go here unless you pick another location during an import.';b.appendChild(h2)}},
+function(b){head(b,'Opening screen','Choose the screen Plucky Music opens on. Many players like to warm up before they play.');
+ var MS=[['W','Warm-up','Scales, arpeggios and chord progressions'],['R','Practice','Play along with the song'],['E','Edit','Write and arrange songs'],['P','Performance','The gig screen']],cur=SU.mode||'W',wrap=document.createElement('div');wrap.className='wz-opts';
+ MS.forEach(function(m){var o=document.createElement('button');o.type='button';o.className='wz-opt'+(m[0]===cur?' on':'');o.innerHTML='<b></b><span></span>';o.firstChild.textContent=m[1];o.lastChild.textContent=m[2];
+  o.onclick=function(){SU.mode=m[0];save();[].forEach.call(wrap.children,function(c){c.classList.remove('on')});o.classList.add('on');
+   try{if(m[0]==='W'){if(window.WU)WU.enter()}else{if(window.WU&&WU.on)WU.hide();var bb=$('m'+m[0]);if(bb&&!bb.disabled)bb.click()}}catch(e2){}};
+  wrap.appendChild(o)});b.appendChild(wrap)},
 function(b){head(b,'You’re all set','These are your defaults. You can change any of them later in Settings, and Run Setup Again is in the Settings menu.');
- var items=[['Instrument',(function(){var r=$('selInst');return r&&r.options[r.selectedIndex]?r.options[r.selectedIndex].text:''})()],['Tuning pitch','A4 = '+((a4Real()||{}).value||'440')+' Hz'],['Color mode',optText('selTheme')],['Palette',optText('selPal')],['Text size',optText('selSize')],['Chord diagrams',optText('selPos')],['Chord letters',optText('selCp')],['Next section pedal',$('pdN')?$('pdN').textContent:'']];
+ var items=[['Instrument',(function(){var r=$('selInst');return r&&r.options[r.selectedIndex]?r.options[r.selectedIndex].text:''})()],['Tuning pitch','A4 = '+((a4Real()||{}).value||'440')+' Hz'],['Color mode',optText('selTheme')],['Palette',optText('selPal')],['Text size',optText('selSize')],['Chord diagrams',optText('selPos')],['Opens on',({W:'Warm-up',R:'Practice',E:'Edit',P:'Performance'})[SU.mode||'W']],['Chord letters',optText('selCp')],['Next section pedal',$('pdN')?$('pdN').textContent:'']];
  var ul=document.createElement('ul');ul.className='wz-sum';items.forEach(function(x){var li=document.createElement('li'),a=document.createElement('span'),c=document.createElement('span');a.textContent=x[0];c.textContent=x[1];li.appendChild(a);li.appendChild(c);ul.appendChild(li)});b.appendChild(ul)}
 ];
 function tick(){var b=$('wzBody');[].forEach.call(b.querySelectorAll('.wz-pk'),function(k){var s=$(k.getAttribute('data-src'));if(s)k.textContent=s.textContent});var m=$('wzMsg'),pm=$('pdMsg');if(m&&pm)m.textContent=pm.textContent}
@@ -2490,7 +2497,8 @@ W.enter=function(){W.on=true;W.entering=true;try{$('mR').click()}finally{W.enter
  try{renderTop()}catch(e2){}};
 W.hide=function(){if(!W.on)return;if(run)pause();W.on=false;el.classList.remove('on');document.documentElement.classList.remove('wuon');try{renderTop()}catch(e3){}};
 ['mP','mR','mE'].forEach(function(id){$(id).addEventListener('click',function(){if(!W.entering)W.hide()})});
-setTimeout(function(){try{if(!W.on)W.enter()}catch(e5){console.error(e5)}},0);
+setTimeout(function(){try{var sm='W';try{sm=(JSON.parse(localStorage.getItem('ukemap.setup')||'{}')||{}).mode||'W'}catch(e6){}
+ if(sm==='W'){if(!W.on)W.enter()}else if(sm==='R'||sm==='E'){var bb=$('m'+sm);if(bb&&!bb.disabled)bb.click()}}catch(e5){console.error(e5)}},0);
 }catch(errU){console.error(errU);try{toast('Warm-up setup problem: '+errU.message)}catch(e9){}}})();
 (function(){try{
 GS=getVals();
