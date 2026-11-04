@@ -769,7 +769,7 @@ body.topen:not(.tdrag) #tray{transform:none!important}
 /* menu dividers: one line under each section title, one at the bottom of each section, none at the very top */
 #hamb .pg,#sinfo .pg,#tray .pg,#hamb .trg,#sinfo .trg,#tray .trg,#hamb .libf,#sinfo .libf{border-top:0!important;border-bottom:1px solid var(--line)!important;padding-top:7px;padding-bottom:10px;margin-top:0;margin-bottom:8px}
 #hamb .pg:empty,#sinfo .pg:empty{display:none}
-#sinfo .trg>.mkh,#hamb .trg>.mkh{padding-bottom:4px;border-bottom:1px solid var(--line)}
+#hamb .pg>.mkh,#sinfo .pg>.mkh,#tray .pg>.mkh,#hamb .trg>.mkh,#sinfo .trg>.mkh,#tray .trg>.mkh{border-bottom:0!important;padding-bottom:0}
 </style>
 </head>
 <body>
@@ -1192,7 +1192,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-function aboutHtml(){return '<p><b>Plucky Music</b> (working title)</p><p class="hint">ver. 0.6.5-2026-11-03</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Strumming patterns 1\u201332: chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p>'}
+function aboutHtml(){return '<p><b>Plucky Music</b> (working title)</p><p class="hint">ver. 0.6.6-2026-11-03</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Strumming patterns 1\u201332: chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
 var pgc=$('rngCz').closest('.pg'),chT=null;pgc.insertAdjacentHTML('beforeend','<label>Chord Color <select id="chCol"><option value="">Palette Color</option><option value="ink">Same as Lyrics</option><option value="#e69f00">Orange</option><option value="#56b4e9">Sky Blue</option><option value="#009e73">Green</option><option value="#cc79a7">Pink</option><option value="#f0e442">Yellow</option><option value="#d55e00">Vermilion</option><option value="#0072b2">Blue</option></select></label><div class="hint" id="chRd"></div><label>Chord Size <input type="range" id="chSz" min="0.7" max="1.6" step="0.05" value="1"></label><label>Chord Weight <select id="chWt"><option value="400">Normal</option><option value="600">Medium</option><option value="700">Bold</option><option value="800" selected>Extra Bold</option></select></label>');
