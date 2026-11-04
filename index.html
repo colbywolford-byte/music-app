@@ -630,7 +630,7 @@ body.topen:not(.tdrag) #tray{transform:none!important}
 .perf #panel.inham{display:block!important}
 
 /* ---- menu dropdown lists (no flash) ---- */
-#selPop{position:fixed;z-index:90;box-sizing:border-box;overflow-y:auto;background:var(--bg);color:var(--ink);border:2px solid var(--edge);border-radius:10px;padding:4px;box-shadow:0 8px 22px rgba(0,0,0,.4);animation:none;transition:none}
+#selPop{position:fixed;z-index:95;box-sizing:border-box;overflow-y:auto;background:var(--bg);color:var(--ink);border:2px solid var(--edge);border-radius:10px;padding:4px;box-shadow:0 8px 22px rgba(0,0,0,.4);animation:none;transition:none}
 #selPop button{display:block;width:100%;text-align:left;margin:1px 0;min-height:40px;padding:6px 10px;border-radius:8px;border:0;background:transparent;color:inherit;font:inherit;font-size:.9rem}
 #selPop button.on{background:var(--acc);color:var(--bg);font-weight:700}
 #selPop button:disabled{opacity:.4}
@@ -2024,7 +2024,7 @@ function show(sel){
  if(h>below&&above>below){pop.style.top='auto';pop.style.bottom=(Hh-r.top+2)+'px';pop.style.maxHeight=Math.min(h,above)+'px'}
  else{pop.style.bottom='auto';pop.style.top=(r.bottom+2)+'px';pop.style.maxHeight=Math.min(h,below)+'px'}
  var on=pop.querySelector('.on');if(on)pop.scrollTop=Math.max(0,on.offsetTop-pop.clientHeight/2+20)}
-function mine(t){var s=t&&t.closest&&t.closest('select');return s&&s.closest('#hamb,#sinfo,#tray')&&!s.disabled?s:null}
+function mine(t){var s=t&&t.closest&&t.closest('select');return s&&s.closest('#hamb,#sinfo,#tray,#wz')&&!s.disabled?s:null}
 document.addEventListener('mousedown',function(e){if(mine(e.target))e.preventDefault()},true);
 document.addEventListener('click',function(e){var s=mine(e.target);if(!s)return;e.preventDefault();e.stopPropagation();if(cur===s){shut();return}show(s)},true);
 pop.addEventListener('click',function(e){e.stopPropagation();var b=e.target.closest('button[data-v]');if(!b||!cur)return;var s=cur;shut();if(s.value!==b.dataset.v){s.value=b.dataset.v;s.dispatchEvent(new Event('input',{bubbles:true}));s.dispatchEvent(new Event('change',{bubbles:true}))}});
