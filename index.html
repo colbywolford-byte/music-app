@@ -780,6 +780,14 @@ body.topen:not(.tdrag) #tray{transform:none!important}
 #hbLib>.hbt{order:0}#hbLib>#gSong{order:1}#hbLib>#gBook{order:2}#hbLib>#gLib{order:3}#hbLib>.pg{order:4}#hbLib>#gExp{order:5}#hbLib>#gExp2{order:6}
 .perf #sinfo:not([hidden]){display:block!important}
 .perf #sinfo>*:not(#trayTune):not(.ph){display:none!important}
+
+/* sub-menus: tap a section title to open it, one open at a time */
+#sinfo .pg>.mkh[data-acc],#sinfo .trg>.mkh[data-acc],#panel.inham .pg>.mkh[data-acc],#hbLib .pg>.mkh[data-acc]{display:flex;align-items:center;justify-content:space-between;min-height:34px;padding:2px 2px 2px 0!important;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
+.mkh[data-acc]::after{content:"";width:8px;height:8px;border-right:2px solid var(--mut);border-bottom:2px solid var(--mut);transform:rotate(45deg) translate(-2px,-2px);transition:transform .15s;margin-right:6px;flex:none}
+.acc-c>.mkh[data-acc]::after{transform:rotate(-45deg)}
+.mkh[data-acc]:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:4px}
+.acc-c>*:not(.mkh){display:none!important}
+.acc-c{padding-bottom:2px!important;padding-top:2px!important;margin-bottom:2px!important}
 </style>
 </head>
 <body>
@@ -1202,7 +1210,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-function aboutHtml(){return '<p><b>Plucky Music</b> (working title)</p><p class="hint">ver. 0.7.0-2026-11-03</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Strumming patterns 1\u201332: chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p>'}
+function aboutHtml(){return '<p><b>Plucky Music</b> (working title)</p><p class="hint">ver. 0.7.1-2026-11-03</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Strumming patterns 1\u201332: chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
 var pgc=$('rngCz').closest('.pg'),chT=null;pgc.insertAdjacentHTML('beforeend','<label>Chord Color <select id="chCol"><option value="">Palette Color</option><option value="ink">Same as Lyrics</option><option value="#e69f00">Orange</option><option value="#56b4e9">Sky Blue</option><option value="#009e73">Green</option><option value="#cc79a7">Pink</option><option value="#f0e442">Yellow</option><option value="#d55e00">Vermilion</option><option value="#0072b2">Blue</option></select></label><div class="hint" id="chRd"></div><label>Chord Size <input type="range" id="chSz" min="0.7" max="1.6" step="0.05" value="1"></label><label>Chord Weight <select id="chWt"><option value="400">Normal</option><option value="600">Medium</option><option value="700">Bold</option><option value="800" selected>Extra Bold</option></select></label>');
@@ -2140,6 +2148,24 @@ if(tt&&si&&gI){si.insertBefore(tt,gI.nextSibling);var h=tt.querySelector('.mkh')
 var mb=document.querySelector('#hnav button[data-s="Music"]');if(mb)mb.textContent='Defaults';
 var mh=document.querySelector('#hbMusic .hbt');if(mh)mh.textContent='Song Defaults';
 }catch(errM){console.error(errM);try{toast('Menu reorganize problem: '+errM.message)}catch(e1){}}})();
+(function(){try{
+var CS=['#sinfo','#panel.inham','#hbLib'];
+function secs(c){var a=[].filter.call(c.children,function(e){return (e.classList.contains('pg')||e.classList.contains('trg'))&&e.querySelector(':scope>.mkh')});
+ return a.map(function(e,i){return {e:e,i:i,o:parseInt(getComputedStyle(e).order)||0}}).sort(function(x,y){return x.o-y.o||x.i-y.i}).map(function(x){return x.e})}
+function vis(e){return !e.hidden&&e.getBoundingClientRect().height>0}
+function setOpen(g,on){g.classList.toggle('acc-c',!on);var h=g.querySelector(':scope>.mkh');if(h)h.setAttribute('aria-expanded',on?'true':'false')}
+function ensure(c,force){var L=secs(c);L.forEach(function(g){var h=g.querySelector(':scope>.mkh');if(h&&!h.dataset.acc){h.dataset.acc='1';h.setAttribute('role','button');h.tabIndex=0;if(!g.classList.contains('acc-c'))setOpen(g,false)}});
+ var V=L.filter(function(g){return !g.hidden&&getComputedStyle(g).display!=='none'}),op=V.filter(function(g){return !g.classList.contains('acc-c')});
+ if(!V.length)return;var keep=force?V[0]:(op[0]||V[0]);L.forEach(function(g){var want=g===keep;if(g.classList.contains('acc-c')===want)setOpen(g,want)})}
+function toggle(h){var g=h.parentNode,c=g.parentNode,open=g.classList.contains('acc-c');
+ if(open){secs(c).forEach(function(o){setOpen(o,o===g)});try{g.scrollIntoView({block:'nearest'})}catch(e){}}else setOpen(g,false)}
+document.addEventListener('click',function(e){var h=e.target.closest&&e.target.closest('.mkh[data-acc]');if(!h||!CS.some(function(i){var c=document.querySelector(i);return c&&c.contains(h)}))return;toggle(h)});
+document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('.mkh[data-acc]')){e.preventDefault();toggle(e.target)}});
+var lastM=null;function all(force){CS.forEach(function(i){var c=document.querySelector(i);if(c)ensure(c,force===true)})}
+document.addEventListener('click',function(){setTimeout(all,30);setTimeout(all,300)},true);
+var rtA=renderTop;renderTop=function(){rtA.apply(this,arguments);var f=lastM!==null&&lastM!==st.mode;lastM=st.mode;setTimeout(function(){all(f)},40)};
+all();setTimeout(all,400);
+}catch(errA){console.error(errA);try{toast('Sub-menu setup problem: '+errA.message)}catch(e1){}}})();
 (function(){try{
 GS=getVals();
 try{var j=JSON.parse(localStorage.getItem('ukemap.gs')||'null');if(j&&typeof j==='object'){GS=Object.assign(GS,j);setVals(GS)}}catch(e0){}
