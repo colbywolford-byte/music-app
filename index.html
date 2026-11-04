@@ -770,6 +770,16 @@ body.topen:not(.tdrag) #tray{transform:none!important}
 #hamb .pg,#sinfo .pg,#tray .pg,#hamb .trg,#sinfo .trg,#tray .trg,#hamb .libf,#sinfo .libf{border-top:0!important;border-bottom:1px solid var(--line)!important;padding-top:7px;padding-bottom:10px;margin-top:0;margin-bottom:8px}
 #hamb .pg:empty,#sinfo .pg:empty{display:none}
 #hamb .pg>.mkh,#sinfo .pg>.mkh,#tray .pg>.mkh,#hamb .trg>.mkh,#sinfo .trg>.mkh,#tray .trg>.mkh{border-bottom:0!important;padding-bottom:0}
+
+/* Transpose and Capo now live in Song Info (and stay available in Performance) */
+#sinfo #trayTune{display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px}
+#sinfo #trayTune>.mkh{flex:0 0 100%}
+#sinfo #trayTune .seg{align-self:auto}
+#sinfo .seg button{min-height:2.06rem;font-size:.75rem;padding:.375rem .625rem}
+#hbLib:not([hidden]){display:flex;flex-direction:column}
+#hbLib>.hbt{order:0}#hbLib>#gSong{order:1}#hbLib>#gBook{order:2}#hbLib>#gLib{order:3}#hbLib>.pg{order:4}#hbLib>#gExp{order:5}#hbLib>#gExp2{order:6}
+.perf #sinfo:not([hidden]){display:block!important}
+.perf #sinfo>*:not(#trayTune):not(.ph){display:none!important}
 </style>
 </head>
 <body>
@@ -1192,7 +1202,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-function aboutHtml(){return '<p><b>Plucky Music</b> (working title)</p><p class="hint">ver. 0.6.6-2026-11-03</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Strumming patterns 1\u201332: chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p>'}
+function aboutHtml(){return '<p><b>Plucky Music</b> (working title)</p><p class="hint">ver. 0.7.0-2026-11-03</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Strumming patterns 1\u201332: chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
 var pgc=$('rngCz').closest('.pg'),chT=null;pgc.insertAdjacentHTML('beforeend','<label>Chord Color <select id="chCol"><option value="">Palette Color</option><option value="ink">Same as Lyrics</option><option value="#e69f00">Orange</option><option value="#56b4e9">Sky Blue</option><option value="#009e73">Green</option><option value="#cc79a7">Pink</option><option value="#f0e442">Yellow</option><option value="#d55e00">Vermilion</option><option value="#0072b2">Blue</option></select></label><div class="hint" id="chRd"></div><label>Chord Size <input type="range" id="chSz" min="0.7" max="1.6" step="0.05" value="1"></label><label>Chord Weight <select id="chWt"><option value="400">Normal</option><option value="600">Medium</option><option value="700">Bold</option><option value="800" selected>Extra Bold</option></select></label>');
@@ -2001,7 +2011,7 @@ sh.addEventListener('click',function(e){e.stopPropagation();closeAll(true)});
 function vis(){
  var m=st.mode,lk=st.lock&&m==='P';
  dock.hidden=lk;
- ['info','files'].forEach(function(k){btn[k].classList.toggle('off',m==='P');btn[k].setAttribute('aria-disabled',m==='P'?'true':'false')});
+ ['files'].forEach(function(k){btn[k].classList.toggle('off',m==='P');btn[k].setAttribute('aria-disabled',m==='P'?'true':'false')});
  var c=cur();if(!closing){if(lk||(c&&btn[c].classList.contains('off')))closeAll();else paint()}}
 var rt9=renderTop;renderTop=function(){rt9.apply(this,arguments);vis()};
 var lk9=lkUpd;lkUpd=function(){lk9.apply(this,arguments);vis()};
@@ -2118,6 +2128,18 @@ var mk=document.createElement('div');mk.id='mwMark';
 mk.innerHTML='<svg viewBox="0 0 112 112" aria-hidden="true"><g transform="translate(112 0) rotate(135)"><polygon points="105,0 112,-5 112,5" fill="var(--nd)"/></g></svg>';
 w.appendChild(mk);
 }catch(errD){console.error(errD);try{toast('Dial style problem: '+errD.message)}catch(e1){}}})();
+(function(){try{
+var lib=document.getElementById('hbLib'),si=document.getElementById('sinfo');
+var gS=document.getElementById('gSong'),gB=document.getElementById('gBook'),gL=document.getElementById('gLib'),tt=document.getElementById('trayTune'),gI=document.getElementById('gInst');
+var lb=document.getElementById('libBtn');if(lb)lb.hidden=true;
+if(lib&&gS){lib.insertBefore(gS,lib.querySelector('.hbt')?lib.querySelector('.hbt').nextSibling:lib.firstChild);
+ if(gB)lib.insertBefore(gB,gS.nextSibling);
+ if(gL&&gB)lib.insertBefore(gL,gB.nextSibling)}
+['mVol','mSig','mAcc'].forEach(function(id){var e=document.getElementById(id);var l=e&&e.closest('label');if(l)l.hidden=true});
+if(tt&&si&&gI){si.insertBefore(tt,gI.nextSibling);var h=tt.querySelector('.mkh');if(h)h.textContent='Transpose and Capo'}
+var mb=document.querySelector('#hnav button[data-s="Music"]');if(mb)mb.textContent='Defaults';
+var mh=document.querySelector('#hbMusic .hbt');if(mh)mh.textContent='Song Defaults';
+}catch(errM){console.error(errM);try{toast('Menu reorganize problem: '+errM.message)}catch(e1){}}})();
 (function(){try{
 GS=getVals();
 try{var j=JSON.parse(localStorage.getItem('ukemap.gs')||'null');if(j&&typeof j==='object'){GS=Object.assign(GS,j);setVals(GS)}}catch(e0){}
