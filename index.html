@@ -1281,7 +1281,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-function aboutHtml(){return '<p><b>Plucky Music</b> (working title)</p><p class="hint">ver. 0.12.0-2026-11-04</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Some strum patterns are based on a chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p><p class="hint">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p><div class="legal"><b>Legal notice</b><p>Plucky Music is a tool for writing, arranging and playing your own charts. It does not include, supply or license any songs, lyrics or recordings. You are responsible for having the right to use every song you enter, import, share or perform.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'}
+function aboutHtml(){return '<p><b>Plucky Music</b> (working title)</p><p class="hint">ver. 0.13.0-2026-11-04</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Some strum patterns are based on a chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p><p class="hint">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p><div class="legal"><b>Legal notice</b><p>Plucky Music is a tool for writing, arranging and playing your own charts. It does not include, supply or license any songs, lyrics or recordings. You are responsible for having the right to use every song you enter, import, share or perform.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
 var pgc=$('rngCz').closest('.pg'),chT=null;pgc.insertAdjacentHTML('beforeend','<label>Chord Color <select id="chCol"><option value="">Palette Color</option><option value="ink">Same as Lyrics</option><option value="#e69f00">Orange</option><option value="#56b4e9">Sky Blue</option><option value="#009e73">Green</option><option value="#cc79a7">Pink</option><option value="#f0e442">Yellow</option><option value="#d55e00">Vermilion</option><option value="#0072b2">Blue</option></select></label><div class="hint" id="chRd"></div><label>Chord Size <input type="range" id="chSz" min="0.7" max="1.6" step="0.05" value="1"></label><label>Chord Weight <select id="chWt"><option value="400">Normal</option><option value="600">Medium</option><option value="700">Bold</option><option value="800" selected>Extra Bold</option></select></label>');
@@ -2561,6 +2561,95 @@ var tq=null,lw=innerWidth;window.addEventListener('resize',function(){if(innerWi
 eqHeader();
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){eqHeader()});
 }catch(err9){console.error(err9)}})();
+(function(){try{
+var K_='ukemap.pdf',PD={what:'song',size:'letter',ori:'portrait',mar:'normal',cols:1,fs:11,font:'sans',order:'play',show:'both',cc:'bold',diag:'top',dsz:'m',meta:true,strum:true,capo:true,tags:true,num:true,brk:true,keep:true};
+try{var sv=JSON.parse(localStorage.getItem(K_)||'null');if(sv&&typeof sv==='object')Object.keys(PD).forEach(function(k){if(sv[k]!==undefined)PD[k]=sv[k]})}catch(e){}
+function save(){try{localStorage.setItem(K_,JSON.stringify(PD))}catch(e){}}
+var SZ={letter:[8.5,11,'Letter'],a4:[8.268,11.693,'A4'],legal:[8.5,14,'Legal'],a5:[5.827,8.268,'A5'],half:[5.5,8.5,'Half letter'],tab:[11,17,'Tabloid']};
+var MR={narrow:.4,normal:.7,wide:1};
+var DS={s:.8,m:1.1,l:1.5};
+var FF={sans:'Arial,Helvetica,sans-serif',serif:'Georgia,"Times New Roman",serif',mono:'"Courier New",Courier,monospace'};
+var CC={bold:'#000',red:'#b00020',blue:'#0b4fa8',green:'#0a6b3a'};
+function dims(){var d=SZ[PD.size]||SZ.letter,w=d[0],h=d[1];if(PD.ori==='landscape'){var t=w;w=h;h=t}return{w:w,h:h,m:MR[PD.mar]||.7}}
+function setlistKey(){var k=($('selBook')&&$('selBook').value)||st.book;return(k&&SETS[k])?k:null}
+function seqFor(d){var e=[];d.LAYOUT.forEach(function(id){(d.NUMS[id]||[]).forEach(function(n,k){e.push({s:id,n:n,k:k})})});e.sort(function(a,b){return a.n-b.n});return e.map(function(x){var sc=d.SECS.filter(function(s){return s.id===x.s})[0];return{s:x.s,v:Math.min(x.k,(sc?sc.v.length:1)-1)}})}
+function songData(i){var cur=(i===st.song),d;
+ if(cur){return{title:SONGS[i]||'Song',artist:(SDB[i]&&SDB[i].a)||'',secs:SECS,layout:LAYOUT,seq:SEQ.map(function(x){return{s:x.s,v:x.v}}),key:kName(),ts:st.ts,bpm:st.bpm,capo:st.capo,strum:st.strum,tr:true}}
+ d=DBS[i]||cloneSong(i);return{title:SONGS[i]||'Song',artist:(SDB[i]&&SDB[i].a)||'',secs:d.SECS,layout:d.LAYOUT,seq:seqFor(d),key:(d.kmin?KEYSM:KEYS)[KEYS.indexOf(d.key)]||d.key,ts:d.ts,bpm:d.bpm,capo:0,strum:d.strum,tr:false}}
+function secIn(D,id){return D.secs.filter(function(s){return s.id===id})[0]}
+function lineHtml(D,l){if(!l)return '<div class="gap"></div>';var segs=parse(l),h='';
+ segs.forEach(function(g){var c=g.c?(D.tr?trc(g.c):g.c):'';
+  if(PD.show==='chords'){if(c)h+='<span class="sg"><span class="ch">'+esc(c)+'</span></span>';return}
+  h+='<span class="sg">'+(PD.show==='lyrics'?'':'<span class="ch">'+(c?esc(c):'&nbsp;')+'</span>')+'<span class="tx">'+esc(g.t).replace(/ /g,' ')+'</span></span>'});
+ if(PD.show==='chords'&&!h)return '';return '<div class="ln">'+h+'</div>'}
+function chordsOf(D){var seen={},o=[];D.seq.forEach(function(x){var sc=secIn(D,x.s);if(!sc)return;(sc.v[x.v]||[]).forEach(function(l){if(!l)return;parse(l).forEach(function(g){if(!g.c||g.c==='NC')return;var c=D.tr?trc(g.c):g.c;if(!seen[c]){seen[c]=1;o.push(c)}})})});return o}
+function bodyHtml(D){var h='',order=[];
+ if(PD.order==='play'){order=D.seq.map(function(x){var sc=secIn(D,x.s);return{sc:sc,v:x.v}})}
+ else{D.layout.forEach(function(id){var sc=secIn(D,id);if(!sc)return;sc.v.forEach(function(_,k){order.push({sc:sc,v:k})})})}
+ order.forEach(function(o){if(!o.sc)return;var vl=o.sc.v[o.v]||[];h+='<section class="sec">'+(PD.tags?'<h3>'+esc(o.sc.name)+(o.sc.v.length>1?' ('+(o.v+1)+')':'')+'</h3>':'');vl.forEach(function(l){h+=lineHtml(D,l)});h+='</section>'});return h}
+function songHtml(D,first){var h='<article class="song'+((!first&&PD.brk)?' brk':'')+'"><header><h1>'+esc(D.title)+'</h1>';
+ if(PD.meta){var m=[];if(D.artist)m.push(esc(D.artist));m.push('Key '+esc(D.key));m.push(D.bpm+' BPM');m.push(esc(D.ts));if(PD.capo&&D.capo)m.push('Capo '+D.capo);h+='<div class="meta">'+m.join(' · ')+'</div>'}
+ var sp=SP[D.strum];if(PD.strum&&sp&&sp.p.length)h+='<div class="meta">Strum: '+sp.p.map(function(x){return AR[x]}).join(' ')+'</div>';
+ h+='</header>';
+ if(PD.diag==='top'){var cs=chordsOf(D);if(cs.length)h+='<div class="dg">'+cs.map(function(c){return dia(c)}).join('')+'</div>'}
+ h+='<div class="body">'+bodyHtml(D)+'</div></article>';return h}
+function indexes(){if(PD.what==='setlist'){var k=setlistKey();if(k)return SETS[k].slice()}return[st.song]}
+function build(forPreview){var d=dims(),ix=indexes(),h='';
+ ix.forEach(function(i,n){h+=songHtml(songData(i),n===0)});
+ var cz=DS[PD.dsz]||1.1,fs=PD.fs,pw=d.w*96,css='@page{size:'+d.w+'in '+d.h+'in;margin:'+d.m+'in'+(PD.num?';@bottom-center{content:counter(page);font:9pt '+FF[PD.font]+'}':'')+'}'+
+ '*{box-sizing:border-box}html{font-size:16px}body{margin:0;font-family:'+FF[PD.font]+';font-size:'+fs+'pt;color:#000;background:#fff;line-height:1.25}'+
+ 'h1{font-size:1.7em;margin:0 0 .15em}h3{font-size:.95em;margin:.7em 0 .15em;text-transform:uppercase;letter-spacing:.05em;color:#444}.meta{font-size:.85em;color:#333;margin:.05em 0}'+
+ '.body{column-count:'+PD.cols+';column-gap:'+(PD.cols>1?'.35in':'0')+';column-fill:balance}.sec{'+(PD.keep?'break-inside:avoid;':'')+'margin:0 0 .5em}.ln{display:flex;flex-wrap:wrap;align-items:flex-end}.sg{display:inline-flex;flex-direction:column}'+
+ '.ch{font-weight:700;color:'+(CC[PD.cc]||'#000')+';min-height:1.15em;padding-right:.3em;white-space:pre}.tx{white-space:pre}.gap{height:.7em}'+
+ '.dg{display:flex;flex-wrap:wrap;gap:.1in;margin:.15in 0;--cz:'+cz+'}.cd{break-inside:avoid}.cd svg{display:block}.cd line{stroke:#000}.cd text{fill:#000;font-size:11px;font-family:Arial,sans-serif}.cd .f{fill:#000}.cd .o{fill:none;stroke:#000}'+
+ '.brk{break-before:page}';
+ if(forPreview)css+='@media screen{body{width:'+pw+'px;padding:'+(d.m*96)+'px;min-height:'+(d.h*96)+'px;box-shadow:0 0 0 1px #bbb;margin:0}.brk{border-top:2px dashed #bbb;margin-top:24px;padding-top:12px}}';
+ return '<!doctype html><html><head><meta charset="utf-8"><title>'+esc(ix.length>1?(BN[setlistKey()]||'Setlist'):(SONGS[st.song]||'Song'))+'</title><style>'+css+'</style></head><body>'+h+'</body></html>'}
+// ---------- dialog ----------
+var css=document.createElement('style');css.textContent='#pdfDlg{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.5);display:flex;align-items:stretch;justify-content:center}#pdfDlg[hidden]{display:none}#pdfBox{background:var(--bg);color:var(--ink);width:min(1100px,100%);display:flex;flex-direction:column;border-radius:0;box-shadow:0 8px 40px rgba(0,0,0,.4)}#pdfHd{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--line);font-weight:800}#pdfMain{flex:1;min-height:0;display:flex;flex-direction:column}#pdfCtl{flex:0 0 auto;max-height:46%;overflow:auto;padding:8px 14px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid var(--line)}#pdfPv{flex:1;min-height:120px;overflow:auto;background:#8885;padding:10px}#pdfPvW{transform-origin:0 0}#pdfPv iframe{border:0;background:#fff;display:block}#pdfFt{display:flex;gap:8px;justify-content:flex-end;align-items:center;padding:10px 14px;border-top:1px solid var(--line)}.pdr{display:flex;flex-wrap:wrap;align-items:center;gap:6px}.pdr>span{min-width:6.5rem;font-size:.8rem;color:var(--mut);font-weight:700}.pdr button{padding:6px 10px}.pdr button.on{outline:2px solid var(--ink);font-weight:800}@media(min-width:900px){#pdfMain{flex-direction:row}#pdfCtl{flex:0 0 400px;max-height:none;border-bottom:0;border-right:1px solid var(--line)}}';document.head.appendChild(css);
+var dlg=document.createElement('div');dlg.id='pdfDlg';dlg.hidden=true;dlg.setAttribute('role','dialog');dlg.setAttribute('aria-label','Print or save as PDF');
+dlg.innerHTML='<div id="pdfBox"><div id="pdfHd"><span>Print or save as PDF</span><button id="pdfX" aria-label="Close">Close</button></div><div id="pdfMain"><div id="pdfCtl"></div><div id="pdfPv"><div id="pdfPvW"></div></div></div><div id="pdfFt"><span class="hint" id="pdfInfo"></span><button id="pdfPrint"><b>Print / Save as PDF</b></button></div></div>';document.body.appendChild(dlg);
+var ctl=dlg.querySelector('#pdfCtl'),pvW=dlg.querySelector('#pdfPvW'),pv=dlg.querySelector('#pdfPv'),fr=null,ft=null;
+function row(lb,key,opts,num){var r=document.createElement('div');r.className='pdr';r.innerHTML='<span>'+lb+'</span>';opts.forEach(function(o){var b=document.createElement('button');b.type='button';b.textContent=o[1];b.dataset.k=key;b.dataset.v=o[0];b.onclick=function(){var v=o[0];if(v==='true')v=true;else if(v==='false')v=false;else if(num)v=+v;PD[key]=v;save();paintCtl();draw()};r.appendChild(b)});ctl.appendChild(r);return r}
+function pset(o){Object.keys(o).forEach(function(k){PD[k]=o[k]});save();paintCtl();draw()}
+function buildCtl(){ctl.innerHTML='';
+ var pr=document.createElement('div');pr.className='pdr';pr.innerHTML='<span>Quick layouts</span>';[['Lead sheet',{size:'letter',ori:'portrait',mar:'normal',cols:1,fs:11,diag:'top',show:'both'}],['Compact, 2 columns',{size:'letter',ori:'portrait',mar:'narrow',cols:2,fs:9,diag:'top',show:'both'}],['Big print for the stand',{size:'letter',ori:'landscape',mar:'narrow',cols:2,fs:17,diag:'none',show:'both'}],['Pocket (A5)',{size:'a5',ori:'portrait',mar:'narrow',cols:1,fs:10,diag:'none',show:'both'}],['Chords only',{cols:3,fs:12,diag:'none',show:'chords'}]].forEach(function(p){var b=document.createElement('button');b.type='button';b.textContent=p[0];b.onclick=function(){pset(p[1])};pr.appendChild(b)});ctl.appendChild(pr);
+ var hasSet=!!setlistKey();var w=row('Print','what',[['song','Current song'],['setlist','Loaded setlist']]);if(!hasSet){w.lastChild.disabled=true;w.lastChild.title='Load a setlist first'}
+ row('Page size','size',Object.keys(SZ).map(function(k){return[k,SZ[k][2]]}));
+ row('Orientation','ori',[['portrait','Portrait'],['landscape','Landscape']]);
+ row('Margins','mar',[['narrow','Narrow'],['normal','Normal'],['wide','Wide']]);
+ row('Columns','cols',[['1','1'],['2','2'],['3','3'],['4','4']],true);
+ var tr=document.createElement('div');tr.className='pdr';tr.innerHTML='<span>Text size</span><button type="button" id="pdfFm">−</button><b id="pdfFv"></b><button type="button" id="pdfFp">+</button>';ctl.appendChild(tr);
+ tr.querySelector('#pdfFm').onclick=function(){PD.fs=Math.max(7,PD.fs-1);save();paintCtl();draw()};tr.querySelector('#pdfFp').onclick=function(){PD.fs=Math.min(30,PD.fs+1);save();paintCtl();draw()};
+ row('Font','font',[['sans','Sans'],['serif','Serif'],['mono','Mono']]);
+ row('Show','show',[['both','Chords + lyrics'],['lyrics','Lyrics only'],['chords','Chords only']]);
+ row('Chord color','cc',[['bold','Black'],['red','Red'],['blue','Blue'],['green','Green']]);
+ row('Song order','order',[['play','Play order'],['once','Each section once']]);
+ row('Diagrams','diag',[['top','Top of song'],['none','None']]);
+ row('Diagram size','dsz',[['s','Small'],['m','Medium'],['l','Large']]);
+ row('Song details','meta',[['true','Show'],['false','Hide']]);
+ row('Strum','strum',[['true','Show'],['false','Hide']]);
+ row('Capo','capo',[['true','Show'],['false','Hide']]);
+ row('Section names','tags',[['true','Show'],['false','Hide']]);
+ row('Page numbers','num',[['true','Show'],['false','Hide']]);
+ row('Keep sections whole','keep',[['true','Yes'],['false','Allow splits']]);
+ row('New page per song','brk',[['true','Yes'],['false','No']]);
+ paintCtl()}
+function paintCtl(){[].forEach.call(ctl.querySelectorAll('button[data-k]'),function(b){var v=PD[b.dataset.k];b.className=(String(v)===b.dataset.v)?'on':''});var f=ctl.querySelector('#pdfFv');if(f)f.textContent=PD.fs+' pt'}
+function fit(){if(!fr)return;var d=dims(),pw=d.w*96,avail=pv.clientWidth-20,sc=Math.min(1,avail/pw);pvW.style.transform='scale('+sc+')';pvW.style.width=pw+'px';try{var h=fr.contentDocument.documentElement.scrollHeight;fr.style.height=h+'px';pvW.style.height=h*sc+'px';pvW.style.marginBottom='0'}catch(e){}fr.style.width=pw+'px'}
+function draw(){clearTimeout(ft);ft=setTimeout(function(){if(!fr){fr=document.createElement('iframe');fr.setAttribute('title','Preview');pvW.appendChild(fr)}
+ var ix=indexes();if(PD.what==='setlist'&&!setlistKey())PD.what='song';fr.onload=function(){fit();try{fr.contentDocument.fonts.ready.then(fit)}catch(e){}};fr.srcdoc=build(true);var n=indexes().length;dlg.querySelector('#pdfInfo').textContent=(n>1?n+' songs. ':'')+'Preview is approximate; page breaks are decided when printing.'},60)}
+function openDlg(what){if(what)PD.what=what;if(PD.what==='setlist'&&!setlistKey())PD.what='song';buildCtl();dlg.hidden=false;if(fr){fr.remove();fr=null}draw();setTimeout(fit,150)}
+function closeDlg(){dlg.hidden=true}
+dlg.querySelector('#pdfX').onclick=closeDlg;
+dlg.querySelector('#pdfPrint').onclick=function(){try{var f=document.createElement('iframe');f.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0';f.onload=function(){try{f.contentWindow.focus();f.contentWindow.print()}catch(e){toast('Printing is blocked here. Open the app at its own web address to print.')}setTimeout(function(){f.remove()},60000)};f.srcdoc=build(false);document.body.appendChild(f)}catch(e){toast('Could not start printing.')}};
+window.addEventListener('resize',function(){if(!dlg.hidden)fit()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!dlg.hidden)closeDlg()});
+// entry buttons in Song Files > Export
+var b1=document.createElement('button');b1.id='exPdf';b1.textContent='Chart as PDF…';var r1=document.querySelector('#exPlm');if(r1&&r1.parentNode)r1.parentNode.appendChild(b1);b1.onclick=function(){openDlg('song')};
+var b2=document.createElement('button');b2.id='exPdfSet';b2.textContent='Setlist as PDF…';var r2=document.querySelector('#exPlms');if(r2&&r2.parentNode)r2.parentNode.appendChild(b2);b2.onclick=function(){if(!setlistKey()){toast('Load a setlist first');return}openDlg('setlist')};
+window.PDFX={open:openDlg,build:build,opts:PD};
+}catch(errp){console.error(errp);try{toast('PDF export setup problem: '+errp.message)}catch(e1){}}})();
 })();
 </script>
 </body>
