@@ -805,47 +805,47 @@ body.topen:not(.tdrag) #tray{transform:none!important}
 .tn-svg .chk{fill:var(--bg)!important;font-size:13px!important;font-weight:800}
 .tn-svg g.done .chk{display:block}
 /* warm-up mode */
-#wu{position:fixed;inset:0;z-index:50;background:var(--bg);overflow:auto;padding:16px 16px 22px;display:none;flex-direction:column;gap:12px}
+#wu{position:fixed;inset:0;z-index:50;background:var(--bg);overflow:auto;padding:10px 16px 14px;display:none;flex-direction:column;gap:8px;overflow-y:auto}
 #wu.on{display:flex}
-#wu .wuh{padding-right:124px;min-height:64px}
-#wu h2{margin:0;font-size:1.5rem;letter-spacing:.2px}
+#wu .wuh{padding-right:124px;min-height:46px}
+#wu h2{margin:0;font-size:1.25rem;letter-spacing:.2px}
 #wuSub{color:var(--mut);font-size:.9rem;margin-top:2px}
-#wu .wuc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px 14px;display:flex;flex-direction:column}
-#wu .wr1{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:8px 0;border-bottom:1px solid var(--line)}
+#wu .wuc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2px 12px;flex:none;display:flex;flex-direction:column}
+#wu .wr1{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:5px 0;border-bottom:1px solid var(--line)}
 #wu .wr1:last-child{border-bottom:0}
-#wu .wr1>span:first-child{width:92px;font-weight:700;font-size:.85rem;color:var(--mut);flex:none}
+#wu .wr1>span:first-child{width:78px;font-weight:700;font-size:.85rem;color:var(--mut);flex:none}
 #wu .wl{font-size:.8rem;color:var(--mut)}
 #wu .ws{display:inline-flex}
-#wu .ws button{border-radius:0;min-height:40px;padding:6px 16px;margin-left:-1px;font-size:.92rem}
+#wu .ws button{border-radius:0;min-height:34px;padding:3px 14px;margin-left:-1px;font-size:.92rem}
 #wu .ws button:first-child{border-radius:9px 0 0 9px;margin-left:0}
 #wu .ws button:last-child{border-radius:0 9px 9px 0}
 #wu .ws button.on{background:var(--acc);color:var(--bg);border-color:var(--acc);font-weight:700}
-#wu select{min-height:40px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:4px 10px;font:inherit}
+#wu select{min-height:34px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:4px 10px;font:inherit}
 #wu input[type=range]{accent-color:var(--acc);width:230px;max-width:46vw}
 #wuBv{min-width:2.2em;text-align:right;font-size:1.05rem}
-#wu .wus{position:relative;overflow:hidden;height:268px;flex:none;border:1px solid var(--line);border-radius:14px;background:var(--card)}
-#wuTrack{position:absolute;left:0;top:12px;display:flex;gap:10px;transition:none;will-change:transform}
+#wu .wus{position:relative;overflow:hidden;flex:1 1 190px;min-height:170px;max-height:360px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+#wuTrack{position:absolute;left:0;top:10px;bottom:10px;display:flex;gap:10px;transition:none;will-change:transform}
 #wuPh{position:absolute;top:0;bottom:0;width:3px;margin-left:-1.5px;background:var(--acc);opacity:.0;pointer-events:none}
-#wu .wc{flex:none;box-sizing:border-box;height:240px;border:1.5px solid var(--line);border-radius:12px;background:var(--bg);display:flex;flex-direction:column;align-items:center;padding:6px 6px 8px;transition:opacity .2s,border-color .2s,transform .2s;opacity:.85}
+#wu .wc{flex:none;box-sizing:border-box;border:1.5px solid var(--line);border-radius:12px;background:var(--bg);display:flex;flex-direction:column;align-items:center;padding:6px 6px 8px;transition:opacity .2s,border-color .2s,transform .2s;opacity:.85}
 #wu .wc.cur{border-color:var(--acc);border-width:2.5px;box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 25%,transparent);opacity:1;background:var(--card)}
 #wu .wc.dn{opacity:.4}
 #wu .wr{height:1.1rem;font-size:.78rem;color:var(--mut);display:flex;gap:8px;align-items:center;justify-content:center;width:100%}
 #wu .wr em{font-style:normal;background:var(--hl);border-radius:6px;padding:0 6px}
 #wu .wn{font-size:1.6rem;font-weight:800;color:var(--ch);line-height:1.15}
 #wu .wd{flex:1;display:flex;align-items:center}
-#wu .wd svg{width:62px;height:auto;max-height:86px}
+#wu .wd{min-height:0}#wu .wd svg{width:auto;height:min(130px,100%);max-height:100%;max-width:90px}
 #wu .wk{font-size:.74rem;color:var(--mut);margin:2px 0 4px}
 #wu .wps{display:flex;gap:2px;justify-content:center;flex-wrap:nowrap}
 #wu .wps b{width:16px;height:22px;line-height:22px;text-align:center;font-size:.72rem;border-radius:4px;background:var(--line);color:var(--ink);font-weight:600}
 #wu .wps b.on{background:var(--acc);color:var(--bg);transform:scale(1.18)}
 #wu .wst b{width:26px;font-size:.95rem}
-#wu .wuact{display:flex;gap:10px;flex-wrap:wrap}
-#wu .wuact button{min-height:54px;padding:8px 22px;font-size:1.05rem;border-radius:12px}
-#wu .wuact .go{background:var(--acc);color:var(--bg);border-color:var(--acc);font-weight:800;min-width:150px}
+#wu .wuact{display:flex;gap:10px;flex-wrap:wrap;padding-left:48px;flex:none}
+#wu .wuact button{min-height:46px;padding:6px 18px;font-size:1rem;border-radius:12px}
+#wu .wuact .go{background:var(--acc);color:var(--bg);border-color:var(--acc);font-weight:800;min-width:130px}
 #wu .wuact .go.on{background:var(--card);color:var(--acc)}
-#wu .wunow{flex:1;min-height:150px;background:var(--card);border:1px solid var(--line);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 10px 10px 56px;text-align:center}
+#wu .wunow{flex:none;min-height:0;background:var(--card);border:1px solid var(--line);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 10px 8px 56px;text-align:center}
 #wu .wnl{font-size:.85rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
-#wu .wnn{font-size:5rem;font-weight:900;color:var(--ch);line-height:1.05}
+#wu .wnn{font-size:2.6rem;font-weight:900;color:var(--ch);line-height:1.05}
 #wu .wnx{color:var(--mut);font-size:1rem}
 #wu .wnx b{color:var(--ink)}
 </style>
@@ -1270,7 +1270,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-function aboutHtml(){return '<p><b>Plucky Music</b> (working title)</p><p class="hint">ver. 0.9.0-2026-11-03</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Strumming patterns 1\u201332: chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p>'}
+function aboutHtml(){return '<p><b>Plucky Music</b> (working title)</p><p class="hint">ver. 0.9.1-2026-11-03</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Strumming patterns 1\u201332: chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
 var pgc=$('rngCz').closest('.pg'),chT=null;pgc.insertAdjacentHTML('beforeend','<label>Chord Color <select id="chCol"><option value="">Palette Color</option><option value="ink">Same as Lyrics</option><option value="#e69f00">Orange</option><option value="#56b4e9">Sky Blue</option><option value="#009e73">Green</option><option value="#cc79a7">Pink</option><option value="#f0e442">Yellow</option><option value="#d55e00">Vermilion</option><option value="#0072b2">Blue</option></select></label><div class="hint" id="chRd"></div><label>Chord Size <input type="range" id="chSz" min="0.7" max="1.6" step="0.05" value="1"></label><label>Chord Weight <select id="chWt"><option value="400">Normal</option><option value="600">Medium</option><option value="700">Bold</option><option value="800" selected>Extra Bold</option></select></label>');
