@@ -823,7 +823,7 @@ body.topen:not(.tdrag) #tray{transform:none!important}
 #wu select{min-height:34px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:4px 10px;font:inherit}
 #wu input[type=range]{accent-color:var(--acc);width:230px;max-width:46vw}
 #wuBv{min-width:2.2em;text-align:right;font-size:1.05rem}
-#wu .wus{position:relative;overflow:hidden;flex:1 1 190px;min-height:170px;max-height:360px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+#wu .wus{position:relative;overflow:hidden;flex:none;height:262px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
 #wuTrack{position:absolute;left:0;top:10px;bottom:10px;display:flex;gap:10px;transition:none;will-change:transform}
 #wuPh{position:absolute;top:0;bottom:0;width:3px;margin-left:-1.5px;background:var(--acc);opacity:.0;pointer-events:none}
 #wu .wc{flex:none;box-sizing:border-box;border:1.5px solid var(--line);border-radius:12px;background:var(--bg);display:flex;flex-direction:column;align-items:center;padding:6px 6px 8px;transition:opacity .2s,border-color .2s,transform .2s;opacity:.85}
@@ -833,7 +833,7 @@ body.topen:not(.tdrag) #tray{transform:none!important}
 #wu .wr em{font-style:normal;background:var(--hl);border-radius:6px;padding:0 6px}
 #wu .wn{font-size:1.6rem;font-weight:800;color:var(--ch);line-height:1.15}
 #wu .wd{flex:1;display:flex;align-items:center}
-#wu .wd{min-height:0}#wu .wd svg{width:auto;height:min(130px,100%);max-height:100%;max-width:90px}
+#wu .wd{min-height:0}#wu .wd svg{flex:none;height:128px!important;width:auto!important;aspect-ratio:var(--ar,.7)}
 #wu .wk{font-size:.74rem;color:var(--mut);margin:2px 0 4px}
 #wu .wps{display:flex;gap:2px;justify-content:center;flex-wrap:nowrap}
 #wu .wps b{width:16px;height:22px;line-height:22px;text-align:center;font-size:.72rem;border-radius:4px;background:var(--line);color:var(--ink);font-weight:600}
@@ -1270,7 +1270,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-function aboutHtml(){return '<p><b>Plucky Music</b> (working title)</p><p class="hint">ver. 0.9.1-2026-11-03</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Strumming patterns 1\u201332: chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p>'}
+function aboutHtml(){return '<p><b>Plucky Music</b> (working title)</p><p class="hint">ver. 0.9.2-2026-11-03</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Strumming patterns 1\u201332: chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
 var pgc=$('rngCz').closest('.pg'),chT=null;pgc.insertAdjacentHTML('beforeend','<label>Chord Color <select id="chCol"><option value="">Palette Color</option><option value="ink">Same as Lyrics</option><option value="#e69f00">Orange</option><option value="#56b4e9">Sky Blue</option><option value="#009e73">Green</option><option value="#cc79a7">Pink</option><option value="#f0e442">Yellow</option><option value="#d55e00">Vermilion</option><option value="#0072b2">Blue</option></select></label><div class="hint" id="chRd"></div><label>Chord Size <input type="range" id="chSz" min="0.7" max="1.6" step="0.05" value="1"></label><label>Chord Weight <select id="chWt"><option value="400">Normal</option><option value="600">Medium</option><option value="700">Bold</option><option value="800" selected>Extra Bold</option></select></label>');
@@ -2353,8 +2353,8 @@ function cellHtml(c,i){
  if(c.pat){h+='<div class="wk">'+PN[c.kind]+'</div><div class="wps">'+c.pat.map(function(s,j){return'<b data-j="'+j+'">'+(N-s)+'</b>'}).join('')+'</div>'}
  else h+='<div class="wk">Strum</div><div class="wps wst"><b>↓</b><b>↓</b><b>↓</b><b>↓</b></div>';
  return h+'</div>'}
-function paintAll(){$w('wuTrack').innerHTML=cells.map(cellHtml).join('');paintedI=-99;paintedJ=-1;place(pos)}
-function appendCells(a){var h=a.map(function(c,k){return cellHtml(c,cells.length-a.length+k)}).join('');$w('wuTrack').insertAdjacentHTML('beforeend',h)}
+function fixAr(){[].forEach.call(document.querySelectorAll('#wuTrack .wd svg'),function(v){var b=(v.getAttribute('viewBox')||'').split(/\s+/);if(b.length===4)v.style.setProperty('--ar',(+b[2]/+b[3]).toFixed(3))})}function paintAll(){$w('wuTrack').innerHTML=cells.map(cellHtml).join('');fixAr();paintedI=-99;paintedJ=-1;place(pos)}
+function appendCells(a){var h=a.map(function(c,k){return cellHtml(c,cells.length-a.length+k)}).join('');$w('wuTrack').insertAdjacentHTML('beforeend',h);fixAr()}
 function curBeat(now){if(!run)return pos;return(now-t0)/spbOf()-lapV*cells.length*4}
 function place(b){
  var tr=$w('wuTrack'),step=CW+GAP,ph=$w('wuStrip').clientWidth*.28;PH=ph;
