@@ -843,9 +843,9 @@ body.topen:not(.tdrag) #tray{transform:none!important}
 #wu .wuact button{min-height:46px;padding:6px 18px;font-size:1rem;border-radius:12px}
 #wu .wuact .go{background:var(--acc);color:var(--bg);border-color:var(--acc);font-weight:800;min-width:130px}
 #wu .wuact .go.on{background:var(--card);color:var(--acc)}
-#wu .wunow{flex:none;min-height:0;background:var(--card);border:1px solid var(--line);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 10px 8px 56px;text-align:center}
+#wu .wunow{position:absolute;left:0;top:0;bottom:0;width:22%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none;padding-left:44px}
 #wu .wnl{font-size:.85rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
-#wu .wnn{font-size:2.6rem;font-weight:900;color:var(--ch);line-height:1.05}
+#wu .wnn{font-size:3.2rem;font-weight:900;color:var(--ch);line-height:1.05}
 #wu .wnx{color:var(--mut);font-size:1rem}
 #wu .wnx b{color:var(--ink)}
 </style>
@@ -1270,7 +1270,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-function aboutHtml(){return '<p><b>Plucky Music</b> (working title)</p><p class="hint">ver. 0.9.3-2026-11-03</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Strumming patterns 1\u201332: chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p>'}
+function aboutHtml(){return '<p><b>Plucky Music</b> (working title)</p><p class="hint">ver. 0.9.4-2026-11-03</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Strumming patterns 1\u201332: chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
 var pgc=$('rngCz').closest('.pg'),chT=null;pgc.insertAdjacentHTML('beforeend','<label>Chord Color <select id="chCol"><option value="">Palette Color</option><option value="ink">Same as Lyrics</option><option value="#e69f00">Orange</option><option value="#56b4e9">Sky Blue</option><option value="#009e73">Green</option><option value="#cc79a7">Pink</option><option value="#f0e442">Yellow</option><option value="#d55e00">Vermilion</option><option value="#0072b2">Blue</option></select></label><div class="hint" id="chRd"></div><label>Chord Size <input type="range" id="chSz" min="0.7" max="1.6" step="0.05" value="1"></label><label>Chord Weight <select id="chWt"><option value="400">Normal</option><option value="600">Medium</option><option value="700">Bold</option><option value="800" selected>Extra Bold</option></select></label>');
@@ -2371,7 +2371,7 @@ function now(ci,b){
  var c=cells[ci],n=cells[ci+1],el=$w('wuNow');
  if(b<0){el.innerHTML='<div class="wnl">Count-in</div><div class="wnn">'+Math.ceil(-b)+'</div><div class="wnx">First chord: <b>'+(cells[0]?cells[0].name:'')+'</b></div>';return}
  if(!c){el.innerHTML='<div class="wnl">Done</div><div class="wnn">✓</div><div class="wnx">Press Shuffle for a new set</div>';return}
- el.innerHTML='<div class="wnl">Now'+(c.pat?' · '+PN[c.kind]:'')+'</div><div class="wnn">'+c.name+'</div><div class="wnx">'+(n?'Next: <b>'+n.name+'</b>':(S.len===0?'':(S.loop?'Next: <b>'+cells[0].name+'</b> (repeat)':'Last chord')))+'</div>'}
+ el.innerHTML=''}
 function sched(nowMs){
  if(!run)return;var spb=spbOf(),limit=nowMs+160,I,ca=ctx;
  while(cc<0){var tt=t0+(cc+4)*spb-4*spb;/* count-in beats occupy -4..-1 */tt=t0+cc*spb+0*spb;if(tt>limit)return;if(S.snd&&ca)click(ca.currentTime+Math.max(0,(tt-nowMs)/1000),cc===-4);cc++}
@@ -2424,9 +2424,9 @@ el.innerHTML=
  '<div class="wr1"><span>Length</span><select id="wuLen" aria-label="Length"><option value="4">4 chords</option><option value="8">8 chords</option><option value="16">16 chords</option><option value="0">Endless</option></select>'+
   '<label class="sw"><input type="checkbox" role="switch" id="wuSnd"> Sound</label><label class="sw"><input type="checkbox" role="switch" id="wuLoop"> Loop</label><label class="sw"><input type="checkbox" role="switch" id="wuCnt"> Count-in</label></div>'+
 '</div>'+
-'<div class="wus" id="wuStrip"><div class="wut" id="wuTrack"></div><div class="wuph" id="wuPh"></div></div>'+
+'<div class="wus" id="wuStrip"><div class="wut" id="wuTrack"></div><div class="wuph" id="wuPh"></div><div class="wunow" id="wuNow"></div></div>'+
 '<div class="wuact"><button class="go" id="wuGo">Start</button><button id="wuSh">↻ Shuffle</button><button id="wuRs">⏮ Restart</button></div>'+
-'<div class="wunow" id="wuNow"></div>';
+'';
 document.body.appendChild(el);
 var sel=$w('wuKey');sel.innerHTML=LST.map(function(k){return'<option value="'+k+'">'+k+'</option>'}).join('')+'<option value="rnd">Random each round</option>';
 function syncUi(){
@@ -2452,6 +2452,7 @@ W.enter=function(){W.on=true;W.entering=true;try{$('mR').click()}finally{W.enter
  try{renderTop()}catch(e2){}};
 W.hide=function(){if(!W.on)return;if(run)pause();W.on=false;el.classList.remove('on');document.documentElement.classList.remove('wuon');try{renderTop()}catch(e3){}};
 ['mP','mR','mE'].forEach(function(id){$(id).addEventListener('click',function(){if(!W.entering)W.hide()})});
+setTimeout(function(){try{if(!W.on)W.enter()}catch(e5){console.error(e5)}},0);
 }catch(errU){console.error(errU);try{toast('Warm-up setup problem: '+errU.message)}catch(e9){}}})();
 (function(){try{
 GS=getVals();
