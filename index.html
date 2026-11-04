@@ -2732,7 +2732,7 @@ window.addEventListener('resize',function(){if(!V.hidden&&doc){clearTimeout(layo
 // entry points
 var g=$('gSong');if(g){var a=document.createElement('button');a.id='pdfImpBtn';a.textContent='Import PDF…';a.onclick=function(){inp.click()};g.appendChild(a);var b=document.createElement('button');b.id='pdfLibBtn';b.textContent='PDF Pages…';b.onclick=function(){libDraw();M2.hidden=false};g.appendChild(b)}
 var ex=document.getElementById('exPdf');
-window.PDFIMP={toChordPro:toChordPro,openImp:openImp,loadLib:loadLib};
+window.PDFIMP={toChordPro:toChordPro,openImp:openImp,loadLib:loadLib,all:pAll,put:pPut};
 }catch(errq){console.error(errq);try{toast('PDF import setup problem: '+errq.message)}catch(e1){}}})();
 (function(){try{
 var seen=false;try{seen=sessionStorage.getItem('ukemap.rights')==='1'}catch(e){}
@@ -2745,6 +2745,68 @@ $('rgNo').onclick=function(){m.hidden=true;pend=null};
 function note(el){if(!el)return;var d=document.createElement('div');d.className='hint';d.textContent=txt;el.insertBefore(d,el.firstChild.nextSibling||null)}
 var a=$('cpimp'),b=$('pdfImp');if(a)note(a);if(b&&b.firstChild)note(b.firstChild);
 }catch(errr){console.error(errr)}})();
+(function(){try{
+var KEYS_=['ukemap.gs','ukemap.ped','ukemap.t','ukemap.fingers','ukemap.wu','ukemap.pdf'];
+function ls(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function b64(ab){var u=new Uint8Array(ab),s='',i,n=0x8000;for(i=0;i<u.length;i+=n)s+=String.fromCharCode.apply(null,u.subarray(i,i+n));return btoa(s)}
+function unb64(t){var s=atob(t),u=new Uint8Array(s.length),i;for(i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u.buffer}
+function seqIds(d){var e=[];d.LAYOUT.forEach(function(id){(d.NUMS[id]||[]).forEach(function(n,k){e.push({s:id,n:n})})});e.sort(function(a,b){return a.n-b.n});return e.map(function(x){return x.s})}
+function gather(withPdf){return(withPdf&&window.PDFIMP&&PDFIMP.all?PDFIMP.all():Promise.resolve([])).then(function(pd){
+ try{saveSong()}catch(e){}
+ var songs=[],ix=[];
+ SDB.forEach(function(x,i){if(!x.fold)return;var d=DBS[i],o=JSON.parse(JSON.stringify(x));
+  if(d){o.secs=JSON.parse(JSON.stringify(d.SECS));o.layout=d.LAYOUT.slice();o.seq=seqIds(d);o.marks=JSON.parse(JSON.stringify(d.MARKS||{}));o.key=d.key;o.kmin=d.kmin;o.bpm=d.bpm;o.ts=d.ts;o.strum=d.strum;if(d.CSTR&&Object.keys(d.CSTR).length)o.cstr=JSON.parse(JSON.stringify(d.CSTR))}
+  if(TC[i])o.tc={tr:TC[i].tr||0,capo:TC[i].capo||0,inst:TC[i].inst||''};
+  songs.push(o);ix.push(i)});
+ var strums=[];Object.keys(SP).forEach(function(k){if(SP[k].c)strums.push({id:k,n:SP[k].n,p:SP[k].p.slice(),ts:SP[k].ts.slice()})});
+ var sets=[];Object.keys(SETS).forEach(function(k){sets.push({name:BN[k]||k,songs:SETS[k].map(function(i){return SONGS[i]})})});
+ var folders=JSON.parse(JSON.stringify(LIBF)),settings={};
+ KEYS_.forEach(function(k){var v=ls(k);if(v!==null)settings[k]=v});
+ try{var su=JSON.parse(ls('ukemap.setup')||'null');if(su){delete su.terms;delete su.termsV;delete su.termsDate;delete su.done;settings['ukemap.setup']=JSON.stringify(su)}}catch(e){}
+ return Promise.all((pd||[]).map(function(p){return{name:p.name,pages:p.pages,added:p.added,b64:b64(p.data)}})).then(function(pdfs){
+  return{format:'plucky-backup',v:1,app:(document.title||'Plucky Music'),date:new Date().toISOString(),folders:folders,defaultFolder:LIBDEF,songs:songs,setlists:sets,strums:strums,settings:settings,pdfs:pdfs}})})}
+function doBackup(){var wp=$('bkPdf').checked;$('bkMsg').textContent='Preparing…';gather(wp).then(function(o){var t=JSON.stringify(o),n='PluckyMusic-backup-'+new Date().toISOString().slice(0,10)+'.plmb',a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'application/json'}));a.download=n;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},800);
+ var msg='Backed up '+o.songs.length+(o.songs.length===1?' song':' songs')+', '+o.setlists.length+(o.setlists.length===1?' setlist':' setlists')+(o.strums.length?', '+o.strums.length+' custom strum'+(o.strums.length===1?'':'s'):'')+(o.pdfs.length?', '+o.pdfs.length+' PDF'+(o.pdfs.length===1?'':'s'):'')+' and your settings to '+n+'. '+(Math.round(t.length/1024))+' KB.';$('bkMsg').textContent=msg;toast('Backup saved')}).catch(function(e){$('bkMsg').textContent='Could not make the backup: '+(e&&e.message||e)})}
+// ---- restore ----
+var BK=null;
+function dupIdx(s){var i,t=(s.t||'').toLowerCase(),a=(s.a||'').toLowerCase();for(i=0;i<SDB.length;i++)if((SDB[i].t||'').toLowerCase()===t&&(SDB[i].a||'').toLowerCase()===a)return i;return-1}
+function check(o){if(!o||o.format!=='plucky-backup')throw new Error('This is not a Plucky Music backup file.');if(!(o.v>=1)||o.v>1)throw new Error('This backup was made by a newer version of the app and I cannot read it safely.');if(!Array.isArray(o.songs))throw new Error('The backup file is damaged (no song list).');return o}
+function preview(o,name){var dup=0;o.songs.forEach(function(s){if(dupIdx(s)>=0)dup++});
+ $('rsInfo').innerHTML='<b>'+esc(name)+'</b><br>Made '+esc((o.date||'').slice(0,10))+'. Contains '+o.songs.length+(o.songs.length===1?' song':' songs')+(dup?' ('+dup+' already here)':'')+', '+(o.setlists||[]).length+(((o.setlists||[]).length===1)?' setlist':' setlists')+', '+(o.strums||[]).length+' custom strum pattern'+(((o.strums||[]).length===1)?'':'s')+', '+(o.pdfs||[]).length+' kept PDF'+(((o.pdfs||[]).length===1)?'':'s')+(o.settings&&Object.keys(o.settings).length?' and your settings.':'.');
+ $('rsSet').parentNode.hidden=!(o.settings&&Object.keys(o.settings).length);$('rsPdf').parentNode.hidden=!(o.pdfs&&o.pdfs.length);$('rsMsg').textContent='';$('rsGo').disabled=false;$('rsDlg').hidden=false}
+function restore(){var o=BK,mode=document.querySelector('input[name=rsMode]:checked').value,added=0,skipped=0,replaced=0,i;
+ // folders
+ var fmap={};(o.folders||[]).forEach(function(f){var m=LIBF.filter(function(x){return x.id===f.id||x.name===f.name})[0];if(m)fmap[f.id]=m.id;else{LIBF.push({id:f.id,name:f.name,where:f.where||'This device'});fmap[f.id]=f.id}});
+ // strums
+ var smap={};(o.strums||[]).forEach(function(s){var ex=Object.keys(SP).filter(function(k){return SP[k].c&&SP[k].p.join('')===s.p.join('')&&SP[k].ts.join()===s.ts.join()})[0];if(ex)smap[s.id]=ex;else{var id='c'+(++NS);SP[id]={c:1,n:s.n,p:s.p.slice(),ts:s.ts.slice()};smap[s.id]=id}});
+ function mapS(k){return smap[k]||k}
+ o.songs.forEach(function(s){var j=dupIdx(s),obj=JSON.parse(JSON.stringify(s)),cs=obj.cstr,tc=obj.tc;delete obj.cstr;delete obj.tc;obj.fold=fmap[obj.fold]||LIBDEF;obj.strum=mapS(obj.strum);
+  if(j>=0&&mode==='skip'){skipped++;return}
+  if(j>=0&&mode==='replace'&&SDB[j].fold){SDB[j]=obj;SONGS[j]=obj.t;delete DBS[j];if(cs){DBS[j]=cloneSong(j);Object.keys(cs).forEach(function(k){cs[k]=mapS(cs[k])});DBS[j].CSTR=cs}if(tc)TC[j]=tc;replaced++;return}
+  SDB.push(obj);SONGS.push(obj.t);var n=SDB.length-1;if(cs||tc){DBS[n]=cloneSong(n);if(cs){Object.keys(cs).forEach(function(k){cs[k]=mapS(cs[k])});DBS[n].CSTR=cs}if(tc)TC[n]=tc}added++});
+ // setlists
+ var sl=0;(o.setlists||[]).forEach(function(l){var idxs=[];l.songs.forEach(function(t){var k;for(k=0;k<SONGS.length;k++)if(SONGS[k]===t){idxs.push(k);break}});if(!idxs.length)return;var key=Object.keys(BN).filter(function(k){return BN[k]===l.name})[0];if(key){if(mode==='skip')return;SETS[key]=idxs}else{key='r'+Date.now().toString(36)+sl;SETS[key]=idxs;BN[key]=l.name;var op=document.createElement('option');op.value=key;op.textContent=l.name;$('selBook').appendChild(op)}sl++});
+ try{songOpts()}catch(e){}try{strumOpts()}catch(e){}libSave();
+ try{var cur=st.song;if(replaced&&SDB[cur]){loadSong(cur)}}catch(e){}
+ var tail=[];
+ var steps=Promise.resolve();
+ if(!$('rsPdf').parentNode.hidden&&$('rsPdf').checked&&window.PDFIMP&&PDFIMP.put)(o.pdfs||[]).forEach(function(p){steps=steps.then(function(){return PDFIMP.put({id:'p'+Date.now().toString(36)+Math.floor(Math.random()*1e4),name:p.name,pages:p.pages,added:p.added||Date.now(),data:unb64(p.b64)})})});
+ var needReload=false;
+ if(!$('rsSet').parentNode.hidden&&$('rsSet').checked&&o.settings){Object.keys(o.settings).forEach(function(k){try{if(k==='ukemap.setup'){var cur2=JSON.parse(ls('ukemap.setup')||'{}'),inc=JSON.parse(o.settings[k]);Object.keys(inc).forEach(function(q){cur2[q]=inc[q]});localStorage.setItem(k,JSON.stringify(cur2))}else if(KEYS_.indexOf(k)>=0)localStorage.setItem(k,o.settings[k])}catch(e){}});needReload=true}
+ steps.then(function(){var m='Restored: '+added+' added'+(replaced?', '+replaced+' replaced':'')+(skipped?', '+skipped+' skipped (already here)':'')+(sl?', '+sl+(sl===1?' setlist':' setlists'):'')+'.'+(needReload?' Settings are saved; reload the app to apply them.':'');$('rsMsg').textContent=m;$('rsGo').disabled=true;toast('Backup restored');if(needReload)$('rsReload').hidden=false;try{if(typeof libRender==='function'&&!$('libdlg').hidden)libRender()}catch(e){}}).catch(function(e){$('rsMsg').textContent='Restored the songs, but a PDF could not be saved: '+(e&&e.message||e)})}
+// ---- UI ----
+var css=document.createElement('style');css.textContent='#hbBackup .pg{display:flex;flex-direction:column;gap:8px;align-items:flex-start}#hbBackup label.sw{display:flex;gap:8px;align-items:center}#rsDlg label{display:flex;gap:8px;align-items:flex-start;margin:4px 0}#rsDlg input[type=radio],#rsDlg input[type=checkbox],#hbBackup input[type=checkbox]{width:1.2rem;height:1.2rem;flex:none;margin-top:.1rem}';document.head.appendChild(css);
+var sec=document.createElement('section');sec.dataset.s='Backup';sec.id='hbBackup';sec.hidden=true;
+sec.innerHTML='<h3 class="hbt">Backup</h3><div class="pg"><b class="mkh">Back up everything</b><div class="hint">Saves your library songs, setlists, custom strum patterns and settings into one file (.plmb). Keep it somewhere safe. The built-in sample songs are not included.</div><label class="sw"><input type="checkbox" id="bkPdf"> Include the PDFs I kept (makes the file bigger)</label><button id="bkGo">Back Up Everything</button><div id="bkMsg" class="hint" role="status"></div></div><div class="pg"><b class="mkh">Restore from a backup</b><div class="hint">Choose a .plmb file. I show you what is inside before anything changes.</div><button id="bkRs">Restore from a Backup…</button></div>';
+$('hbody').appendChild(sec);
+var nb=document.createElement('button');nb.dataset.s='Backup';nb.textContent='Backup';var hn=$('hnav'),su=$('hbSetup');if(su)hn.insertBefore(nb,su);else hn.appendChild(nb);
+var fin=document.createElement('input');fin.type='file';fin.accept='.plmb,.json,application/json';fin.hidden=true;document.body.appendChild(fin);
+var d=document.createElement('div');d.id='rsDlg';d.className='pmod';d.hidden=true;d.innerHTML='<div><b>Restore from a backup</b><div id="rsInfo"></div><div><b>If a song is already here:</b><label><input type="radio" name="rsMode" value="skip" checked><span>Keep mine and add only what is missing</span></label><label><input type="radio" name="rsMode" value="copy"><span>Add the backup copies as well</span></label><label><input type="radio" name="rsMode" value="replace"><span>Replace my library copy with the backup copy</span></label></div><label><input type="checkbox" id="rsSet" checked><span>Also restore my settings</span></label><label><input type="checkbox" id="rsPdf" checked><span>Also restore the kept PDFs</span></label><div class="hint">Restoring never removes songs that are not in the backup. Only music you have the right to use should be restored.</div><div id="rsMsg" role="status"></div><div class="prow"><button id="rsGo"><b>Restore</b></button><button id="rsReload" hidden>Reload Now</button><button id="rsX">Close</button></div></div>';document.body.appendChild(d);d.addEventListener('keydown',function(e){e.stopPropagation()});
+$('bkGo').onclick=doBackup;$('bkRs').onclick=function(){fin.click()};
+fin.onchange=function(){var f=this.files&&this.files[0];this.value='';if(!f)return;var r=new FileReader();r.onload=function(){try{BK=check(JSON.parse(String(r.result)));$('rsReload').hidden=true;preview(BK,f.name)}catch(e){toast(e&&e.message&&!/JSON/.test(e.message)?e.message:'I could not read that file as a backup.')}};r.onerror=function(){toast('I could not read that file.')};r.readAsText(f)};
+$('rsGo').onclick=restore;$('rsX').onclick=function(){d.hidden=true};$('rsReload').onclick=function(){location.reload()};
+window.BKP={gather:gather,check:check,restoreFrom:function(o,mode){BK=o;document.querySelector('input[name=rsMode][value='+mode+']').checked=true;preview(o,'test');restore()}};
+}catch(errb){console.error(errb);try{toast('Backup setup problem: '+errb.message)}catch(e1){}}})();
 })();
 </script>
 </body>
