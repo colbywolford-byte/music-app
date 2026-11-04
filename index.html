@@ -1270,7 +1270,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-function aboutHtml(){return '<p><b>Plucky Music</b> (working title)</p><p class="hint">ver. 0.9.4-2026-11-03</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Strumming patterns 1\u201332: chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p>'}
+function aboutHtml(){return '<p><b>Plucky Music</b> (working title)</p><p class="hint">ver. 0.9.5-2026-11-03</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Strumming patterns 1\u201332: chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
 var pgc=$('rngCz').closest('.pg'),chT=null;pgc.insertAdjacentHTML('beforeend','<label>Chord Color <select id="chCol"><option value="">Palette Color</option><option value="ink">Same as Lyrics</option><option value="#e69f00">Orange</option><option value="#56b4e9">Sky Blue</option><option value="#009e73">Green</option><option value="#cc79a7">Pink</option><option value="#f0e442">Yellow</option><option value="#d55e00">Vermilion</option><option value="#0072b2">Blue</option></select></label><div class="hint" id="chRd"></div><label>Chord Size <input type="range" id="chSz" min="0.7" max="1.6" step="0.05" value="1"></label><label>Chord Weight <select id="chWt"><option value="400">Normal</option><option value="600">Medium</option><option value="700">Bold</option><option value="800" selected>Extra Bold</option></select></label>');
@@ -2349,7 +2349,7 @@ function evs(c){var o=[],j;if(c.pat){for(j=0;j<8;j++)o.push({b:j*.5,s:c.pat[j],j
  return o}
 function wdia(n){var h=dia(n),N=INST().open.length,vb=/viewBox="0 0 ([\d.]+) 80"/.exec(h),w=N>6?9:12,x0=10,m=/<text x="[\d.]+" y="78" text-anchor="middle">[^<]*<\/text>/.exec(h),fr=/\((\d+)fr\)/.exec(m?m[0]:''),t='',i;
  for(i=0;i<N;i++)t+='<text x="'+(x0+i*w)+'" y="78" text-anchor="middle" class="sn">'+(N-i)+'</text>';
- if(fr)t+='<text x="'+(x0-3)+'" y="'+(16+13*.62)+'" text-anchor="end" class="fr">'+fr[1]+'fr</text>';
+ if(fr)t+='<text x="'+(x0+(N-1)*w+3)+'" y="'+(16+13*.62)+'" text-anchor="start" class="fr">'+fr[1]+'fr</text>';
  return m?h.replace(m[0],t):h}
 function cellHtml(c,i){
  var N=INST().open.length,h='<div class="wc" data-i="'+i+'" style="width:'+CW+'px">';
@@ -2361,8 +2361,8 @@ function fixAr(){[].forEach.call(document.querySelectorAll('#wuTrack .wd svg'),f
 function appendCells(a){var h=a.map(function(c,k){return cellHtml(c,cells.length-a.length+k)}).join('');$w('wuTrack').insertAdjacentHTML('beforeend',h);fixAr()}
 function curBeat(now){if(!run)return pos;return(now-t0)/spbOf()-lapV*cells.length*4}
 function place(b){
- var tr=$w('wuTrack'),step=CW+GAP,ph=$w('wuStrip').clientWidth*.28;PH=ph;
- tr.style.transform='translateX('+(ph-(b/4)*step-CW/2).toFixed(1)+'px)';$w('wuPh').style.left=ph+'px';
+ var tr=$w('wuTrack'),step=CW+GAP,ph=$w('wuStrip').clientWidth*.5;PH=ph;var ci0=Math.floor(b/4),r0=b-ci0*4,ez=r0>3?(function(x){return x*x*(3-2*x)})(r0-3):0,fp=b<0?0:ci0+ez;
+ tr.style.transform='translateX('+(ph-fp*step-CW/2).toFixed(1)+'px)';$w('wuPh').style.left=ph+'px';
  var ci=Math.floor(b/4),cj=b<0?-1:Math.floor((b-ci*4)*2),kids=tr.children;
  if(ci!==paintedI){[].forEach.call(kids,function(k,i){k.className='wc'+(i===ci?' cur':i<ci?' dn':'')});paintedI=ci;paintedJ=-1;now(ci,b)}
  if(cj!==paintedJ){paintedJ=cj;[].forEach.call(tr.querySelectorAll('.wps b.on'),function(x){x.className=''});var k=kids[ci];if(k){[].forEach.call(k.querySelectorAll('.wps b'),function(x,j){x.className=(cells[ci]&&cells[ci].pat?j===cj:(!cells[ci].pat&&j===Math.floor(b-ci*4)))?'on':''})}}
