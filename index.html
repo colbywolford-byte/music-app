@@ -876,7 +876,7 @@ body.topen:not(.tdrag) #tray{transform:none!important}
 <section id="panel" hidden aria-label="Display settings"><div class="ph"><b>Display Settings</b><button id="aboutBtn" hidden>About</button></div>
   <div class="ctl">
     <span class="seg" id="gseg" hidden><button id="gThis" class="on">This Song</button><button id="gGlob">Global Defaults</button></span><span class="hint" id="gnote" style="visibility:hidden">Editing the defaults used for every song.</span><button id="gReset">Use Global Defaults</button>
-    <label>Palette <select id="selPal"><option value="default">Default</option><option value="stage">Stage Night</option><option value="paper">Daylight Paper</option><option value="sunset">Sunset</option><option value="forest">Forest</option><option value="hcd">High Contrast (Dark)</option><option value="hcl">High Contrast (Light)</option><option value="cb">Red-Green Safe (Dark)</option><option value="cbl">Red-Green Safe (Light)</option><option value="tri">Blue-Yellow Safe</option><option value="mono">Shape-Only (No Color Needed)</option></select></label>
+    <label>Palette <select id="selPal"><option value="default">Default</option><option value="stage">Stage Night</option><option value="paper">Daylight Paper</option><option value="desert">Desert</option><option value="sunset">Sunset</option><option value="forest">Forest</option><option value="hcd">High Contrast (Dark)</option><option value="hcl">High Contrast (Light)</option><option value="cb">Red-Green Safe (Dark)</option><option value="cbl">Red-Green Safe (Light)</option><option value="tri">Blue-Yellow Safe</option><option value="mono">Shape-Only (No Color Needed)</option></select></label>
     <button id="design">Design Your Own</button>
     <label>Color Mode <select id="selTheme"><option value="auto">Match Tablet</option><option value="light">Light</option><option value="dark">Dark</option></select></label><span id="ctHint" class="hint" hidden>Choose the Default palette to use this.</span>
     
@@ -1031,6 +1031,7 @@ var TK=['bg','card','ink','mut','acc','hl','ch','line','warn'],CK=['bg','card','
 var PAL={
  stage:{bg:'#0b0d12',card:'#151922',ink:'#f4f4f0',mut:'#9aa3b2',acc:'#7aa2ff',hl:'#1f2b4d',ch:'#ffb454',line:'#2a3142',warn:'#ff8f85'},
  paper:{bg:'#f4f1ea',card:'#fffefb',ink:'#1c1a17',mut:'#6a655b',acc:'#2457c5',hl:'#dbe6fb',ch:'#a63a0f',line:'#d8d2c4',warn:'#b42318'},
+ desert:{bg:'#d6c19b',card:'#e8d9bb',ink:'#2a1b10',mut:'#5a4631',acc:'#17525a',hl:'#d2ba88',ch:'#7a2a0b',line:'#a88f68',warn:'#9b1c0c'},
  sunset:{bg:'#1d1416',card:'#2a1c20',ink:'#fbeee6',mut:'#c7a9a0',acc:'#ff9f6b',hl:'#4a2a2a',ch:'#ffd166',line:'#4a3237',warn:'#ff8f85'},
  forest:{bg:'#0f1a14',card:'#16251c',ink:'#eaf3e6',mut:'#9bb5a2',acc:'#7bdc8a',hl:'#1f3d2a',ch:'#f2c14e',line:'#2a4333',warn:'#ff8f85'},
  hcd:{bg:'#000000',card:'#000000',ink:'#ffffff',mut:'#e0e0e0',acc:'#ffe600',hl:'#4d4d00',ch:'#00e5ff',line:'#ffffff',warn:'#ff6b6b'},
@@ -1291,7 +1292,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-function aboutHtml(){return '<p><b>Orpharion</b> (working title)</p><p class="hint">ver. 0.19.0-2026-11-04</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Some strum patterns are based on a chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p><p class="hint">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging and playing your own charts. It does not include, supply or license any songs, lyrics or recordings. You are responsible for having the right to use every song you enter, import, keep, share or perform. This includes anything you bring in from text, ChordPro, PDF or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'}
+function aboutHtml(){return '<p><b>Orpharion</b> (working title)</p><p class="hint">ver. 0.20.0-2026-11-04</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Some strum patterns are based on a chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p><p class="hint">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging and playing your own charts. It does not include, supply or license any songs, lyrics or recordings. You are responsible for having the right to use every song you enter, import, keep, share or perform. This includes anything you bring in from text, ChordPro, PDF or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
 var pgc=$('rngCz').closest('.pg'),chT=null;pgc.insertAdjacentHTML('beforeend','<label>Chord Color <select id="chCol"><option value="">Palette Color</option><option value="ink">Same as Lyrics</option><option value="#e69f00">Orange</option><option value="#56b4e9">Sky Blue</option><option value="#009e73">Green</option><option value="#cc79a7">Pink</option><option value="#f0e442">Yellow</option><option value="#d55e00">Vermilion</option><option value="#0072b2">Blue</option></select></label><div class="hint" id="chRd"></div><label>Chord Size <input type="range" id="chSz" min="0.7" max="1.6" step="0.05" value="1"></label><label>Chord Weight <select id="chWt"><option value="400">Normal</option><option value="600">Medium</option><option value="700">Bold</option><option value="800" selected>Extra Bold</option></select></label>');
@@ -2767,7 +2768,7 @@ function note(el){if(!el)return;var d=document.createElement('div');d.className=
 var a=$('cpimp'),b=$('pdfImp');if(a)note(a);if(b&&b.firstChild)note(b.firstChild);
 }catch(errr){console.error(errr)}})();
 (function(){try{
-var KEYS_=['ukemap.gs','ukemap.ped','ukemap.t','ukemap.fingers','ukemap.wu','ukemap.pdf'];
+var KEYS_=['ukemap.gs','ukemap.ped','ukemap.t','ukemap.fingers','ukemap.wu','ukemap.pdf','ukemap.phone'];
 function ls(k){try{return localStorage.getItem(k)}catch(e){return null}}
 function b64(ab){var u=new Uint8Array(ab),s='',i,n=0x8000;for(i=0;i<u.length;i+=n)s+=String.fromCharCode.apply(null,u.subarray(i,i+n));return btoa(s)}
 function unb64(t){var s=atob(t),u=new Uint8Array(s.length),i;for(i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u.buffer}
@@ -2908,6 +2909,30 @@ var cb=$('crSave');if(cb){cb.addEventListener('click',function(){setTimeout(save
 load();try{strumOpts()}catch(e){}
 window.STRX={save:save,load:load,exportFile:exportFile,importText:importText,customs:customs};
 }catch(errx){console.error(errx);try{toast('Strum file setup problem: '+errx.message)}catch(e1){}}})();
+
+/* ---------- Phone view (v0.20.0) ---------- */
+(function(){try{
+var K='ukemap.phone',pref='auto',peek=false;
+try{var v0=localStorage.getItem(K);if(v0==='on'||v0==='off'||v0==='auto')pref=v0}catch(e){}
+var css=document.createElement('style');css.textContent=
+'body.phone #modeWheel,body.phone #tabDock,body.phone #tray,body.phone #sub,body.phone #sub2,body.phone #songSeg,body.phone #chords,body.phone #capHint,body.phone #sbar,body.phone #pbar,body.phone #chk,body.phone #strip,body.phone #mstrip,body.phone #editSeg,body.phone #modeSeg,body.phone #bpmSeg,body.phone #selTS,body.phone #lockBtn,body.phone #trSeg,body.phone #infoBtn,body.phone #dispBtn,body.phone footer{display:none!important}'+
+'body.phone header{min-height:0!important;padding:10px 16px 8px!important}body.phone #work{display:block}body.phone #map{width:100%;max-width:none}body.phone #map .card{width:auto!important;max-width:none!important;min-width:0!important;grid-column:1/-1!important}'+
+'#phBtn{position:fixed;right:10px;bottom:10px;z-index:150;width:44px;height:44px;min-height:44px;padding:0;border-radius:22px;opacity:.45;font-size:1.3rem;line-height:1;display:none}#phBtn:hover,#phBtn:focus{opacity:1}body.phone #phBtn,body.phonePeek #phBtn{display:block}';
+document.head.appendChild(css);
+var b=document.createElement('button');b.id='phBtn';b.type='button';b.textContent='⋯';b.setAttribute('aria-label','Show controls');b.title='Show controls';document.body.appendChild(b);
+function want(){if(pref==='on')return true;if(pref==='off')return false;return window.innerWidth<=600}
+function apply(){var on=want()&&!peek&&st.mode!=='E';document.body.classList.toggle('phone',on);document.body.classList.toggle('phonePeek',want()&&peek&&st.mode!=='E');
+ b.textContent=peek?'✕':'⋯';b.setAttribute('aria-label',peek?'Back to phone view':'Show controls');b.title=b.getAttribute('aria-label')}
+b.onclick=function(){peek=!peek;apply()};
+window.addEventListener('resize',apply);
+var rt=renderTop;renderTop=function(){var r=rt.apply(this,arguments);try{apply()}catch(e){}return r};
+/* settings control */
+var lab=document.createElement('label');lab.innerHTML='Phone View <select id="selPhone" aria-label="Phone view"><option value="auto">Auto (small screens)</option><option value="on">Always On</option><option value="off">Off</option></select>';
+var sp=$('selPal');if(sp&&sp.parentNode&&sp.parentNode.parentNode)sp.parentNode.parentNode.insertBefore(lab,sp.parentNode.nextSibling);
+var sel=$('selPhone');sel.value=pref;sel.onchange=function(){pref=this.value;peek=false;try{localStorage.setItem(K,pref)}catch(e){}apply();this.blur()};
+apply();
+window.PHONE={apply:apply,pref:function(){return pref}};
+}catch(errp){console.error(errp);try{toast('Phone view setup problem: '+errp.message)}catch(e1){}}})();
 
 })();
 </script>

@@ -49,6 +49,12 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Custom strums are now saved on the device (key ukemap.strums) and survive reloads. Restoring a backup also saves its strums. They were previously lost on reload, which also meant a song using a custom strum lost it.
 - Not yet tested on the tablet: Export download, Import chooser, a reload after making a strum.
 
+## Phone view and Desert palette (v0.20.0)
+- **Phone View** (Display Settings, beside Palette): Auto (screens 600 px wide or less), Always On, or Off. Saved on the device (ukemap.phone) and included in backups. In Phone view, Performance and Practice show only the song title (with artist) and the chord sheet, full width. Hidden: mode wheel, side buttons, song info lines, previous/next song, chord diagrams, tempo/key/transpose controls, bars and footer. Edit mode always shows everything. A faint ... button at the bottom right shows the controls; tapping it again returns to the phone view. The pedal works the same in Phone view.
+- Chord diagrams are hidden in Phone view on purpose (they are one of the extras). Possible later option: let the user keep them.
+- **Desert palette** (Display Settings > Palette > Desert): darker than Daylight Paper. Sand background #d6c19b, cards #e8d9bb, dark brown text #2a1b10, deep teal accent #17525a, terracotta chords #7a2a0b. Text contrast is at least 4.7:1 on the background and highlight.
+- Not yet tested on a real phone or on the tablet.
+
 ## Still untested or open
 - PDF import and export on real files; (setlists and custom strums now persist); sample-song edits; import rights prompt; setup wizard terms on the tablet keyboard.
 - Name conflict and trademark check for Orpharion (and extensions), strum chart permission (ukulelego.com), copyright.gov link, attorney review of the terms.
