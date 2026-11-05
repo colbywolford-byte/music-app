@@ -1292,7 +1292,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-function aboutHtml(){return '<p><b>Orpharion</b> (working title)</p><p class="hint">ver. 0.20.0-2026-11-04</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Some strum patterns are based on a chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p><p class="hint">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging and playing your own charts. It does not include, supply or license any songs, lyrics or recordings. You are responsible for having the right to use every song you enter, import, keep, share or perform. This includes anything you bring in from text, ChordPro, PDF or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'}
+function aboutHtml(){return '<p><b>Orpharion</b> (working title)</p><p class="hint">ver. 0.21.0-2026-11-04</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Some strum patterns are based on a chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p><p class="hint">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging and playing your own charts. It does not include, supply or license any songs, lyrics or recordings. You are responsible for having the right to use every song you enter, import, keep, share or perform. This includes anything you bring in from text, ChordPro, PDF or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
 var pgc=$('rngCz').closest('.pg'),chT=null;pgc.insertAdjacentHTML('beforeend','<label>Chord Color <select id="chCol"><option value="">Palette Color</option><option value="ink">Same as Lyrics</option><option value="#e69f00">Orange</option><option value="#56b4e9">Sky Blue</option><option value="#009e73">Green</option><option value="#cc79a7">Pink</option><option value="#f0e442">Yellow</option><option value="#d55e00">Vermilion</option><option value="#0072b2">Blue</option></select></label><div class="hint" id="chRd"></div><label>Chord Size <input type="range" id="chSz" min="0.7" max="1.6" step="0.05" value="1"></label><label>Chord Weight <select id="chWt"><option value="400">Normal</option><option value="600">Medium</option><option value="700">Bold</option><option value="800" selected>Extra Bold</option></select></label>');
@@ -2910,29 +2910,40 @@ load();try{strumOpts()}catch(e){}
 window.STRX={save:save,load:load,exportFile:exportFile,importText:importText,customs:customs};
 }catch(errx){console.error(errx);try{toast('Strum file setup problem: '+errx.message)}catch(e1){}}})();
 
-/* ---------- Phone view (v0.20.0) ---------- */
+/* ---------- Phone view (v0.21.0): follows the mode dial ---------- */
 (function(){try{
-var K='ukemap.phone',pref='auto',peek=false;
+var K='ukemap.phone',pref='auto';
 try{var v0=localStorage.getItem(K);if(v0==='on'||v0==='off'||v0==='auto')pref=v0}catch(e){}
 var css=document.createElement('style');css.textContent=
-'body.phone #modeWheel,body.phone #tabDock,body.phone #tray,body.phone #sub,body.phone #sub2,body.phone #songSeg,body.phone #chords,body.phone #capHint,body.phone #sbar,body.phone #pbar,body.phone #chk,body.phone #strip,body.phone #mstrip,body.phone #editSeg,body.phone #modeSeg,body.phone #bpmSeg,body.phone #selTS,body.phone #lockBtn,body.phone #trSeg,body.phone #infoBtn,body.phone #dispBtn,body.phone footer{display:none!important}'+
-'body.phone header{min-height:0!important;padding:10px 16px 8px!important}body.phone #work{display:block}body.phone #map{width:100%;max-width:none}body.phone #map .card{width:auto!important;max-width:none!important;min-width:0!important;grid-column:1/-1!important}'+
-'#phBtn{position:fixed;right:10px;bottom:10px;z-index:150;width:44px;height:44px;min-height:44px;padding:0;border-radius:22px;opacity:.45;font-size:1.3rem;line-height:1;display:none}#phBtn:hover,#phBtn:focus{opacity:1}body.phone #phBtn,body.phonePeek #phBtn{display:block}';
+'body.phone #tabDock,body.phone #tray,body.phone #sub,body.phone #sub2,body.phone #songSeg,body.phone #chords,body.phone #capHint,body.phone #sbar,body.phone #pbar,body.phone #chk,body.phone #strip,body.phone #mstrip,body.phone #editSeg,body.phone #modeSeg,body.phone #bpmSeg,body.phone #selTS,body.phone #trSeg,body.phone #infoBtn,body.phone #dispBtn,body.phone footer{display:none!important}'+
+'body.phone header{min-height:0!important;padding:10px 118px 8px 16px!important}body.phone #work{display:block}body.phone #map{width:100%;max-width:none}body.phone #map .card{width:auto!important;max-width:none!important;min-width:0!important;grid-column:1/-1!important}';
 document.head.appendChild(css);
-var b=document.createElement('button');b.id='phBtn';b.type='button';b.textContent='⋯';b.setAttribute('aria-label','Show controls');b.title='Show controls';document.body.appendChild(b);
 function want(){if(pref==='on')return true;if(pref==='off')return false;return window.innerWidth<=600}
-function apply(){var on=want()&&!peek&&st.mode!=='E';document.body.classList.toggle('phone',on);document.body.classList.toggle('phonePeek',want()&&peek&&st.mode!=='E');
- b.textContent=peek?'✕':'⋯';b.setAttribute('aria-label',peek?'Back to phone view':'Show controls');b.title=b.getAttribute('aria-label')}
-b.onclick=function(){peek=!peek;apply()};
+function apply(){document.body.classList.toggle('phone',want()&&st.mode==='P')}
 window.addEventListener('resize',apply);
 var rt=renderTop;renderTop=function(){var r=rt.apply(this,arguments);try{apply()}catch(e){}return r};
-/* settings control */
 var lab=document.createElement('label');lab.innerHTML='Phone View <select id="selPhone" aria-label="Phone view"><option value="auto">Auto (small screens)</option><option value="on">Always On</option><option value="off">Off</option></select>';
 var sp=$('selPal');if(sp&&sp.parentNode&&sp.parentNode.parentNode)sp.parentNode.parentNode.insertBefore(lab,sp.parentNode.nextSibling);
-var sel=$('selPhone');sel.value=pref;sel.onchange=function(){pref=this.value;peek=false;try{localStorage.setItem(K,pref)}catch(e){}apply();this.blur()};
+var sel=$('selPhone');sel.value=pref;sel.onchange=function(){pref=this.value;try{localStorage.setItem(K,pref)}catch(e){}apply();this.blur()};
 apply();
 window.PHONE={apply:apply,pref:function(){return pref}};
 }catch(errp){console.error(errp);try{toast('Phone view setup problem: '+errp.message)}catch(e1){}}})();
+/* ---------- Swipe between songs (v0.21.0) ---------- */
+(function(){try{
+var x0=0,y0=0,t0=0,ok=false,id=null;
+function blocked(t){if(!t||!t.closest)return true;if(t.closest('input,select,textarea,button,a,label,#modeWheel,#chords,#tabDock,#tray,.kd,#keyDial,#strumVis,[contenteditable]'))return true;
+ if(document.querySelector('.pmod:not([hidden]),.ovl:not([hidden]),#panel:not([hidden]),#sinfo:not([hidden]),#about:not([hidden]),#lypage:not([hidden]),#libdlg:not([hidden]),#hamb:not([hidden]),#chlib:not([hidden]),#melEd:not([hidden]),#wz:not([hidden]),#pdfV:not([hidden])'))return true;
+ if(window.WU&&WU.on)return true;if(st.lock)return true;return st.mode!=='P'&&st.mode!=='R'}
+document.addEventListener('pointerdown',function(e){if(e.pointerType==='mouse')return;ok=!blocked(e.target);id=e.pointerId;x0=e.clientX;y0=e.clientY;t0=Date.now()},true);
+document.addEventListener('pointercancel',function(){ok=false});
+document.addEventListener('pointerup',function(e){if(!ok||e.pointerId!==id)return;ok=false;var dx=e.clientX-x0,dy=e.clientY-y0;
+ if(Math.abs(dx)<70||Math.abs(dx)<2*Math.abs(dy)||Date.now()-t0>800)return;
+ var d=dx<0?1:-1,bk=bookIdx();
+ if(!bk){toast('Load a setlist to swipe between songs');return}
+ var bt=$(d>0?'nextSong':'prevSong');
+ if(bt.disabled){toast(d>0?'This is the last song in the setlist':'This is the first song in the setlist');return}
+ bt.click();setTimeout(function(){toast(SONGS[st.song])},30)},true);
+}catch(errw){console.error(errw)}})();
 
 })();
 </script>

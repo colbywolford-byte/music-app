@@ -50,8 +50,10 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Not yet tested on the tablet: Export download, Import chooser, a reload after making a strum.
 
 ## Phone view and Desert palette (v0.20.0)
-- **Phone View** (Display Settings, beside Palette): Auto (screens 600 px wide or less), Always On, or Off. Saved on the device (ukemap.phone) and included in backups. In Phone view, Performance and Practice show only the song title (with artist) and the chord sheet, full width. Hidden: mode wheel, side buttons, song info lines, previous/next song, chord diagrams, tempo/key/transpose controls, bars and footer. Edit mode always shows everything. A faint ... button at the bottom right shows the controls; tapping it again returns to the phone view. The pedal works the same in Phone view.
-- Chord diagrams are hidden in Phone view on purpose (they are one of the extras). Possible later option: let the user keep them.
+- **Phone View** (Display Settings, beside Palette): Auto (screens 600 px wide or less), Always On, or Off. Saved on the device (ukemap.phone) and included in backups.
+- v0.21.0: Phone View now follows the **mode dial**. Choosing Performance on the dial gives the clean view (song title with artist and the chord sheet at full width, no menus, song buttons, info lines, tempo or key controls, bars or chord diagrams). Choosing Practice or Edit on the dial shows the full controls. The dial and its padlock stay on screen as the only controls, which keeps the look uniform; the faint ... button from v0.20.0 was removed. The padlock works as before. The pedal works the same in Phone view.
+- Chord diagrams are hidden in the clean view on purpose. Possible later option: keep them.
+- **Swipe between songs** (v0.21.0, touch only): swipe left for the next song and right for the previous song in the loaded setlist, in Performance and Practice. Needs a fast, mostly horizontal swipe of about 70 px or more. Ignored when the screen is locked, in Edit mode, in Warm-up, when a menu or dialog is open, and on buttons, menus, the dial and the chord strip. At the ends it says "last song" or "first song". With no setlist loaded it says to load one. The pedal's press-twice song change is unchanged.
 - **Desert palette** (Display Settings > Palette > Desert): darker than Daylight Paper. Sand background #d6c19b, cards #e8d9bb, dark brown text #2a1b10, deep teal accent #17525a, terracotta chords #7a2a0b. Text contrast is at least 4.7:1 on the background and highlight.
 - Not yet tested on a real phone or on the tablet.
 
