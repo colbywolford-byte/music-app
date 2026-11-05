@@ -2098,10 +2098,15 @@ ex.innerHTML='<b class="mkh">Export Current Song</b><div class="hint">Saves the 
 lib.appendChild(ex);var ex2=ex.querySelector('#gExp2');if(ex2)lib.appendChild(ex2);
 function songText(md){var t=SONGS[st.song]||'Song',o=md?'# '+t+'\n\n':'{title: '+t+'}\n\n';
  SECS.forEach(function(sc){sc.v.forEach(function(v,i){var nm=sc.name+(sc.v.length>1?' (variation '+(i+1)+')':'');o+=(md?'## '+nm+'\n\n':'{comment: '+nm+'}\n');(v||[]).forEach(function(l){o+=l+'\n'});o+='\n'})});return o}
+window.PLsave=function(name,text,mime){
+ var alt=name.replace(/\.(plmb|plms)$/i,'.$1.json').replace(/\.(cho|plm)$/i,'.$1.txt');
+ function anchor(){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:mime||'text/plain'}));a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},800);return name}
+ try{if(window.claude&&claude.use){return claude.use('downloads').then(function(d){if(!d)return anchor();return d.save({filename:alt,data:text}).then(function(){return alt},function(e){if(e&&e.code==='declined')throw e;if(e&&(e.code==='unavailable'||e.code==='not_granted'||e.code==='capability_disabled'||e.code==='capability_removed'))return anchor();throw e})})}}catch(e0){}
+ return Promise.resolve(anchor())};
 function dl(md,ext){var t=songText(md),n=(SONGS[st.song]||'song').replace(/[^\w\- ]+/g,'').trim()||'song';
- var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/plain'}));a.download=n+(ext||(md?'.md':'.cho'));document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500);toast('Exported '+n+(ext||(md?'.md':'.cho')))}
+ PLsave(n+(ext||(md?'.md':'.cho')),t).then(function(f){toast('Exported '+f)},function(e){toast(e&&e.code==='declined'?'Export cancelled':'Could not export')})}
 $('exPlm').onclick=function(){dl(false,'.plm')};
-$('exPlms').onclick=function(){var key=$('selBook').value||st.book,list=key&&SETS[key];if(!list){toast('Load a setlist first');return}var bk={b:key},t=JSON.stringify({plms:1,name:BN[key],songs:list.map(function(i){return SONGS[i]})},null,1),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'application/json'}));a.download=(BN[bk.b]||'setlist').replace(/[^\w\- ]+/g,'').trim()+'.plms';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500);toast('Exported setlist')};
+$('exPlms').onclick=function(){var key=$('selBook').value||st.book,list=key&&SETS[key];if(!list){toast('Load a setlist first');return}var bk={b:key},t=JSON.stringify({plms:1,name:BN[key],songs:list.map(function(i){return SONGS[i]})},null,1);PLsave((BN[bk.b]||'setlist').replace(/[^\w\- ]+/g,'').trim()+'.plms',t,'application/json').then(function(f){toast('Exported '+f)},function(e){toast(e&&e.code==='declined'?'Export cancelled':'Could not export')})};
 $('exCho').onclick=function(){dl(false)};$('exMd').onclick=function(){dl(true)};
 /* Metronome / practice controls move into Song Info */
 var tm=$('trayMet');if(tm){var mh=tm.querySelector('.mkh');if(mh)mh.textContent='Practice Controls';SI.insertBefore(tm,SI.children[1]||null);var tl=$('trayLib');if(tl)SI.insertBefore(tl,tm.nextSibling)}
@@ -2777,8 +2782,9 @@ function gather(withPdf){return(withPdf&&window.PDFIMP&&PDFIMP.all?PDFIMP.all():
  try{var su=JSON.parse(ls('ukemap.setup')||'null');if(su){delete su.terms;delete su.termsV;delete su.termsDate;delete su.done;settings['ukemap.setup']=JSON.stringify(su)}}catch(e){}
  return Promise.all((pd||[]).map(function(p){return{name:p.name,pages:p.pages,added:p.added,b64:b64(p.data)}})).then(function(pdfs){
   return{format:'plucky-backup',v:1,app:(document.title||'Plucky Music'),date:new Date().toISOString(),folders:folders,defaultFolder:LIBDEF,songs:songs,setlists:sets,strums:strums,settings:settings,pdfs:pdfs}})})}
-function doBackup(){var wp=$('bkPdf').checked;$('bkMsg').textContent='Preparing…';gather(wp).then(function(o){var t=JSON.stringify(o),n='PluckyMusic-backup-'+new Date().toISOString().slice(0,10)+'.plmb',a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'application/json'}));a.download=n;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},800);
- var msg='Backed up '+o.songs.length+(o.songs.length===1?' song':' songs')+', '+o.setlists.length+(o.setlists.length===1?' setlist':' setlists')+(o.strums.length?', '+o.strums.length+' custom strum'+(o.strums.length===1?'':'s'):'')+(o.pdfs.length?', '+o.pdfs.length+' PDF'+(o.pdfs.length===1?'':'s'):'')+' and your settings to '+n+'. '+(Math.round(t.length/1024))+' KB.';$('bkMsg').textContent=msg;toast('Backup saved')}).catch(function(e){$('bkMsg').textContent='Could not make the backup: '+(e&&e.message||e)})}
+function doBackup(){var wp=$('bkPdf').checked;$('bkMsg').textContent='Preparing…';gather(wp).then(function(o){var t=JSON.stringify(o),n='PluckyMusic-backup-'+new Date().toISOString().slice(0,10)+'.plmb';
+ return PLsave(n,t,'application/json').then(function(fn){n=fn;
+ var msg='Backed up '+o.songs.length+(o.songs.length===1?' song':' songs')+', '+o.setlists.length+(o.setlists.length===1?' setlist':' setlists')+(o.strums.length?', '+o.strums.length+' custom strum'+(o.strums.length===1?'':'s'):'')+(o.pdfs.length?', '+o.pdfs.length+' PDF'+(o.pdfs.length===1?'':'s'):'')+' and your settings to '+n+'. '+(Math.round(t.length/1024))+' KB.';$('bkMsg').textContent=msg;toast('Backup saved')})}).catch(function(e){$('bkMsg').textContent=e&&e.code==='declined'?'Backup cancelled.':'Could not make the backup: '+(e&&(e.message||e.code)||e)})}
 // ---- restore ----
 var BK=null;
 function dupIdx(s){var i,t=(s.t||'').toLowerCase(),a=(s.a||'').toLowerCase();for(i=0;i<SDB.length;i++)if((SDB[i].t||'').toLowerCase()===t&&(SDB[i].a||'').toLowerCase()===a)return i;return-1}
