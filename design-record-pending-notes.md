@@ -39,6 +39,7 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Entry points: **Edit Setlists...** button next to the Setlist menu in Song Info, a second **Edit Setlists...** button beside Export Setlist in Song Files, and **Add This Song to This Setlist** in Song Info.
 - Builder (full-screen dialog): pick a setlist, New, Delete (tap twice), rename in the Name box, search your songs, Add, move up or down, remove, and Load This Setlist (jumps to its first song if the current song is not in it). A song can appear only once per setlist.
 - Setlists are saved on the device (by song title, key ukemap.sets) and survive reloads. Deleting a library song removes it from every setlist. Restoring a backup adds its setlists and saves them. Export Setlist (.orl), Setlist PDF and Backup all use the same setlists.
+- v0.18.1: in the builder, Add is a bright accent-colored button (something to tap) and songs already in the set show a quiet gray "✓ Added" with no button look. Tablet check: two columns fit at 800 px wide.
 - The two demo sets are ordinary setlists now: they can be renamed, edited or deleted.
 - Not yet tested on the tablet: the builder layout (two columns at 800 px wide), pedal song changes through a user-made set.
 
