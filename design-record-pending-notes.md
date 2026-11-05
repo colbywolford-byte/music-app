@@ -1,0 +1,36 @@
+# Design record: pending updates (apply after Colby finishes testing Backup)
+
+Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14.1. Everything below is new since then. Written in first person for the record.
+
+## Name and files (v0.17.0, 2026-11-04)
+- Working title changed from Plucky Music to **Orpharion** (a Renaissance plucked instrument named for Orpheus and Arion). Still a working title: needs a trademark check and attorney review. Near-neighbor to raise: the iOS app Orphion (touch-screen instrument).
+- Names considered and set aside (with reasons): Strummer Studio (crowded "Strummer" names, guitar-first), Mapsody (close to Rhapsody), Awen (an existing AI music app called AWEN, plus trademark filings), Imbas (unclear records; ordinary word in Indonesian), InVerse (existing Bible apps), Inversion/inVersion (common word; not searched), Aoide/Erato/Euterpe/Melete/Meret/Boann etc. (not searched).
+- New file extensions: songs **.orm**, setlists **.orl**, backups **.orz** (all three appear in extension databases only for obscure uses: .orm Ormetis/Print Shop/ORM config, .orl "Object-Relational Language", .orz a game file). .orf rejected (Olympus RAW photos); .orb and .ors rejected (ebook format / existing listing).
+- Old files still open: .plm songs and .plmb / "plucky-backup" backups are still accepted. New saves use the new names. Internal storage keys (ukemap.*, IndexedDB "plucky") were kept so no one loses data.
+- Terms version (3) was NOT bumped by the rename; the terms text now names Orpharion. Decide whether to bump.
+
+## Backup and restore (v0.16.0)
+- Settings > Backup. One file holds library songs, setlists (as titles), custom strums, kept PDFs (optional) and settings (terms agreement excluded). Built-in sample songs are not included.
+- Restore shows a preview. Song-conflict modes: keep mine (default), add copies, replace. Optional settings and PDF restore; reload needed for settings.
+- Saved through the artifact downloads capability in the preview (extension gets ".json"/".txt" appended there); plain download elsewhere.
+- Restore file picker is a real file input laid over the button (programmatic click is blocked in the artifact viewer); paste-text fallback box. Picker asks for document types so Android opens Files, not media. Restore works from GitHub; blocked in the artifact viewer.
+- Limits: setlists and custom strums are not saved by the app across reloads on their own yet. Not yet tested on real data: replace mode, custom strums, setlists, PDFs.
+
+## Pedal (confirmed on Joyo JSP-01, Android tablet)
+- Two-pedal operation: next/previous section in Practice and Performance. At the last (first) section, press again within 5 seconds to move to the next (previous) song.
+- Warm-up: Next pedal = start/pause/resume; Previous pedal = restart.
+- Optional extra keys (Next Song, Previous Song, Lock) remain for more than two pedals.
+
+## Warm-up
+- Constant-speed chips; tuner-tape style drum dial (stronger curve, darker shading). Confirmed smooth on the tablet (Unisoc T606).
+- Fixed: the count-in number now counts 4, 3, 2, 1.
+
+## Tuner (confirmed on the tablet)
+- Pitch detection tested accurate to under 0.1 cent on synthetic tones. In-tune window tightened from 5 to 3 cents and the label now shows the reading (for example "In tune (-2 cents)"). Colby confirmed it is much better.
+
+## Test device
+- Tablet with "Incar OS" (Android-based), screen 800x1280, 6 GB RAM, Unisoc T606, 128 GB storage, Bluetooth pedal Joyo JSP-01. Preferred test copy: the GitHub-hosted app (artifact viewer blocks file choosers, downloads need the capability, and the microphone needs HTTPS).
+
+## Still untested or open
+- PDF import and export on real files; setlist and custom-strum persistence; sample-song edits; import rights prompt; setup wizard terms on the tablet keyboard.
+- Name conflict and trademark check for Orpharion (and extensions), strum chart permission (ukulelego.com), copyright.gov link, attorney review of the terms.
