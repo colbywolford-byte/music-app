@@ -1292,7 +1292,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-function aboutHtml(){return '<p><b>Orpharion</b> (working title)</p><p class="hint">ver. 0.21.0-2026-11-04</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Some strum patterns are based on a chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p><p class="hint">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging and playing your own charts. It does not include, supply or license any songs, lyrics or recordings. You are responsible for having the right to use every song you enter, import, keep, share or perform. This includes anything you bring in from text, ChordPro, PDF or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'}
+function aboutHtml(){return '<p><b>Orpharion</b> (working title)</p><p class="hint">ver. 0.21.1-2026-11-04</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Some strum patterns are based on a chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p><p class="hint">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging and playing your own charts. It does not include, supply or license any songs, lyrics or recordings. You are responsible for having the right to use every song you enter, import, keep, share or perform. This includes anything you bring in from text, ChordPro, PDF or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
 var pgc=$('rngCz').closest('.pg'),chT=null;pgc.insertAdjacentHTML('beforeend','<label>Chord Color <select id="chCol"><option value="">Palette Color</option><option value="ink">Same as Lyrics</option><option value="#e69f00">Orange</option><option value="#56b4e9">Sky Blue</option><option value="#009e73">Green</option><option value="#cc79a7">Pink</option><option value="#f0e442">Yellow</option><option value="#d55e00">Vermilion</option><option value="#0072b2">Blue</option></select></label><div class="hint" id="chRd"></div><label>Chord Size <input type="range" id="chSz" min="0.7" max="1.6" step="0.05" value="1"></label><label>Chord Weight <select id="chWt"><option value="400">Normal</option><option value="600">Medium</option><option value="700">Bold</option><option value="800" selected>Extra Bold</option></select></label>');
@@ -2580,9 +2580,9 @@ lab();
 }catch(err8){console.error(err8);try{toast('Mode menu setup problem: '+err8.message)}catch(e1){}}})();
 (function(){try{
 function eqHeader(){try{var h=document.querySelector('header');if(!h||st.lock||st.run||!$('hamb').hidden||document.body.classList.contains('topen'))return;var fa=document.activeElement;if(fa&&/^(INPUT|TEXTAREA|SELECT)$/.test(fa.tagName))return;
- var orig=st.mode,m=0;h.style.boxSizing='border-box';h.style.minHeight='';
- ['R','E','P'].forEach(function(x){$('m'+x).onclick();var r=h.getBoundingClientRect().height;if(r>m)m=r});
- $('m'+orig).onclick();h.style.minHeight=Math.ceil(m)+'px'}catch(e){}}
+ var orig=st.mode,m=0;window.__eqBusy=1;h.style.boxSizing='border-box';h.style.minHeight='';
+ ['E','P'].forEach(function(x){$('m'+x).onclick();var r=h.getBoundingClientRect().height;if(r>m)m=r});
+ $('m'+orig).onclick();window.__eqH=Math.ceil(m);window.__eqBusy=0;h.style.minHeight=st.mode==='R'?'':window.__eqH+'px'}catch(e){window.__eqBusy=0}}
 window.eqHeader=eqHeader;
 var tq=null,lw=innerWidth;window.addEventListener('resize',function(){if(innerWidth===lw)return;lw=innerWidth;clearTimeout(tq);tq=setTimeout(eqHeader,300)});
 eqHeader();
@@ -2768,7 +2768,7 @@ function note(el){if(!el)return;var d=document.createElement('div');d.className=
 var a=$('cpimp'),b=$('pdfImp');if(a)note(a);if(b&&b.firstChild)note(b.firstChild);
 }catch(errr){console.error(errr)}})();
 (function(){try{
-var KEYS_=['ukemap.gs','ukemap.ped','ukemap.t','ukemap.fingers','ukemap.wu','ukemap.pdf','ukemap.phone'];
+var KEYS_=['ukemap.gs','ukemap.ped','ukemap.t','ukemap.fingers','ukemap.wu','ukemap.pdf','ukemap.phone','ukemap.songbtns'];
 function ls(k){try{return localStorage.getItem(k)}catch(e){return null}}
 function b64(ab){var u=new Uint8Array(ab),s='',i,n=0x8000;for(i=0;i<u.length;i+=n)s+=String.fromCharCode.apply(null,u.subarray(i,i+n));return btoa(s)}
 function unb64(t){var s=atob(t),u=new Uint8Array(s.length),i;for(i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u.buffer}
@@ -2921,11 +2921,15 @@ document.head.appendChild(css);
 function want(){if(pref==='on')return true;if(pref==='off')return false;return window.innerWidth<=600}
 function apply(){document.body.classList.toggle('phone',want()&&st.mode==='P')}
 window.addEventListener('resize',apply);
-var rt=renderTop;renderTop=function(){var r=rt.apply(this,arguments);try{apply()}catch(e){}return r};
+var rt=renderTop;renderTop=function(){var r=rt.apply(this,arguments);try{apply();var hh=document.querySelector('header');if(hh&&window.__eqH&&!window.__eqBusy&&!document.body.classList.contains('phone'))hh.style.minHeight=st.mode==='R'?'':window.__eqH+'px'}catch(e){}return r};
+var sbk='0';try{sbk=localStorage.getItem('ukemap.songbtns')==='1'?'1':'0'}catch(e){}
+var scss=document.createElement('style');scss.textContent='body:not(.songBtns) #songSeg{display:none!important}';document.head.appendChild(scss);document.body.classList.toggle('songBtns',sbk==='1');
+var lb2=document.createElement('label');lb2.innerHTML='<input type="checkbox" id="cbSongBtns"> Show Previous / Next Song buttons (otherwise swipe or use the pedal)';lb2.querySelector('input').checked=sbk==='1';
 var lab=document.createElement('label');lab.innerHTML='Phone View <select id="selPhone" aria-label="Phone view"><option value="auto">Auto (small screens)</option><option value="on">Always On</option><option value="off">Off</option></select>';
-var sp=$('selPal');if(sp&&sp.parentNode&&sp.parentNode.parentNode)sp.parentNode.parentNode.insertBefore(lab,sp.parentNode.nextSibling);
+var sp=$('selPal');if(sp&&sp.parentNode&&sp.parentNode.parentNode){sp.parentNode.parentNode.insertBefore(lab,sp.parentNode.nextSibling);sp.parentNode.parentNode.insertBefore(lb2,lab.nextSibling)}
+lb2.querySelector('input').onchange=function(){sbk=this.checked?'1':'0';try{localStorage.setItem('ukemap.songbtns',sbk)}catch(e){}document.body.classList.toggle('songBtns',this.checked);try{window.eqHeader&&eqHeader()}catch(e){}};
 var sel=$('selPhone');sel.value=pref;sel.onchange=function(){pref=this.value;try{localStorage.setItem(K,pref)}catch(e){}apply();this.blur()};
-apply();
+apply();try{window.eqHeader&&eqHeader()}catch(e){}
 window.PHONE={apply:apply,pref:function(){return pref}};
 }catch(errp){console.error(errp);try{toast('Phone view setup problem: '+errp.message)}catch(e1){}}})();
 /* ---------- Swipe between songs (v0.21.0) ---------- */
