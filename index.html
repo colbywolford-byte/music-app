@@ -1765,8 +1765,8 @@ function make(host){
   tn.className='tn '+(cls||'');q('.tn-tape').className='tn-tape '+(cls||'');var old=tp.querySelector('.cur');if(old)old.classList.remove('cur');if(idx>=0){var el=tp.querySelector('[data-m="'+midi(strs[idx])+'"]');if(el)el.classList.add('cur')}}
  function midMid(){var i=locked>=0?locked:(lastIdx>=0&&lastIdx<strs.length?lastIdx:Math.floor(strs.length/2));return i}
  function idle(){q('.tn-note').textContent=locked>=0?lab(locked):'--';q('.tn-cents').textContent='Play a string';var mi=midMid();tapeSet(midi(strs[mi]),'idle',mi);okRun=badRun=0;paint(-1)}
- function show(f){fs=strs.map(function(n){return freq(n,a4())});var near=0,best=1e9;fs.forEach(function(x,i){var c=Math.abs(1200*Math.log(f/x)/Math.LN2);if(c<best){best=c;near=i}});var idx=locked>=0?locked:near,cents=1200*Math.log(f/fs[idx])/Math.LN2,ok=Math.abs(cents)<=5,far=Math.abs(cents)>60;
-  q('.tn-note').textContent=lab(idx);q('.tn-cents').textContent=ok?'In tune':(far?(cents>0?'Too high':'Too low'):(cents>0?'Tune down ('+Math.round(cents)+' cents sharp)':'Tune up ('+Math.round(-cents)+' cents flat)'));
+ function show(f){fs=strs.map(function(n){return freq(n,a4())});var near=0,best=1e9;fs.forEach(function(x,i){var c=Math.abs(1200*Math.log(f/x)/Math.LN2);if(c<best){best=c;near=i}});var idx=locked>=0?locked:near,cents=1200*Math.log(f/fs[idx])/Math.LN2,ok=Math.abs(cents)<=3,far=Math.abs(cents)>60;
+  q('.tn-note').textContent=lab(idx);q('.tn-cents').textContent=ok?'In tune ('+(cents>0?'+':cents<0?'\u2212':'')+Math.abs(Math.round(cents))+' cents)':(far?(cents>0?'Too high':'Too low'):(cents>0?'Tune down ('+Math.round(cents)+' cents sharp)':'Tune up ('+Math.round(-cents)+' cents flat)'));
   tapeSet(midi(strs[idx])+cents/100,ok?'ok':'live',idx);
   if(idx!==lastIdx){okRun=badRun=0;lastIdx=idx}
   var t=tunedArr();if(!far){if(ok){okRun++;badRun=0;if(okRun>=8&&!t[idx]){t[idx]=true;repaintAll()}}else if(Math.abs(cents)>12){badRun++;okRun=0;if(badRun>=5&&t[idx]){t[idx]=false;repaintAll()}}else{okRun=0;badRun=0}}
