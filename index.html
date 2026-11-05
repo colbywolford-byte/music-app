@@ -2435,11 +2435,13 @@ var rimW=-1,rimL=[];function rim(ph,xs,R,SLK){var sv=$w('wuRim');if(!sv){sv=docu
  if(rimW!==ph){rimW=ph;var W=ph*2,H=276,h='<g class="tk">',k;rimL=[];for(k=-40;k<=40;k++)h+='<line/>';h+='</g><path class="pt" d="M'+(ph-8)+',0 L'+(ph+8)+',0 L'+ph+',11 Z"/>';sv.setAttribute('width',W);sv.setAttribute('height',H);sv.setAttribute('viewBox','0 0 '+W+' '+H);sv.innerHTML=h;rimL=[].slice.call(sv.querySelectorAll('.tk line'))}
  var base=Math.floor(xs/SLK),fr=xs-base*SLK,k2,ln,idx,a,c,y2;
  for(k2=-40;k2<=40;k2++){ln=rimL[k2+40];if(!ln)continue;idx=base+k2;a=(k2*SLK-fr)/R;if(a>1.55||a<-1.55){ln.style.display='none';continue}c=Math.cos(a);ln.style.display='';var mj=(((idx%2)+2)%2===0),x=(ph+R*Math.sin(a)).toFixed(1);ln.setAttribute('x1',x);ln.setAttribute('x2',x);ln.setAttribute('y1',252);ln.setAttribute('y2',(252+(mj?16:9)*(0.72+0.28*c)).toFixed(1));ln.setAttribute('class',mj?'mj':'');ln.style.opacity=(0.12+0.88*c*c*c).toFixed(2)}}
+var paintedC=0;
 function place(b){
  var tr=$w('wuTrack'),step=CW+GAP,ph=$w('wuStrip').clientWidth*.5;PH=ph;var xs=chipX(b),R=300,SLK=step/8;
  var kd=tr.children,q;for(q=0;q<kd.length;q++){var cxl=q*step+CW/2,a=(cxl-xs)/R,el=kd[q];if(a>1.55||a<-1.55){if(el.style.visibility!=='hidden')el.style.visibility='hidden'}else{var cs=Math.cos(a);if(el.style.visibility==='hidden')el.style.visibility='';el.style.opacity=(0.1+0.9*cs*cs*cs).toFixed(3);el.style.transform='translate3d('+(ph+R*Math.sin(a)-cxl).toFixed(1)+'px,0,0) scale('+cs.toFixed(3)+','+(0.72+0.28*cs).toFixed(3)+')'}}
  $w('wuPh').style.left=ph+'px';rim(ph,xs,R,SLK);
  var ci=Math.floor(b/4),cj=b<0?-1:Math.floor((b-ci*4)*2),kids=tr.children;
+ if(b<0){var cn=Math.ceil(-b);if(cn!==paintedC){paintedC=cn;now(ci,b)}}else paintedC=0;
  if(ci!==paintedI){[].forEach.call(kids,function(k,i){k.className='wc'+(i===ci?' cur':i<ci?' dn':'')});paintedI=ci;paintedJ=-1;now(ci,b)}
  if(cj!==paintedJ){paintedJ=cj;[].forEach.call(tr.querySelectorAll('.wps b.on'),function(x){x.className=''});var k=kids[ci];if(k){[].forEach.call(k.querySelectorAll('.wps b'),function(x,j){x.className=(cells[ci]&&cells[ci].pat?j===cj:(!cells[ci].pat&&j===Math.floor(b-ci*4)))?'on':''})}}
 }
