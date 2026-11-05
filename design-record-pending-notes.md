@@ -43,6 +43,12 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - The two demo sets are ordinary setlists now: they can be renamed, edited or deleted.
 - Not yet tested on the tablet: the builder layout (two columns at 800 px wide), pedal song changes through a user-made set.
 
+## Custom strum files and saving (v0.19.0)
+- New extension **.orp** for custom strum pattern files. Extension databases list .orp only for WinSLAM data and Directory Opus rename scripts (both Windows, obscure).
+- Song Files > Custom strum patterns: **Export (.orp)** saves every custom pattern to one file; **Import...** loads one (duplicates skipped, invalid patterns ignored, new ids assigned). Paste-text fallback for viewers that block file choosers. File format: JSON, format "orpharion-strums", v1. Songs are not included.
+- Custom strums are now saved on the device (key ukemap.strums) and survive reloads. Restoring a backup also saves its strums. They were previously lost on reload, which also meant a song using a custom strum lost it.
+- Not yet tested on the tablet: Export download, Import chooser, a reload after making a strum.
+
 ## Still untested or open
-- PDF import and export on real files; custom-strum persistence (setlists now persist); sample-song edits; import rights prompt; setup wizard terms on the tablet keyboard.
+- PDF import and export on real files; (setlists and custom strums now persist); sample-song edits; import rights prompt; setup wizard terms on the tablet keyboard.
 - Name conflict and trademark check for Orpharion (and extensions), strum chart permission (ukulelego.com), copyright.gov link, attorney review of the terms.
