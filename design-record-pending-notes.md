@@ -31,6 +31,17 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 ## Test device
 - Tablet with "Incar OS" (Android-based), screen 800x1280, 6 GB RAM, Unisoc T606, 128 GB storage, Bluetooth pedal Joyo JSP-01. Preferred test copy: the GitHub-hosted app (artifact viewer blocks file choosers, downloads need the capability, and the microphone needs HTTPS).
 
+## Warm-up count-in on resume (v0.17.1)
+- When Warm-up is paused and then resumed with Count-in on, it now counts 4-3-2-1 again, starting from the beginning of the chord that was playing. The dial holds still during the count, then plays on. Pausing during the count and resuming starts the count again.
+
+## Setlist maker (v0.18.0)
+- Before this, the app could not create setlists. It had two built-in demo sets (Friday Gig, Birthday Test Set) and nothing else.
+- Entry points: **Edit Setlists...** button next to the Setlist menu in Song Info, a second **Edit Setlists...** button beside Export Setlist in Song Files, and **Add This Song to This Setlist** in Song Info.
+- Builder (full-screen dialog): pick a setlist, New, Delete (tap twice), rename in the Name box, search your songs, Add, move up or down, remove, and Load This Setlist (jumps to its first song if the current song is not in it). A song can appear only once per setlist.
+- Setlists are saved on the device (by song title, key ukemap.sets) and survive reloads. Deleting a library song removes it from every setlist. Restoring a backup adds its setlists and saves them. Export Setlist (.orl), Setlist PDF and Backup all use the same setlists.
+- The two demo sets are ordinary setlists now: they can be renamed, edited or deleted.
+- Not yet tested on the tablet: the builder layout (two columns at 800 px wide), pedal song changes through a user-made set.
+
 ## Still untested or open
-- PDF import and export on real files; setlist and custom-strum persistence; sample-song edits; import rights prompt; setup wizard terms on the tablet keyboard.
+- PDF import and export on real files; custom-strum persistence (setlists now persist); sample-song edits; import rights prompt; setup wizard terms on the tablet keyboard.
 - Name conflict and trademark check for Orpharion (and extensions), strum chart permission (ukulelego.com), copyright.gov link, attorney review of the terms.
