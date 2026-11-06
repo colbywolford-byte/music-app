@@ -69,3 +69,4 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - "Start from" menu copies any built-in palette as a starting point; readability check shown in the flyout.
 - Saved palette ("My Palette") now persists in ukemap.custompal and is included in Backup (previously custom colors were lost on reload).
 - Colors section order: Color Mode, Palette, Design Your Own. Phone View moved to its own Display section (v0.21.4). Design Your Own button text smaller (v0.21.8).
+- v0.22.3: Palette Designer uses its own in-app color editor (Hue / Saturation / Brightness sliders + hex field) that opens already set to the selected part's current color, replacing the device's native color picker (whose custom sliders did not start at the current color).
