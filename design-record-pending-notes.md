@@ -64,7 +64,7 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Name conflict and trademark check for Orpharion (and extensions), strum chart permission (ukulelego.com), copyright.gov link, attorney review of the terms.
 
 ## v0.22.0 — Palette designer flyout (2026-11-06)
-- Palette Designer (renamed from Design Your Own) now opens a flyout that slides over the Display panel (covers it completely) with Cancel / Save.
+- Palette Designer (renamed from Design Your Own) opens a full-screen mock page (v0.22.2) with Cancel / Save at top and the color controls docked at the bottom.
 - Live preview of a generic page (title, accent pill, card with chords/lyrics, highlighted line, divider, mini chord diagram). Tap a preview part or a color box to change that color; preview is scoped, the app changes only on Save.
 - "Start from" menu copies any built-in palette as a starting point; readability check shown in the flyout.
 - Saved palette ("My Palette") now persists in ukemap.custompal and is included in Backup (previously custom colors were lost on reload).
