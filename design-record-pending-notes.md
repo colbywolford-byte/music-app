@@ -177,3 +177,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - At the end of a setlist: "That was the last song" and the resume button reads End of Setlist.
 - Picking a song that is in the setlist behaves like a jump: the remembered place moves to that song.
 - The paused place is kept for the current session only (not saved across reloads). Revisit if a gig needs it saved.
+
+## v0.29.1 — PDF diagnostic line removed
+- The temporary line under imported PDFs ("PDF: 4 pages, chords per page ...") is no longer saved or shown. Songs imported earlier may still hold the old text in storage, but it is not displayed.
