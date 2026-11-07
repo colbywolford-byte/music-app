@@ -188,3 +188,7 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Picking a song switches to it and closes the list, and the screen stays locked. The existing setlist pause and resume applies as usual.
 - The list closes by itself after 12 seconds with no touch, with the Close button, with a tap on the locked screen, or when the screen is unlocked. A single tap on the tab while the list is open also closes it.
 - Hidden on phone layout, like the menu tabs.
+
+## v0.30.1 — Resume from the locked song list
+- When a setlist is paused, the locked-mode song list now starts with a "Setlist paused" block: "Resume with <next song>" and "Back to <last setlist song>" (or a note when the paused song was the last one). Resume works without the pedal and without unlocking.
+- The pause line under the song title was already there; the Resume and Back buttons otherwise live only in the Song Info tab, which is unreachable while locked.
