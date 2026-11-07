@@ -129,3 +129,5 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - A grid at the start of a song becomes "Intro". Lyrics after a grid-only section start a new section.
 - Limit: files with no section markers still land in a few broad sections. Text view (Stage 2) will let users fix those.
 - (still v0.25.1) An empty comment line ({c: }) now ends the current section, so stanzas separated that way become their own sections or variations instead of piling into one long card.
+- (still v0.25.1) A grid that starts after lyrics in a section now becomes its own "Instrumental" section, so an instrumental break is no longer buried inside a verse variation. Side effect: a short tab riff written inside a verse is also split out. Revisit with more tab samples (tab step 3).
+- Open idea: size a card to the variation being shown, not the tallest variation.
