@@ -73,3 +73,9 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - v0.22.4: Swipe fix. Page now declares touch-action pan-y and overscroll-behavior-x none so horizontal swipes reach the app; an accidental Android back gesture (edge swipe) is caught with a toast and needs a second Back within 2.5 s to leave the app. Real-device behavior still to be confirmed.
 - v0.22.5: Phone view shows the Previous / Next Song buttons by default on small screens (setting can still be turned off in Display > Phone view), because edge swipes on phones trigger the system Back gesture.
 - v0.22.6: Forest palette removed; anyone who had it selected falls back to Default.
+
+## v0.23.0 — Real device folder browser for Import (2026-11-07)
+- Import Songs now has "Import to: <path> [Choose Folder…]". The old name dropdown and typed new-folder fields are hidden on browsers that support the folder picker.
+- Choose Folder opens a tappable folder browser: pick a main folder on the device once (system picker), then tap through subfolders, see breadcrumbs, the song files inside, create a New Folder Here, and Use This Folder for Imports. "Import the N song files here" imports a folder's songs directly.
+- Imported songs are added to the library under a folder named by its path and also saved as files into the chosen real folder (names de-duplicated). Folder handle and chosen subpath are remembered (IndexedDB + localStorage); the browser may ask to allow access again.
+- Browsers without the folder picker keep the old behavior. Folder handle persistence across restarts is untested here (headless browser crashes on stored handles); the user's earlier Folder Access Test passed on the tablet.
