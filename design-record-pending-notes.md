@@ -141,3 +141,14 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - A card's height is set by its tallest variation, so switching variations never moves the other cards.
 - Shorter variations fill the first column before using a second, instead of being split evenly across columns.
 - If a card would be taller than the screen, it is capped to the screen height and scrolls inside itself.
+
+## v0.26.0 — Text view, ChordPro export, and library autosave (Stage 2)
+- New "Text View" button next to Lyrics Page in Edit mode opens the song as ChordPro-style text. Chords are red, standard directives teal, Orpharion-only directives purple, dynamics amber. A live preview sits beside it (a Preview/Text toggle on phones).
+- Apply replaces the current song with the edited text. Apply is disabled while a real problem exists. Problems and notes list the line number and say what to fix in plain words: unclosed chord brackets, unclosed directives, unknown strum patterns, unreadable melody data, play-order names that match no section, and odd chord names (notes only for unknown directives, keys, tempo, time signature, unclosed sections).
+- Format: {title} {artist} {year} {key} {tempo} {time}; each variation is its own {sov: Name} … {eov} block; tab and grid lines are wrapped in {sot} … {eot}.
+- Orpharion-only directives: {x_order: Name | Name | …} for play order, {x_strum: pattern} for the song default (before the first section) or a section override (inside it), {x_melody: [...]} for melody data (one line of data), and [*mf] after a chord for a dynamic mark.
+- The text round-trips exactly for all built-in songs and the imported samples (lines, variations, dynamics, strum, melody, play order, key, tempo, time signature).
+- Export .cho downloads the same text. Inside the Claude preview it is offered as .txt (the viewer only allows certain extensions); on the GitHub Pages copy it downloads as .cho. Copy puts the text on the clipboard.
+- Parser additions that also help imports: x_ directives, [*dyn] annotations, {time}, and a grid ({sog}) that starts after lyrics becomes its own Instrumental section while {sot} blocks stay inside their section.
+- Library songs now autosave every edit (visual or text) every few seconds and when the page is hidden. Built-in demo songs are not saved. Earlier versions lost visual edits to imported songs on reload.
+- Known limits: [*dyn] on a chord that has no text and sits directly before another chord can shift by one position; comment lines are not kept in the round trip; no undo for Apply (Cancel before applying, or re-edit).
