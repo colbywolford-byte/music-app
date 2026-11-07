@@ -192,3 +192,9 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 ## v0.30.1 — Resume from the locked song list
 - When a setlist is paused, the locked-mode song list now starts with a "Setlist paused" block: "Resume with <next song>" and "Back to <last setlist song>" (or a note when the paused song was the last one). Resume works without the pedal and without unlocking.
 - The pause line under the song title was already there; the Resume and Back buttons otherwise live only in the Song Info tab, which is unreachable while locked.
+
+## v0.31.0 — Pedal on/off setting; swipe sections on the locked screen
+- New first setting in Settings > Bluetooth > Pedal: "Use a pedal" (on by default, remembered on the device). When off, the pedal key list is hidden, pedal and arrow keys are ignored, and a note explains the alternatives.
+- With the pedal off and the screen locked, a horizontal swipe on the locked screen steps sections (left is next, right is back). At the end or start of a song, a second swipe goes to the next or previous song, matching the pedal's behavior. Taps and everything else stay blocked, and the lock message says to swipe.
+- With the screen unlocked, swipe still changes songs (setlist only), and tapping a card still jumps to a section. This was the user's choice.
+- The first-run setup's Pedals step is unchanged.
