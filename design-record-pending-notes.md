@@ -81,3 +81,5 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Browsers without the folder picker keep the old behavior. Folder handle persistence across restarts is untested here (headless browser crashes on stored handles); the user's earlier Folder Access Test passed on the tablet.
 - v0.23.1: Import-to-folder hardening after a reported freeze on the tablet: saving copies to the real folder no longer asks for permission automatically (only on a tap of "Allow and Save to Folder"), and every file step has a timeout so a stalled write reports an error instead of hanging.
 - v0.23.2: Music Library screen simplified: plain wording, the "Add a Folder" name/location form and its fake "Cloud storage" option are replaced (on browsers with a folder picker) by a "Folder on this device" section with Choose Folder… and Stop Saving Copies. Browsers without the picker keep a simple Add a Folder (name only).
+
+- v0.23.3: Setup wizard step 4 'Song folder' now shows 'Now using' path + 'Choose Folder…' button that opens the real folder browser (select kept only as fallback without the picker). Folder browser overlay raised above the wizard.
