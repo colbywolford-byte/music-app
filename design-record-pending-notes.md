@@ -91,3 +91,5 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - (still v0.23.5) PDF duplicate-version detection made content-based (a chordless page whose lyric lines mostly appear on chord pages is dropped) instead of relying on identical top-of-page titles, after the tablet still imported both versions of Rose Garden as variations.
 - (still v0.23.5) TEMPORARY diagnostic: imported PDF songs show a small gray line in Library > Imported songs ('PDF: N pages, chords per page a/b/c/d, dropped x,y') to debug why the tablet still imports both Rose Garden versions. Remove once PDF import is solved.
 - (still v0.23.5) PDF duplicate-version rule: a page with only a stray chord-like mark (tablet showed 1/0/34/19) now counts as chordless (<=10% of the max chord count).
+
+- (still v0.23.5) Chord diagrams now support m7b5 (half-diminished: Em7b5, Em7(b5), Em7-5, ø) and '+' (G+ = Gaug); previously these drew blank grids.
