@@ -1513,11 +1513,11 @@ applyTray();
 }catch(err2){console.error(err2);try{toast('Tray setup problem: '+err2.message)}catch(e2){}}})();
 (function(){try{
 var Pn=$('panel'),gs=document.createElement('div');gs.className='pg';gs.id='gStyle';
-gs.innerHTML='<b class="mkh">Display Style</b><label>Song Screens <select id="selStyle"><option value="map">Card Map</option><option value="sheet">Chord Sheet</option></select></label><div class="hint">Chord sheet shows the whole song in play order. Edit always uses cards.</div>';
+gs.innerHTML='<b class="mkh">Display Style</b><label>Song Screens <select id="selStyle"><option value="map">Card Map</option><option value="sheet">Chord Sheet</option></select></label><div class="hint">Chord Sheet shows the whole song in play order in Practice and Performance. Edit always uses cards, so switch to Practice or Performance to see it.</div>';
 Pn.insertBefore(gs,Pn.querySelector('.pg'));
 OPTS.push(['sheet','selStyle','change','Display style']);
 st.sheet=false;
-$('selStyle').addEventListener('change',function(){st.sheet=this.value==='sheet';if(applying)return;SIG='';renderMap();GS=getVals();try{localStorage.setItem('ukemap.gs',JSON.stringify(GS))}catch(e){}});
+$('selStyle').addEventListener('change',function(){st.sheet=this.value==='sheet';if(applying)return;if(st.sheet&&st.mode==='E')toast('Chord Sheet shows in Practice and Performance. Edit always uses cards.');SIG='';renderMap();GS=getVals();try{localStorage.setItem('ukemap.gs',JSON.stringify(GS))}catch(e){}});
 var rm0=renderMap;
 renderMap=function(){var m=$('map');if(st.sheet&&st.mode!=='E'){renderSheet();return}if(m.classList.contains('sheet')){m.classList.remove('sheet');m._sst=null;SIG=''}rm0.apply(this,arguments)};
 function renderSheet(){var m=$('map'),keep=(m._sst===st.step&&m.classList.contains('sheet'))?m.scrollTop:null;m.classList.add('sheet');m.style.gridTemplateColumns='';
