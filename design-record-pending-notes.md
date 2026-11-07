@@ -72,3 +72,4 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - v0.22.3: Palette Designer uses its own in-app color editor (Hue / Saturation / Brightness sliders + hex field) that opens already set to the selected part's current color, replacing the device's native color picker (whose custom sliders did not start at the current color).
 - v0.22.4: Swipe fix. Page now declares touch-action pan-y and overscroll-behavior-x none so horizontal swipes reach the app; an accidental Android back gesture (edge swipe) is caught with a toast and needs a second Back within 2.5 s to leave the app. Real-device behavior still to be confirmed.
 - v0.22.5: Phone view shows the Previous / Next Song buttons by default on small screens (setting can still be turned off in Display > Phone view), because edge swipes on phones trigger the system Back gesture.
+- v0.22.6: Forest palette removed; anyone who had it selected falls back to Default.
