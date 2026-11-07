@@ -95,3 +95,5 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - (still v0.23.5) Chord diagrams now support m7b5 (half-diminished: Em7b5, Em7(b5), Em7-5, ø) and '+' (G+ = Gaug); previously these drew blank grids.
 
 - (still v0.23.5) Import dialog now re-reads a folder every time it is opened or navigated to, so files saved after the last visit appear without refreshing the page.
+
+- (still v0.23.5) PDF import: rhythm-chart PDFs (I Love a Rainy Night). Beat lines like '. |C . . | F . G' and 'G\ -- --' now yield their chords placed over the lyric; dots/bars/dashes are dropped; snap/clap-only cue lines are dropped; 'Chorus: lyric' header lines keep the lyric; word gaps detected a bit tighter (fixes 'lovea'); '(v1d - 4/4/21)' footer dropped.
