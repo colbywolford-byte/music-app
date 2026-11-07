@@ -120,3 +120,11 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Tab lines refuse chords (toast) and use a fixed-width line editor. Strum tags are available on section headings.
 - "Use Card Map" button in the Edit note switches back to cards.
 - Next: Stage 2 Text view (ChordPro-style source editor, also serves as ChordPro export), planned v0.26.0.
+
+## v0.25.1 — ChordPro (.pro) import fixes
+- Tested a real .pro file (59th Street Bridge Song). Imports fine.
+- A misspelled closing tag ({End_of_griid}) no longer leaves the rest of the song stuck in fixed-width tab mode. Any end_of_gr… tag closes a grid, and a line with bracketed chords also ends an unclosed grid.
+- Comment directives such as {c: Verse 1} or {comment: Chorus} now name a section when the text starts with a section word. Other comments (empty, or like "Capo 2") are ignored.
+- A line like "Instrumental:" starts a section with that name.
+- A grid at the start of a song becomes "Intro". Lyrics after a grid-only section start a new section.
+- Limit: files with no section markers still land in a few broad sections. Text view (Stage 2) will let users fix those.
