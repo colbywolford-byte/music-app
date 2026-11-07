@@ -101,3 +101,5 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - (still v0.23.5) PDF import (Orinoco Flow): 'artist: X writer: Y' line read as artist (writer dropped); 'Based on…', 'Produced by…' and URL lines dropped; single blank lines between paragraphs now detected when lines are inline-chord/lyric only (uniform spacing); 'x2' ignored when matching repeated blocks; chord-only first block named Intro instead of Song.
 
 - (still v0.23.5) Layout: narrow cards (short intro/chorus) now reserve room for their header (name, number, + Strum), so names no longer collapse to blank or 'Ch…'.
+
+- v0.23.6 (version bump requested by Colby): Oxford (serial) comma applied throughout app text (About legal notice and privacy policy, tuner help, Music defaults, import messages); standing rule going forward. PDF import: a space after an inline chord bracket is removed when it precedes a word, so chords sit directly over the word and no stray space appears after an opening parenthesis (e.g. '( Ooh' now '(Ooh').
