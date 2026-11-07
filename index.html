@@ -783,7 +783,7 @@ body.topen:not(.tdrag) #tray{transform:none!important}
 #hbLib:not([hidden]){display:flex;flex-direction:column}
 #hbLib>.hbt{order:0}#hbLib>#gSong{order:1}#hbLib>#gBook{order:2}#hbLib>#gLib{order:3}#hbLib>.pg{order:4}#hbLib>#gExp{order:5}#hbLib>#gExp2{order:6}
 .perf #sinfo:not([hidden]){display:block!important}
-.perf #sinfo>*:not(#trayTune):not(#gStyle):not(.ph){display:none!important}
+.perf #sinfo>*:not(#trayTune):not(#gStyle):not(#gSong):not(.ph){display:none!important}
 
 /* sub-menus: tap a section title to open it, one open at a time */
 #sinfo .pg>.mkh[data-acc],#sinfo .trg>.mkh[data-acc],#panel.inham .pg>.mkh[data-acc],#hbLib .pg>.mkh[data-acc]{display:flex;align-items:center;justify-content:space-between;min-height:34px;padding:2px 2px 2px 0!important;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -1302,7 +1302,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-var APPVER='0.28.0-2026-11-07';
+var APPVER='0.29.0-2026-11-07';
 function aboutHtml(wz){return '<p>'+(wz?'':'<b>Orpharion</b> (working title) <span class="hint">\u00b7 ver. '+APPVER+' \u00b7 \u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</span>')+'</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Some strum patterns are based on a chart at ukulelego.com.</p><p>Tab sheets use the JetBrains Mono font (SIL Open Font License 1.1). PDF reading uses pdf.js from Mozilla (Apache License 2.0).</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging, and playing your own charts. It does not include, supply, or license any songs, lyrics, or recordings. You are responsible for having the right to use every song you enter, import, keep, share, or perform. This includes anything you bring in from text, ChordPro, PDF, or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share, or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'+'<div class="legal"><b>Privacy policy</b><p class="hint">Last updated November 7, 2026</p><p><b>Short version:</b> Orpharion has no accounts, no ads, and no tracking. Nothing you do in the app is sent to the developer.</p><p><b>What stays on your device.</b> Your settings, setlists, custom strum patterns, song edits, and similar choices are saved in your own browser on your own device. They are not uploaded anywhere. Clearing your browser&rsquo;s site data removes them.</p><p><b>What we collect.</b> We do not collect, sell, or share personal information, and the app has no analytics. The page is delivered by a web host (GitHub Pages), which, like any web host, may keep ordinary server logs such as your IP address and the time of your visit. See GitHub&rsquo;s own privacy statement for how it handles those. PDFs and other files you import are read on your device and are not uploaded.</p><p><b>Your files.</b> Files you import are read on your device. You decide which ones to bring in.</p><p><b>Changes.</b> If this policy changes, the date above will change and the new text will appear here.</p><p class="hint">This is general information, not legal advice.</p></div>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
@@ -2603,7 +2603,7 @@ document.addEventListener('pointercancel',function(){ok=false});
 document.addEventListener('pointerup',function(e){if(!ok||e.pointerId!==id)return;ok=false;var dx=e.clientX-x0,dy=e.clientY-y0;
  if(Math.abs(dx)<70||Math.abs(dx)<2*Math.abs(dy)||Date.now()-t0>800)return;
  var d=dx<0?1:-1,bk=bookIdx();
- if(!bk){toast('Load a setlist to swipe between songs');return}
+ if(!bk){toast(window.BKP&&BKP.paused()?'Setlist paused. Use Resume Setlist to continue.':'Load a setlist to swipe between songs');return}
  var bt=$(d>0?'nextSong':'prevSong');
  if(bt.disabled){toast(d>0?'This is the last song in the setlist':'This is the first song in the setlist');return}
  bt.click();setTimeout(function(){toast(SONGS[st.song])},30)},true);
@@ -3058,6 +3058,28 @@ try{document.fonts.ready.then(function(){SIG='';try{renderTop()}catch(e){}nl()})
 window.TWS.nl=nl;
 SIG='';try{renderTop()}catch(e){}nl();
 }catch(e){console.error('tab wrap',e)}})();
+
+/* ===== setlist pause and resume; song picker stays available in Performance mode ===== */
+(function(){try{
+var note=document.createElement('div');note.id='bkNote';note.hidden=true;note.innerHTML='<div class="hint" id="bkTx"></div><div class="prow"><button type="button" id="bkRes"></button><button type="button" id="bkBack"></button></div>';
+var gs=$('gSong');if(gs)gs.appendChild(note);
+function paused(){var l=SETS[st.book];return !!(st.book&&l&&!bookIdx()&&st.bkId===st.book&&st.bkLast!=null&&st.bkLast<l.length)}
+function nm(i){return SONGS[i]||'Song'}
+function go(pos){var l=SETS[st.book];if(!l||l[pos]==null)return;saveTC();st.song=l[pos];loadTC();st.step=0;st.ui=0;st.tot=0;st.run=false;st.count=0;try{hideCount()}catch(e){}renderTop();toast(nm(st.song))}
+function ui(){var p=paused(),l=SETS[st.book]||[],nx=p&&st.bkLast<l.length-1?st.bkLast+1:-1;note.hidden=!p;if(!p)return;
+ $('bkTx').textContent='Setlist paused after “'+nm(l[st.bkLast])+'”.'+(nx>=0?' Next in '+BN[st.book]+': “'+nm(l[nx])+'”.':' That was the last song in '+BN[st.book]+'.');
+ $('bkRes').textContent=nx>=0?'Resume with “'+nm(l[nx])+'”':'End of Setlist';$('bkRes').disabled=nx<0;$('bkBack').textContent='Back to “'+nm(l[st.bkLast])+'”';
+ $('nextSong').textContent=nx>=0?'Resume Setlist':'End of Setlist';$('nextSong').disabled=nx<0;$('prevSong').disabled=false}
+$('bkRes').onclick=function(){go(st.bkLast+1)};$('bkBack').onclick=function(){go(st.bkLast)};
+var on=$('nextSong').onclick,op=$('prevSong').onclick;
+$('nextSong').onclick=function(){if(paused()){go(st.bkLast+1);return}return on&&on.apply(this,arguments)};
+$('prevSong').onclick=function(){if(paused()){go(st.bkLast);return}return op&&op.apply(this,arguments)};
+var rt=renderTop;renderTop=function(){var bk=bookIdx();if(bk){st.bkLast=bk.pos;st.bkId=st.book}var r=rt.apply(this,arguments);ui();return r};
+var bt=bkTxt;bkTxt=function(){if(paused()){var l=SETS[st.book];return 'Setlist paused after “'+nm(l[st.bkLast])+'”'}return bt.apply(this,arguments)};
+window.BKP={paused:paused,go:go};
+var css=document.createElement('style');css.textContent='#bkNote{margin-top:6px}#bkNote .prow{display:flex;flex-wrap:wrap;gap:6px}#bkNote button{font-size:.8rem;padding:.375rem .625rem}.perf #sinfo>#gSong{display:block!important}';document.head.appendChild(css);
+ui();
+}catch(e){console.error('setlist pause',e)}})();
 
 })();
 </script>

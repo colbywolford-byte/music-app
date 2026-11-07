@@ -169,3 +169,11 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Imported songs are listed A to Z. With more than five imported songs, a "Recently imported" block (the 3 to 5 newest, scaled to library size) appears above an "All songs, A to Z" list. With six or more songs the filter box appears, and while filtering only matches are shown, A to Z.
 - Each import is stamped with its import time. Songs imported before this version have no stamp, so their recency falls back to their order in the library.
 - Not done: the Song picker is still hidden in Performance mode, as the rest of Song Info is.
+
+## v0.29.0 — Song picker in Performance mode, setlist pause and resume
+- The Song picker (Song Info) is now available in Performance mode, so a song outside the setlist can be picked mid-show.
+- Picking a song that is not in the loaded setlist pauses the setlist instead of losing the place. The app remembers the last setlist song played.
+- While paused: Song Info shows "Setlist paused after X. Next in <setlist>: Y." with two buttons, "Resume with Y" and "Back to X". The Next Song button reads "Resume Setlist" and Previous goes back to X. The header line reads "Setlist paused after X". Swipe shows a short hint to use Resume Setlist.
+- At the end of a setlist: "That was the last song" and the resume button reads End of Setlist.
+- Picking a song that is in the setlist behaves like a jump: the remembered place moves to that song.
+- The paused place is kept for the current session only (not saved across reloads). Revisit if a gig needs it saved.
