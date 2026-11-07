@@ -783,7 +783,7 @@ body.topen:not(.tdrag) #tray{transform:none!important}
 #hbLib:not([hidden]){display:flex;flex-direction:column}
 #hbLib>.hbt{order:0}#hbLib>#gSong{order:1}#hbLib>#gBook{order:2}#hbLib>#gLib{order:3}#hbLib>.pg{order:4}#hbLib>#gExp{order:5}#hbLib>#gExp2{order:6}
 .perf #sinfo:not([hidden]){display:block!important}
-.perf #sinfo>*:not(#trayTune):not(.ph){display:none!important}
+.perf #sinfo>*:not(#trayTune):not(#gStyle):not(.ph){display:none!important}
 
 /* sub-menus: tap a section title to open it, one open at a time */
 #sinfo .pg>.mkh[data-acc],#sinfo .trg>.mkh[data-acc],#panel.inham .pg>.mkh[data-acc],#hbLib .pg>.mkh[data-acc]{display:flex;align-items:center;justify-content:space-between;min-height:34px;padding:2px 2px 2px 0!important;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -2916,6 +2916,15 @@ function delSong(i){try{window.SETB&&SETB.snap&&SETB.snap();saveTC();SDB.splice(
 listSongs();
 window.IMPX={open:openDlg,toCP:toCP,list:listSongs,pdfToCP:pdfToCP};
 }catch(erri){console.error(erri);try{toast('Import setup problem: '+erri.message)}catch(e1){}}})();
+
+(function(){try{
+var SI=$('sinfo'),ss=$('selStyle'),bk=$('gBook');if(!SI||!ss)return;
+var g=document.createElement('div');g.className='pg';g.id='gStyle';g.innerHTML='<b class="mkh">Display Style</b><label>Song Screens <select id="siStyle"><option value="map">Card Map</option><option value="sheet">Chord Sheet</option></select></label><div class="hint">Chord Sheet shows the whole song in play order in Practice and Performance. Edit always uses cards.</div>';
+if(bk&&bk.parentNode===SI)SI.insertBefore(g,bk.nextSibling);else SI.appendChild(g);
+var si=$('siStyle');function sync(){si.value=ss.value}sync();
+si.addEventListener('change',function(){ss.value=si.value;ss.dispatchEvent(new Event('change'))});
+ss.addEventListener('change',sync);var ib=$('infoBtn');if(ib)ib.addEventListener('click',sync);
+}catch(e){console.error(e)}})();
 
 })();
 </script>

@@ -109,3 +109,5 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - (still v0.24.0) Tab cards: width measured with 6% slack and re-measured once the embedded font has loaded, so the last bar is no longer cut off.
 
 - (still v0.24.0) Display Style: choosing Chord Sheet while in Edit now shows a short message (Edit always uses cards), and the hint says to switch to Practice or Performance.
+
+- (still v0.24.0) Song Info now also has a Display Style group (Song Screens: Card Map or Chord Sheet), available in Edit, Practice, and Performance. It stays in sync with the Display menu setting.
