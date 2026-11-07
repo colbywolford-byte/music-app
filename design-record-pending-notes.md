@@ -163,3 +163,9 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 ## v0.27.1 — tab cards resize both ways
 - Dragging the resize handle on a card with wrapped tab now works narrower and wider. Narrower wraps to fewer bars per line, wider shows more bars per line than the original system had (for example 7 instead of 5). The narrowest allowed width is one bar plus the string labels.
 - This replaces the v0.27.0 limit "dragging narrower is not honored". The original system width is now only the preferred starting width.
+
+## v0.28.0 — Song picker moved, imported list ordering
+- The Song group (song picker) moved from the Song Files menu to the top of Song Info. Song Files now holds Setlist, Import Songs, and Imported songs.
+- Imported songs are listed A to Z. With more than five imported songs, a "Recently imported" block (the 3 to 5 newest, scaled to library size) appears above an "All songs, A to Z" list. With six or more songs the filter box appears, and while filtering only matches are shown, A to Z.
+- Each import is stamped with its import time. Songs imported before this version have no stamp, so their recency falls back to their order in the library.
+- Not done: the Song picker is still hidden in Performance mode, as the rest of Song Info is.
