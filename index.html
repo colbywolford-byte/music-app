@@ -1291,7 +1291,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-function aboutHtml(){return '<p><b>Orpharion</b> (working title)</p><p class="hint">ver. 0.23.3-2026-11-07</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Some strum patterns are based on a chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p><p class="hint">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging and playing your own charts. It does not include, supply or license any songs, lyrics or recordings. You are responsible for having the right to use every song you enter, import, keep, share or perform. This includes anything you bring in from text, ChordPro, PDF or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'}
+function aboutHtml(){return '<p><b>Orpharion</b> (working title)</p><p class="hint">ver. 0.24.0-2026-11-07</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Some strum patterns are based on a chart at ukulelego.com.</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p><p class="hint">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging and playing your own charts. It does not include, supply or license any songs, lyrics or recordings. You are responsible for having the right to use every song you enter, import, keep, share or perform. This includes anything you bring in from text, ChordPro, PDF or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
 var pgc=$('rngCz').closest('.pg'),chT=null;pgc.insertAdjacentHTML('beforeend','<label>Chord Color <select id="chCol"><option value="">Palette Color</option><option value="ink">Same as Lyrics</option><option value="#e69f00">Orange</option><option value="#56b4e9">Sky Blue</option><option value="#009e73">Green</option><option value="#cc79a7">Pink</option><option value="#f0e442">Yellow</option><option value="#d55e00">Vermilion</option><option value="#0072b2">Blue</option></select></label><div class="hint" id="chRd"></div><label>Chord Size <input type="range" id="chSz" min="0.7" max="1.6" step="0.05" value="1"></label><label>Chord Weight <select id="chWt"><option value="400">Normal</option><option value="600">Medium</option><option value="700">Bold</option><option value="800" selected>Extra Bold</option></select></label>');
@@ -1402,49 +1402,12 @@ function songOpts(){var gs={},ord=[],html='',base=['Stand-Alone','Easy','Medium'
 function tcase(s){return s.toLowerCase().replace(/(^|[\s(])([a-z])/g,function(m,a,b){return a+b.toUpperCase()})}
 function keyId(k){var m=(k||'').trim().replace(/^([a-g])/,function(c){return c.toUpperCase()}),mn=/m$/.test(m),i=mn?KEYSM.indexOf(m):KEYS.indexOf(m);if(i<0)return{key:'C',kmin:false};return{key:mn?KEYS[i]:KEYS[i],kmin:mn}}
 function parseCP(txt,md){var meta={},secs=[],cur=null;txt.split(/\r?\n/).forEach(function(raw){var l=raw.replace(/\s+$/,''),m=l.match(/^\s*\{\s*([A-Za-z_]+)\s*(?::\s*(.*?))?\s*\}\s*$/);if(m){var d=m[1].toLowerCase(),v=(m[2]||'').trim();if(d==='title'||d==='t')meta.t=v;else if(d==='artist')meta.a=v;else if(d==='key')meta.key=v;else if(d==='tempo')meta.bpm=+v;else if(d==='sov'||d==='soc'||/^start_of_/.test(d)){var kind=d==='sov'?'Verse':d==='soc'?'Chorus':d.replace('start_of_','');cur={name:v||tcase(kind),lines:[]};secs.push(cur)}else if(d==='eov'||d==='eoc'||/^end_of_/.test(d))cur=null;return}var hd=l.match(/^\s*#{1,6}\s+(.*?)\s*#*\s*$/);if(hd){if(md){if(!meta.t&&!secs.length&&/^\s*#\s/.test(l))meta.t=hd[1];else{cur={name:hd[1].replace(/[*_:]/g,'').trim(),lines:[]};secs.push(cur)}}return}if(!l.trim()){if(cur&&cur.lines.length&&cur.lines[cur.lines.length-1]!=='')cur.lines.push('');return}if(!cur){cur={name:'Song',lines:[]};secs.push(cur)}cur.lines.push(l)});var g={},order=[],seq=[];secs.forEach(function(s){while(s.lines.length&&s.lines[s.lines.length-1]==='')s.lines.pop();if(!s.lines.length)return;var k=s.name.toLowerCase().replace(/\s+/g,' ').trim();if(!g[k]){g[k]={id:'s'+(order.length+1),name:tcase(s.name),v:[]};order.push(k)}g[k].v.push(s.lines);seq.push(g[k].id)});if(!order.length)return null;var ki=keyId(meta.key);return{t:meta.t||'Imported Song',a:meta.a||'',y:'',key:ki.key,kmin:ki.kmin,bpm:meta.bpm>0?meta.bpm:100,ts:'4/4',strum:'none',diff:'Imported',secs:order.map(function(k){return g[k]}),seq:seq,layout:order.map(function(k){return g[k].id})}}
-(function(){
-var L=document.createElement('div');L.id='libdlg';L.className='ovl';L.hidden=true;
-L.innerHTML='<div class="lyh"><b>Music Library</b><span><button id="libImp">Import Songs</button> <button id="libDone">Done</button></span></div><div class="hint">Your songs, filed by folder. In this mockup the folders are stand-ins kept in this browser. The real app will link a real folder on the device or in cloud storage.</div><div id="libBody"></div><div class="libf"><b>Add a Folder</b><div><label>Name <input id="lfName" type="text" placeholder="Folder name"></label><label>Location <select id="lfWhere"><option>This device</option><option>Cloud storage</option></select></label> <button id="lfAdd">Add Folder</button></div><div id="lfMsg" role="status"></div></div>';
-var o=document.createElement('div');o.id='cpimp';o.className='ovl';o.hidden=true;
-o.innerHTML='<div class="lyh"><b>Import Songs</b><span><button id="cpCancel">Done</button></span></div><div>Choose one or more song files (.orm, .cho, .chordpro, .txt, .md), drop them here, or paste ChordPro text below. Songs are added to your library; nothing opens and nothing is uploaded.</div><div style="margin:10px 0"><label>Import to <select id="cpDest" aria-label="Import to folder"></select></label></div><div style="margin:10px 0"><label>After importing <select id="cpOpen" aria-label="After importing"><option value="none">Do not open anything</option><option value="first">Open the first imported song</option></select></label></div><div id="cpNewRow" hidden><label>Name <input id="cpNewName" type="text" placeholder="New folder name"></label><label>Location <select id="cpNewWhere"><option>This device</option><option>Cloud storage</option></select></label></div><div style="margin:10px 0"><input type="file" id="cpFile" aria-label="Choose song files" accept=".orm,.plm,.cho,.chordpro,.chopro,.crd,.txt,.md,.markdown,text/plain,text/markdown" multiple></div><textarea id="cpTxt" rows="14" placeholder="Or paste ChordPro text here"></textarea><div><button id="cpGo">Import Pasted Text</button></div><div id="cpMsg" role="status"></div>';
-document.body.appendChild(L);document.body.appendChild(o);
-L.addEventListener('keydown',function(e){e.stopPropagation()});o.addEventListener('keydown',function(e){e.stopPropagation()});
-var g=document.createElement('div');g.className='pg';g.id='gLib';g.hidden=true;
-g.innerHTML='<b class="mkh">Music Library</b><label>Default import folder <select id="libDef"></select></label><button id="libMan">Open Music Library</button><div class="hint">Imported songs go to this folder unless you pick another location during import.</div>';
-$('panel').appendChild(g);
-function destUpd(){var s=$('cpDest'),h='',opt=function(f){return '<option value="'+f.id+'">'+esc(f.name)+' ('+esc(f.where)+')'};LIBF.forEach(function(f){h+=opt(f)+(f.id===LIBDEF?' \u2013 default':'')+'</option>'});h+='<option value="__new">Another location\u2026</option>';s.innerHTML=h;s.value=LIBDEF;$('cpNewRow').hidden=true;$('libDef').innerHTML=LIBF.map(function(f){return opt(f)+'</option>'}).join('');$('libDef').value=LIBDEF}
-function newFolder(name,where){var f={id:'f'+Date.now().toString(36)+Math.floor(Math.random()*1000),name:name,where:where};LIBF.push(f);return f.id}
-function libRender(){var h='';LIBF.forEach(function(f){var idx=[];SDB.forEach(function(x,i){if(x.fold===f.id)idx.push(i)});h+='<div class="libf"><b>'+esc(f.name)+'</b> <span class="hint">'+esc(f.where)+'</span> '+(f.id===LIBDEF?'<span class="badge">Default</span>':'<button data-d="'+f.id+'">Make Default</button>')+(!idx.length&&f.id!==LIBDEF?' <button data-r="'+f.id+'">Remove Folder</button>':'');if(!idx.length)h+='<div class="hint">Empty. Import songs to fill it.</div>';idx.forEach(function(i){var x=SDB[i];h+='<div class="libs"><span>'+esc(x.t)+(x.a?' <i>'+esc(x.a)+'</i>':'')+'</span><button data-o="'+i+'">Open</button><button data-x="'+i+'">Delete</button></div>'});h+='</div>'});$('libBody').innerHTML=h}
-function libDel(i){window.SETB&&SETB.snap();saveTC();SDB.splice(i,1);SONGS.splice(i,1);DBS.splice(i,1);var n=SDB.length,k;for(k=i;k<n;k++){if((k+1) in TC)TC[k]=TC[k+1];else delete TC[k]}delete TC[n];if(st.song===i)st.song=1;else if(st.song>i)st.song--;libSave();songOpts();window.SETB&&SETB.resync();loadTC();st.step=0;st.run=false;hideCount();renderTop();libRender()}
-function doImport(items,bad){var fid=null,ok=0,first=-1,okIt=[];items.forEach(function(it){var s=parseCP(it.txt,it.md);if(!s){bad.push(it.name||'pasted text');return}if(!fid)fid=$('cpDest').value==='__new'?newFolder(($('cpNewName').value||'').trim()||'New Folder',$('cpNewWhere').value):$('cpDest').value;if(s.t==='Imported Song'&&it.name)s.t=it.name.replace(/\.[^.]+$/,'');s.fold=fid;SDB.push(s);SONGS.push(s.t);if(first<0)first=SDB.length-1;okIt.push(it);ok++});if(ok){songOpts();libSave();destUpd();$('cpDest').value=fid;if(!L.hidden)libRender()}if(ok&&$('cpOpen').value==='first'){o.hidden=true;L.hidden=true;saveTC();st.song=first;loadTC();st.step=0;st.run=false;hideCount();renderTop();toast('Imported '+ok+(ok===1?' song':' songs')+' to '+libName(fid)+'. Opened '+SDB[first].t+'.')}if(ok&&window.IMPREAL)IMPREAL.save(okIt);$('cpMsg').textContent=((ok?'Imported '+ok+(ok===1?' song':' songs')+' to '+libName(fid)+'. ':'')+(bad.length?'I could not find lyric lines in: '+bad.join(', ')+'.':''))||'Nothing to import.'}
-function readFiles(fl){var arr=Array.prototype.slice.call(fl);if(!arr.length)return;var items=[],bad=[],n=0;function fin(){if(++n<arr.length)return;doImport(items.filter(Boolean),bad)}arr.forEach(function(f,ix){var r=new FileReader();r.onload=function(){items[ix]={txt:String(r.result),name:f.name,md:/\.(md|markdown)$/i.test(f.name)};fin()};r.onerror=function(){bad.push(f.name);fin()};r.readAsText(f)})}
-libLoad();destUpd();songOpts();$('cpOpen').value=LIBOPEN;$('cpOpen').onchange=function(){LIBOPEN=this.value;libSave()};
-$('cpDest').onchange=function(){$('cpNewRow').hidden=this.value!=='__new'};
-$('cpFile').onchange=function(){readFiles(this.files);this.value=''};
-o.addEventListener('dragover',function(e){e.preventDefault()});
-o.addEventListener('drop',function(e){e.preventDefault();if(e.dataTransfer&&e.dataTransfer.files)readFiles(e.dataTransfer.files)});
-$('cpGo').onclick=function(){var before=SDB.length;doImport([{txt:$('cpTxt').value,name:'',md:false}],[]);if(SDB.length>before)$('cpTxt').value=''};
-$('cpCancel').onclick=function(){o.hidden=true};
-function openImport(){destUpd();$('cpTxt').value='';$('cpMsg').textContent='';o.hidden=false}
-function openLib(){libRender();$('lfMsg').textContent='';L.hidden=false}
-$('libImp').onclick=openImport;$('libDone').onclick=function(){L.hidden=true};
-$('lfAdd').onclick=function(){var nm=($('lfName').value||'').trim();if(!nm){$('lfMsg').textContent='Type a folder name first.';return}newFolder(nm,$('lfWhere').value);libSave();destUpd();libRender();$('lfName').value='';$('lfMsg').textContent='Added '+nm+'.'};
-$('libBody').onclick=function(e){var b=e.target.closest('button');if(!b)return;var D=b.dataset;if(D.d){LIBDEF=D.d;libSave();destUpd();libRender()}else if(D.r){LIBF=LIBF.filter(function(f){return f.id!==D.r});libSave();destUpd();libRender()}else if(D.o){L.hidden=true;saveTC();st.song=+D.o;loadTC();st.step=0;st.run=false;hideCount();renderTop()}else if(D.x){if(b.dataset.arm==='1')libDel(+D.x);else{b.dataset.arm='1';b.textContent='Tap again to delete'}}};
-$('libDef').onchange=function(){LIBDEF=this.value;libSave();destUpd()};
-$('libMan').onclick=openLib;
-var gt0=gToggle;gToggle=function(on){gt0(on);$('gLib').hidden=!st.gview};
-var b1=document.createElement('button');b1.id='cpBtn';b1.textContent='Import Songs';b1.onclick=openImport;$('gSong').appendChild(b1);
-var b2=document.createElement('button');b2.id='libBtn';b2.textContent='Music Library';b2.onclick=openLib;$('gSong').appendChild(b2);
-})();
+songOpts();
 var DEFINST='';
 (function(){try{
 var P=$('panel'),H=document.createElement('div');H.id='hamb';H.hidden=true;H.setAttribute('role','dialog');H.setAttribute('aria-label','Menu');
-H.innerHTML='<nav id="hnav" aria-label="Menu sections"><button data-s="Display">Display</button><button data-s="Bluetooth">Bluetooth</button><button data-s="Music">Music</button><button data-s="Library">Library</button><span class="hsp"></span><button id="hbAbout">About</button></nav><div id="hbody"><section data-s="Display" id="hbDisplay"><h3 class="hbt">Display</h3><div class="hint">These settings apply to every song.</div></section><section data-s="Bluetooth" id="hbBt" hidden><h3 class="hbt">Bluetooth</h3><div class="hint">A Bluetooth pedal works like a keyboard. Pair it in the tablet Bluetooth settings first, then map its keys here.</div></section><section data-s="Music" id="hbMusic" hidden><h3 class="hbt">Music</h3><div class="pg"><b class="mkh">Defaults for songs</b><label>Starting instrument <select id="mDefInst"></select></label><label>Count-in before Start <select id="mCin"><option value="on">On</option><option value="off">Off</option></select></label><div class="hint">The starting instrument is used for songs you have not opened yet. Tempo, key, and strum pattern stay in Song Info for each song.</div></div></section><section data-s="Library" id="hbLib" hidden><h3 class="hbt">Library</h3><div class="pg"><b class="mkh">Folder access</b><div class="hint">Checks whether this tablet lets the app read and write a real folder.</div><button id="ftOpen">Test Folder Access</button></div></section></div>';
+H.innerHTML='<nav id="hnav" aria-label="Menu sections"><button data-s="Display">Display</button><button data-s="Bluetooth">Bluetooth</button><button data-s="Music">Music</button><button data-s="Library">Library</button><span class="hsp"></span><button id="hbAbout">About</button></nav><div id="hbody"><section data-s="Display" id="hbDisplay"><h3 class="hbt">Display</h3><div class="hint">These settings apply to every song.</div></section><section data-s="Bluetooth" id="hbBt" hidden><h3 class="hbt">Bluetooth</h3><div class="hint">A Bluetooth pedal works like a keyboard. Pair it in the tablet Bluetooth settings first, then map its keys here.</div></section><section data-s="Music" id="hbMusic" hidden><h3 class="hbt">Music</h3><div class="pg"><b class="mkh">Defaults for songs</b><label>Starting instrument <select id="mDefInst"></select></label><label>Count-in before Start <select id="mCin"><option value="on">On</option><option value="off">Off</option></select></label><div class="hint">The starting instrument is used for songs you have not opened yet. Tempo, key, and strum pattern stay in Song Info for each song.</div></div></section><section data-s="Library" id="hbLib" hidden><h3 class="hbt">Library</h3></div></section></div>';
 document.body.appendChild(H);
-var T=document.createElement('div');T.id='ftest';T.className='ovl';T.hidden=true;
-T.innerHTML='<div class="lyh"><b>Folder Access Test</b><span><button id="ftDone">Done</button></span></div><div>This checks what this browser can do with real folders on this device. Nothing is uploaded.</div><div class="ftrow"><button id="ftCaps">1. Check Browser Features</button><button id="ftOpfs">2. Test App Storage</button><button id="ftPick">3. Pick a Folder and Test</button><button id="ftSaved">4. Check Saved Folder</button></div><div class="hint">Run 3, then close and reopen the app and run 4 to see whether the folder is remembered.</div><pre id="ftOut" role="status" aria-live="polite"></pre>';
-document.body.appendChild(T);
-T.addEventListener('keydown',function(e){e.stopPropagation()});
 $('gsBtn').innerHTML='<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg>';
 var ins={},ord=[],oh='<option value="">Last one used</option>';
 Object.keys(INS).forEach(function(k){var g=INS[k].g;if(!ins[g]){ins[g]=[];ord.push(g)}ins[g].push(k)});
@@ -1458,8 +1421,8 @@ function openHamb(sec){
  H.hidden=false;P.classList.add('inham');$('hbDisplay').appendChild(P);P.hidden=false;
  gToggle(true);
  [].forEach.call(P.querySelectorAll('.pg'),function(g){var t=g.querySelector('.mkh');t=t&&t.textContent;if(t==='Defaults')g.hidden=true});
- $('hbBt').appendChild($('gPedal'));$('hbLib').insertBefore($('gLib'),$('hbLib').firstChild);
- $('gPedal').hidden=false;$('gLib').hidden=false;
+ $('hbBt').appendChild($('gPedal'));
+ $('gPedal').hidden=false;
  secShow(sec||'Display');renderMap()}
 function closeHamb(){
  if(H.hidden)return;
@@ -1475,53 +1438,6 @@ H.addEventListener('keydown',function(e){e.stopPropagation()});
 $('modeSel').onchange=function(){var b=$('m'+this.value);this.blur();if(b)b.click()};
 var rt0=renderTop;renderTop=function(){rt0.apply(this,arguments);$('modeSel').value=st.mode;var lk=st.lock&&st.mode==='P';$('gsBtn').hidden=false;$('gsBtn').disabled=lk;if(lk)closeHamb();var ed=st.mode==='E';[].forEach.call(document.querySelectorAll('#hnav button[data-s]'),function(b){var lim=b.dataset.s==='Music';b.disabled=lim&&!ed;b.title=lim&&!ed?'Switch to Edit mode to use this section':''});if(!ed&&!H.hidden){var on=document.querySelector('#hnav button.on');if(on&&on.disabled)secShow('Display')}};
 var lk1=lkUpd;lkUpd=function(){lk1.apply(this,arguments);$('modeSel').disabled=$('mP').disabled;$('gsBtn').disabled=st.lock&&st.mode==='P'};
-var out=$('ftOut');
-function log(m){out.textContent+=m+'\n'}
-function yn(v){return v?'yes':'no'}
-function err(e){return (e&&e.name?e.name+': ':'')+(e&&e.message?e.message:String(e))}
-function idb(){return new Promise(function(res,rej){var r=indexedDB.open('ukemap-ft',1);r.onupgradeneeded=function(){r.result.createObjectStore('h')};r.onsuccess=function(){res(r.result)};r.onerror=function(){rej(r.error)}})}
-function idbSet(k,v){return idb().then(function(db){return new Promise(function(res,rej){var t=db.transaction('h','readwrite');t.objectStore('h').put(v,k);t.oncomplete=res;t.onerror=function(){rej(t.error)}})})}
-function idbGet(k){return idb().then(function(db){return new Promise(function(res,rej){var q=db.transaction('h').objectStore('h').get(k);q.onsuccess=function(){res(q.result)};q.onerror=function(){rej(q.error)}})})}
-$('ftOpen').onclick=function(){out.textContent='';T.hidden=false};
-$('ftDone').onclick=function(){T.hidden=true};
-$('ftCaps').onclick=function(){out.textContent='';
- log('Folder picker (showDirectoryPicker): '+yn(window.showDirectoryPicker));
- log('File picker (showOpenFilePicker): '+yn(window.showOpenFilePicker));
- log('Save picker (showSaveFilePicker): '+yn(window.showSaveFilePicker));
- log('Private app storage (OPFS): '+yn(navigator.storage&&navigator.storage.getDirectory));
- var ls='yes';try{localStorage.setItem('ukemap.t','1');localStorage.removeItem('ukemap.t')}catch(e){ls='no ('+err(e)+')'}
- log('Saved-data storage (localStorage): '+ls);
- log('Database storage (IndexedDB): '+yn(window.indexedDB));
- log('Secure page (needed for most features): '+yn(window.isSecureContext));
- log('Running inside a frame: '+yn(window.top!==window));
- log('Installed as an app: '+yn(window.matchMedia&&matchMedia('(display-mode: standalone)').matches));
- log('Wake lock (screen stays on): '+yn('wakeLock' in navigator))};
-$('ftOpfs').onclick=async function(){out.textContent='';try{
- if(!(navigator.storage&&navigator.storage.getDirectory)){log('FAIL: private app storage is not available here.');return}
- var d=await navigator.storage.getDirectory(),txt='Orpharion app storage test '+new Date().toISOString();
- var fh=await d.getFileHandle('ukemap-test.txt',{create:true}),w=await fh.createWritable();await w.write(txt);await w.close();
- var back=await (await fh.getFile()).text();
- log(back===txt?'PASS: wrote a file in private app storage and read it back.':'FAIL: the text read back did not match.');
- await d.removeEntry('ukemap-test.txt');log('Test file removed.')
-}catch(e){log('FAIL: '+err(e))}};
-$('ftPick').onclick=async function(){out.textContent='';
- if(!window.showDirectoryPicker){log('FAIL: this browser has no folder picker (showDirectoryPicker).');log('Result: real folder access is not available here. The app would need an Android wrapper or a cloud folder.');return}
- try{var h=await window.showDirectoryPicker({mode:'readwrite'});log('Picked folder: '+h.name);
-  var txt='Orpharion folder test '+new Date().toISOString(),fh=await h.getFileHandle('ukemap-test.txt',{create:true}),w=await fh.createWritable();await w.write(txt);await w.close();
-  log('Wrote ukemap-test.txt');
-  var back=await (await fh.getFile()).text();log(back===txt?'PASS: read the file back and it matches.':'FAIL: the text read back did not match.');
-  var n=0,songs=0;for await(var e of h.values()){n++;if(/\.(cho|chordpro|txt|md)$/i.test(e.name))songs++}
-  log('The folder holds '+n+' items, '+songs+' of them song-type files (.cho, .chordpro, .txt, .md), including the test file.');
-  await h.removeEntry('ukemap-test.txt');log('Test file removed.');
-  try{await idbSet('lib',h);log('Saved the folder in the browser for check 4.')}catch(e2){log('Could not save the folder: '+err(e2))}
-  log('Permission now: '+(h.queryPermission?await h.queryPermission({mode:'readwrite'}):'unknown'));
- }catch(e){log('FAIL: '+err(e));if(e&&e.name==='SecurityError')log('This page may be running inside a frame that blocks pickers. Open the artifact link directly in Chrome and try again.');if(e&&e.name==='AbortError')log('The folder picker was closed without choosing a folder.')}};
-$('ftSaved').onclick=async function(){out.textContent='';try{
- var h=await idbGet('lib');if(!h){log('No saved folder yet. Run test 3 first.');return}
- var p=await h.queryPermission({mode:'readwrite'});log('Saved folder: '+h.name);log('Permission: '+p);
- if(p!=='granted'){log('The browser needs the folder approved again. Asking now...');try{p=await h.requestPermission({mode:'readwrite'});log('After asking: '+p)}catch(e){log('Could not ask: '+err(e)+' (tap this button again if needed)')}}
- if(p==='granted'){var n=0;for await(var x of h.values())n++;log('PASS: the saved folder opened again and holds '+n+' items.')}
-}catch(e){log('FAIL: '+err(e))}};
 }catch(err0){console.error(err0);try{toast('Menu setup problem: '+err0.message)}catch(e1){}}})();
 (function(){try{
 st.auto=false;st.bpl=2;
@@ -2093,21 +2009,6 @@ document.body.appendChild(sh);document.body.appendChild(dock);
 var hn=$('hnav'),ab=$('hbAbout');if(hn&&ab){hn.insertBefore(ab,hn.firstChild);var sp=hn.querySelector('.hsp');if(sp)sp.hidden=true}
 var lib=$('hbLib'),h3=lib.querySelector('.hbt');if(h3)h3.textContent='Song Files';
 if($('gBook'))lib.appendChild($('gBook'));
-var ex=document.createElement('div');ex.className='pg';ex.id='gExp';
-ex.innerHTML='<b class="mkh">Export Current Song</b><div class="hint">Saves the song you are viewing as a text file that other chord apps can open.</div><div class="prow"><button id="exPlm">Song (.orm)</button><button id="exCho">ChordPro (.cho)</button><button id="exMd">Markdown (.md)</button></div></div><div class="pg" id="gExp2"><b class="mkh">Export Setlist</b><div class="hint">Saves the loaded setlist as a .orl file (a list of its songs).</div><div class="prow"><button id="exPlms">Setlist (.orl)</button></div>';
-lib.appendChild(ex);var ex2=ex.querySelector('#gExp2');if(ex2)lib.appendChild(ex2);
-function songText(md){var t=SONGS[st.song]||'Song',o=md?'# '+t+'\n\n':'{title: '+t+'}\n\n';
- SECS.forEach(function(sc){sc.v.forEach(function(v,i){var nm=sc.name+(sc.v.length>1?' (variation '+(i+1)+')':'');o+=(md?'## '+nm+'\n\n':'{comment: '+nm+'}\n');(v||[]).forEach(function(l){o+=l+'\n'});o+='\n'})});return o}
-window.PLsave=function(name,text,mime){
- var alt=name.replace(/\.(orz|orl|orp|plmb|plms)$/i,'.$1.json').replace(/\.(cho|orm|plm)$/i,'.$1.txt');
- function anchor(){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'application/octet-stream'}));a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},800);return name}
- try{if(window.claude&&claude.use){return claude.use('downloads').then(function(d){if(!d)return anchor();return d.save({filename:alt,data:text}).then(function(){return alt},function(e){if(e&&e.code==='declined')throw e;if(e&&(e.code==='unavailable'||e.code==='not_granted'||e.code==='capability_disabled'||e.code==='capability_removed'))return anchor();throw e})})}}catch(e0){}
- return Promise.resolve(anchor())};
-function dl(md,ext){var t=songText(md),n=(SONGS[st.song]||'song').replace(/[^\w\- ]+/g,'').trim()||'song';
- PLsave(n+(ext||(md?'.md':'.cho')),t).then(function(f){toast('Exported '+f)},function(e){toast(e&&e.code==='declined'?'Export cancelled':'Could not export')})}
-$('exPlm').onclick=function(){dl(false,'.orm')};
-$('exPlms').onclick=function(){var key=$('selBook').value||st.book,list=key&&SETS[key];if(!list){toast('Load a setlist first');return}var bk={b:key},t=JSON.stringify({plms:1,name:BN[key],songs:list.map(function(i){return SONGS[i]})},null,1);PLsave((BN[bk.b]||'setlist').replace(/[^\w\- ]+/g,'').trim()+'.orl',t,'application/json').then(function(f){toast('Exported '+f)},function(e){toast(e&&e.code==='declined'?'Export cancelled':'Could not export')})};
-$('exCho').onclick=function(){dl(false)};$('exMd').onclick=function(){dl(true)};
 /* Metronome / practice controls move into Song Info */
 var tm=$('trayMet');if(tm){var mh=tm.querySelector('.mkh');if(mh)mh.textContent='Practice Controls';SI.insertBefore(tm,SI.children[1]||null);var tl=$('trayLib');if(tl)SI.insertBefore(tl,tm.nextSibling)}
 function cur(){
@@ -2224,13 +2125,12 @@ function(b){head(b,'Look','Choose colors and text that are comfortable on your t
  b.appendChild(H('Preview'));var pv=document.createElement('div');pv.className='wz-prev';pv.innerHTML='<div class="ln"><span class="sg"><span class="ch">C</span><span class="tx">Happy&nbsp;birthday&nbsp;to&nbsp;</span></span><span class="sg"><span class="ch">G7</span><span class="tx">you</span></span></div><div class="wz-cap">Sample lyrics at your chosen text size</div>';b.appendChild(pv)},
 function(b){head(b,'Chord display','Decide how chords and their diagrams are shown.');b.appendChild(rgF('Diagram size','rngCz'));b.appendChild(selF('Diagram position','selPos'));b.appendChild(selF('Chord order','selOrd'));b.appendChild(selF('Chord letters','selCp'));b.appendChild(selF('Inline chord marking','selMk'));
  b.appendChild(H('Preview'));var pv=document.createElement('div');pv.className='wz-prev';pv.innerHTML='<div class="wz-dg">'+['C','G7','Am'].map(function(n){return dia(n)}).join('')+'</div><div class="wz-cap">Sample chord diagrams at your chosen size</div>';b.appendChild(pv)},
-function(b){head(b,'Pedals and song folder','If you use a Bluetooth pedal, pair it in the tablet settings first. Tap Set, then press the pedal. You can skip this step.');
+function(b){head(b,'Pedals','If you use a Bluetooth pedal, pair it in the tablet settings first. Tap Set, then press the pedal. You can skip this step.');
  var rows=[['Next Section','pdN','pdNb'],['Previous Section','pdP','pdPb'],['Next Song','pd_nsong','pds_nsong'],['Previous Song','pd_psong','pds_psong'],['Lock (Hold)','pd_lock','pds_lock']];
  rows.forEach(function(r){if(!$(r[1])||!$(r[2]))return;var d=el('<div class="wz-p"><span class="wz-pn"></span><span class="wz-pk" data-src="'+r[1]+'"></span><button type="button">Set</button></div>');d.firstChild.textContent=r[0];d.lastChild.onclick=function(){$(r[2]).click();tick()};b.appendChild(d)});
  var rs=$('pdReset');if(rs){var rb=document.createElement('button');rb.type='button';rb.textContent='Reset Pedal Keys';rb.onclick=function(){rs.click();tick()};b.appendChild(rb)}
  var m=document.createElement('div');m.className='wz-msg';m.id='wzMsg';b.appendChild(m);
- if($('cpRealBtn')){b.appendChild(H('Song folder'));var h3=document.createElement('p');h3.className='wz-sub';h3.textContent='Optional. Choose a real folder on this device and Orpharion will also save a copy of every song you import into it. You can change this any time in Music Library.';b.appendChild(h3);var pl=document.createElement('p');pl.className='wz-sub';var pb=document.createElement('b');pl.appendChild(document.createTextNode('Now using: '));pl.appendChild(pb);b.appendChild(pl);var up=function(){var t=$('cpRealPath').textContent;pb.textContent=/^No folder/.test(t)?'No folder chosen':t};up();new MutationObserver(up).observe($('cpRealPath'),{childList:true,characterData:true,subtree:true});var cb=document.createElement('button');cb.className='wz-pri';cb.style.cssText='margin-top:8px;padding:10px 16px;border-radius:12px;border:1px solid var(--acc);font:inherit';cb.textContent='Choose Folder\u2026';cb.onclick=function(){$('cpRealBtn').click()};b.appendChild(cb)}
- else if($('libDef')){b.appendChild(H('Song folder'));b.appendChild(selF('Default import folder','libDef'));var h2=document.createElement('p');h2.className='wz-sub';h2.textContent='Imported songs go here unless you pick another location during an import.';b.appendChild(h2)}},
+},
 function(b){head(b,'Opening screen','Choose the screen Orpharion opens on. Many players like to warm up before they play.');
  var MS=[['W','Warm-up','Scales, arpeggios and chord progressions'],['R','Practice','Play along with the song'],['E','Edit','Write and arrange songs'],['P','Performance','The gig screen']],cur=SU.mode||'W',wrap=document.createElement('div');wrap.className='wz-opts';
  MS.forEach(function(m){var o=document.createElement('button');o.type='button';o.className='wz-opt'+(m[0]===cur?' on':'');o.innerHTML='<b></b><span></span>';o.firstChild.textContent=m[1];o.lastChild.textContent=m[2];
@@ -2588,248 +2488,6 @@ var tq=null,lw=innerWidth;window.addEventListener('resize',function(){if(innerWi
 eqHeader();
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){eqHeader()});
 }catch(err9){console.error(err9)}})();
-(function(){try{
-var K_='ukemap.pdf',PD={what:'song',size:'letter',ori:'portrait',mar:'normal',cols:1,fs:11,font:'sans',order:'play',show:'both',cc:'bold',diag:'top',dsz:'m',meta:true,strum:true,capo:true,tags:true,num:true,brk:true,keep:true};
-try{var sv=JSON.parse(localStorage.getItem(K_)||'null');if(sv&&typeof sv==='object')Object.keys(PD).forEach(function(k){if(sv[k]!==undefined)PD[k]=sv[k]})}catch(e){}
-function save(){try{localStorage.setItem(K_,JSON.stringify(PD))}catch(e){}}
-var SZ={letter:[8.5,11,'Letter'],a4:[8.268,11.693,'A4'],legal:[8.5,14,'Legal'],a5:[5.827,8.268,'A5'],half:[5.5,8.5,'Half letter'],tab:[11,17,'Tabloid']};
-var MR={narrow:.4,normal:.7,wide:1};
-var DS={s:.8,m:1.1,l:1.5};
-var FF={sans:'Arial,Helvetica,sans-serif',serif:'Georgia,"Times New Roman",serif',mono:'"Courier New",Courier,monospace'};
-var CC={bold:'#000',red:'#b00020',blue:'#0b4fa8',green:'#0a6b3a'};
-function dims(){var d=SZ[PD.size]||SZ.letter,w=d[0],h=d[1];if(PD.ori==='landscape'){var t=w;w=h;h=t}return{w:w,h:h,m:MR[PD.mar]||.7}}
-function setlistKey(){var k=($('selBook')&&$('selBook').value)||st.book;return(k&&SETS[k])?k:null}
-function seqFor(d){var e=[];d.LAYOUT.forEach(function(id){(d.NUMS[id]||[]).forEach(function(n,k){e.push({s:id,n:n,k:k})})});e.sort(function(a,b){return a.n-b.n});return e.map(function(x){var sc=d.SECS.filter(function(s){return s.id===x.s})[0];return{s:x.s,v:Math.min(x.k,(sc?sc.v.length:1)-1)}})}
-function songData(i){var cur=(i===st.song),d;
- if(cur){return{title:SONGS[i]||'Song',artist:(SDB[i]&&SDB[i].a)||'',secs:SECS,layout:LAYOUT,seq:SEQ.map(function(x){return{s:x.s,v:x.v}}),key:kName(),ts:st.ts,bpm:st.bpm,capo:st.capo,strum:st.strum,tr:true}}
- d=DBS[i]||cloneSong(i);return{title:SONGS[i]||'Song',artist:(SDB[i]&&SDB[i].a)||'',secs:d.SECS,layout:d.LAYOUT,seq:seqFor(d),key:(d.kmin?KEYSM:KEYS)[KEYS.indexOf(d.key)]||d.key,ts:d.ts,bpm:d.bpm,capo:0,strum:d.strum,tr:false}}
-function secIn(D,id){return D.secs.filter(function(s){return s.id===id})[0]}
-function lineHtml(D,l){if(!l)return '<div class="gap"></div>';var segs=parse(l),h='';
- segs.forEach(function(g){var c=g.c?(D.tr?trc(g.c):g.c):'';
-  if(PD.show==='chords'){if(c)h+='<span class="sg"><span class="ch">'+esc(c)+'</span></span>';return}
-  h+='<span class="sg">'+(PD.show==='lyrics'?'':'<span class="ch">'+(c?esc(c):'&nbsp;')+'</span>')+'<span class="tx">'+esc(g.t).replace(/ /g,' ')+'</span></span>'});
- if(PD.show==='chords'&&!h)return '';return '<div class="ln">'+h+'</div>'}
-function chordsOf(D){var seen={},o=[];D.seq.forEach(function(x){var sc=secIn(D,x.s);if(!sc)return;(sc.v[x.v]||[]).forEach(function(l){if(!l)return;parse(l).forEach(function(g){if(!g.c||g.c==='NC')return;var c=D.tr?trc(g.c):g.c;if(!seen[c]){seen[c]=1;o.push(c)}})})});return o}
-function bodyHtml(D){var h='',order=[];
- if(PD.order==='play'){order=D.seq.map(function(x){var sc=secIn(D,x.s);return{sc:sc,v:x.v}})}
- else{D.layout.forEach(function(id){var sc=secIn(D,id);if(!sc)return;sc.v.forEach(function(_,k){order.push({sc:sc,v:k})})})}
- order.forEach(function(o){if(!o.sc)return;var vl=o.sc.v[o.v]||[];h+='<section class="sec">'+(PD.tags?'<h3>'+esc(o.sc.name)+(o.sc.v.length>1?' ('+(o.v+1)+')':'')+'</h3>':'');vl.forEach(function(l){h+=lineHtml(D,l)});h+='</section>'});return h}
-function songHtml(D,first){var h='<article class="song'+((!first&&PD.brk)?' brk':'')+'"><header><h1>'+esc(D.title)+'</h1>';
- if(PD.meta){var m=[];if(D.artist)m.push(esc(D.artist));m.push('Key '+esc(D.key));m.push(D.bpm+' BPM');m.push(esc(D.ts));if(PD.capo&&D.capo)m.push('Capo '+D.capo);h+='<div class="meta">'+m.join(' · ')+'</div>'}
- var sp=SP[D.strum];if(PD.strum&&sp&&sp.p.length)h+='<div class="meta">Strum: '+sp.p.map(function(x){return AR[x]}).join(' ')+'</div>';
- h+='</header>';
- if(PD.diag==='top'){var cs=chordsOf(D);if(cs.length)h+='<div class="dg">'+cs.map(function(c){return dia(c)}).join('')+'</div>'}
- h+='<div class="body">'+bodyHtml(D)+'</div></article>';return h}
-function indexes(){if(PD.what==='setlist'){var k=setlistKey();if(k)return SETS[k].slice()}return[st.song]}
-function build(forPreview){var d=dims(),ix=indexes(),h='';
- ix.forEach(function(i,n){h+=songHtml(songData(i),n===0)});
- var cz=DS[PD.dsz]||1.1,fs=PD.fs,pw=d.w*96,css='@page{size:'+d.w+'in '+d.h+'in;margin:'+d.m+'in'+(PD.num?';@bottom-center{content:counter(page);font:9pt '+FF[PD.font]+'}':'')+'}'+
- '*{box-sizing:border-box}html{font-size:16px}body{margin:0;font-family:'+FF[PD.font]+';font-size:'+fs+'pt;color:#000;background:#fff;line-height:1.25}'+
- 'h1{font-size:1.7em;margin:0 0 .15em}h3{font-size:.95em;margin:.7em 0 .15em;text-transform:uppercase;letter-spacing:.05em;color:#444}.meta{font-size:.85em;color:#333;margin:.05em 0}'+
- '.body{column-count:'+PD.cols+';column-gap:'+(PD.cols>1?'.35in':'0')+';column-fill:balance}.sec{'+(PD.keep?'break-inside:avoid;':'')+'margin:0 0 .5em}.ln{display:flex;flex-wrap:wrap;align-items:flex-end}.sg{display:inline-flex;flex-direction:column}'+
- '.ch{font-weight:700;color:'+(CC[PD.cc]||'#000')+';min-height:1.15em;padding-right:.3em;white-space:pre}.tx{white-space:pre}.gap{height:.7em}'+
- '.dg{display:flex;flex-wrap:wrap;gap:.1in;margin:.15in 0;--cz:'+cz+'}.cd{break-inside:avoid}.cd svg{display:block}.cd line{stroke:#000}.cd text{fill:#000;font-size:11px;font-family:Arial,sans-serif}.cd .f{fill:#000}.cd .o{fill:none;stroke:#000}'+
- '.brk{break-before:page}';
- if(forPreview)css+='@media screen{body{width:'+pw+'px;padding:'+(d.m*96)+'px;min-height:'+(d.h*96)+'px;box-shadow:0 0 0 1px #bbb;margin:0}.brk{border-top:2px dashed #bbb;margin-top:24px;padding-top:12px}}';
- return '<!doctype html><html><head><meta charset="utf-8"><title>'+esc(ix.length>1?(BN[setlistKey()]||'Setlist'):(SONGS[st.song]||'Song'))+'</title><style>'+css+'</style></head><body>'+h+'</body></html>'}
-// ---------- dialog ----------
-var css=document.createElement('style');css.textContent='#pdfDlg{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.5);display:flex;align-items:stretch;justify-content:center}#pdfDlg[hidden]{display:none}#pdfBox{background:var(--bg);color:var(--ink);width:min(1100px,100%);display:flex;flex-direction:column;border-radius:0;box-shadow:0 8px 40px rgba(0,0,0,.4)}#pdfHd{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--line);font-weight:800}#pdfMain{flex:1;min-height:0;display:flex;flex-direction:column}#pdfCtl{flex:0 0 auto;max-height:46%;overflow:auto;padding:8px 14px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid var(--line)}#pdfPv{flex:1;min-height:120px;overflow:auto;background:#8885;padding:10px}#pdfPvW{transform-origin:0 0}#pdfPv iframe{border:0;background:#fff;display:block}#pdfFt{display:flex;gap:8px;justify-content:flex-end;align-items:center;padding:10px 14px;border-top:1px solid var(--line)}.pdr{display:flex;flex-wrap:wrap;align-items:center;gap:6px}.pdr>span{min-width:6.5rem;font-size:.8rem;color:var(--mut);font-weight:700}.pdr button{padding:6px 10px}.pdr button.on{outline:2px solid var(--ink);font-weight:800}@media(min-width:900px){#pdfMain{flex-direction:row}#pdfCtl{flex:0 0 400px;max-height:none;border-bottom:0;border-right:1px solid var(--line)}}';document.head.appendChild(css);
-var dlg=document.createElement('div');dlg.id='pdfDlg';dlg.hidden=true;dlg.setAttribute('role','dialog');dlg.setAttribute('aria-label','Print or save as PDF');
-dlg.innerHTML='<div id="pdfBox"><div id="pdfHd"><span>Print or save as PDF</span><button id="pdfX" aria-label="Close">Close</button></div><div id="pdfMain"><div id="pdfCtl"></div><div id="pdfPv"><div id="pdfPvW"></div></div></div><div id="pdfFt"><span class="hint" id="pdfInfo"></span><button id="pdfPrint"><b>Print / Save as PDF</b></button></div></div>';document.body.appendChild(dlg);
-var ctl=dlg.querySelector('#pdfCtl'),pvW=dlg.querySelector('#pdfPvW'),pv=dlg.querySelector('#pdfPv'),fr=null,ft=null;
-function row(lb,key,opts,num){var r=document.createElement('div');r.className='pdr';r.innerHTML='<span>'+lb+'</span>';opts.forEach(function(o){var b=document.createElement('button');b.type='button';b.textContent=o[1];b.dataset.k=key;b.dataset.v=o[0];b.onclick=function(){var v=o[0];if(v==='true')v=true;else if(v==='false')v=false;else if(num)v=+v;PD[key]=v;save();paintCtl();draw()};r.appendChild(b)});ctl.appendChild(r);return r}
-function pset(o){Object.keys(o).forEach(function(k){PD[k]=o[k]});save();paintCtl();draw()}
-function buildCtl(){ctl.innerHTML='';
- var pr=document.createElement('div');pr.className='pdr';pr.innerHTML='<span>Quick layouts</span>';[['Lead sheet',{size:'letter',ori:'portrait',mar:'normal',cols:1,fs:11,diag:'top',show:'both'}],['Compact, 2 columns',{size:'letter',ori:'portrait',mar:'narrow',cols:2,fs:9,diag:'top',show:'both'}],['Big print for the stand',{size:'letter',ori:'landscape',mar:'narrow',cols:2,fs:17,diag:'none',show:'both'}],['Pocket (A5)',{size:'a5',ori:'portrait',mar:'narrow',cols:1,fs:10,diag:'none',show:'both'}],['Chords only',{cols:3,fs:12,diag:'none',show:'chords'}]].forEach(function(p){var b=document.createElement('button');b.type='button';b.textContent=p[0];b.onclick=function(){pset(p[1])};pr.appendChild(b)});ctl.appendChild(pr);
- var hasSet=!!setlistKey();var w=row('Print','what',[['song','Current song'],['setlist','Loaded setlist']]);if(!hasSet){w.lastChild.disabled=true;w.lastChild.title='Load a setlist first'}
- row('Page size','size',Object.keys(SZ).map(function(k){return[k,SZ[k][2]]}));
- row('Orientation','ori',[['portrait','Portrait'],['landscape','Landscape']]);
- row('Margins','mar',[['narrow','Narrow'],['normal','Normal'],['wide','Wide']]);
- row('Columns','cols',[['1','1'],['2','2'],['3','3'],['4','4']],true);
- var tr=document.createElement('div');tr.className='pdr';tr.innerHTML='<span>Text size</span><button type="button" id="pdfFm">−</button><b id="pdfFv"></b><button type="button" id="pdfFp">+</button>';ctl.appendChild(tr);
- tr.querySelector('#pdfFm').onclick=function(){PD.fs=Math.max(7,PD.fs-1);save();paintCtl();draw()};tr.querySelector('#pdfFp').onclick=function(){PD.fs=Math.min(30,PD.fs+1);save();paintCtl();draw()};
- row('Font','font',[['sans','Sans'],['serif','Serif'],['mono','Mono']]);
- row('Show','show',[['both','Chords + lyrics'],['lyrics','Lyrics only'],['chords','Chords only']]);
- row('Chord color','cc',[['bold','Black'],['red','Red'],['blue','Blue'],['green','Green']]);
- row('Song order','order',[['play','Play order'],['once','Each section once']]);
- row('Diagrams','diag',[['top','Top of song'],['none','None']]);
- row('Diagram size','dsz',[['s','Small'],['m','Medium'],['l','Large']]);
- row('Song details','meta',[['true','Show'],['false','Hide']]);
- row('Strum','strum',[['true','Show'],['false','Hide']]);
- row('Capo','capo',[['true','Show'],['false','Hide']]);
- row('Section names','tags',[['true','Show'],['false','Hide']]);
- row('Page numbers','num',[['true','Show'],['false','Hide']]);
- row('Keep sections whole','keep',[['true','Yes'],['false','Allow splits']]);
- row('New page per song','brk',[['true','Yes'],['false','No']]);
- paintCtl()}
-function paintCtl(){[].forEach.call(ctl.querySelectorAll('button[data-k]'),function(b){var v=PD[b.dataset.k];b.className=(String(v)===b.dataset.v)?'on':''});var f=ctl.querySelector('#pdfFv');if(f)f.textContent=PD.fs+' pt'}
-function fit(){if(!fr)return;var d=dims(),pw=d.w*96,avail=pv.clientWidth-20,sc=Math.min(1,avail/pw);pvW.style.transform='scale('+sc+')';pvW.style.width=pw+'px';try{var h=fr.contentDocument.documentElement.scrollHeight;fr.style.height=h+'px';pvW.style.height=h*sc+'px';pvW.style.marginBottom='0'}catch(e){}fr.style.width=pw+'px'}
-function draw(){clearTimeout(ft);ft=setTimeout(function(){if(!fr){fr=document.createElement('iframe');fr.setAttribute('title','Preview');pvW.appendChild(fr)}
- var ix=indexes();if(PD.what==='setlist'&&!setlistKey())PD.what='song';fr.onload=function(){fit();try{fr.contentDocument.fonts.ready.then(fit)}catch(e){}};fr.srcdoc=build(true);var n=indexes().length;dlg.querySelector('#pdfInfo').textContent=(n>1?n+' songs. ':'')+'Preview is approximate; page breaks are decided when printing.'},60)}
-function openDlg(what){if(what)PD.what=what;if(PD.what==='setlist'&&!setlistKey())PD.what='song';buildCtl();dlg.hidden=false;if(fr){fr.remove();fr=null}draw();setTimeout(fit,150)}
-function closeDlg(){dlg.hidden=true}
-dlg.querySelector('#pdfX').onclick=closeDlg;
-dlg.querySelector('#pdfPrint').onclick=function(){try{var f=document.createElement('iframe');f.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0';f.onload=function(){try{f.contentWindow.focus();f.contentWindow.print()}catch(e){toast('Printing is blocked here. Open the app at its own web address to print.')}setTimeout(function(){f.remove()},60000)};f.srcdoc=build(false);document.body.appendChild(f)}catch(e){toast('Could not start printing.')}};
-window.addEventListener('resize',function(){if(!dlg.hidden)fit()});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!dlg.hidden)closeDlg()});
-// entry buttons in Song Files > Export
-var b1=document.createElement('button');b1.id='exPdf';b1.textContent='Chart as PDF…';var r1=document.querySelector('#exPlm');if(r1&&r1.parentNode)r1.parentNode.appendChild(b1);b1.onclick=function(){openDlg('song')};
-var b2=document.createElement('button');b2.id='exPdfSet';b2.textContent='Setlist as PDF…';var r2=document.querySelector('#exPlms');if(r2&&r2.parentNode)r2.parentNode.appendChild(b2);b2.onclick=function(){if(!setlistKey()){toast('Load a setlist first');return}openDlg('setlist')};
-window.PDFX={open:openDlg,build:build,opts:PD};
-}catch(errp){console.error(errp);try{toast('PDF export setup problem: '+errp.message)}catch(e1){}}})();
-(function(){try{
-var PJ='https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/',lib=null;
-function loadLib(){if(lib)return lib;lib=import(PJ+'pdf.min.mjs').then(function(m){return fetch(PJ+'pdf.worker.min.mjs').then(function(r){if(!r.ok)throw new Error('worker '+r.status);return r.text()}).then(function(t){m.GlobalWorkerOptions.workerSrc=URL.createObjectURL(new Blob([t],{type:'text/javascript'}));return m})}).catch(function(e){lib=null;throw e});return lib}
-// ---- text -> ChordPro (pure) ----
-var CHR=/^(?:N\.?C\.?|[A-G][#b♯♭]?(?:maj|min|dim|aug|sus|add|m|M|°|\+)?[0-9]*(?:\([#b]?[0-9]+\))?(?:sus[24]?|add[0-9]+|[#b][0-9]+)*(?:\/[A-G][#b]?)?)$/;
-var HDR=/^\s*[\[(]?\s*(intro|verse|chorus|pre[- ]?chorus|bridge|outro|interlude|solo|instrumental|tag|ending|refrain|hook|coda|turnaround|break)\b/i;
-function lineChars(its){its.sort(function(a,b){return a.x-b.x});var ch=[],end=null,wsum=0,n=0;its.forEach(function(it){var L=it.s.length;if(!L)return;var cw=it.w>0?it.w/L:(it.h||10)*.5;if(end!==null){var gap=it.x-end,ref=n?wsum/n:cw;if(gap>ref*.45){var k=Math.max(1,Math.round(gap/ref));for(var j=0;j<k;j++)ch.push({c:' ',x:end+j*ref})}}for(var i=0;i<L;i++){ch.push({c:it.s[i],x:it.x+i*cw})}wsum+=cw*L;n+=L;end=it.x+(it.w>0?it.w:cw*L)});return{ch:ch,cw:n?wsum/n:6}}
-function lineText(l){return l.ch.map(function(o){return o.c}).join('')}
-function tokens(l){var o=[],cur=null;l.ch.forEach(function(q){if(q.c===' '){if(cur){o.push(cur);cur=null}}else{if(!cur)cur={t:'',x:q.x};cur.t+=q.c}});if(cur)o.push(cur);return o}
-function isChordLine(l){var tk=tokens(l).filter(function(t){return !/^[|\-\/–x0-9]+$/i.test(t.t)||CHR.test(t.t)});if(!tk.length)return false;return tk.every(function(t){return CHR.test(t.t)})}
-function toChordPro(pages){var lines=[],chars=0;
- pages.forEach(function(items){var rows=[];items.filter(function(i){return i.s&&i.s.trim()}).sort(function(a,b){return b.y-a.y||a.x-b.x}).forEach(function(it){var r=rows[rows.length-1];if(r&&Math.abs(r.y-it.y)<Math.max(2,(it.h||10)*.45))r.its.push(it);else rows.push({y:it.y,its:[it]})});
-  var gaps=[];for(var i=1;i<rows.length;i++)gaps.push(rows[i-1].y-rows[i].y);gaps.sort(function(a,b){return a-b});var med=gaps.length?gaps[Math.floor(gaps.length/2)]:12,prev=null;
-  rows.forEach(function(r){var lc=lineChars(r.its);chars+=lc.ch.length;if(prev!==null&&prev-r.y>med*1.9)lines.push({blank:true});lines.push(lc);prev=r.y});lines.push({blank:true})});
- if(chars<30)return{text:'',chars:chars};
- var out=[],title=null,open=false,hasHdr=lines.some(function(l){if(l.blank)return false;var t=lineText(l).trim();return HDR.test(t)&&t.length<=26&&!isChordLine(l)});
- function openSec(n){if(open)out.push('{end_of_section}');out.push('{start_of_section: '+n+'}');open=true}
- var i=0;while(i<lines.length){var l=lines[i];if(l.blank){if(open&&out[out.length-1]!=='')out.push('');i++;continue}
-  var tx=lineText(l).replace(/\s+$/,'').replace(/^\s+/,'');
-  if(/^\d{1,3}$/.test(tx)||/\bBPM\b/i.test(tx)||/^(strum|capo|key|tempo|time signature)\b/i.test(tx)){i++;continue}
-  if(!open&&hasHdr&&isChordLine(l)){i++;continue}
-  if(!title&&!isChordLine(l)&&!HDR.test(tx)){title=tx;out.unshift('{title: '+tx.replace(/[{}]/g,'')+'}');i++;continue}
-  if(HDR.test(tx)&&tx.length<=26&&!isChordLine(l)){openSec(tx.replace(/[\[\]():]/g,'').trim());i++;continue}
-  if(/\[[A-G][^\]]*\]/.test(tx)&&!isChordLine(l)){if(!open)openSec('Song');out.push(tx);i++;continue}
-  if(!open)openSec('Song');
-  if(isChordLine(l)){var tk=tokens(l).filter(function(t){return CHR.test(t.t)}),nx=lines[i+1];
-   if(nx&&!nx.blank&&!isChordLine(nx)&&!(HDR.test(lineText(nx).trim())&&lineText(nx).trim().length<=26)){var s=nx.ch.slice(),str=s.map(function(o){return o.c}),ins=[];tk.forEach(function(t){var k=s.length;for(var j=0;j<s.length;j++){if(s[j].x+nx.cw*.5>t.x){k=j;break}}ins.push({k:k,t:t.t})});
-    for(var q=ins.length-1;q>=0;q--){str.splice(ins[q].k,0,'['+ins[q].t+']')}out.push(str.join('').replace(/\s+$/,'').replace(/^\s+/,function(m){return ''}));i+=2;continue}
-   out.push(tk.map(function(t){return '['+t.t+']'}).join(' '));i++;continue}
-  out.push(tx);i++}
- if(open)out.push('{end_of_section}');
- return{text:out.join('\n').replace(/\n{3,}/g,'\n\n'),chars:chars}}
-// ---- storage ----
-function idb(){return new Promise(function(res,rej){var r=indexedDB.open('plucky',1);r.onupgradeneeded=function(){r.result.createObjectStore('pdfs',{keyPath:'id'})};r.onsuccess=function(){res(r.result)};r.onerror=function(){rej(r.error)}})}
-function tx(mode,fn){return idb().then(function(d){return new Promise(function(res,rej){var t=d.transaction('pdfs',mode),s=t.objectStore('pdfs'),q=fn(s);t.oncomplete=function(){res(q&&q.result)};t.onerror=function(){rej(t.error)}})})}
-function pAll(){return tx('readonly',function(s){return s.getAll()}).then(function(a){return(a||[]).sort(function(x,y){return y.added-x.added})})}
-function pPut(o){return tx('readwrite',function(s){return s.put(o)})}
-function pDel(id){return tx('readwrite',function(s){return s.delete(id)})}
-// ---- ui ----
-var css=document.createElement('style');css.textContent='.pmod{position:fixed;inset:0;z-index:310;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:16px}.pmod[hidden]{display:none}.pmod>div{background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:16px;max-width:520px;width:100%;display:flex;flex-direction:column;gap:10px;max-height:90vh;overflow:auto}.pmod .prow{display:flex;gap:8px;flex-wrap:wrap}.pmod button{padding:8px 12px}.pls{display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid var(--line);padding:6px 0}#pdfV{position:fixed;inset:0;z-index:320;background:#555;display:flex;flex-direction:column}#pdfV[hidden]{display:none}#pvBar{display:flex;gap:8px;align-items:center;padding:8px 12px;background:var(--bg);color:var(--ink);border-bottom:1px solid var(--line)}#pvBar b{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#pvBody{flex:1;overflow:auto;padding:10px 0;text-align:center}#pvBody canvas{display:block;margin:0 auto 10px;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.5)}';document.head.appendChild(css);
-function mk(id,html){var d=document.createElement('div');d.id=id;d.className='pmod';d.hidden=true;d.innerHTML='<div>'+html+'</div>';document.body.appendChild(d);d.addEventListener('keydown',function(e){e.stopPropagation()});return d}
-var inp=document.createElement('input');inp.type='file';inp.accept='application/pdf,.pdf';inp.hidden=true;document.body.appendChild(inp);
-var M1=mk('pdfImp','<b>Import a PDF</b><div class="hint" id="piName"></div><div>What should I do with it?</div><div class="prow"><button id="piConv">Convert to a chart</button><button id="piView">Keep as viewable pages</button><button id="piBoth">Both</button></div><div class="hint">Converting reads the text in the PDF and works best on a chord-over-lyrics chart you made or have the right to use. Scans and pictures of music have no text to read. Always check the result. Nothing leaves this device.</div><div id="piMsg" role="status"></div><div class="prow"><button id="piCancel">Close</button></div>');
-var M2=mk('pdfLib','<b>PDF Pages</b><div class="hint">PDFs you kept to view. They are stored in this browser.</div><div id="plBody"></div><div class="prow"><button id="plAdd">Import a PDF…</button><button id="plDone">Done</button></div>');
-var V=document.createElement('div');V.id='pdfV';V.hidden=true;V.innerHTML='<div id="pvBar"><button id="pvX">Close</button><b id="pvT"></b><button id="pvM" aria-label="Zoom out">−</button><span id="pvZ">Fit</span><button id="pvP" aria-label="Zoom in">+</button><span id="pvN"></span></div><div id="pvBody" tabindex="0"></div>';document.body.appendChild(V);
-var cur=null,zoom=1,doc=null,pg=[],obs=null,file=null;
-function msg(t){$('piMsg').textContent=t}
-function openImp(f){file=f;$('piName').textContent=f.name+' ('+Math.round(f.size/1024)+' KB)';msg('');M1.hidden=false}
-inp.onchange=function(){var f=this.files&&this.files[0];this.value='';if(f)openImp(f)};
-$('piCancel').onclick=function(){M1.hidden=true};
-function buf(f){return new Promise(function(res,rej){var r=new FileReader();r.onload=function(){res(r.result)};r.onerror=function(){rej(r.error)};r.readAsArrayBuffer(f)})}
-function extract(ab){return loadLib().then(function(m){return m.getDocument({data:new Uint8Array(ab.slice(0))}).promise}).then(function(d){var ps=[],i;for(i=1;i<=d.numPages;i++)ps.push(d.getPage(i).then(function(p){return p.getTextContent().then(function(tc){return tc.items.filter(function(t){return t.str!==undefined&&t.transform}).map(function(t){return{s:t.str,x:t.transform[4],y:t.transform[5],w:t.width,h:t.height||Math.abs(t.transform[3])}})})}));return Promise.all(ps).then(function(r){return{pages:r,n:d.numPages}})})}
-function convert(ab,name){return extract(ab).then(function(r){var c=toChordPro(r.pages);if(!c.text)throw new Error('noText');var t=c.text;if(!/^\{title:/m.test(t))t='{title: '+name.replace(/\.pdf$/i,'')+'}\n'+t;$('cpTxt').value=t;var before=SDB.length;$('cpGo').click();if(SDB.length<=before)throw new Error('noSong');return true})}
-function keep(ab,name){return extract(ab).then(function(r){return pPut({id:'p'+Date.now().toString(36),name:name,pages:r.n,added:Date.now(),data:ab})})}
-function run(mode){var f=file;msg('Reading…');buf(f).then(function(ab){var steps=Promise.resolve(),did=[];
- if(mode!=='view')steps=steps.then(function(){return convert(ab,f.name).then(function(){did.push('chart')},function(e){if(mode==='conv')throw e;did.push('no chart ('+(e.message==='noText'?'no readable text':'could not convert')+')')})});
- if(mode!=='conv')steps=steps.then(function(){return keep(ab,f.name).then(function(){did.push('pages')})});
- return steps.then(function(){msg('Done: '+did.join(', ')+'.');toast('PDF imported: '+did.join(', '));if(mode==='view'){M1.hidden=true;pAll().then(function(a){if(a[0])openView(a[0])})}})
-}).catch(function(e){msg(e&&e.message==='noText'?'This PDF has no readable text (it may be a scan). I can keep it as viewable pages instead.':(e&&e.message==='noSong'?'I could not find chords and lyrics in this PDF.':'I could not read this PDF: '+(e&&e.message||e)))})}
-$('piConv').onclick=function(){run('conv')};$('piView').onclick=function(){run('view')};$('piBoth').onclick=function(){run('both')};
-// library list
-function libDraw(){pAll().then(function(a){var h='';a.forEach(function(p){h+='<div class="pls"><span>'+esc(p.name)+' <i class="hint">'+p.pages+(p.pages===1?' page':' pages')+'</i></span><span><button data-o="'+p.id+'">Open</button> <button data-x="'+p.id+'">Delete</button></span></div>'});$('plBody').innerHTML=h||'<div class="hint">No PDFs kept yet.</div>';window._plA=a})}
-$('plBody').onclick=function(e){var b=e.target.closest('button');if(!b)return;var a=window._plA||[];if(b.dataset.o){var p=a.filter(function(x){return x.id===b.dataset.o})[0];if(p)openView(p)}else if(b.dataset.x){if(b.dataset.arm==='1')pDel(b.dataset.x).then(libDraw);else{b.dataset.arm='1';b.textContent='Tap again to delete'}}};
-$('plDone').onclick=function(){M2.hidden=true};$('plAdd').onclick=function(){inp.click()};
-// viewer
-function layout(){var body=$('pvBody');if(!doc)return;body.innerHTML='';pg=[];if(obs)obs.disconnect();obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)draw(e.target)})},{root:body,rootMargin:'600px'});
- var W=Math.max(200,(body.clientWidth-20)*zoom);for(var i=1;i<=doc.numPages;i++){(function(i){doc.getPage(i).then(function(p){var v=p.getViewport({scale:1}),sc=W/v.width,c=document.createElement('canvas');c.style.width=W+'px';c.style.height=(v.height*sc)+'px';c.width=2;c.height=2;c._p=p;c._sc=sc;c._i=i;c.dataset.i=i;var ex=body.querySelectorAll('canvas'),placed=false;for(var k=0;k<ex.length;k++){if(+ex[k].dataset.i>i){body.insertBefore(c,ex[k]);placed=true;break}}if(!placed)body.appendChild(c);obs.observe(c)})})(i)}
- $('pvZ').textContent=zoom===1?'Fit':Math.round(zoom*100)+'%'}
-function draw(c){if(c._d)return;c._d=1;var dpr=Math.min(2,window.devicePixelRatio||1),v=c._p.getViewport({scale:c._sc*dpr});c.width=v.width;c.height=v.height;c._p.render({canvasContext:c.getContext('2d'),viewport:v})}
-function openView(p){cur=p;zoom=1;$('pvT').textContent=p.name;V.hidden=false;M2.hidden=true;$('pvN').textContent='Loading…';loadLib().then(function(m){return m.getDocument({data:new Uint8Array(p.data.slice(0))}).promise}).then(function(d){doc=d;$('pvN').textContent=d.numPages+(d.numPages===1?' page':' pages');layout();$('pvBody').focus()}).catch(function(e){$('pvN').textContent='Could not open: '+(e&&e.message||e)})}
-$('pvX').onclick=function(){V.hidden=true;doc=null;$('pvBody').innerHTML=''};
-$('pvM').onclick=function(){zoom=Math.max(.5,Math.round((zoom-.25)*100)/100);layout()};$('pvP').onclick=function(){zoom=Math.min(4,Math.round((zoom+.25)*100)/100);layout()};
-document.addEventListener('keydown',function(e){if(V.hidden)return;var b=$('pvBody'),k=e.key;if(k==='PageDown'||k==='ArrowRight'||k===' '||k==='ArrowDown'){b.scrollBy({top:b.clientHeight*.9,behavior:'smooth'})}else if(k==='PageUp'||k==='ArrowLeft'||k==='ArrowUp'){b.scrollBy({top:-b.clientHeight*.9,behavior:'smooth'})}else if(k==='Escape'){$('pvX').onclick()}else return;e.preventDefault();e.stopImmediatePropagation()},true);
-window.addEventListener('resize',function(){if(!V.hidden&&doc){clearTimeout(layout._t);layout._t=setTimeout(layout,250)}});
-// entry points
-var g=$('gSong');if(g){var a=document.createElement('button');a.id='pdfImpBtn';a.textContent='Import PDF…';a.onclick=function(){inp.click()};g.appendChild(a);var b=document.createElement('button');b.id='pdfLibBtn';b.textContent='PDF Pages…';b.onclick=function(){libDraw();M2.hidden=false};g.appendChild(b)}
-var ex=document.getElementById('exPdf');
-window.PDFIMP={toChordPro:toChordPro,openImp:openImp,loadLib:loadLib,all:pAll,put:pPut};
-}catch(errq){console.error(errq);try{toast('PDF import setup problem: '+errq.message)}catch(e1){}}})();
-(function(){try{
-var seen=false;try{seen=sessionStorage.getItem('ukemap.rights')==='1'}catch(e){}
-var txt='Only import music you have the right to use. By importing, you confirm that you do. Imported files stay on this device. See the terms in Settings, About.';
-var m=document.createElement('div');m.className='pmod';m.id='rightsDlg';m.hidden=true;m.setAttribute('role','dialog');m.innerHTML='<div><b>Before you import</b><div>'+txt+'</div><div class="prow"><button id="rgOk"><b>I understand</b></button><button id="rgNo">Cancel</button></div></div>';document.body.appendChild(m);m.addEventListener('keydown',function(e){e.stopPropagation()});
-var pend=null;
-document.addEventListener('click',function(e){if(seen)return;var t=e.target.closest&&e.target.closest('#cpBtn,#libImp,#pdfImpBtn,#plAdd');if(!t)return;e.preventDefault();e.stopImmediatePropagation();pend=t;m.hidden=false},true);
-$('rgOk').onclick=function(){seen=true;try{sessionStorage.setItem('ukemap.rights','1')}catch(e){}m.hidden=true;var t=pend;pend=null;if(t)t.click()};
-$('rgNo').onclick=function(){m.hidden=true;pend=null};
-function note(el){if(!el)return;var d=document.createElement('div');d.className='hint';d.textContent=txt;el.insertBefore(d,el.firstChild.nextSibling||null)}
-var a=$('cpimp'),b=$('pdfImp');if(a)note(a);if(b&&b.firstChild)note(b.firstChild);
-}catch(errr){console.error(errr)}})();
-(function(){try{
-var KEYS_=['ukemap.custompal','ukemap.gs','ukemap.ped','ukemap.t','ukemap.fingers','ukemap.wu','ukemap.pdf','ukemap.phone','ukemap.songbtns'];
-function ls(k){try{return localStorage.getItem(k)}catch(e){return null}}
-function b64(ab){var u=new Uint8Array(ab),s='',i,n=0x8000;for(i=0;i<u.length;i+=n)s+=String.fromCharCode.apply(null,u.subarray(i,i+n));return btoa(s)}
-function unb64(t){var s=atob(t),u=new Uint8Array(s.length),i;for(i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u.buffer}
-function seqIds(d){var e=[];d.LAYOUT.forEach(function(id){(d.NUMS[id]||[]).forEach(function(n,k){e.push({s:id,n:n})})});e.sort(function(a,b){return a.n-b.n});return e.map(function(x){return x.s})}
-function gather(withPdf){return(withPdf&&window.PDFIMP&&PDFIMP.all?PDFIMP.all():Promise.resolve([])).then(function(pd){
- try{saveSong()}catch(e){}
- var songs=[],ix=[];
- SDB.forEach(function(x,i){if(!x.fold)return;var d=DBS[i],o=JSON.parse(JSON.stringify(x));
-  if(d){o.secs=JSON.parse(JSON.stringify(d.SECS));o.layout=d.LAYOUT.slice();o.seq=seqIds(d);o.marks=JSON.parse(JSON.stringify(d.MARKS||{}));o.key=d.key;o.kmin=d.kmin;o.bpm=d.bpm;o.ts=d.ts;o.strum=d.strum;if(d.CSTR&&Object.keys(d.CSTR).length)o.cstr=JSON.parse(JSON.stringify(d.CSTR))}
-  if(TC[i])o.tc={tr:TC[i].tr||0,capo:TC[i].capo||0,inst:TC[i].inst||''};
-  songs.push(o);ix.push(i)});
- var strums=[];Object.keys(SP).forEach(function(k){if(SP[k].c)strums.push({id:k,n:SP[k].n,p:SP[k].p.slice(),ts:SP[k].ts.slice()})});
- var sets=[];Object.keys(SETS).forEach(function(k){sets.push({name:BN[k]||k,songs:SETS[k].map(function(i){return SONGS[i]})})});
- var folders=JSON.parse(JSON.stringify(LIBF)),settings={};
- KEYS_.forEach(function(k){var v=ls(k);if(v!==null)settings[k]=v});
- try{var su=JSON.parse(ls('ukemap.setup')||'null');if(su){delete su.terms;delete su.termsV;delete su.termsDate;delete su.done;settings['ukemap.setup']=JSON.stringify(su)}}catch(e){}
- return Promise.all((pd||[]).map(function(p){return{name:p.name,pages:p.pages,added:p.added,b64:b64(p.data)}})).then(function(pdfs){
-  return{format:'orpharion-backup',v:1,app:(document.title||'Orpharion'),date:new Date().toISOString(),folders:folders,defaultFolder:LIBDEF,songs:songs,setlists:sets,strums:strums,settings:settings,pdfs:pdfs}})})}
-function doBackup(){var wp=$('bkPdf').checked;$('bkMsg').textContent='Preparing…';gather(wp).then(function(o){var t=JSON.stringify(o),n='Orpharion-backup-'+new Date().toISOString().slice(0,10)+'.orz';
- return PLsave(n,t,'application/json').then(function(fn){n=fn;
- var msg='Backed up '+o.songs.length+(o.songs.length===1?' song':' songs')+', '+o.setlists.length+(o.setlists.length===1?' setlist':' setlists')+(o.strums.length?', '+o.strums.length+' custom strum'+(o.strums.length===1?'':'s'):'')+(o.pdfs.length?', '+o.pdfs.length+' PDF'+(o.pdfs.length===1?'':'s'):'')+' and your settings to '+n+'. '+(Math.round(t.length/1024))+' KB.';$('bkMsg').textContent=msg;toast('Backup saved')})}).catch(function(e){$('bkMsg').textContent=e&&e.code==='declined'?'Backup cancelled.':'Could not make the backup: '+(e&&(e.message||e.code)||e)})}
-// ---- restore ----
-var BK=null;
-function dupIdx(s){var i,t=(s.t||'').toLowerCase(),a=(s.a||'').toLowerCase();for(i=0;i<SDB.length;i++)if((SDB[i].t||'').toLowerCase()===t&&(SDB[i].a||'').toLowerCase()===a)return i;return-1}
-function check(o){if(!o||(o.format!=='orpharion-backup'&&o.format!=='plucky-backup'))throw new Error('This is not an Orpharion backup file.');if(!(o.v>=1)||o.v>1)throw new Error('This backup was made by a newer version of the app and I cannot read it safely.');if(!Array.isArray(o.songs))throw new Error('The backup file is damaged (no song list).');return o}
-function preview(o,name){var dup=0;o.songs.forEach(function(s){if(dupIdx(s)>=0)dup++});
- $('rsInfo').innerHTML='<b>'+esc(name)+'</b><br>Made '+esc((o.date||'').slice(0,10))+'. Contains '+o.songs.length+(o.songs.length===1?' song':' songs')+(dup?' ('+dup+' already here)':'')+', '+(o.setlists||[]).length+(((o.setlists||[]).length===1)?' setlist':' setlists')+', '+(o.strums||[]).length+' custom strum pattern'+(((o.strums||[]).length===1)?'':'s')+', '+(o.pdfs||[]).length+' kept PDF'+(((o.pdfs||[]).length===1)?'':'s')+(o.settings&&Object.keys(o.settings).length?' and your settings.':'.');
- $('rsSet').parentNode.hidden=!(o.settings&&Object.keys(o.settings).length);$('rsPdf').parentNode.hidden=!(o.pdfs&&o.pdfs.length);$('rsMsg').textContent='';$('rsGo').disabled=false;$('rsDlg').hidden=false}
-function restore(){var o=BK,mode=document.querySelector('input[name=rsMode]:checked').value,added=0,skipped=0,replaced=0,i;
- // folders
- var fmap={};(o.folders||[]).forEach(function(f){var m=LIBF.filter(function(x){return x.id===f.id||x.name===f.name})[0];if(m)fmap[f.id]=m.id;else{LIBF.push({id:f.id,name:f.name,where:f.where||'This device'});fmap[f.id]=f.id}});
- // strums
- var smap={};(o.strums||[]).forEach(function(s){var ex=Object.keys(SP).filter(function(k){return SP[k].c&&SP[k].p.join('')===s.p.join('')&&SP[k].ts.join()===s.ts.join()})[0];if(ex)smap[s.id]=ex;else{var id='c'+(++NS);SP[id]={c:1,n:s.n,p:s.p.slice(),ts:s.ts.slice()};smap[s.id]=id}});window.STRX&&STRX.save();
- function mapS(k){return smap[k]||k}
- o.songs.forEach(function(s){var j=dupIdx(s),obj=JSON.parse(JSON.stringify(s)),cs=obj.cstr,tc=obj.tc;delete obj.cstr;delete obj.tc;obj.fold=fmap[obj.fold]||LIBDEF;obj.strum=mapS(obj.strum);
-  if(j>=0&&mode==='skip'){skipped++;return}
-  if(j>=0&&mode==='replace'&&SDB[j].fold){SDB[j]=obj;SONGS[j]=obj.t;delete DBS[j];if(cs){DBS[j]=cloneSong(j);Object.keys(cs).forEach(function(k){cs[k]=mapS(cs[k])});DBS[j].CSTR=cs}if(tc)TC[j]=tc;replaced++;return}
-  SDB.push(obj);SONGS.push(obj.t);var n=SDB.length-1;if(cs||tc){DBS[n]=cloneSong(n);if(cs){Object.keys(cs).forEach(function(k){cs[k]=mapS(cs[k])});DBS[n].CSTR=cs}if(tc)TC[n]=tc}added++});
- // setlists
- var sl=0;(o.setlists||[]).forEach(function(l){var idxs=[];l.songs.forEach(function(t){var k;for(k=0;k<SONGS.length;k++)if(SONGS[k]===t){idxs.push(k);break}});if(!idxs.length)return;var key=Object.keys(BN).filter(function(k){return BN[k]===l.name})[0];if(key){if(mode==='skip')return;SETS[key]=idxs}else{key='r'+Date.now().toString(36)+sl;SETS[key]=idxs;BN[key]=l.name;var op=document.createElement('option');op.value=key;op.textContent=l.name;$('selBook').appendChild(op)}sl++});window.SETB&&SETB.sync();
- try{songOpts()}catch(e){}try{strumOpts()}catch(e){}libSave();
- try{var cur=st.song;if(replaced&&SDB[cur]){loadSong(cur)}}catch(e){}
- var tail=[];
- var steps=Promise.resolve();
- if(!$('rsPdf').parentNode.hidden&&$('rsPdf').checked&&window.PDFIMP&&PDFIMP.put)(o.pdfs||[]).forEach(function(p){steps=steps.then(function(){return PDFIMP.put({id:'p'+Date.now().toString(36)+Math.floor(Math.random()*1e4),name:p.name,pages:p.pages,added:p.added||Date.now(),data:unb64(p.b64)})})});
- var needReload=false;
- if(!$('rsSet').parentNode.hidden&&$('rsSet').checked&&o.settings){Object.keys(o.settings).forEach(function(k){try{if(k==='ukemap.setup'){var cur2=JSON.parse(ls('ukemap.setup')||'{}'),inc=JSON.parse(o.settings[k]);Object.keys(inc).forEach(function(q){cur2[q]=inc[q]});localStorage.setItem(k,JSON.stringify(cur2))}else if(KEYS_.indexOf(k)>=0)localStorage.setItem(k,o.settings[k])}catch(e){}});needReload=true}
- steps.then(function(){var m='Restored: '+added+' added'+(replaced?', '+replaced+' replaced':'')+(skipped?', '+skipped+' skipped (already here)':'')+(sl?', '+sl+(sl===1?' setlist':' setlists'):'')+'.'+(needReload?' Settings are saved; reload the app to apply them.':'');$('rsMsg').textContent=m;$('rsGo').disabled=true;toast('Backup restored');if(needReload)$('rsReload').hidden=false;try{if(typeof libRender==='function'&&!$('libdlg').hidden)libRender()}catch(e){}}).catch(function(e){$('rsMsg').textContent='Restored the songs, but a PDF could not be saved: '+(e&&e.message||e)})}
-// ---- UI ----
-var css=document.createElement('style');css.textContent='#hbBackup .pg{display:flex;flex-direction:column;gap:8px;align-items:flex-start}#hbBackup label.sw{display:flex;gap:8px;align-items:center}#rsDlg label{display:flex;gap:8px;align-items:flex-start;margin:4px 0}#rsDlg input[type=radio],#rsDlg input[type=checkbox],#hbBackup input[type=checkbox]{width:1.2rem;height:1.2rem;flex:none;margin-top:.1rem}';document.head.appendChild(css);
-var sec=document.createElement('section');sec.dataset.s='Backup';sec.id='hbBackup';sec.hidden=true;
-sec.innerHTML='<h3 class="hbt">Backup</h3><div class="pg"><b class="mkh">Back up everything</b><div class="hint">Saves your library songs, setlists, custom strum patterns and settings into one file (.orz). Keep it somewhere safe. The built-in sample songs are not included.</div><label class="sw"><input type="checkbox" id="bkPdf"> Include the PDFs I kept (makes the file bigger)</label><button id="bkGo">Back Up Everything</button><div id="bkMsg" class="hint" role="status"></div></div><div class="pg"><b class="mkh">Restore from a backup</b><div class="hint">Choose an .orz file. I show you what is inside before anything changes.</div><div style="position:relative;display:inline-block"><button id="bkRs" type="button">Restore from a Backup…</button><input type="file" id="bkFile" accept=".orz,.plmb,.json,application/json,text/plain" aria-label="Choose a backup file" style="position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:0"></div><div class="hint">If the file chooser does not open (some embedded viewers block it), open the backup file in any text app, copy everything in it, and paste it here:</div><textarea id="bkPaste" rows="3" style="width:100%;box-sizing:border-box" placeholder="Paste backup text here"></textarea><button id="bkPb" type="button">Restore from Pasted Text</button></div>';
-$('hbody').appendChild(sec);
-var nb=document.createElement('button');nb.dataset.s='Backup';nb.textContent='Backup';var hn=$('hnav'),su=$('hbSetup');if(su)hn.insertBefore(nb,su);else hn.appendChild(nb);
-var fin=$('bkFile');$('bkPaste').addEventListener('keydown',function(e){e.stopPropagation()});
-var d=document.createElement('div');d.id='rsDlg';d.className='pmod';d.hidden=true;d.innerHTML='<div><b>Restore from a backup</b><div id="rsInfo"></div><div><b>If a song is already here:</b><label><input type="radio" name="rsMode" value="skip" checked><span>Keep mine and add only what is missing</span></label><label><input type="radio" name="rsMode" value="copy"><span>Add the backup copies as well</span></label><label><input type="radio" name="rsMode" value="replace"><span>Replace my library copy with the backup copy</span></label></div><label><input type="checkbox" id="rsSet" checked><span>Also restore my settings</span></label><label><input type="checkbox" id="rsPdf" checked><span>Also restore the kept PDFs</span></label><div class="hint">Restoring never removes songs that are not in the backup. Only music you have the right to use should be restored.</div><div id="rsMsg" role="status"></div><div class="prow"><button id="rsGo"><b>Restore</b></button><button id="rsReload" hidden>Reload Now</button><button id="rsX">Close</button></div></div>';document.body.appendChild(d);d.addEventListener('keydown',function(e){e.stopPropagation()});
-$('bkGo').onclick=doBackup;$('bkPb').onclick=function(){var t=$('bkPaste').value.trim();if(!t){toast('Paste the backup text first');return}try{BK=check(JSON.parse(t));$('rsReload').hidden=true;preview(BK,'pasted text')}catch(e){toast(e&&e.message&&!/JSON/.test(e.message)?e.message:'I could not read that text as a backup.')}};
-fin.onchange=function(){var f=this.files&&this.files[0];this.value='';if(!f)return;var r=new FileReader();r.onload=function(){try{BK=check(JSON.parse(String(r.result)));$('rsReload').hidden=true;preview(BK,f.name)}catch(e){toast(e&&e.message&&!/JSON/.test(e.message)?e.message:'I could not read that file as a backup.')}};r.onerror=function(){toast('I could not read that file.')};r.readAsText(f)};
-$('rsGo').onclick=restore;$('rsX').onclick=function(){d.hidden=true};$('rsReload').onclick=function(){location.reload()};
-window.BKP={gather:gather,check:check,restoreFrom:function(o,mode){BK=o;document.querySelector('input[name=rsMode][value='+mode+']').checked=true;preview(o,'test');restore()}};
-}catch(errb){console.error(errb);try{toast('Backup setup problem: '+errb.message)}catch(e1){}}})();
 /* ---------- Setlist maker (v0.18.0) ---------- */
 (function(){try{
 var K='ukemap.sets',cur=null,q='',delAt=0,snapT=null;
@@ -2889,25 +2547,10 @@ function save(){try{localStorage.setItem(K,JSON.stringify({n:NS,s:customs().map(
 function load(){try{var o=JSON.parse(localStorage.getItem(K)||'null');if(!o||!o.s)return;o.s.forEach(function(x){if(x&&x.id&&Array.isArray(x.p)&&Array.isArray(x.ts)&&!SP[x.id])SP[x.id]={c:1,n:x.n||'',p:x.p.slice(),ts:x.ts.slice()}});if(o.n>NS)NS=o.n;var m=0;customs().forEach(function(k){var v=+String(k).slice(1);if(v>m)m=v});if(m>NS)NS=m}catch(e){}}
 function same(a,b){return a.p.join('')===b.p.join('')&&a.ts.join()===b.ts.join()}
 function good(x){return x&&Array.isArray(x.p)&&x.p.length>0&&x.p.every(function(c){return c==='D'||c==='U'||c==='-'})&&Array.isArray(x.ts)&&x.ts.length>0&&x.ts.every(function(t){return /^\d{1,2}(\/\d{1,2})?$/.test(String(t))})}
-function exportFile(){var l=customs();if(!l.length){toast('You have no custom strum patterns yet');return}
- var t=JSON.stringify({format:'orpharion-strums',v:1,app:(document.title||'Orpharion'),date:new Date().toISOString(),strums:l.map(function(k){return{n:SP[k].n||'',p:SP[k].p,ts:SP[k].ts}})},null,1);
- PLsave('Orpharion-strums-'+new Date().toISOString().slice(0,10)+'.orp',t,'application/json').then(function(f){msg('Saved '+l.length+(l.length===1?' pattern':' patterns')+' to '+f+'.');toast('Strums saved')},function(e){msg(e&&e.code==='declined'?'Cancelled.':'Could not save the file.')})}
-function importText(txt){var o;try{o=JSON.parse(txt)}catch(e){msg('I could not read that as a strum file.');return}
- if(!o||o.format!=='orpharion-strums'||!Array.isArray(o.strums)){msg('That is not an Orpharion strum file.');return}
- var add=0,skip=0,bad=0;o.strums.forEach(function(x){if(!good(x)){bad++;return}var ex=customs().filter(function(k){return same(SP[k],x)})[0];if(ex){skip++;return}var id='c'+(++NS);SP[id]={c:1,n:String(x.n||'').slice(0,60),p:x.p.slice(),ts:x.ts.slice()};add++});
- save();try{strumOpts()}catch(e){}
- msg('Added '+add+(add===1?' pattern':' patterns')+(skip?'; skipped '+skip+' you already have':'')+(bad?'; ignored '+bad+' that were not valid':'')+'.');toast(add?'Strums added':'Nothing new to add')}
 function msg(t){var e=$('stxMsg');if(e)e.textContent=t}
-var d=document.createElement('div');d.className='pg';d.id='gStx';
-d.innerHTML='<b class="mkh">Custom strum patterns</b><div class="hint">Save the strum patterns you made to one file (.orp) and load them again on this or another device. Songs are not included.</div><div class="prow"><button id="stxExp">Export (.orp)</button><span style="position:relative;display:inline-block"><button id="stxImp" type="button">Import…</button><input type="file" id="stxFile" accept=".orp,.json,application/json,text/plain" aria-label="Choose a strum file" style="position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:0"></span></div><details><summary>If the file chooser does not open</summary><div class="hint">Open the file in any text app, copy everything in it, and paste it here:</div><textarea id="stxPaste" rows="3" style="width:100%;box-sizing:border-box" placeholder="Paste strum file text here"></textarea><button id="stxPb" type="button">Import Pasted Text</button></details><div class="hint" id="stxMsg" role="status"></div>';
-var host=$('gExp2');if(host&&host.parentNode)host.parentNode.insertBefore(d,host.nextSibling);else document.body.appendChild(d);
-$('stxExp').onclick=exportFile;
-$('stxFile').onchange=function(){var f=this.files&&this.files[0];this.value='';if(!f)return;var r=new FileReader();r.onload=function(){importText(String(r.result))};r.onerror=function(){msg('I could not read that file.')};r.readAsText(f)};
-$('stxPb').onclick=function(){var t=$('stxPaste').value.trim();if(!t){msg('Paste the file text first.');return}importText(t)};
-$('stxPaste').addEventListener('keydown',function(e){e.stopPropagation()});
 var cb=$('crSave');if(cb){cb.addEventListener('click',function(){setTimeout(save,0)})}
 load();try{strumOpts()}catch(e){}
-window.STRX={save:save,load:load,exportFile:exportFile,importText:importText,customs:customs};
+window.STRX={save:save,load:load,customs:customs};
 }catch(errx){console.error(errx);try{toast('Strum file setup problem: '+errx.message)}catch(e1){}}})();
 
 /* ---------- Phone view (v0.21.0): follows the mode dial ---------- */
@@ -3035,86 +2678,6 @@ window.addEventListener('popstate',function(){var n=Date.now();
 /* ---------- Forest palette retired (v0.22.6) ---------- */
 (function(){try{var g=JSON.parse(localStorage.getItem('ukemap.gs')||'null');if(g&&g.pal==='forest'){g.pal='default';localStorage.setItem('ukemap.gs',JSON.stringify(g))}
 var sp=$('selPal');if(sp&&!sp.value){sp.value='default';applyPal('default')}}catch(e){console.error(e)}})();
-/* ---------- Real device folder browser for Import (v0.23.0) ---------- */
-(function(){try{
-if(!window.showDirectoryPicker||!$('cpimp')||!$('cpDest'))return;
-var EXT=/\.(orm|plm|cho|chordpro|chopro|crd|txt|md|markdown)$/i,RH=null,cur=[],CH=null,busy=false;
-function idb(){return new Promise(function(res,rej){var r=indexedDB.open('orpharion-folders',1);r.onupgradeneeded=function(){r.result.createObjectStore('kv')};r.onsuccess=function(){res(r.result)};r.onerror=function(){rej(r.error)}})}
-function kvGet(k){return idb().then(function(d){return new Promise(function(res,rej){var q=d.transaction('kv').objectStore('kv').get(k);q.onsuccess=function(){res(q.result)};q.onerror=function(){rej(q.error)}})})}
-function kvSet(k,v){return idb().then(function(d){return new Promise(function(res,rej){var t=d.transaction('kv','readwrite');t.objectStore('kv').put(v,k);t.oncomplete=function(){res()};t.onerror=function(){rej(t.error)}})})}
-function label(path){return path.map(function(h){return h.name}).join(' / ')}
-function perm(h,ask){return h.queryPermission({mode:'readwrite'}).then(function(p){if(p==='granted'||!ask)return p;return h.requestPermission({mode:'readwrite'})})}
-var css=document.createElement('style');css.textContent='#fbr{z-index:140}#fbr .fbc{display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin:8px 0}#fbr .fbc button{padding:4px 10px}#fbr .fbl{border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:8px 0}#fbr .fbl>*{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px;border-bottom:1px solid var(--line);width:100%;text-align:left;background:var(--card);color:var(--ink);border-left:0;border-right:0;border-top:0;border-radius:0;font:inherit}#fbr .fbl>*:last-child{border-bottom:0}#fbr .fbf{color:var(--mut);font-size:.9rem;cursor:default}#fbr .fbn{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}#fbr .fbn input{flex:1;min-width:140px}#fbr .fbb{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}#cpReal{margin:10px 0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}#cpReal b{word-break:break-word}body.realdest #cpDest,body.realdest #cpDest{display:none}body.realdest #cpDestL{display:none}body.realdest #cpNewRow{display:none!important}';
-document.head.appendChild(css);
-var B=document.createElement('div');B.id='fbr';B.className='ovl';B.hidden=true;
-B.innerHTML='<div class="lyh"><b>Choose a Folder</b><span><button id="fbX">Close</button></span></div><div id="fbMsg" class="hint"></div><div id="fbBody"></div>';
-document.body.appendChild(B);B.addEventListener('keydown',function(e){e.stopPropagation()});
-var dl=$('cpDest').closest('label');if(dl)dl.id='cpDestL';
-var row=document.createElement('div');row.id='cpReal';row.innerHTML='Import to: <b id="cpRealPath">No folder chosen yet</b> <button id="cpRealBtn">Choose Folder…</button>';
-dl.parentNode.parentNode.insertBefore(row,dl.parentNode.nextSibling);
-function paintRow(){$('cpRealPath').textContent=CH?label(CH):'No folder chosen yet (songs stay in the app)';document.body.classList.toggle('realdest',true)}
-paintRow();
-function setMsg(t){$('fbMsg').textContent=t||''}
-function listDir(h){var dirs=[],files=[],n=0;return (async function(){for await(var e of h.values()){if(++n>400)break;if(e.kind==='directory')dirs.push(e);else if(EXT.test(e.name))files.push(e)}dirs.sort(function(a,b){return a.name.localeCompare(b.name)});files.sort(function(a,b){return a.name.localeCompare(b.name)});return {dirs:dirs,files:files}})()}
-async function render(){var b=$('fbBody');setMsg('');
- if(!RH){b.innerHTML='<p>Pick the folder on this device where you keep your songs. Orpharion can only see inside the folder you pick, and nothing is uploaded. You can make subfolders inside it, and the folder you choose here is where imported songs are saved.</p><div class="fbb"><button id="fbPick" class="pri">Pick a Folder on This Device</button></div>';$('fbPick').onclick=pickRoot;return}
- var h=cur[cur.length-1],p=await perm(h,false);
- if(p!=='granted'){b.innerHTML='<p>The browser needs your OK to open <b>'+esc(RH.name)+'</b> again.</p><div class="fbb"><button id="fbAllow" class="pri">Allow Access</button><button id="fbRe">Pick a Different Folder</button></div>';$('fbAllow').onclick=async function(){try{await perm(h,true)}catch(e){setMsg('Could not ask: '+e.message)}render()};$('fbRe').onclick=pickRoot;return}
- var L=await listDir(h),crumbs=cur.map(function(x,i){return '<button data-c="'+i+'">'+esc(x.name)+'</button>'}).join(' › ');
- var hh='<div class="fbc">'+crumbs+'</div><div class="hint">You are in: <b>'+esc(label(cur))+'</b></div><div class="fbl">';
- if(!L.dirs.length&&!L.files.length)hh+='<div class="fbf">This folder is empty.</div>';
- L.dirs.forEach(function(d,i){hh+='<button data-d="'+i+'"><span>📁 '+esc(d.name)+'</span><span>›</span></button>'});
- L.files.forEach(function(f){hh+='<div class="fbf">♪ '+esc(f.name)+'</div>'});
- hh+='</div><div id="fbNew" class="fbn" hidden><input id="fbNm" type="text" placeholder="New folder name" aria-label="New folder name"><button id="fbMk">Create</button><button id="fbNc">Cancel</button></div>';
- hh+='<div class="fbb"><button id="fbUse" class="pri">Use This Folder for Imports</button><button id="fbNf">New Folder Here</button>'+(L.files.length?'<button id="fbImp">Import the '+L.files.length+' song file'+(L.files.length===1?'':'s')+' Here</button>':'')+'<button id="fbRe">Change Main Folder…</button></div>';
- b.innerHTML=hh;
- b.querySelectorAll('[data-c]').forEach(function(x){x.onclick=function(){cur=cur.slice(0,+x.dataset.c+1);render()}});
- b.querySelectorAll('[data-d]').forEach(function(x){x.onclick=function(){cur.push(L.dirs[+x.dataset.d]);render()}});
- $('fbNf').onclick=function(){$('fbNew').hidden=false;$('fbNm').focus()};$('fbNc').onclick=function(){$('fbNew').hidden=true};
- $('fbMk').onclick=async function(){var nm=($('fbNm').value||'').trim().replace(/[\\/:*?"<>|]/g,'');if(!nm){setMsg('Type a folder name first.');return}try{var nh=await h.getDirectoryHandle(nm,{create:true});cur.push(nh);render()}catch(e){setMsg('Could not create the folder: '+e.message)}};
- $('fbUse').onclick=function(){CH=cur.slice();paintRow();try{localStorage.setItem('ukemap.impath',JSON.stringify(CH.slice(1).map(function(x){return x.name})))}catch(e){}B.hidden=true;try{toast('Imports will be saved in '+label(CH))}catch(e){}};
- $('fbRe').onclick=pickRoot;
- if($('fbImp'))$('fbImp').onclick=async function(){CH=cur.slice();paintRow();try{var fs=[];for(var i=0;i<L.files.length;i++)fs.push(await L.files[i].getFile());var dt=new DataTransfer();fs.forEach(function(f){dt.items.add(f)});IM.skip=true;B.hidden=true;applyDest();$('cpFile').files=dt.files;$('cpFile').dispatchEvent(new Event('change'))}catch(e){IM.skip=false;setMsg('Could not read the files: '+e.message)}}}
-async function pickRoot(){try{var h=await window.showDirectoryPicker({mode:'readwrite'});RH=h;cur=[h];CH=null;paintRow();await kvSet('root',h);try{localStorage.removeItem('ukemap.impath')}catch(e){}render()}catch(e){if(e&&e.name!=='AbortError')setMsg('Could not open the picker: '+e.message)}}
-function applyDest(){if(!CH)return;var lb=label(CH),d=$('cpDest'),o=[].filter.call(d.options,function(x){return x.text.indexOf(lb+' (')===0})[0];if(o)d.value=o.value;else{d.value='__new';d.dispatchEvent(new Event('change'));$('cpNewName').value=lb;$('cpNewWhere').value='This device'}}
-function safe(n){return n.replace(/[\\/:*?"<>|]/g,'_').slice(0,120)}
-function tmo(pr,ms){return Promise.race([pr,new Promise(function(_,rej){setTimeout(function(){rej(new Error('timed out'))},ms)})])}
-var pend=null;
-async function writeAll(items,msg){var dir=CH[CH.length-1],ok=0,fail='';
- for(var i=0;i<items.length;i++){try{var it=items[i],nm=safe(it.name||('Pasted song '+new Date().toISOString().slice(0,16).replace(/[:T]/g,'-')+'.cho')),k=1,base=nm.replace(/(\.[^.]+)?$/,''),ext=(nm.match(/\.[^.]+$/)||['.cho'])[0];
-  while(k<60){var ex=true;try{await tmo(dir.getFileHandle(nm),5000)}catch(e){if(e&&e.name==='NotFoundError')ex=false;else if(e&&e.message==='timed out')throw e;else ex=false}if(!ex)break;k++;nm=base+' ('+k+')'+ext}
-  var fh=await tmo(dir.getFileHandle(nm,{create:true}),5000),w=await tmo(fh.createWritable(),5000);await tmo(w.write(it.txt),8000);await tmo(w.close(),8000);ok++}catch(e){fail=e.message;break}}
- msg.textContent=msg.textContent.replace(/ (Also saved|The songs are in the app).*$/,'')+(ok?' Also saved '+ok+(ok===1?' file':' files')+' to '+label(CH)+'.':'')+(fail?' Saving to the folder stopped: '+fail+'.':'')}
-var IM={skip:false,save:function(items){if(IM.skip){IM.skip=false;return}if(!CH||!items||!items.length)return;var msg=$('cpMsg'),dir=CH[CH.length-1];
- dir.queryPermission({mode:'readwrite'}).then(function(p){
-  if(p==='granted'){writeAll(items,msg);return}
-  pend=items;msg.textContent+=' The songs are in the app. To also save them to the folder, tap: ';var b=document.createElement('button');b.textContent='Allow and Save to Folder';b.onclick=function(){b.disabled=true;dir.requestPermission({mode:'readwrite'}).then(function(p2){b.remove();if(p2==='granted')writeAll(pend,msg);else msg.textContent+=' Folder access was not allowed.'}).catch(function(e){b.remove();msg.textContent+=' Could not ask for access: '+e.message})};msg.appendChild(b)
- }).catch(function(e){msg.textContent+=' The songs are in the app, but the folder could not be checked: '+e.message})}};
-IM.clear=function(){CH=null;try{localStorage.removeItem('ukemap.impath')}catch(e){}paintRow();try{toast('Imports now stay in the app only.')}catch(e){}};window.IMPREAL=IM;
-$('cpRealBtn').onclick=async function(){B.hidden=false;await render()};
-$('fbX').onclick=function(){B.hidden=true};
-$('cpGo').addEventListener('click',applyDest,true);$('cpFile').addEventListener('change',applyDest,true);
-(async function(){try{RH=await kvGet('root');if(RH){cur=[RH];var names=[],raw=null;try{raw=localStorage.getItem('ukemap.impath');names=JSON.parse(raw||'[]')}catch(e){}
- if(raw===null){CH=null}else if(await RH.queryPermission({mode:'readwrite'})==='granted'){var path=[RH];try{for(var i=0;i<names.length;i++)path.push(await path[path.length-1].getDirectoryHandle(names[i]));CH=path;cur=path.slice()}catch(e){CH=[RH]}}else if(raw!==null){CH=[RH]}
- paintRow()}}catch(e){}})();
-}catch(e){console.error(e);try{toast('Folder browser setup problem: '+e.message)}catch(e1){}}})();
-
-/* ---------- Music Library screen wording and folder section (v0.23.2) ---------- */
-(function(){try{var lb=$('libBody');if(!lb)return;var L=lb.parentNode,h=L.querySelector(':scope>.hint'),add=$('lfAdd').closest('.libf'),api=!!window.showDirectoryPicker&&!!$('cpRealBtn');
-if(h)h.textContent='Your imported songs are filed here, in folders. A folder is just a way to keep songs together inside the app.';
-var wl=$('lfWhere');if(wl&&wl.closest('label'))wl.closest('label').hidden=true;
-if(api&&add){add.hidden=true;var s=document.createElement('div');s.className='libf';s.id='libReal';
- s.innerHTML='<b>Folder on this device</b><div class="hint">Optional. Choose a real folder on this tablet or phone and Orpharion will also save a copy of every song you import into it, so the files are yours to keep.</div><div style="margin:8px 0">Now using: <b id="libRealPath"></b></div><button id="libRealBtn">Choose Folder…</button> <button id="libRealNone">Stop Saving Copies</button>';
- L.insertBefore(s,add);
- var up=function(){var t=$('cpRealPath');$('libRealPath').textContent=(t&&CHK())||'No folder chosen'};
- function CHK(){var t=$('cpRealPath').textContent;return /^No folder/.test(t)?'':t}
- $('libRealBtn').onclick=function(){$('cpRealBtn').click()};
- $('libRealNone').onclick=function(){if(window.IMPREAL&&IMPREAL.clear)IMPREAL.clear();up()};
- new MutationObserver(up).observe($('cpRealPath'),{childList:true,characterData:true,subtree:true});
- new MutationObserver(up).observe(L,{attributes:true,attributeFilter:['hidden']});up()}
-else if(add){var b=add.querySelector('b');if(b)b.textContent='Add a Folder';var hs=add.querySelector('.hint');if(!hs){hs=document.createElement('div');hs.className='hint';hs.textContent='Type a name for a new folder to keep songs together.';add.insertBefore(hs,add.children[1])}}
-}catch(e){console.error(e)}})();
-
 })();
 </script>
 </body>
