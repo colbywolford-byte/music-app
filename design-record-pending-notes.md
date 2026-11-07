@@ -113,3 +113,10 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - (still v0.24.0) Song Info now also has a Display Style group (Song Screens: Card Map or Chord Sheet), available in Edit, Practice, and Performance. It stays in sync with the Display menu setting.
 
 - v0.24.1: (1) Chord Sheet now works in Edit as a view-only layout with an 'Edit with cards' button (and a note at the top); the Display Style hints say so. (2) The PDF reader (pdf.js by Mozilla, legacy build, Apache 2.0) is now built into the app file (about 720 KB added, stored compressed and unpacked when the first PDF is imported), so PDF import works with no internet connection; verified with all external requests blocked. The jsDelivr sentence is gone from the privacy policy (last updated November 7, 2026) and About credits pdf.js and the JetBrains Mono font in one line. (3) Terms screen header reads 'Terms of Use' with the version and copyright inline, which removes two lines from the scrolling text; About shows name, version, and copyright on one line. (4) Spaces after inline chord brackets are removed for PDF text but a trailing 'x2' keeps its space.
+
+## v0.25.0 — Chord Sheet editing (Stage 1)
+- Chord Sheet view now works in Edit mode: tap a word to place or remove a chord, add dynamics, Edit This Line, or Edit All Lines (same palette as the cards).
+- Tap a section name or its play-order numbers to rename it or renumber it. Edits change every repeat of a section.
+- Tab lines refuse chords (toast) and use a fixed-width line editor. Strum tags are available on section headings.
+- "Use Card Map" button in the Edit note switches back to cards.
+- Next: Stage 2 Text view (ChordPro-style source editor, also serves as ChordPro export), planned v0.26.0.
