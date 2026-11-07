@@ -159,3 +159,7 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - A card with wrapped tab asks for the width of the widest original system, so wide screens look like before, and narrower cards or phones wrap instead of scrolling sideways.
 - The stored song, Text view, and export still hold the original grid lines. Tapping a tab row still opens the fixed-width line editor, and chords still cannot be placed on tab lines.
 - Limits: dragging a tab card narrower than its natural width is not honored yet (only widening); systems with different row layouts are not merged; a system with fewer than two bar lines or fewer than three rows is shown the old way.
+
+## v0.27.1 — tab cards resize both ways
+- Dragging the resize handle on a card with wrapped tab now works narrower and wider. Narrower wraps to fewer bars per line, wider shows more bars per line than the original system had (for example 7 instead of 5). The narrowest allowed width is one bar plus the string labels.
+- This replaces the v0.27.0 limit "dragging narrower is not honored". The original system width is now only the preferred starting width.
