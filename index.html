@@ -2790,7 +2790,7 @@ function paintList(){var L=$('imList');L.textContent='';if(!CUR||!CUR.dirs)retur
  if(!CUR.dirs.length&&!CUR.files.length)L.appendChild(mk('div','imem','This folder has no folders or song files in it. Use New Folder to make one, or Other locations to pick files from elsewhere.'));
  msg(CUR.files.length+(CUR.files.length===1?' song file':' song files')+', '+CUR.dirs.length+(CUR.dirs.length===1?' folder':' folders'))}
 function paintAll(){paintAddr();paintTree();paintList();paintBtns()}
-async function go(n){if(busy)return;SEL={};CUR=n;try{msg('Opening…');await load(n);n.open=true;paintAll()}catch(e){paintAll();msg(e.message||String(e))}}
+async function go(n){if(busy)return;SEL={};CUR=n;try{msg('Opening…');n.dirs=null;n.files=null;await load(n);n.open=true;paintAll()}catch(e){paintAll();msg(e.message||String(e))}}
 function emptyPane(html,label,fn){var L=$('imList');L.textContent='';$('imTree').textContent='';var d=mk('div','imem');d.appendChild(mk('div','',html));if(label){var b=mk('button','',label);b.type='button';b.onclick=fn;d.appendChild(b)}L.appendChild(d);$('imAddr').textContent='';paintBtns()}
 async function openRoot(){SEL={};msg('');
  if(!API){emptyPane('This browser cannot show folders on your device. Tap Other locations to pick song files with your device’s Files app. That also reaches Google Drive, Dropbox and other cloud storage if their apps are installed.');$('imChg').hidden=true;return}

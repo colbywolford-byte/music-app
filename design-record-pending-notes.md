@@ -93,3 +93,5 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - (still v0.23.5) PDF duplicate-version rule: a page with only a stray chord-like mark (tablet showed 1/0/34/19) now counts as chordless (<=10% of the max chord count).
 
 - (still v0.23.5) Chord diagrams now support m7b5 (half-diminished: Em7b5, Em7(b5), Em7-5, ø) and '+' (G+ = Gaug); previously these drew blank grids.
+
+- (still v0.23.5) Import dialog now re-reads a folder every time it is opened or navigated to, so files saved after the last visit appear without refreshing the page.
