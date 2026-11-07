@@ -152,3 +152,10 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Parser additions that also help imports: x_ directives, [*dyn] annotations, {time}, and a grid ({sog}) that starts after lyrics becomes its own Instrumental section while {sot} blocks stay inside their section.
 - Library songs now autosave every edit (visual or text) every few seconds and when the page is hidden. Built-in demo songs are not saved. Earlier versions lost visual edits to imported songs on reload.
 - Known limits: [*dyn] on a chord that has no text and sits directly before another chord can shift by one position; comment lines are not kept in the round trip; no undo for Apply (Cancel before applying, or re-edit).
+
+## v0.27.0 — tab and grid wrap by bar (tab step 3)
+- Consecutive tab or grid systems with the same row layout (separated only by blank lines) are shown as one continuous stream of bars. Bars flow and wrap to the card width, in Card Map and Chord Sheet views. The string labels (A, E, C, G) repeat at the start of each wrapped line.
+- Bars are found automatically from the bar lines ("|") that appear in most rows of a system. Double bars and repeat marks stay attached to the bar they close. Rows such as beat counts, the divider, volta text, and chord names are cut at the same bar columns.
+- A card with wrapped tab asks for the width of the widest original system, so wide screens look like before, and narrower cards or phones wrap instead of scrolling sideways.
+- The stored song, Text view, and export still hold the original grid lines. Tapping a tab row still opens the fixed-width line editor, and chords still cannot be placed on tab lines.
+- Limits: dragging a tab card narrower than its natural width is not honored yet (only widening); systems with different row layouts are not merged; a system with fewer than two bar lines or fewer than three rows is shown the old way.
