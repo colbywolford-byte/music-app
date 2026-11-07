@@ -180,3 +180,11 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.29.1 — PDF diagnostic line removed
 - The temporary line under imported PDFs ("PDF: 4 pages, chords per page ...") is no longer saved or shown. Songs imported earlier may still hold the old text in storage, but it is not displayed.
+
+## v0.30.0 — Song tab while the screen is locked
+- Problem: the lock shield blocks every touch, so the Song picker was unreachable during a locked performance.
+- Added a small music-note tab in the same left-edge spot as the menu tabs. It appears only in Performance mode with the screen locked.
+- A single tap shows "Double-tap to choose a song". A double-tap opens a song list above the shield (setlist songs first when one is loaded, then all songs A to Z, with a filter when there are many songs).
+- Picking a song switches to it and closes the list, and the screen stays locked. The existing setlist pause and resume applies as usual.
+- The list closes by itself after 12 seconds with no touch, with the Close button, with a tap on the locked screen, or when the screen is unlocked. A single tap on the tab while the list is open also closes it.
+- Hidden on phone layout, like the menu tabs.

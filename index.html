@@ -1302,7 +1302,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-var APPVER='0.29.1-2026-11-07';
+var APPVER='0.30.0-2026-11-07';
 function aboutHtml(wz){return '<p>'+(wz?'':'<b>Orpharion</b> (working title) <span class="hint">\u00b7 ver. '+APPVER+' \u00b7 \u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</span>')+'</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Some strum patterns are based on a chart at ukulelego.com.</p><p>Tab sheets use the JetBrains Mono font (SIL Open Font License 1.1). PDF reading uses pdf.js from Mozilla (Apache License 2.0).</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging, and playing your own charts. It does not include, supply, or license any songs, lyrics, or recordings. You are responsible for having the right to use every song you enter, import, keep, share, or perform. This includes anything you bring in from text, ChordPro, PDF, or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share, or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'+'<div class="legal"><b>Privacy policy</b><p class="hint">Last updated November 7, 2026</p><p><b>Short version:</b> Orpharion has no accounts, no ads, and no tracking. Nothing you do in the app is sent to the developer.</p><p><b>What stays on your device.</b> Your settings, setlists, custom strum patterns, song edits, and similar choices are saved in your own browser on your own device. They are not uploaded anywhere. Clearing your browser&rsquo;s site data removes them.</p><p><b>What we collect.</b> We do not collect, sell, or share personal information, and the app has no analytics. The page is delivered by a web host (GitHub Pages), which, like any web host, may keep ordinary server logs such as your IP address and the time of your visit. See GitHub&rsquo;s own privacy statement for how it handles those. PDFs and other files you import are read on your device and are not uploaded.</p><p><b>Your files.</b> Files you import are read on your device. You decide which ones to bring in.</p><p><b>Changes.</b> If this policy changes, the date above will change and the new text will appear here.</p><p class="hint">This is general information, not legal advice.</p></div>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
@@ -3080,6 +3080,55 @@ window.BKP={paused:paused,go:go};
 var css=document.createElement('style');css.textContent='#bkNote{margin-top:6px}#bkNote .prow{display:flex;flex-wrap:wrap;gap:6px}#bkNote button{font-size:.8rem;padding:.375rem .625rem}.perf #sinfo>#gSong{display:block!important}';document.head.appendChild(css);
 ui();
 }catch(e){console.error('setlist pause',e)}})();
+
+/* ===== locked-mode song tab: double-tap to pick a song while the screen is locked ===== */
+(function(){try{
+var tab=document.createElement('button');tab.id='lkTab';tab.type='button';tab.hidden=true;tab.title='Double-tap to choose a song';tab.setAttribute('aria-label','Choose a song. Double-tap to open.');
+tab.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l11-2v13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="18" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="16" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
+var pan=document.createElement('section');pan.id='lkSong';pan.hidden=true;pan.setAttribute('aria-label','Choose a song');
+pan.innerHTML='<div class="lkh"><b>Choose a song</b><button type="button" id="lkX" aria-label="Close">Close</button></div><input type="search" id="lkF" placeholder="Filter songs" aria-label="Filter songs" hidden><div id="lkL"></div>';
+document.body.appendChild(pan);document.body.appendChild(tab);
+var idle=null,last=0;
+function locked(){return !!(st.lock&&st.mode==='P')}
+function nm(i){return (SDB[i]&&SDB[i].t)||'Song'}
+function btnHtml(i,tag){return '<button type="button" data-i="'+i+'"'+(i===st.song?' class="cur"':'')+'>'+esc(nm(i))+(SDB[i]&&SDB[i].a?' <span class="lka">'+esc(SDB[i].a)+'</span>':'')+(tag||'')+'</button>'}
+function build(){
+ var f=($('lkF').value||'').trim().toLowerCase(),h='',l=(st.book&&SETS[st.book])||[];
+ function ok(i){return !f||(nm(i)+' '+(SDB[i].a||'')).toLowerCase().indexOf(f)>-1}
+ var sl=l.filter(ok);
+ if(sl.length){h+='<div class="lkg">'+esc(BN[st.book]||'Setlist')+'</div>'+sl.map(function(i,k){return btnHtml(i)}).join('')}
+ var all=SDB.map(function(x,i){return i}).filter(ok).sort(function(a,b){return nm(a).toLowerCase()<nm(b).toLowerCase()?-1:nm(a).toLowerCase()>nm(b).toLowerCase()?1:0});
+ h+='<div class="lkg">All songs, A to Z</div>'+(all.length?all.map(function(i){return btnHtml(i)}).join(''):'<div class="hint">No songs match.</div>');
+ $('lkL').innerHTML=h;
+ $('lkF').hidden=SDB.length<9;
+ var c=$('lkL').querySelector('button.cur');if(c&&!f)try{c.scrollIntoView({block:'nearest'})}catch(e){}}
+function arm(){clearTimeout(idle);idle=setTimeout(close,12000)}
+function open(){if(!locked())return;$('lkF').value='';build();pan.hidden=false;arm()}
+function close(){clearTimeout(idle);pan.hidden=true;try{$('lkF').blur()}catch(e){}}
+function pick(i){
+ close();if(i===st.song){toast(nm(i)+' is already open');return}
+ saveTC();st.song=i;loadTC();st.step=0;st.ui=0;st.tot=0;st.run=false;st.count=0;try{hideCount()}catch(e){}renderTop();toast(nm(i))}
+tab.addEventListener('click',function(e){e.stopPropagation();var n=Date.now();
+ if(!pan.hidden){close();last=0;return}
+ if(n-last<600){last=0;open();return}
+ last=n;toast('Double-tap to choose a song')});
+$('lkX').addEventListener('click',function(e){e.stopPropagation();close()});
+$('lkL').addEventListener('click',function(e){var b=e.target.closest('button[data-i]');if(!b)return;e.stopPropagation();pick(+b.dataset.i)});
+$('lkF').addEventListener('input',function(){build();arm()});
+pan.addEventListener('pointerdown',arm);pan.addEventListener('scroll',arm,true);
+$('lockShield').addEventListener('click',function(){if(!pan.hidden)close()});
+function vis(){var L=locked();tab.hidden=!L;if(!L)close()}
+var rtL=renderTop;renderTop=function(){var r=rtL.apply(this,arguments);vis();return r};
+var lkL=lkUpd;lkUpd=function(){var r=lkL.apply(this,arguments);vis();return r};
+var css=document.createElement('style');
+css.textContent='#lkTab{position:fixed;left:0;bottom:12px;z-index:70;width:42px;height:50px;padding:0;display:flex;align-items:center;justify-content:center;background:var(--card);color:var(--ink);border:2px solid var(--edge);border-left:0;border-radius:0 12px 12px 0;box-shadow:3px 0 8px -1px rgba(0,0,0,.5)}#lkTab[hidden]{display:none}#lkTab svg{width:24px;height:24px}'
++'#lkSong{position:fixed;left:50px;bottom:12px;z-index:72;width:min(420px,calc(100vw - 62px));max-height:min(70vh,560px);display:flex;flex-direction:column;background:var(--bg);color:var(--ink);border:2px solid var(--acc);border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.5);padding:10px 12px}#lkSong[hidden]{display:none}'
++'#lkSong .lkh{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}#lkSong #lkF{margin-bottom:6px;width:100%;box-sizing:border-box}#lkL{overflow-y:auto;display:flex;flex-direction:column;gap:4px}'
++'#lkL .lkg{font-size:.78rem;opacity:.75;margin:6px 0 2px;text-transform:uppercase;letter-spacing:.04em}#lkL button{text-align:left;min-height:2.6rem;padding:.4rem .7rem;border-radius:8px}#lkL button.cur{background:var(--acc);color:var(--bg)}#lkL .lka{opacity:.7;font-size:.82em;margin-left:.4em}'
++'body.phone #lkTab,body.phone #lkSong{display:none!important}';
+document.head.appendChild(css);
+vis();window.LKS={open:open,close:close,pick:pick};
+}catch(e){console.error('locked song tab',e)}})();
 
 })();
 </script>
