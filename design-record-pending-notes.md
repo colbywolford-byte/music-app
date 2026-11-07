@@ -128,3 +128,4 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - A line like "Instrumental:" starts a section with that name.
 - A grid at the start of a song becomes "Intro". Lyrics after a grid-only section start a new section.
 - Limit: files with no section markers still land in a few broad sections. Text view (Stage 2) will let users fix those.
+- (still v0.25.1) An empty comment line ({c: }) now ends the current section, so stanzas separated that way become their own sections or variations instead of piling into one long card.
