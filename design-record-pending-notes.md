@@ -131,3 +131,8 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - (still v0.25.1) An empty comment line ({c: }) now ends the current section, so stanzas separated that way become their own sections or variations instead of piling into one long card.
 - (still v0.25.1) A grid that starts after lyrics in a section now becomes its own "Instrumental" section, so an instrumental break is no longer buried inside a verse variation. Side effect: a short tab riff written inside a verse is also split out. Revisit with more tab samples (tab step 3).
 - Open idea: size a card to the variation being shown, not the tallest variation.
+
+## v0.25.2 — compact Imported songs list
+- Imported songs rows are tighter, with small Delete buttons (two-tap confirm kept).
+- The list scrolls inside its own area (max about 46% of screen height).
+- A filter box appears once there are six or more imported songs.
