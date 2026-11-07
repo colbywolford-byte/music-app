@@ -136,3 +136,8 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Imported songs rows are tighter, with small Delete buttons (two-tap confirm kept).
 - The list scrolls inside its own area (max about 46% of screen height).
 - A filter box appears once there are six or more imported songs.
+
+## v0.25.3 — stable card height and column fill
+- A card's height is set by its tallest variation, so switching variations never moves the other cards.
+- Shorter variations fill the first column before using a second, instead of being split evenly across columns.
+- If a card would be taller than the screen, it is capped to the screen height and scrolls inside itself.
