@@ -2865,7 +2865,7 @@ function chordN(items){var n=0;items.forEach(function(t){var q=t.s.trim();if(CHR
 function pnorm(x){return x.toLowerCase().replace(/[^a-z]/g,'')}
 function pickVersion(pages){window.PDFDIAG=null;if(pages.length<2)return pages;
  var info=pages.map(function(pg){return{n:chordN(pg),ln:pg.map(function(t){return pnorm(t.s.trim())}).filter(function(x){return x.length>=10})}});
- var wc=[],nc=[];info.forEach(function(x,i){(x.n>0?wc:nc).push(i)});if(!wc.length||!nc.length)return pages;
+ var mxn=Math.max.apply(null,info.map(function(x){return x.n})),thr=Math.max(0,Math.floor(mxn*0.1)),wc=[],nc=[];info.forEach(function(x,i){(x.n>thr?wc:nc).push(i)});if(!wc.length||!nc.length)return pages;
  var hay=wc.map(function(i){return info[i].ln.join('|')}).join('|'),drop={};
  nc.forEach(function(i){var L=info[i].ln;if(!L.length)return;var hit=L.filter(function(x){return hay.indexOf(x)>=0}).length;if(hit/L.length>=0.6)drop[i]=1});
  var out=pages.filter(function(pg,i){return !drop[i]});window.PDFDIAG={pages:pages.length,chords:info.map(function(x){return x.n}),dropped:Object.keys(drop).map(function(k){return +k+1})};return out.length?out:pages}
