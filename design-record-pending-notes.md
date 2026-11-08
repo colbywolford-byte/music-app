@@ -304,3 +304,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Crescendo and decrescendo are drawn: choose the hairpin, then drag from the start word to the end word (or tap the end word). The wedge follows the text across wrapped lines and lines, and may start and end inside the same chord phrase. Cancel and Escape still work.
 - Code View and ChordPro export/import carry the new marks inline, such as "Happy [*mf]birthday" and [*cresc-start] ... [*cresc-end], and round-trip exactly.
 - Known limit: marks are anchored by character position, so editing lyric text earlier in a line can shift them; the song should be re-checked after text edits.
+
+## v0.38.2 (Nov 8, 2026)
+- Dragging a card chip near the left or right edge of the chip row now scrolls the row, so a chip can be carried to chips that are off screen and dropped there (owner's tablet report: a dragged chip stopped at the visible edge). Autoscroll stops at the end of the row.
