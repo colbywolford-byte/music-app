@@ -295,3 +295,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Hammer-on and pull-off marks: the H and P letters now sit above the arc instead of overlapping it (owner).
 - Following the active card now checks against the visible card area, so stepping to the previous section scrolls it into view in Practice too (owner: it only worked after a second pedal press).
 - Song picker category headings stay gray: the Android picker ignores page styling (owner's test of v0.37.3); alternative proposed.
+
+## v0.38.0 (Nov 8, 2026)
+- Custom Song list: the Song picker in Song Info now opens the app's own list instead of the Android system list, so category headings (Easy, Medium, Hard, Library, setlist name, Other songs) are shown in the accent color, bold, small capitals, and stay pinned while scrolling; the current song is highlighted and scrolled into view (owner chose this after the system list ignored heading colors).
