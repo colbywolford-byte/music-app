@@ -247,3 +247,10 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Sorting by title skips a leading "A", "An", or "The" (standard practice): "A Horse With No Name" lists as "Horse With No Name, A". Applies everywhere the earlier "The" rule did.
 - The Text View button is now named Code View, matching the ChordPro-style source it shows.
 - Added a safety check after each card layout: if a single-column card's reserved height differs from its real content height by more than a few pixels, it is corrected, so neighboring cards with the same amount of text stay the same size (reported on Scarborough Fair, where Verse 1 was taller than Verse 2). Could not reproduce on desktop; needs a tablet recheck.
+
+## v0.35.0 — Dynamics with start and end points; technique marks
+- Crescendo and decrescendo are now range marks. In Edit mode, tap a syllable, choose Crescendo or Decrescendo in the Dynamic section, then tap the syllable where it ends. A bar at the top says what to tap and has a Cancel button (Escape also cancels). The hairpin is drawn as one wedge across every syllable from start to end, wrapping across lines, widening for a crescendo and narrowing for a decrescendo. It works in Practice and Performance too.
+- The end must be on the same card and version as the start. Tapping an earlier syllable moves the start there. Other marks placed on syllables between the start and end (for example mf) stay visible. A syllable holds one mark, so the end syllable cannot also carry a letter dynamic.
+- Clear on either end of a range removes the whole range. Older single-point hairpins in existing songs still display; new ones are always ranges.
+- New Technique marks in the same palette: hammer-on (H arc), pull-off (P arc), slide up, slide down, bend, vibrato, mute. They are single marks placed on a syllable, like letter dynamics.
+- Code View, export, and import carry all of it as marks: [*cresc-start], [*cresc-end], [*decresc-start], [*decresc-end], [*hammer], [*pull], [*slide-up], [*slide-down], [*bend], [*vibrato], [*mute]. Checked a round trip through Code View.
