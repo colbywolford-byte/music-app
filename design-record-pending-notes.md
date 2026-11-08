@@ -328,3 +328,4 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Section list is narrower (200 px) with smaller options (.8rem, 2rem rows).
 - Add Card and Edit Song Order from the list now work: the click no longer reaches the outside-click closer, and the action runs after the list closes.
 - Responsiveness safeguards: the pending-hairpin touch lock (touch-action none) applies only in Edit and is cleared on leaving Edit; interrupted chip drags are cleaned up on touchend, touchcancel, tab hide, window blur, and a 20-second guard.
+- Section list shows at most 8 rows with its own scroller; "+ Add Card" and "Edit Song Order…" (Edit mode only) are pinned below the scroller, always visible.
