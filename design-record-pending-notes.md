@@ -266,3 +266,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.36.1 — Browser tab icon
 - The Orpharion logo now shows as the browser tab icon (built into the page, so it works on any copy), on a cream rounded square. The home-screen icon for the installed app uses the same logo.
+
+## v0.36.2 — Dark icon
+- The tab icon, home-screen icon, and installed-app colors now use the dark background instead of cream.
