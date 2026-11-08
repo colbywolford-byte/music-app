@@ -242,3 +242,8 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Sorting and display by title now skip a leading "The", "A", or "An" ("Horse With No Name, A"). Words that only start with those letters (Another, Anna) are untouched.
 - "Text View" renamed "Code View" (button, page title, and messages) to make clear it is the ChordPro-style source editor, distinct from Edit All Lines.
 - Card height safety net: after each layout, any card whose lyric area still scrolls (content taller than its box) is grown to fit and redrawn. Added after a tablet screenshot showed scrollbars inside Scarborough Fair's verse cards and the Verse 1 card taller than Verse 2. I could not reproduce the height difference on the desktop test browser, so this is a safeguard, pending a recheck on the tablet.
+
+## v0.34.1 — Articles, Code View name, card height check
+- Sorting by title skips a leading "A", "An", or "The" (standard practice): "A Horse With No Name" lists as "Horse With No Name, A". Applies everywhere the earlier "The" rule did.
+- The Text View button is now named Code View, matching the ChordPro-style source it shows.
+- Added a safety check after each card layout: if a single-column card's reserved height differs from its real content height by more than a few pixels, it is corrected, so neighboring cards with the same amount of text stay the same size (reported on Scarborough Fair, where Verse 1 was taller than Verse 2). Could not reproduce on desktop; needs a tablet recheck.

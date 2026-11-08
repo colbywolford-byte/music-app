@@ -3291,6 +3291,20 @@ var rm=renderMap,heal=0;renderMap=function(){var r=rm.apply(this,arguments);
  try{follow()}catch(e){}return r};
 }catch(e34){console.error(e34)}})();
 
+/* ===== v0.34.1: re-check card heights against the real rendering ===== */
+(function(){try{
+var busyR=false;
+function fix(){if(busyR||st.drag)return;busyR=true;
+ try{[].slice.call(document.querySelectorAll('#map .card')).forEach(function(cd){
+  var id=cd.dataset.id,sp=SPAN[id],vs=cd.querySelector('.vs'),va=cd.querySelector('.va:not(.ghost)');if(!sp||!vs||!va||sp.cap||sp.c!==1||!sp.vh)return;
+  var old=va.style.height;va.style.height='auto';var nat=Math.ceil(vs.getBoundingClientRect().height)+2;va.style.height=old;
+  var d=nat-sp.vh;if(Math.abs(d)<=3)return;
+  var dr=Math.round(d/4);sp.vh=nat;sp.r=Math.max(1,sp.r+dr);cd.style.setProperty('--vh',nat+'px');
+  var st0=cd.style.gridRow,m=/^(.*\/\s*)?span\s+(\d+)$/.exec(st0);if(m)cd.style.gridRow=(m[1]||'')+'span '+sp.r})}catch(e){}
+ busyR=false}
+var rm2=renderMap;renderMap=function(){var r=rm2.apply(this,arguments);try{fix()}catch(e){}return r};
+}catch(e341){console.error(e341)}})();
+
 })();
 </script>
 </body>
