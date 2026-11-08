@@ -211,3 +211,8 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 ## v0.32.2 — Loading a setlist always starts at its first song
 - Loading a setlist (from either dropdown or the Load button in Edit Setlists) now always opens song 1, even when the open song is already in that setlist. This replaces v0.32.1's "stay if already in it" exception (user's decision: loading means starting from the top).
 - Re-picking the already-loaded setlist in a dropdown does nothing (a dropdown does not fire for the same choice); the Load button resets it.
+
+## v0.32.3 — Card overflow fix; resume buttons pinned in the locked song list
+- Fixed lyrics and chords spilling out of a card into a second column outside it (seen on Sweet Home Alabama's verses and chorus). The card's fixed height was taken from a whole-pixel measurement that could be a fraction of a pixel too short, so the last line wrapped into an extra column. The height now rounds up with a small margin. Checked on all six imported samples and the built-in songs at three screen widths, in Performance and Edit modes: no card overflows.
+- The "Setlist paused" block (Resume with… / Back to…) in the locked song list now sits above the scrolling list, so it can't scroll out of view when the current song is far down the list.
+- Known: importing a file again adds a second copy of the song (no duplicate check). Edits to a song live in the app's library on the device and never change the original file; Text View > Export .cho saves a file. A duplicate prompt and an Export All are candidates for Backup/Restore.
