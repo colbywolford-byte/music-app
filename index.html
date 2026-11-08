@@ -1333,7 +1333,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-var APPVER='0.38.8-2026-11-08';
+var APPVER='0.39.0-2026-11-08';
 function aboutHtml(wz){return (wz?'':'<p class="abt"><b>Orpharion</b> (working title)</p><p class="hint abt">Version '+APPVER+'</p><p class="hint abt">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p>')+'<p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Some strum patterns are based on a chart at ukulelego.com.</p><p>Tab sheets use the JetBrains Mono font (SIL Open Font License 1.1). PDF reading uses pdf.js from Mozilla (Apache License 2.0).</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging, and playing your own charts. It does not include, supply, or license any songs, lyrics, or recordings. You are responsible for having the right to use every song you enter, import, keep, share, or perform. This includes anything you bring in from text, ChordPro, PDF, or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share, or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'+'<div class="legal"><b>Privacy policy</b><p class="hint">Last updated November 7, 2026</p><p><b>Short version:</b> Orpharion has no accounts, no ads, and no tracking. Nothing you do in the app is sent to the developer.</p><p><b>What stays on your device.</b> Your settings, setlists, custom strum patterns, song edits, and similar choices are saved in your own browser on your own device. They are not uploaded anywhere. Clearing your browser&rsquo;s site data removes them.</p><p><b>What we collect.</b> We do not collect, sell, or share personal information, and the app has no analytics. The page is delivered by a web host (GitHub Pages), which, like any web host, may keep ordinary server logs such as your IP address and the time of your visit. See GitHub&rsquo;s own privacy statement for how it handles those. PDFs and other files you import are read on your device and are not uploaded.</p><p><b>Your files.</b> Files you import are read on your device. You decide which ones to bring in.</p><p><b>Changes.</b> If this policy changes, the date above will change and the new text will appear here.</p><p class="hint">This is general information, not legal advice.</p></div>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
@@ -3054,7 +3054,7 @@ var b=document.createElement('button');b.id='tvBtn';b.type='button';b.textConten
 /* autosave: keep edits to library songs */
 var last='',lastSong=-1;function sig(){return JSON.stringify([st.song,SECS,LAYOUT,NUMS,MARKS,CSTR,st.key,st.kmin,st.bpm,st.ts,st.strum])}
 function sync(force){try{var x=SDB[st.song];if(!x||!x.fold)return;var g=sig();if(lastSong!==st.song){lastSong=st.song;last=g;return}if(g===last&&!force)return;last=g;x.secs=JSON.parse(JSON.stringify(SECS));x.layout=LAYOUT.slice();x.seq=SEQ.map(function(q){return q.s});x.marks=JSON.parse(JSON.stringify(MARKS));x.cstr=JSON.parse(JSON.stringify(CSTR));x.key=st.key;x.kmin=st.kmin;x.bpm=st.bpm;x.ts=st.ts;x.strum=st.strum;libSave()}catch(e){}}
-setInterval(sync,2500);window.addEventListener('pagehide',function(){sync()});document.addEventListener('visibilitychange',function(){if(document.hidden)sync()});
+window.__libSync=function(){sync(true)};setInterval(sync,2500);window.addEventListener('pagehide',function(){sync()});document.addEventListener('visibilitychange',function(){if(document.hidden)sync()});
 function rt(){var res=parseCP(ser(),false),d=[];if(!res)return['null'];var byN={};res.secs.forEach(function(x){byN[x.name.toLowerCase()]=x});var idmap={};
  LAYOUT.forEach(function(id){var sc=secOf(id),r=byN[sc.name.toLowerCase().replace(/\s+/g,' ')];if(!r){d.push('missing '+sc.name);return}idmap[id]=r.id;if(JSON.stringify(sc.v)!==JSON.stringify(r.v))d.push('lines differ in '+sc.name+' '+JSON.stringify(sc.v).slice(0,80)+' vs '+JSON.stringify(r.v).slice(0,80));if(JSON.stringify(sc.mel||[])!==JSON.stringify(r.mel||[]))d.push('melody differs '+sc.name);var a=CSTR[id]===st.strum?undefined:CSTR[id];if(a!==res.cstr[r.id])d.push('cstr differs '+sc.name)});
  var m1={};Object.keys(MARKS).forEach(function(k){var q=k.split('|');if(idmap[q[0]])m1[idmap[q[0]]+'|'+q.slice(1).join('|')]=MARKS[k]});if(JSON.stringify(m1,Object.keys(m1).sort())!==JSON.stringify(res.marks,Object.keys(res.marks).sort()))d.push('marks differ '+JSON.stringify(m1)+' vs '+JSON.stringify(res.marks));
@@ -3575,6 +3575,139 @@ $('bgOk').onclick=function(){var tx=$('bgTx').value.trim(),em=$('bgEm').value.tr
  fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(body),signal:ctl?ctl.signal:undefined}).then(function(r){return r.json().catch(function(){return{}}).then(function(j){return{ok:r.ok&&j.success!==false,j:j}})}).then(function(x){clearTimeout(tm);if(x.ok){$('bgTx').value='';hide();toast('Thank you. Your report was sent.')}else{$('bgOk').disabled=false;var em2=x.j&&x.j.message?String(x.j.message).slice(0,160):'';ms('The report could not be sent'+(em2?': '+em2:'. Please try again later.'))}}).catch(function(){clearTimeout(tm);$('bgOk').disabled=false;ms('The report could not be sent. Check your connection and try again.')});
 };
 }catch(e392){console.error(e392)}})();
+
+
+/* ===== v0.39.0: Backup and Restore (.orz backups, .orl setlists, .orp strum patterns) ===== */
+(function(){try{
+var hn=$('hnav'),hb=$('hbody');if(!hn||!hb)return;
+var KEEP=/^(ukemap|orph)\./,SKIP={'ukemap.lib':1,'ukemap.sets':1,'ukemap.strums':1,'ukemap.root':1};
+var MAXB=80*1024*1024;
+var css=document.createElement('style');css.textContent='#hbBackup .pg{margin-bottom:12px}#hbBackup .pg button{min-height:2.06rem;padding:.375rem .625rem;border-radius:8px;margin-top:6px}#hbBackup .pg select{max-width:100%;margin-top:6px}#hbBackup .hint{margin-top:4px}#bkMsg{margin-top:8px;min-height:1.2em}#bkD{position:fixed;inset:0;z-index:86;background:rgba(0,0,0,.55);display:grid;place-items:center}#bkD[hidden]{display:none}#bkD .box{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:14px 16px;width:min(30rem,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow-y:auto;box-sizing:border-box;display:flex;flex-direction:column;gap:8px}#bkD ul{margin:0;padding-left:1.2rem}#bkD .row{display:flex;gap:8px;justify-content:flex-end}#bkD label{display:flex;gap:8px;align-items:flex-start;font-size:.85rem}';document.head.appendChild(css);
+var nb=document.createElement('button');nb.type='button';nb.dataset.s='Backup';nb.textContent='Backup';var lb=hn.querySelector('button[data-s="Library"]');if(lb&&lb.nextSibling)hn.insertBefore(nb,lb.nextSibling);else hn.appendChild(nb);
+var sec=document.createElement('section');sec.dataset.s='Backup';sec.id='hbBackup';sec.hidden=true;
+sec.innerHTML='<h3 class="hbt">Backup</h3><div class="pg"><b class="mkh">Back up everything</b><div class="hint">Saves your songs and folders, setlists, custom strum patterns, and settings into one .orz file. Keep it somewhere safe, such as cloud storage or an email to yourself.</div><button type="button" id="bkAll">Back Up Everything</button></div><div class="pg"><b class="mkh">Restore</b><div class="hint">Opens an .orz backup, an .orl setlist, or an .orp strum file. Your songs and setlists are never overwritten: if one has the same name as a song or setlist you already have, the restored copy is added with "(restored)" after its name.</div><button type="button" id="bkRes">Restore From a File…</button></div><div class="pg"><b class="mkh">Share a setlist</b><div class="hint">Saves a setlist and its songs into an .orl file you can send to another musician.</div><select id="bkSel" aria-label="Setlist to share"></select><br><button type="button" id="bkOrl">Save Setlist File</button></div><div class="pg"><b class="mkh">Share strum patterns</b><div class="hint">Saves your own strum patterns into an .orp file.</div><select id="bkSp" aria-label="Strum patterns to share"></select><br><button type="button" id="bkOrp">Save Strum File</button></div><div class="hint" id="bkMsg" role="status"></div>';
+hb.appendChild(sec);
+function msg(t){$('bkMsg').textContent=t||''}
+function esc2(s){return String(s)}
+function fill(){var ks=Object.keys(SETS);$('bkSel').innerHTML=ks.length?ks.map(function(k){var o=document.createElement('option');o.value=k;o.textContent=BN[k]||'Setlist';return o.outerHTML}).join(''):'<option value="">No setlists yet</option>';$('bkOrl').disabled=!ks.length;
+ var cs=window.STRX?STRX.customs():[];var h='';if(cs.length){h='<option value="*">All of my patterns ('+cs.length+')</option>'+cs.map(function(k){var o=document.createElement('option');o.value=k;o.textContent=SP[k].n||'My pattern';return o.outerHTML}).join('')}else h='<option value="">No custom patterns yet</option>';$('bkSp').innerHTML=h;$('bkOrp').disabled=!cs.length}
+nb.addEventListener('click',function(){fill();msg('')});
+// zip
+var CT=null;function crc(u){if(!CT){CT=new Uint32Array(256);for(var n=0;n<256;n++){var c=n;for(var k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;CT[n]=c>>>0}}var c2=0xFFFFFFFF;for(var i=0;i<u.length;i++)c2=CT[(c2^u[i])&255]^(c2>>>8);return(c2^0xFFFFFFFF)>>>0}
+async function deflate(u){if(typeof CompressionStream==='undefined')return null;try{return new Uint8Array(await new Response(new Blob([u]).stream().pipeThrough(new CompressionStream('deflate-raw'))).arrayBuffer())}catch(e){return null}}
+async function inflate(u){if(typeof DecompressionStream==='undefined')throw new Error('This browser cannot open compressed backups.');return new Uint8Array(await new Response(new Blob([u]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer())}
+async function zipWrite(files){var parts=[],cd=[],off=0,enc=new TextEncoder(),d=new Date(),tm=(d.getHours()<<11)|(d.getMinutes()<<5)|(d.getSeconds()>>1),dt=((d.getFullYear()-1980)<<9)|((d.getMonth()+1)<<5)|d.getDate();
+ for(var i=0;i<files.length;i++){var f=files[i],nm=enc.encode(f.n),c=crc(f.d),z=await deflate(f.d),m=8;if(!z||z.length>=f.d.length){z=f.d;m=0}
+  var h=new DataView(new ArrayBuffer(30));h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint16(6,0x0800,true);h.setUint16(8,m,true);h.setUint16(10,tm,true);h.setUint16(12,dt,true);h.setUint32(14,c,true);h.setUint32(18,z.length,true);h.setUint32(22,f.d.length,true);h.setUint16(26,nm.length,true);h.setUint16(28,0,true);
+  var g=new DataView(new ArrayBuffer(46));g.setUint32(0,0x02014b50,true);g.setUint16(4,20,true);g.setUint16(6,20,true);g.setUint16(8,0x0800,true);g.setUint16(10,m,true);g.setUint16(12,tm,true);g.setUint16(14,dt,true);g.setUint32(16,c,true);g.setUint32(20,z.length,true);g.setUint32(24,f.d.length,true);g.setUint16(28,nm.length,true);g.setUint32(42,off,true);
+  parts.push(h.buffer,nm,z);cd.push(g.buffer,nm);off+=30+nm.length+z.length}
+ var cds=0;cd.forEach(function(x){cds+=x.byteLength!==undefined?x.byteLength:x.length});
+ var e=new DataView(new ArrayBuffer(22));e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,cds,true);e.setUint32(16,off,true);
+ return new Blob(parts.concat(cd,[e.buffer]),{type:'application/zip'})}
+async function zipRead(ab){var u=new Uint8Array(ab),dv=new DataView(ab),n=u.length,eo=-1,i;for(i=n-22;i>=Math.max(0,n-70000);i--){if(dv.getUint32(i,true)===0x06054b50){eo=i;break}}if(eo<0)throw new Error('bad');
+ var cnt=dv.getUint16(eo+10,true),off=dv.getUint32(eo+16,true),out={},tot=0;if(cnt>200)throw new Error('bad');
+ for(var k=0;k<cnt;k++){if(off+46>n||dv.getUint32(off,true)!==0x02014b50)throw new Error('bad');var fl=dv.getUint16(off+8,true),meth=dv.getUint16(off+10,true),csz=dv.getUint32(off+20,true),usz=dv.getUint32(off+24,true),nl=dv.getUint16(off+28,true),el=dv.getUint16(off+30,true),cl=dv.getUint16(off+32,true),lo=dv.getUint32(off+42,true),nm=new TextDecoder().decode(u.subarray(off+46,off+46+nl));off+=46+nl+el+cl;
+  if(!/^[A-Za-z0-9_.\-]+\.json$/.test(nm))continue;if(fl&1)throw new Error('bad');if(usz>60*1024*1024||(tot+=usz)>MAXB)throw new Error('big');if(lo+30>n||dv.getUint32(lo,true)!==0x04034b50)throw new Error('bad');
+  var ds=lo+30+dv.getUint16(lo+26,true)+dv.getUint16(lo+28,true);if(ds+csz>n)throw new Error('bad');var data=u.subarray(ds,ds+csz);if(meth===8)data=await inflate(data);else if(meth!==0)throw new Error('bad');out[nm]=new TextDecoder().decode(data)}
+ return out}
+// collect
+function syncLib(){try{if(window.__libSync){window.__libSync();window.__libSync()}}catch(e){}}
+function cl(o){return JSON.parse(JSON.stringify(o))}
+function songsOf(titles){var out=[];titles.forEach(function(t){var i=SONGS.indexOf(t);if(i>-1)out.push(cl(SDB[i]))});return out}
+function setsOut(keys){return keys.map(function(k){return{n:BN[k]||'Setlist',t:(SETS[k]||[]).map(function(i){return SONGS[i]}).filter(function(t){return t!=null})}})}
+function strumsOut(ids){return ids.map(function(k){return{id:k,n:SP[k].n||'',p:SP[k].p.slice(),ts:SP[k].ts.slice()}})}
+function stamp(){var d=new Date(),p=function(n){return(n<10?'0':'')+n};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())}
+function safeName(s){return String(s||'file').replace(/[^\w\- ]+/g,'').trim().replace(/\s+/g,'-').slice(0,40)||'file'}
+function save(blob,name){var a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=name;a.style.display='none';a.addEventListener('click',function(e){e.stopPropagation()});document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(url);a.remove()},15000)}
+function hdr(kind,extra){var o={app:'Orpharion',kind:kind,format:1,appVersion:APPVER,created:new Date().toISOString()};for(var k in extra)o[k]=extra[k];return o}
+var enc=new TextEncoder();
+function jb(o){return enc.encode(JSON.stringify(o))}
+$('bkAll').onclick=async function(){try{syncLib();var songs=SDB.filter(function(x){return x.fold}).map(cl),folders=cl(LIBF),sets=setsOut(Object.keys(SETS)),strs=strumsOut(window.STRX?STRX.customs():[]),items={};
+  for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(KEEP.test(k)&&!SKIP[k])items[k]=localStorage.getItem(k)}
+  var man=hdr('orz',{counts:{songs:songs.length,setlists:sets.length,strums:strs.length,settings:Object.keys(items).length}});
+  var blob=await zipWrite([{n:'manifest.json',d:jb(man)},{n:'library.json',d:jb({folders:folders,def:LIBDEF,songs:songs})},{n:'setlists.json',d:jb({sets:sets})},{n:'strums.json',d:jb({strums:strs})},{n:'settings.json',d:jb({items:items})}]);
+  var nm='Orpharion-Backup-'+stamp()+'.orz';save(blob,nm);msg('Saved '+nm+' with '+songs.length+(songs.length===1?' song, ':' songs, ')+sets.length+(sets.length===1?' setlist, ':' setlists, ')+'and '+strs.length+(strs.length===1?' strum pattern':' strum patterns')+'. Look in your Downloads folder.');toast('Backup saved.')}catch(e){console.error(e);msg('The backup could not be saved: '+(e&&e.message||e))}};
+$('bkOrl').onclick=function(){try{syncLib();var k=$('bkSel').value;if(!k||!SETS[k]){msg('Choose a setlist first.');return}var titles=setsOut([k])[0].t,o=hdr('orl',{name:BN[k]||'Setlist',titles:titles,songs:songsOf(titles)}),nm=safeName(BN[k])+'.orl';save(new Blob([JSON.stringify(o)],{type:'application/json'}),nm);msg('Saved '+nm+' with '+titles.length+(titles.length===1?' song.':' songs.'));toast('Setlist file saved.')}catch(e){msg('The setlist file could not be saved.')}};
+$('bkOrp').onclick=function(){try{try{STRX.save()}catch(e){}var v=$('bkSp').value,ids=v==='*'?STRX.customs():(SP[v]&&SP[v].c?[v]:[]);if(!ids.length){msg('Choose a pattern first.');return}var o=hdr('orp',{strums:strumsOut(ids)}),nm=(ids.length===1?safeName(SP[ids[0]].n):'Strum-Patterns')+'.orp';save(new Blob([JSON.stringify(o)],{type:'application/json'}),nm);msg('Saved '+nm+' with '+ids.length+(ids.length===1?' pattern.':' patterns.'));toast('Strum file saved.')}catch(e){msg('The strum file could not be saved.')}};
+// parse
+function isStr(x,n){return typeof x==='string'&&x.length<=n}
+function cleanSong(s){try{if(!s||typeof s!=='object'||!isStr(s.t,200)||!s.t.trim())return null;if(!Array.isArray(s.secs)||!s.secs.length||s.secs.length>200||!Array.isArray(s.layout)||!Array.isArray(s.seq))return null;
+ for(var i=0;i<s.secs.length;i++){var c=s.secs[i];if(!c||!isStr(c.id,60)||!isStr(c.name,120)||!Array.isArray(c.v)||!c.v.length||c.v.length>40)return null;for(var j=0;j<c.v.length;j++){if(!Array.isArray(c.v[j])||c.v[j].length>400)return null;for(var q=0;q<c.v[j].length;q++)if(typeof c.v[j][q]!=='string'||c.v[j][q].length>2000)return null}}
+ var ids={};s.secs.forEach(function(c){ids[c.id]=1});if(!s.layout.every(function(x){return typeof x==='string'&&ids[x]})||!s.seq.every(function(x){return typeof x==='string'&&ids[x]}))return null;
+ var o=cl(s);delete o.fold;delete o.imp;o.a=isStr(o.a,200)?o.a:'';o.y=isStr(o.y,40)?o.y:'';o.kmin=!!o.kmin;o.bpm=(o.bpm>=20&&o.bpm<=400)?+o.bpm:100;o.ts=(typeof o.ts==='string'&&TS[o.ts])?o.ts:'4/4';o.key=isStr(o.key,12)?o.key:'C';o.strum=isStr(o.strum,20)?o.strum:'none';o.diff=isStr(o.diff,40)?o.diff:'Imported';if(!o.marks||typeof o.marks!=='object'||Array.isArray(o.marks))o.marks={};if(!o.cstr||typeof o.cstr!=='object'||Array.isArray(o.cstr))o.cstr={};return o}catch(e){return null}}
+function goodStrum(x){return x&&Array.isArray(x.p)&&x.p.length>0&&x.p.length<=64&&x.p.every(function(c){return c==='D'||c==='U'||c==='-'})&&Array.isArray(x.ts)&&x.ts.length>0&&x.ts.length<=4&&x.ts.every(function(t){return /^\d{1,2}(\/\d{1,2})?$/.test(String(t))})}
+async function parseFile(f){if(f.size>MAXB)throw new Error('big');var ab=await f.arrayBuffer(),u=new Uint8Array(ab),pack={songs:[],folders:[],def:'',sets:[],strums:[],items:null,kind:'',name:f.name,created:''};
+ function J(t){try{return JSON.parse(t)}catch(e){throw new Error('bad')}}
+ if(u.length>3&&u[0]===0x50&&u[1]===0x4b){var z=await zipRead(ab),man=z['manifest.json']?J(z['manifest.json']):null;if(!man||man.app!=='Orpharion'||man.kind!=='orz')throw new Error('bad');if(man.format>1)throw new Error('newer');pack.kind='orz';pack.created=isStr(man.created,40)?man.created.slice(0,10):'';
+  if(z['library.json']){var L=J(z['library.json']);pack.songs=Array.isArray(L.songs)?L.songs:[];pack.folders=Array.isArray(L.folders)?L.folders:[];pack.def=isStr(L.def,60)?L.def:''}
+  if(z['setlists.json']){var S=J(z['setlists.json']);pack.sets=Array.isArray(S.sets)?S.sets:[]}
+  if(z['strums.json']){var T=J(z['strums.json']);pack.strums=Array.isArray(T.strums)?T.strums:[]}
+  if(z['settings.json']){var I=J(z['settings.json']);if(I&&I.items&&typeof I.items==='object')pack.items=I.items}}
+ else{var o=J(new TextDecoder().decode(u));if(!o||o.app!=='Orpharion')throw new Error('bad');if(o.format>1)throw new Error('newer');pack.kind=o.kind;pack.created=isStr(o.created,40)?o.created.slice(0,10):'';
+  if(o.kind==='orl'){pack.songs=Array.isArray(o.songs)?o.songs:[];pack.sets=[{n:isStr(o.name,60)?o.name:'Setlist',t:Array.isArray(o.titles)?o.titles:[]}]}
+  else if(o.kind==='orp'){pack.strums=Array.isArray(o.strums)?o.strums:[]}else throw new Error('bad')}
+ return pack}
+// apply
+function nrm(t){return String(t).trim().toLowerCase().replace(/\s+/g,' ')}
+function sameSong(a,b){return JSON.stringify([a.secs,a.layout,a.seq])===JSON.stringify([b.secs,b.layout,b.seq])}
+function applyPack(pack,withSettings){var R={songs:0,same:0,bad:0,sets:0,setSame:0,miss:0,strums:0,strumSame:0,settings:0,setFail:0};
+ // strums
+ var SM={},ex=window.STRX?STRX.customs():[];
+ (pack.strums||[]).forEach(function(x){if(!goodStrum(x)){R.bad++;return}var key=x.p.join('')+'|'+x.ts.join(','),hit=null;ex.forEach(function(k){if(SP[k].p.join('')+'|'+SP[k].ts.join(',')===key)hit=k});
+  if(hit){if(x.id)SM[x.id]=hit;R.strumSame++;return}var id='c'+(++NS);SP[id]={c:1,n:isStr(x.n,40)&&x.n.trim()?x.n.trim():'My pattern',p:x.p.slice(),ts:x.ts.map(String)};ex.push(id);if(x.id)SM[x.id]=id;R.strums++});
+ if(R.strums){try{STRX.save();strumOpts()}catch(e){}}
+ // folders
+ var FM={};(pack.folders||[]).forEach(function(f,i){if(!f||!isStr(f.id,60)||!isStr(f.name,80)||!f.name.trim())return;var hit=null;LIBF.forEach(function(g){if(g.id===f.id&&nrm(g.name)===nrm(f.name))hit=g.id});if(!hit)LIBF.forEach(function(g){if(!hit&&nrm(g.name)===nrm(f.name))hit=g.id});
+  if(hit){FM[f.id]=hit;return}var id=f.id,taken=LIBF.some(function(g){return g.id===id});if(taken)id='f'+Date.now().toString(36)+i;LIBF.push({id:id,name:f.name.trim(),where:'This device'});FM[f.id]=id});
+ // songs
+ var TM={},now=Date.now();
+ (pack.songs||[]).forEach(function(raw,i){var c=cleanSong(raw);if(!c){R.bad++;return}var old=c.t,hit=-1,twin=-1,nc=nrm(c.t);SONGS.forEach(function(t,j){var nt=nrm(t);if(hit<0&&nt===nc)hit=j;if(twin<0&&(nt===nc||nt.indexOf(nc+' (restored')===0)&&sameSong(SDB[j],c))twin=j});
+  if(twin>=0){TM[old]=SONGS[twin];R.same++;return}
+  if(hit>=0){var base=c.t+' (restored)',n=2,t2=base;while(SONGS.some(function(t){return nrm(t)===nrm(t2)}))t2=c.t+' (restored '+(n++)+')';c.t=t2}
+  if(c.strum!=='none'){if(SM[c.strum])c.strum=SM[c.strum];else if(!SP[c.strum])c.strum='none'}
+  Object.keys(c.cstr).forEach(function(k){var v=c.cstr[k];if(SM[v])c.cstr[k]=SM[v];else if(!SP[v]||typeof v!=='string')delete c.cstr[k]});
+  var oldF=(raw&&raw.fold)||'';c.fold=FM[oldF]||LIBDEF;c.imp=now+i;SDB.push(c);SONGS.push(c.t);TM[old]=c.t;R.songs++});
+ if(R.songs){try{songOpts();libSave();window.SETB&&SETB.resync&&SETB.resync();if(typeof listSongs==='function')listSongs()}catch(e){}}
+ // setlists
+ var addedSet=false;
+ (pack.sets||[]).forEach(function(s,i){if(!s||!Array.isArray(s.t))return;var idx=[],miss=0;s.t.forEach(function(t){if(typeof t!=='string')return;var nt=TM[t]||t,j=SONGS.indexOf(nt);if(j>-1){if(idx.indexOf(j)<0)idx.push(j)}else miss++});
+  R.miss+=miss;if(!idx.length){if(s.t.length)R.bad++;return}var nm=isStr(s.n,60)&&s.n.trim()?s.n.trim():'Setlist',clash=null;Object.keys(BN).forEach(function(k){if(nrm(BN[k])===nrm(nm))clash=k});
+  if(clash&&SETS[clash]&&SETS[clash].join()===idx.join()){R.setSame++;return}
+  if(clash){var n=2,b2=nm+' (restored)',t3=b2;while(Object.keys(BN).some(function(k){return nrm(BN[k])===nrm(t3)}))t3=nm+' (restored '+(n++)+')';nm=t3}
+  var key='r'+Date.now().toString(36)+i;SETS[key]=idx;BN[key]=nm;R.sets++;addedSet=true});
+ if(addedSet){try{SETB.persist();SETB.refresh();renderTop()}catch(e){}}
+ // settings
+ if(withSettings&&pack.items){Object.keys(pack.items).forEach(function(k){var v=pack.items[k];if(!KEEP.test(k)||SKIP[k]||typeof v!=='string'||v.length>500000)return;try{localStorage.setItem(k,v);R.settings++}catch(e){R.setFail++}})}
+ return R}
+function summary(R,pack){var p=[],pl=function(n,a,b){return n+' '+(n===1?a:b)};
+ if(R.songs)p.push('added '+pl(R.songs,'song','songs'));if(R.same)p.push(pl(R.same,'song was','songs were')+' already here');
+ if(R.sets)p.push('added '+pl(R.sets,'setlist','setlists'));if(R.setSame)p.push(pl(R.setSame,'setlist was','setlists were')+' already here');
+ if(R.strums)p.push('added '+pl(R.strums,'strum pattern','strum patterns'));if(R.strumSame)p.push(pl(R.strumSame,'strum pattern was','strum patterns were')+' already here');
+ if(R.settings)p.push('restored your settings');
+ var m=p.length?('Restored: '+p.join(', ')+'.'):'Nothing new to restore.';
+ if(R.miss)m+=' '+pl(R.miss,'song in a setlist was','songs in setlists were')+' not in the file or on this device, so they were left out.';
+ if(R.bad)m+=' '+pl(R.bad,'item could not be read and was skipped.','items could not be read and were skipped.');
+ if(R.setFail)m+=' Some settings could not be saved.';return m}
+// dialog
+var D=document.createElement('div');D.id='bkD';D.hidden=true;D.innerHTML='<div class="box" role="dialog" aria-modal="true" aria-label="Restore"><b id="bkT">Restore</b><div id="bkS"></div><label id="bkL"><input type="checkbox" id="bkC"><span>Also restore my settings. This replaces the settings on this device, and the app reloads when it finishes.</span></label><div class="row"><button type="button" id="bkNo">Cancel</button><button type="button" id="bkGo">Restore</button></div></div>';document.body.appendChild(D);
+var PK=null;
+function closeD(){D.hidden=true;PK=null}
+$('bkNo').onclick=closeD;D.addEventListener('pointerdown',function(e){if(e.target===D)closeD()});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!D.hidden)closeD()},true);
+$('bkGo').onclick=function(){if(!PK)return;var pack=PK,ws=pack.items&&$('bkC').checked;closeD();var R;try{R=applyPack(pack,ws)}catch(e){console.error(e);msg('The restore did not finish: '+(e&&e.message||e));return}
+ var m=summary(R,pack);msg(m);toast(R.songs||R.sets||R.strums||R.settings?'Restore finished.':'Nothing new to restore.');try{fill()}catch(e){}
+ if(R.settings){setTimeout(function(){location.reload()},1800)}};
+var inp=document.createElement('input');inp.type='file';inp.hidden=true;document.body.appendChild(inp);inp.addEventListener('click',function(e){e.stopPropagation()});
+$('bkRes').onclick=function(){inp.value='';inp.click()};
+inp.onchange=async function(){var f=inp.files&&inp.files[0];if(!f)return;msg('Reading '+f.name+'…');
+ try{var pack=await parseFile(f);PK=pack;var ul=[],c=function(n,a,b){return n+' '+(n===1?a:b)};
+  var T={orz:'Backup',orl:'Setlist file',orp:'Strum file'}[pack.kind]||'File';$('bkT').textContent='Restore this '+T.toLowerCase()+'?';
+  if(pack.songs.length)ul.push(c(pack.songs.length,'song','songs'));if(pack.folders.length&&pack.kind==='orz')ul.push(c(pack.folders.length,'folder','folders'));if(pack.sets.length)ul.push(c(pack.sets.length,'setlist','setlists'));if(pack.strums.length)ul.push(c(pack.strums.length,'strum pattern','strum patterns'));
+  var items=pack.items?Object.keys(pack.items).length:0;if(items)ul.push('your settings');
+  var S=$('bkS');S.textContent='';var p=document.createElement('div');p.textContent=f.name+(pack.created?' (made '+pack.created+')':'')+' contains:';S.appendChild(p);var u=document.createElement('ul');(ul.length?ul:['nothing I can restore']).forEach(function(t){var li=document.createElement('li');li.textContent=t;u.appendChild(li)});S.appendChild(u);
+  var n=document.createElement('div');n.className='hint';n.textContent='Nothing you already have is overwritten. Songs and setlists with the same name as yours are added as "(restored)", and exact duplicates are skipped.';S.appendChild(n);
+  $('bkL').hidden=!items;$('bkC').checked=false;$('bkGo').disabled=!ul.length;msg('');D.hidden=false}
+ catch(e){var m=e&&e.message==='newer'?'That file was made by a newer version of Orpharion. Update the app, then try again.':e&&e.message==='big'?'That file is too large to restore.':'I could not read that file. It needs to be an Orpharion .orz, .orl, or .orp file.';msg(m)}};
+}catch(e390){console.error(e390)}})();
 
 })();
 </script>

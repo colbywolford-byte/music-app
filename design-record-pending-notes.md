@@ -349,3 +349,14 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - The tapped character is found from its real position on screen, so taps near a syllable boundary resolve correctly.
 - Crescendo and decrescendo start and end points, and the stretch drag, use the same syllable units; a wedge ends at the end of the last syllable.
 - Marks that already exist on a segment start keep their old key, so saved songs are unchanged.
+
+## v0.39.0: Backup and Restore
+- New "Backup" section in the global menu (after Library).
+- .orz full backup: a real ZIP (opens in any unzip tool when renamed .zip) holding manifest.json, library.json (songs and folders), setlists.json, strums.json, and settings.json. Deflate-compressed where the browser supports it, stored otherwise. Everything is included: library songs and folders, all setlists, custom strum patterns, and all ukemap.* and orph.* settings except the library, setlists, strums, and folder-name keys, which are handled separately.
+- .orl setlist file: plain JSON with the setlist name, its song titles, and the full songs, so it opens complete on another device.
+- .orp strum file: plain JSON with one or more custom strum patterns.
+- One Restore button reads all three types (it detects ZIP versus JSON, then checks the manifest or kind). A confirmation dialog lists what the file contains first. Settings restore is an opt-in checkbox and reloads the app after.
+- Name clashes never overwrite: a song or setlist with the same name but different content is added as "Name (restored)"; exact duplicates (including an earlier restored copy) are skipped; setlist song titles are remapped to the restored names. Folders match by id and name, then by name. Strum patterns match by pattern and are renumbered when ids clash; songs that use a restored pattern are re-pointed.
+- Safety: the file is untrusted. Size caps (80 MB total, 60 MB per entry), entry-name allowlist, encrypted ZIPs refused, songs validated (types, lengths, section and layout references), only ukemap.* and orph.* settings accepted and never the library, setlist, strum, or folder keys. Titles stay escaped when shown.
+- Files made by a newer format version are refused with a message to update the app.
+- The Save and Restore buttons stop their click from closing the menu, so the result message stays visible.
