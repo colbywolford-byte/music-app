@@ -254,3 +254,7 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Clear on either end of a range removes the whole range. Older single-point hairpins in existing songs still display; new ones are always ranges.
 - New Technique marks in the same palette: hammer-on (H arc), pull-off (P arc), slide up, slide down, bend, vibrato, mute. They are single marks placed on a syllable, like letter dynamics.
 - Code View, export, and import carry all of it as marks: [*cresc-start], [*cresc-end], [*decresc-start], [*decresc-end], [*hammer], [*pull], [*slide-up], [*slide-down], [*bend], [*vibrato], [*mute]. Checked a round trip through Code View.
+
+## v0.35.1 — About screen fixes
+- Version and copyright are back on their own lines under the app name, and the top lines leave room so they no longer run under the logo.
+- The About box now fits the visible screen height on phones and tablets (the browser's address bar had made it taller than the screen, hiding the lower half of the Close button). It scrolls fully to the Close button.
