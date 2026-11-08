@@ -319,3 +319,7 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.38.6 (Nov 8, 2026)
 - Card-chip row: the thin native scrollbar is replaced by a larger scroll handle under the row (24 px tall, with a thick thumb) that can be dragged or tapped to jump; it appears only when the chips overflow and is hidden in Performance (owner: the native scrollbar was too small to grab).
+
+## v0.39.0 (Nov 8, 2026)
+- Section navigation: the card-chip row is replaced by default with one compact button showing the position and section name (for example "4 / 13 Chorus"). Tapping it opens a list of the whole play order to jump to any section; in Edit the list also offers "+ Add Card" and "Edit Song Order...". Chosen by the owner after weighing the chip row's cost in space and touch problems; drag-to-reorder chips remains available in the chip setting, and Edit Song Order handles reordering otherwise.
+- New setting under Display, "Section navigation": a compact button (default), a row of chips, or hidden. Saved on the device.
