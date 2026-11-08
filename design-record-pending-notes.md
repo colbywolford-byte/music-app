@@ -333,3 +333,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## Tuner string tap (no version bump)
 - Tapping a string that is already selected now plays its piano note again instead of deselecting it, so the note can be repeated as often as needed. Selecting another string switches; Reset strings clears the selection.
+
+## Chip scroll handle width (no version bump)
+- The chip-row scroll handle track now matches the left edge and width of the chip window instead of the full screen width.
