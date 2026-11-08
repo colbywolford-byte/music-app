@@ -343,3 +343,9 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Needs the developer Web3Forms access key in the KEY constant; until then the form says "Bug reporting is not set up yet."
 - Chip scroll handle now matches the chip window width.
 - Bug report: the technical-info checkbox now says what it adds (app version, mode, screen size, installed or not, browser type) and what it never includes.
+
+## Dynamics and technique marks by syllable (no version bump)
+- Marks now land on the syllable you tap, not the start of the word. Syllables use the same splitter as the melody editor (birthday = birth + day). Hammer-on, pull-off, slides, bends, and the rest can sit on different syllables of one word, and each gets its own mark instead of replacing the other.
+- The tapped character is found from its real position on screen, so taps near a syllable boundary resolve correctly.
+- Crescendo and decrescendo start and end points, and the stretch drag, use the same syllable units; a wedge ends at the end of the last syllable.
+- Marks that already exist on a segment start keep their old key, so saved songs are unchanged.
