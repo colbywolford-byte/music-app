@@ -310,3 +310,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.38.3 (Nov 8, 2026)
 - Fixed a leftover gray shield: loading a song from the Song picker closes the Song Info panel, but the translucent shield behind the side panels stayed up until the next tap. The shield now clears whenever the Song Info panel closes (owner's report).
+
+## v0.38.4 (Nov 8, 2026)
+- Update check: on the hosted copy, the app fetches the newest page in the background about a second after launch and each time it returns to the front, bypassing the browser's 10-minute cache. If the version differs it shows "A new version is available" with Reload and Later buttons; Reload refreshes the cached copy and reloads. Never reloads on its own, so nothing is lost mid-edit (owner: installed app stayed on the old version after reopening).
