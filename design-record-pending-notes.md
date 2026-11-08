@@ -360,3 +360,4 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Safety: the file is untrusted. Size caps (80 MB total, 60 MB per entry), entry-name allowlist, encrypted ZIPs refused, songs validated (types, lengths, section and layout references), only ukemap.* and orph.* settings accepted and never the library, setlist, strum, or folder keys. Titles stay escaped when shown.
 - Files made by a newer format version are refused with a message to update the app.
 - The Save and Restore buttons stop their click from closing the menu, so the result message stays visible.
+- Restore: the file picker now shows "Choose your backup file…", then "Reading <name> (<bytes>)…", and failures name the file, its size, and the technical reason. The picker listens for both change and input events.
