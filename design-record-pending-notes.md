@@ -361,3 +361,4 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Files made by a newer format version are refused with a message to update the app.
 - The Save and Restore buttons stop their click from closing the menu, so the result message stays visible.
 - Restore: the file picker now shows "Choose your backup file…", then "Reading <name> (<bytes>)…", and failures name the file, its size, and the technical reason. The picker listens for both change and input events.
+- Restore picker: the "Restore From a File" button is now a transparent file input laid over the button, so the tap opens the picker directly (some Android browsers ignore a programmatic click on a hidden input). The Restore dialog no longer closes the menu behind it.
