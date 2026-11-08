@@ -227,3 +227,13 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 ## v0.33.1 — Duplicate prompt works one song at a time
 - Changed from the v0.33.0 batch prompt (user's feedback). During an import, each song that matches a library song stops with its own prompt: Keep both, Replace the original, or Keep the original. A checkbox, "Do this for the rest of this import (N more)", applies the same choice to every remaining duplicate without asking again; it only shows when more files are still to come. Escape means Keep both.
 - Wording: "Keep the original" replaces "Skip the new one"; "Replace the original" replaces "Replace the old one". The import message says how many originals were kept or replaced.
+
+## v0.34.0 — Tablet test fixes: sorting, scrolling, chips, wrapping, end-of-song
+- Song titles that begin with "The" now sort and display by the next word, with "The" at the end ("Long Road Home, The"). Applies to the song picker (within each category), the imported-songs list, the locked-mode song list, and the setlist editor. A trailing parenthetical stays at the very end. Setlist order itself is never re-sorted. "A" and "An" are not handled (only "The" was requested).
+- Song picker categories are now alphabetical. "9 to 5" moved from Stand-Alone to Medium so it no longer sits uncategorized at the top.
+- Recently imported: newest first. Imports in the same instant now get strictly increasing timestamps, so ties no longer scramble the order.
+- Card map follows the active section in Practice and Performance: stepping with swipe, pedal, or keys scrolls the active card into view (with margins under the header and above the chord strip) and centers the active chip when the chip row overflows.
+- Edit mode: the card chips wrap onto several rows so every chip is reachable. Reordering by drag now works in reading order (row, then column) using both pointer axes.
+- Lyric lines wider than a card now wrap at spaces (long text between chords included). Cards with "no wrap" still keep each line on one line.
+- End of song with swipe or pedal: works even when the Previous/Next Song buttons are hidden. In a setlist it asks for a second swipe or press ("Next Song"/"Previous Song", or "Resume Setlist" when paused). With no setlist it says a setlist is needed. At the ends of a setlist it says so. Removed the "(this mockup reuses the same sheet)" text and the stale "Use Next song." hint.
+- Dedicated song pedal keys also work when the song buttons are hidden.
