@@ -298,3 +298,9 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.38.0 (Nov 8, 2026)
 - Custom Song list: the Song picker in Song Info now opens the app's own list instead of the Android system list, so category headings (Easy, Medium, Hard, Library, setlist name, Other songs) are shown in the accent color, bold, small capitals, and stay pinned while scrolling; the current song is highlighted and scrolled into view (owner chose this after the system list ignored heading colors).
+
+## v0.38.1 (Nov 8, 2026)
+- Dynamics rework (owner's tablet test of v0.35.0): marks are no longer limited to one per chord phrase. A letter dynamic or technique mark now attaches to the word you tapped, so one phrase can hold several; marks are drawn above that word from the real text position. Stored as extra keys (section|variation|line|@character) beside the old keys, so existing songs are unchanged.
+- Crescendo and decrescendo are drawn: choose the hairpin, then drag from the start word to the end word (or tap the end word). The wedge follows the text across wrapped lines and lines, and may start and end inside the same chord phrase. Cancel and Escape still work.
+- Code View and ChordPro export/import carry the new marks inline, such as "Happy [*mf]birthday" and [*cresc-start] ... [*cresc-end], and round-trip exactly.
+- Known limit: marks are anchored by character position, so editing lyric text earlier in a line can shift them; the song should be re-checked after text edits.
