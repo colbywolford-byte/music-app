@@ -3778,7 +3778,8 @@ var SZ={letter:[612,792],a4:[595,842]},FS={s:10,m:12,l:14,x:18},MG={n:36,m:54,w:
 // layout
 var pages=[];
 function wrapWords(s,f,z,mw){var w=String(s).split(/\s+/).filter(Boolean),out=[],cur='';w.forEach(function(x){var t=cur?cur+' '+x:x;if(cur&&TW(t,f,z)>mw){out.push(cur);cur=x}else cur=t});if(cur)out.push(cur);return out}
-function layoutSong(first){var st0=pages.length;layoutSong1(first,false);if(pages.length-st0>1){pages.length=st0;layoutSong1(first,true)}}
+var tight=false;
+function layoutSong(first){var st0=pages.length;tight=false;layoutSong1(first,false);var n1=pages.length-st0;if(n1>1){var keep=pages.splice(st0);tight=false;layoutSong1(first,true);if(tight||pages.length-st0>=n1){pages.length=st0;keep.forEach(function(q){pages.push(q)})}}}
 function layoutSong1(first,two){
  var Wd=SZ[O.size][0],Hd=SZ[O.size][1],m=MG[O.margin],fs=FS[O.font],top=m,bot=Hd-Math.max(m,52),bw=Wd-2*m,st0=document.getElementById('rngCz'),cz=st0?parseFloat(st0.value)||1:1,pos=st.pos,show=O.show,useDiag=O.diag&&show!=='lyrics';
  var S=SDB[st.song]||{},title=S.t||'Song';
@@ -3798,7 +3799,7 @@ function layoutSong1(first,two){
  var ts=fs*1.7;wrapWords(title,'B',ts,cw).forEach(function(l){pg.text(x0,y+ts*.85,l,'B',ts,0);y+=ts*1.12});
  var sub=(S.a||'')+(S.y?' ('+S.y+')':'');if(sub.trim()){pg.text(x0,y+fs*.9,sub,'I',fs*.9,.3);y+=fs*1.2}
  var info=['Key: '+kNameT()+(st.kmin?'':'')];if(st.capo)info.push('Capo: '+ordn(st.capo)+' fret');info.push('BPM: '+st.bpm);info.push('Time: '+st.ts);try{var ih=document.createElement('div');ih.innerHTML=instHdr();var itx=(ih.textContent||'').replace(/[?\u25BE\u25BC]/g,'').trim();if(itx)info.push(itx)}catch(e){}
- pg.text(x0,y+fs*.85,info.join('     '),'H',fs*.8,.35);y+=fs*1.2;
+ wrapWords(info.join('   \u00b7   '),'H',fs*.8,cw).forEach(function(l){pg.text(x0,y+fs*.85,l,'H',fs*.8,.35);y+=fs*1.1});y+=fs*.1;
  pg.line(x0,y+3,x0+cw,y+3,.7,.55);y+=fs*.9;
  function diagRow(){var per=Math.max(1,Math.floor((cw+dgap)/(dw+dgap)));for(var i=0;i<dg.length;i+=per){ensure(dh+dgap);var row=dg.slice(i,i+per);row.forEach(function(P,j){emit(pg,P,x0+j*(dw+dgap),y,ds)});y+=dh+dgap}y+=fs*.3}
  if(dg.length&&pos==='top')diagRow();
@@ -3808,13 +3809,13 @@ function layoutSong1(first,two){
   var atoms=[];segs.forEach(function(g,gi){var t=(g.t||'').replace(/ /g,' ').replace(/⁣/g,''),ch=g.c?(g.c==='NC'?'N.C.':trc(g.c)):'',pcs=t.match(/\S+\s*|\s+/g)||[''];pcs.forEach(function(p,pi){var tw=TW(p,'H',fs),twt=TW(p.replace(/\s+$/,''),'H',fs),c=pi===0?ch:'',cwid=c?TW(c,'B',csz):0,aw=Math.max(tw,cwid?cwid+4:0);var pv=atoms[atoms.length-1];atoms.push({t:p,c:c,tw:tw,twt:twt,cw:cwid,aw:aw,j:pi===0&&!!pv&&!/\s$/.test(pv.t)&&!/^\s/.test(p)&&p!==''&&pv.t!==''})})});
   var rows=[],cur=[],x=0;
   if(show==='chords'){var cr=[];atoms.forEach(function(a){if(a.c)cr.push(a.c)});if(!cr.length)return null;var xx=0,row=[];cr.forEach(function(c){var w=TW(c,'B',csz);if(row.length&&xx+w>cw){rows.push(row);row=[];xx=0}row.push({c:c,x:xx});xx+=w+fs*.9});rows.push(row);return{h:rows.length*fs*1.5+fs*.15,draw:function(p,X,Y){rows.forEach(function(r,i){r.forEach(function(a){p.text(X+a.x,Y+fs*1.05+i*fs*1.5,a.c,'B',csz,0)})})}}}
-  var grp=[];atoms.forEach(function(a){if(a.j&&grp.length)grp[grp.length-1].push(a);else grp.push([a])});grp.forEach(function(g){var gw=0;g.forEach(function(a,i){gw+=i<g.length-1?a.aw:Math.max(a.twt,a.cw)});if(cur.length&&x+gw>cw){rows.push(cur);cur=[];x=0}g.forEach(function(a){var need=Math.max(a.twt,a.cw);if(cur.length&&x+need>cw){rows.push(cur);cur=[];x=0}cur.push({a:a,x:x});x+=a.aw})});if(cur.length)rows.push(cur);
+  var grp=[];atoms.forEach(function(a){if(a.j&&grp.length)grp[grp.length-1].push(a);else grp.push([a])});grp.forEach(function(g){var gw=0;g.forEach(function(a,i){gw+=i<g.length-1?a.aw:Math.max(a.twt,a.cw)});if(gw>cw)tight=true;if(cur.length&&x+gw>cw){rows.push(cur);cur=[];x=0}g.forEach(function(a){var need=Math.max(a.twt,a.cw);if(cur.length&&x+need>cw){rows.push(cur);cur=[];x=0}cur.push({a:a,x:x});x+=a.aw})});if(cur.length)rows.push(cur);if(two&&rows.length>1)tight=true;
   var hasC=show!=='lyrics';var rh=rows.map(function(r){return hasC&&r.some(function(q){return q.a.c})?csz*1.0+fs*1.2+fs*.3:fs*1.45});var tot=rh.reduce(function(a,b){return a+b},0);
   return{h:tot,draw:function(p,X,Y){var yy=Y;rows.forEach(function(r,i){var withC=hasC&&r.some(function(q){return q.a.c});var base=yy+(withC?csz*1.0+fs*1.0:fs*1.05);r.forEach(function(q){if(withC&&q.a.c)p.text(X+q.x,yy+csz*.95,q.a.c,'B',csz,0);p.text(X+q.x,base,q.a.t.replace(/\s+$/,''),'H',fs,0)});yy+=rh[i]})}}}
- function tabBlock(rows){var mx=Math.max.apply(null,rows.map(function(r){return r.length}))||1,tsz=Math.min(fs*.8,cw/(mx*.6));return{h:rows.length*tsz*1.25+fs*.4,draw:function(p,X,Y){rows.forEach(function(r,i){p.text(X,Y+tsz*.95+i*tsz*1.25,r,'C',tsz,0)})}}}
+ function tabBlock(rows){var mx=Math.max.apply(null,rows.map(function(r){return r.length}))||1,tsz=Math.min(fs*.8,cw/(mx*.6));if(tsz<fs*.8)tight=true;return{h:rows.length*tsz*1.25+fs*.4,draw:function(p,X,Y){rows.forEach(function(r,i){p.text(X,Y+tsz*.95+i*tsz*1.25,r,'C',tsz,0)})}}}
  SEQ.forEach(function(sq){var sc=secOf(sq.s),vl=sc.v[sq.v],blocks=[],hd=sc.name.toUpperCase();
   var hdr={h:fs*1.9,draw:function(p,X,Y){p.text(X,Y+fs*1.35,hd,'B',fs*.88,.15);if(sc.v.length>1)p.text(X+TW(hd,'B',fs*.88)+8,Y+fs*1.35,'variation '+(sq.v+1)+' of '+sc.v.length,'I',fs*.72,.4)}};
-  var mel=null;if(O.tab&&show!=='lyrics'&&sc.mel&&sc.mel.length&&window.staffSvg){try{var sv=window.staffSvg(sc.mel,{W:cw,hs:Math.max(2.4,fs*.26),open:false}).svg,P=parseSvg(sv);if(P){var sc2=Math.min(1,cw/P.w);blocks.push({h:P.h*sc2+fs*.5,draw:function(p,X,Y){emit(p,P,X,Y,sc2)}})}}catch(e){console.error(e)}}
+  var mel=null;if(O.tab&&show!=='lyrics'&&sc.mel&&sc.mel.length&&window.staffSvg){try{var sv=window.staffSvg(sc.mel,{W:cw,hs:Math.max(2.4,fs*.26),open:false}).svg,P=parseSvg(sv);if(P){var sc2=Math.min(1,cw/P.w);if(sc2<1)tight=true;blocks.push({h:P.h*sc2+fs*.5,draw:function(p,X,Y){emit(p,P,X,Y,sc2)}})}}catch(e){console.error(e)}}
   var i=0;while(i<vl.length){var l=vl[i];if(!l){if(show!=='chords')blocks.push({h:fs*.7,draw:function(){}});i++;continue}
    if(isTab(l)){var rws=[];while(i<vl.length&&vl[i]&&isTab(vl[i])){rws.push(vl[i].replace(/⁣/g,'').replace(/\s+$/,''));i++}if(O.tab&&show!=='lyrics')blocks.push(tabBlock(rws));continue}
    var lb=lineBlock(parse(l));if(lb)blocks.push(lb);i++}
