@@ -1135,9 +1135,27 @@ $('resetLay').onclick=function(){st.free=false;POS={};DPOS={};KOV={};SIG='';$('l
 
 $('rngCz').oninput=function(){document.documentElement.style.setProperty('--cz',this.value);renderMap()};
 var dg=null;
-$('map').addEventListener('pointerdown',function(e){var g=e.target.closest('.grip');if(!g)return;var c=g.closest('.card');e.preventDefault();var m=$('map'),mr=m.getBoundingClientRect(),cs=getComputedStyle(m),ox=mr.left+parseFloat(cs.paddingLeft)-m.scrollLeft,oy=mr.top+parseFloat(cs.paddingTop)-m.scrollTop;if(!st.free){document.querySelectorAll('#map .card').forEach(function(el){var b=el.getBoundingClientRect(),sp=SPAN[el.dataset.id]||{k:1,r:1},p={c:Math.max(1,Math.min(GEO.n-sp.k+1,Math.round((b.left-ox)/(GEO.cw+GEO.gap))+1)),r:Math.max(1,Math.round((b.top-oy)/4)+1)};POS[el.dataset.id]=p;DPOS[el.dataset.id]={c:p.c,r:p.r};el.style.gridColumn=p.c+' / span '+sp.k;el.style.gridRow=p.r+' / span '+sp.r})}var cb=c.getBoundingClientRect();dg={c:c,id:c.dataset.id,x:e.clientX,y:e.clientY,gx:e.clientX-cb.left,gy:e.clientY-cb.top,ox:ox,oy:oy,pos:null};st.drag=true;c.classList.add('drag');var gh=document.createElement('div');gh.className='ghostcard';m.appendChild(gh);dg.gh=gh;g.setPointerCapture(e.pointerId)});
-document.addEventListener('pointermove',function(e){if(!dg)return;dg.c.style.transform='translate('+(e.clientX-dg.x)+'px,'+(e.clientY-dg.y)+'px)';var sp=SPAN[dg.id]||{k:1,r:1},tl=e.clientX-dg.gx-dg.ox,tt=e.clientY-dg.gy-dg.oy,p=place(dg.id,Math.round(tl/(GEO.cw+GEO.gap))+1,Math.round(tt/4)+1);dg.pos=p;dg.gh.style.gridColumn=p.c+' / span '+sp.k;dg.gh.style.gridRow=p.r+' / span '+Math.max(1,sp.r-2)});
-function endDrag(){if(!dg)return;var d=dg;dg=null;st.drag=false;if(d.gh&&d.gh.parentNode)d.gh.parentNode.removeChild(d.gh);if(d.pos){POS[d.id]=d.pos;DPOS[d.id]={c:d.pos.c,r:d.pos.r};Object.keys(DPOS).forEach(function(k){POS[k]={c:DPOS[k].c,r:DPOS[k].r}});st.free=true;$('layState').textContent='Layout: Custom'}renderMap()}
+$('map').addEventListener('pointerdown',function(e){var g=e.target.closest('.grip');if(!g)return;var c=g.closest('.card');e.preventDefault();var m=$('map'),mr=m.getBoundingClientRect(),cs=getComputedStyle(m),ox=mr.left+parseFloat(cs.paddingLeft)-m.scrollLeft,oy=mr.top+parseFloat(cs.paddingTop)-m.scrollTop;if(!st.free){document.querySelectorAll('#map .card').forEach(function(el){var b=el.getBoundingClientRect(),sp=SPAN[el.dataset.id]||{k:1,r:1},p={c:Math.max(1,Math.min(GEO.n-sp.k+1,Math.round((b.left-ox)/(GEO.cw+GEO.gap))+1)),r:Math.max(1,Math.round((b.top-oy)/4)+1)};POS[el.dataset.id]=p;DPOS[el.dataset.id]={c:p.c,r:p.r};el.style.gridColumn=p.c+' / span '+sp.k;el.style.gridRow=p.r+' / span '+sp.r})}var cb=c.getBoundingClientRect();dg={c:c,id:c.dataset.id,x:e.clientX,y:e.clientY,gx:e.clientX-cb.left,gy:e.clientY-cb.top,ox:ox,oy:oy,pos:null,lx:e.clientX,ly:e.clientY,plan:null,mv:false};st.drag=true;c.classList.add('drag');var gh=document.createElement('div');gh.className='ghostcard';m.appendChild(gh);dg.gh=gh;g.setPointerCapture(e.pointerId);dgLoop()});
+function dgOv(c1,k1,r1,h1,c2,k2,r2,h2){return c1<c2+k2&&c2<c1+k1&&r1<r2+h2&&r2<r1+h1}
+function dgPlan(id,c,r){var s=SPAN[id]||{k:1,r:1};c=Math.max(1,Math.min(c,GEO.n-s.k+1));r=Math.max(1,r);var pos={},ids=[];
+ LAYOUT.forEach(function(o){if(o!==id&&DPOS[o]){pos[o]={c:DPOS[o].c,r:DPOS[o].r};ids.push(o)}});
+ var moved=true,g=0;while(moved&&g++<50){moved=false;ids.forEach(function(o){var p=pos[o],t=SPAN[o]||{k:1,r:1};if(dgOv(c,s.k,r,s.r,p.c,t.k,p.r,t.r)&&r>=p.r+t.r/2){r=p.r+t.r;moved=true}})}
+ var ob=[{c:c,k:s.k,r:r,h:s.r}],pushed={},ch=true;g=0;
+ while(ch&&g++<200){ch=false;ids.slice().sort(function(a,b){return pos[a].r-pos[b].r}).forEach(function(o){var p=pos[o],t=SPAN[o]||{k:1,r:1};ob.forEach(function(b){if(b.id===o)return;var bc=b.p?b.p.c:b.c,bk=b.p?b.t.k:b.k,br=b.p?b.p.r:b.r,bh=b.p?b.t.r:b.h;if(dgOv(p.c,t.k,p.r,t.r,bc,bk,br,bh)){p.r=br+bh;ch=true;if(!pushed[o]){pushed[o]=1;ob.push({id:o,p:p,t:t})}}})})}
+ return{c:c,r:r,pos:pos}}
+function dgUpd(){if(!dg)return;var d=dg,m=$('map'),mr=m.getBoundingClientRect(),cs=getComputedStyle(m);
+ d.c.style.transform='';var cb=d.c.getBoundingClientRect();d.c.style.transform='translate('+(d.lx-d.gx-cb.left)+'px,'+(d.ly-d.gy-cb.top)+'px)';
+ var ox=mr.left+parseFloat(cs.paddingLeft)-m.scrollLeft,oy=mr.top+parseFloat(cs.paddingTop)-m.scrollTop,sp=SPAN[d.id]||{k:1,r:1},tl=d.lx-d.gx-ox,tt=d.ly-d.gy-oy,p=dgPlan(d.id,Math.round(tl/(GEO.cw+GEO.gap))+1,Math.round(tt/4)+1);
+ d.pos={c:p.c,r:p.r};d.plan=p.pos;d.gh.style.gridColumn=p.c+' / span '+sp.k;d.gh.style.gridRow=p.r+' / span '+Math.max(1,sp.r-2);
+ document.querySelectorAll('#map .card').forEach(function(el){var id=el.dataset.id;if(id===d.id)return;var q=p.pos[id];if(q){var t=SPAN[id]||{k:1,r:1};el.style.gridRow=q.r+' / span '+t.r}})}
+function dgScroller(){var m=$('map');return m.scrollHeight>m.clientHeight+2?m:(document.scrollingElement||document.documentElement)}
+function dgLoop(){if(!dg||dg.raf)return;(function tick(){if(!dg)return;
+ if(dg.mv){var sc=dgScroller(),top,bot,m=$('map');if(sc===m){var r=m.getBoundingClientRect();top=Math.max(r.top,0);bot=Math.min(r.bottom,innerHeight)}else{top=0;bot=innerHeight}
+  var E=70,v=0;if(dg.ly<top+E)v=-Math.min(26,Math.ceil((top+E-dg.ly)/E*26));else if(dg.ly>bot-E)v=Math.min(26,Math.ceil((dg.ly-(bot-E))/E*26));
+  if(v){var b0=sc.scrollTop;sc.scrollTop=b0+v;if(sc.scrollTop!==b0)dgUpd()}}
+ dg.raf=requestAnimationFrame(tick)})()}
+document.addEventListener('pointermove',function(e){if(!dg)return;dg.lx=e.clientX;dg.ly=e.clientY;if(!dg.mv&&Math.abs(e.clientX-dg.x)+Math.abs(e.clientY-dg.y)>10)dg.mv=true;dgUpd()});
+function endDrag(){if(!dg)return;var d=dg;dg=null;st.drag=false;if(d.gh&&d.gh.parentNode)d.gh.parentNode.removeChild(d.gh);if(d.raf)cancelAnimationFrame(d.raf);if(d.plan)Object.keys(d.plan).forEach(function(k){DPOS[k]={c:d.plan[k].c,r:d.plan[k].r}});if(d.pos){POS[d.id]=d.pos;DPOS[d.id]={c:d.pos.c,r:d.pos.r};Object.keys(DPOS).forEach(function(k){POS[k]={c:DPOS[k].c,r:DPOS[k].r}});st.free=true;$('layState').textContent='Layout: Custom'}renderMap()}
 document.addEventListener('pointerup',endDrag);document.addEventListener('pointercancel',endDrag);
 var rs=null;
 $('map').addEventListener('pointerdown',function(e){var z=e.target.closest('.rz');if(!z)return;var c=z.closest('.card'),id=c.dataset.id,sp=SPAN[id]||{k:1,ka:1};e.preventDefault();var tws=c.querySelector('.tws'),kmin=1;if(tws){var bw=0;tws.querySelectorAll('.tb').forEach(function(b){bw=Math.max(bw,b.offsetWidth)});var tcs=getComputedStyle(tws),ccs=getComputedStyle(c),mp=bw+parseFloat(tcs.paddingLeft)+parseFloat(ccs.paddingLeft)+parseFloat(ccs.paddingRight)+parseFloat(ccs.borderLeftWidth)+parseFloat(ccs.borderRightWidth)+8;kmin=Math.max(1,Math.ceil((mp+GEO.gap)/(GEO.cw+GEO.gap)))}rs={c:c,id:id,x:e.clientX,k0:sp.k,ka:sp.ka||1,tw:!!tws,kmin:kmin,max:st.free&&POS[id]?Math.max(sp.k,GEO.n-POS[id].c+1):GEO.n,k:sp.k};st.drag=true;c.style.zIndex=20;z.setPointerCapture(e.pointerId)});
@@ -1302,7 +1320,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-var APPVER='0.32.3-2026-11-07';
+var APPVER='0.33.0-2026-11-07';
 function aboutHtml(wz){return '<p>'+(wz?'':'<b>Orpharion</b> (working title) <span class="hint">\u00b7 ver. '+APPVER+' \u00b7 \u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</span>')+'</p><p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Some strum patterns are based on a chart at ukulelego.com.</p><p>Tab sheets use the JetBrains Mono font (SIL Open Font License 1.1). PDF reading uses pdf.js from Mozilla (Apache License 2.0).</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging, and playing your own charts. It does not include, supply, or license any songs, lyrics, or recordings. You are responsible for having the right to use every song you enter, import, keep, share, or perform. This includes anything you bring in from text, ChordPro, PDF, or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share, or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'+'<div class="legal"><b>Privacy policy</b><p class="hint">Last updated November 7, 2026</p><p><b>Short version:</b> Orpharion has no accounts, no ads, and no tracking. Nothing you do in the app is sent to the developer.</p><p><b>What stays on your device.</b> Your settings, setlists, custom strum patterns, song edits, and similar choices are saved in your own browser on your own device. They are not uploaded anywhere. Clearing your browser&rsquo;s site data removes them.</p><p><b>What we collect.</b> We do not collect, sell, or share personal information, and the app has no analytics. The page is delivered by a web host (GitHub Pages), which, like any web host, may keep ordinary server logs such as your IP address and the time of your visit. See GitHub&rsquo;s own privacy statement for how it handles those. PDFs and other files you import are read on your device and are not uploaded.</p><p><b>Your files.</b> Files you import are read on your device. You decide which ones to bring in.</p><p><b>Changes.</b> If this policy changes, the date above will change and the new text will appear here.</p><p class="hint">This is general information, not legal advice.</p></div>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
@@ -2900,13 +2918,14 @@ function addSong(cp,name){var s=parseCP(cp,/\.(md|markdown)$/i.test(name));if(!s
 async function unzipEntry(ab,want){var u=new Uint8Array(ab),dv=new DataView(ab),i,n=u.length,eo=-1;for(i=n-22;i>=Math.max(0,n-70000);i--){if(dv.getUint32(i,true)===0x06054b50){eo=i;break}}if(eo<0)throw new Error('zip');var cnt=dv.getUint16(eo+10,true),off=dv.getUint32(eo+16,true);for(var k=0;k<cnt;k++){if(dv.getUint32(off,true)!==0x02014b50)break;var meth=dv.getUint16(off+10,true),csz=dv.getUint32(off+20,true),nl=dv.getUint16(off+28,true),el=dv.getUint16(off+30,true),cl=dv.getUint16(off+32,true),lo=dv.getUint32(off+42,true),nm=new TextDecoder().decode(u.subarray(off+46,off+46+nl));if(nm===want){var ds=lo+30+dv.getUint16(lo+26,true)+dv.getUint16(lo+28,true),data=u.subarray(ds,ds+csz);if(meth===0)return new TextDecoder().decode(data);if(meth!==8||typeof DecompressionStream==='undefined')throw new Error('zip');return await new Response(new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).text()}off+=46+nl+el+cl}throw new Error('zip')}
 function docxText(xml){var d=new DOMParser().parseFromString(xml,'application/xml'),ps=d.getElementsByTagName('w:p'),out=[];for(var i=0;i<ps.length;i++){var t='';(function walk(n){for(var c=n.firstChild;c;c=c.nextSibling){var nm=c.nodeName;if(nm==='w:t')t+=c.textContent;else if(nm==='w:tab')t+='    ';else if(nm==='w:br'||nm==='w:cr')t+='\n';else if(nm==='w:noBreakHyphen')t+='-';else if(nm==='w:p'||nm==='mc:Fallback')continue;else walk(c)}})(ps[i]);out.push(t)}return out.join('\n')}
 async function docxToCP(ab,name){var xml=await unzipEntry(ab,'word/document.xml');return toCP(docxText(xml),name,{head:1})}
-async function runImport(items){if(busy||!items.length)return;busy=true;paintBtns();var ok=0,bad=[],scans=[],first=-1;
+async function runImport(items){if(busy||!items.length)return;busy=true;paintBtns();var ok=0,bad=[],scans=[],first=-1,n0=SDB.length;
  for(var i=0;i<items.length;i++){var it=items[i];msg('Importing '+(i+1)+' of '+items.length+': '+it.name);await yieldUI();
   try{var f=await tmo(it.get(),20000,'Reading '+it.name),idx;if(/\.pdf$/i.test(it.name)){if(f.size>25000000)throw new Error('too large');var ab=await tmo(f.arrayBuffer(),30000,'Reading '+it.name);idx=addSong(await pdfToCP(ab,it.name),it.name)}else if(/\.docx$/i.test(it.name)){if(f.size>25000000)throw new Error('too large');idx=addSong(await docxToCP(await tmo(f.arrayBuffer(),30000,'Reading '+it.name),it.name),it.name)}else{if(f.size>3000000)throw new Error('too large');var tx=await tmo(f.text(),20000,'Reading '+it.name);idx=addSong(toCP(tx,it.name),it.name)}if(idx==null)bad.push(it.name);else{ok++;if(first<0)first=idx}}catch(e){if(e&&e.message==='noText')scans.push(it.name);else bad.push(it.name)}}
  busy=false;
+ var dupN=0,dupR=0;if(ok&&window.DUPX){try{var dr=await DUPX.resolve(n0);if(dr){dupN=dr.dropped;dupR=dr.replaced;ok-=dupN;if(dr.first!=null)first=dr.first}}catch(e){console.error(e)}}
  if(ok){try{songOpts();libSave();window.SETB&&SETB.resync&&SETB.resync();listSongs()}catch(e){}}
- var m=(ok?'Imported '+ok+(ok===1?' song.':' songs.'):'')+(bad.length?' I could not find lyrics or chords in: '+bad.join(', ')+'.':'')+(scans.length?' These PDFs have no readable text, so they may be scans, which I cannot read yet: '+scans.join(', ')+'.':'');
- if(ok&&!bad.length&&!scans.length){X.hidden=true;try{saveTC();st.song=first;loadTC();st.step=0;st.run=false;hideCount();renderTop()}catch(e){console.error(e)}toast('Imported '+ok+(ok===1?' song':' songs')+'. Opened '+SDB[first].t+'.')}
+ var m=(dupN&&!ok?'Skipped '+dupN+(dupN===1?' song':' songs')+' already in your library.':'')+(ok?'Imported '+ok+(ok===1?' song.':' songs.')+(dupN?' Skipped '+dupN+' already in your library.':'')+(dupR?' Replaced '+dupR+(dupR===1?' old copy.':' old copies.'):''):'')+(bad.length?' I could not find lyrics or chords in: '+bad.join(', ')+'.':'')+(scans.length?' These PDFs have no readable text, so they may be scans, which I cannot read yet: '+scans.join(', ')+'.':'');
+ if(ok&&!bad.length&&!scans.length){X.hidden=true;try{saveTC();st.song=first;loadTC();st.step=0;st.run=false;hideCount();renderTop()}catch(e){console.error(e)}toast('Imported '+ok+(ok===1?' song':' songs')+'.'+(dupN?' Skipped '+dupN+' already in your library.':'')+(dupR?' Replaced '+dupR+(dupR===1?' old copy.':' old copies.'):'')+' Opened '+SDB[first].t+'.')}
  else{paintAll();msg(m||'Nothing to import.')}}
 $('imGo').onclick=function(){var items=selKeys().filter(function(k){return !SEL[k].d}).map(function(k){var h=SEL[k].h;return{name:h.name,get:function(){return h.getFile()}}});runImport(items)};
 $('imOther').onclick=function(){if(!busy)$('imFile').click()};
@@ -3191,6 +3210,76 @@ $('selBook').addEventListener('change',function(){
  var f=l.filter(function(i){return SDB[i]})[0];if(f==null)return;
  try{saveTC();st.song=f;loadTC();st.step=0;st.ui=0;st.tot=0;st.run=false;st.count=0;try{hideCount()}catch(e){}renderTop();toast('Loaded '+(BN[st.book]||'setlist')+'. Starting with '+SDB[f].t)}catch(e){console.error(e)}});
 }catch(e){console.error('setlist first song',e)}})();
+
+/* ===== duplicate check after an import, and Export all songs ===== */
+(function(){try{
+function nz(s){return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'')}
+function same(a,b){return !!nz(a.t)&&nz(a.t)===nz(b.t)&&(!nz(a.a)||!nz(b.a)||nz(a.a)===nz(b.a))}
+function ask(pairs){return new Promise(function(done){
+ var o=document.createElement('div');o.id='dupDlg';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label','Songs already in your library');
+ var n=pairs.length,names=pairs.slice(0,8).map(function(p){return '<li>'+esc(SDB[p.n].t)+(SDB[p.n].a?' <span>'+esc(SDB[p.n].a)+'</span>':'')+'</li>'}).join('')+(n>8?'<li>and '+(n-8)+' more</li>':'');
+ o.innerHTML='<div class="dbox"><b>Already in your library</b><p>'+(n===1?'This song you just imported matches a song':'These '+n+' songs you just imported match songs')+' already in your library:</p><ul>'+names+'</ul><div class="drow"><button type="button" data-a="both">Keep both</button><button type="button" data-a="replace">Replace the old '+(n===1?'one':'ones')+'</button><button type="button" data-a="skip">Skip the new '+(n===1?'one':'ones')+'</button></div><div class="hint">Replace overwrites any edits you made to the old '+(n===1?'copy':'copies')+'.</div></div>';
+ document.body.appendChild(o);var first=o.querySelector('button');try{first.focus()}catch(e){}
+ function fin(a){document.removeEventListener('keydown',kd,true);o.remove();done(a)}
+ function kd(e){if(e.key==='Escape'){e.stopPropagation();fin('both')}}
+ document.addEventListener('keydown',kd,true);
+ o.addEventListener('click',function(e){var b=e.target.closest('button[data-a]');if(b)fin(b.dataset.a)})})}
+function resolve(n0){
+ var pairs=[],end=SDB.length;
+ for(var i=n0;i<end;i++){for(var j=0;j<n0;j++){var o=SDB[j];if(o.fold&&same(SDB[i],o)){pairs.push({n:i,o:j});break}}}
+ if(!pairs.length)return Promise.resolve(null);
+ return ask(pairs).then(function(a){
+  if(a==='both')return null;
+  var byN={};pairs.forEach(function(p){byN[p.n]=p.o});
+  var res={dropped:0,replaced:0,first:null},drop=[];
+  if(a==='replace'){pairs.forEach(function(p){var s=SDB[p.n],o=SDB[p.o];Object.keys(s).forEach(function(k){if(k!=='fold')o[k]=s[k]});SONGS[p.o]=o.t;delete DBS[p.o];
+   if(st.song===p.o){DBS[p.o]=cloneSong(p.o);loadTC();st.step=0;st.run=false;try{hideCount()}catch(e){}SPAN={};SIG='';st.rev++}
+   drop.push(p.n);res.replaced++})}
+  else{pairs.forEach(function(p){drop.push(p.n);res.dropped++})}
+  var dset={};drop.forEach(function(n){dset[n]=1});
+  for(var k=n0;k<end;k++){if(res.first!=null)break;if(byN[k]!=null&&a==='replace'){res.first=byN[k]}else if(!dset[k]){res.first=k-drop.filter(function(d){return d<k}).length}}
+  drop.sort(function(x,y){return y-x}).forEach(function(n){SDB.splice(n,1);SONGS.splice(n,1)});
+  if(res.first==null)res.first=-1;
+  try{libSave()}catch(e){}
+  return res})}
+window.DUPX={resolve:resolve};
+var css=document.createElement('style');css.textContent='#dupDlg{position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:16px}#dupDlg .dbox{background:var(--bg);color:var(--ink);border:2px solid var(--acc);border-radius:14px;padding:16px;max-width:460px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 10px 40px rgba(0,0,0,.5)}#dupDlg p{margin:.5rem 0}#dupDlg ul{margin:.25rem 0 .75rem;padding-left:1.2rem}#dupDlg li span{opacity:.7;font-size:.85em}#dupDlg .drow{display:flex;flex-direction:column;gap:6px;margin-bottom:6px}#dupDlg .drow button{text-align:left;padding:.6rem .8rem}';document.head.appendChild(css);
+}catch(e){console.error('duplicate check',e)}})();
+
+/* ===== Export all songs (one .zip of ChordPro files) ===== */
+(function(){try{
+var lib=$('hbLib');if(!lib||!window.TVX)return;
+var g=document.createElement('div');g.className='pg';g.id='gExpAll';
+g.innerHTML='<b class="mkh">Export</b><div class="hint">Save every song in your library as a ChordPro (.cho) file inside one .zip. Your edits are included.</div><div class="prow"><button type="button" id="exAll">Export all songs</button></div><div class="hint" id="exAllMsg"></div>';
+lib.appendChild(g);
+var css=document.createElement('style');css.textContent='#hbLib>#gExpAll{order:9}';document.head.appendChild(css);
+function serOf(i){
+ if(i===st.song)return TVX.ser();
+ var keep={SECS:SECS,LAYOUT:LAYOUT,NUMS:NUMS,MARKS:MARKS,CSTR:CSTR,SEQ:SEQ,song:st.song,key:st.key,kmin:st.kmin,bpm:st.bpm,ts:st.ts,strum:st.strum};
+ var d=DBS[i]||cloneSong(i),sq=[];
+ d.LAYOUT.forEach(function(id){(d.NUMS[id]||[]).forEach(function(n){sq.push({s:id,n:n})})});sq.sort(function(a,b){return a.n-b.n});
+ try{SECS=d.SECS;LAYOUT=d.LAYOUT;NUMS=d.NUMS;MARKS=d.MARKS;CSTR=d.CSTR;SEQ=sq;st.song=i;st.key=d.key;st.kmin=d.kmin;st.bpm=d.bpm;st.ts=d.ts;st.strum=d.strum;return TVX.ser()}
+ finally{SECS=keep.SECS;LAYOUT=keep.LAYOUT;NUMS=keep.NUMS;MARKS=keep.MARKS;CSTR=keep.CSTR;SEQ=keep.SEQ;st.song=keep.song;st.key=keep.key;st.kmin=keep.kmin;st.bpm=keep.bpm;st.ts=keep.ts;st.strum=keep.strum}}
+function crc32(u){var t=crc32.t;if(!t){t=crc32.t=[];for(var n=0,c,k;n<256;n++){c=n;for(k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}}var c2=-1;for(var i=0;i<u.length;i++)c2=t[(c2^u[i])&255]^(c2>>>8);return(c2^-1)>>>0}
+function zip(files){var parts=[],cd=[],off=0,enc=new TextEncoder(),d=new Date(),dt=((d.getFullYear()-1980)<<9)|((d.getMonth()+1)<<5)|d.getDate(),tm=(d.getHours()<<11)|(d.getMinutes()<<5)|(d.getSeconds()>>1);
+ files.forEach(function(f){var nm=enc.encode(f.name),crc=crc32(f.data),h=new DataView(new ArrayBuffer(30));
+  h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint16(6,0x0800,true);h.setUint16(8,0,true);h.setUint16(10,tm,true);h.setUint16(12,dt,true);h.setUint32(14,crc,true);h.setUint32(18,f.data.length,true);h.setUint32(22,f.data.length,true);h.setUint16(26,nm.length,true);h.setUint16(28,0,true);
+  parts.push(new Uint8Array(h.buffer),nm,f.data);
+  var c=new DataView(new ArrayBuffer(46));c.setUint32(0,0x02014b50,true);c.setUint16(4,20,true);c.setUint16(6,20,true);c.setUint16(8,0x0800,true);c.setUint16(10,0,true);c.setUint16(12,tm,true);c.setUint16(14,dt,true);c.setUint32(16,crc,true);c.setUint32(20,f.data.length,true);c.setUint32(24,f.data.length,true);c.setUint16(28,nm.length,true);c.setUint32(42,off,true);
+  cd.push(new Uint8Array(c.buffer),nm);off+=30+nm.length+f.data.length});
+ var cl=0;cd.forEach(function(x){cl+=x.length});var e=new DataView(new ArrayBuffer(22));e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,cl,true);e.setUint32(16,off,true);
+ return new Blob(parts.concat(cd,[new Uint8Array(e.buffer)]),{type:'application/zip'})}
+function save(blob,name){var m=$('exAllMsg');
+ function fb(){try{var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1000);return true}catch(e){return false}}
+ try{if(window.claude&&claude.use){claude.use('downloads').then(function(d){if(d)d.save({filename:name,data:blob}).then(function(){m.textContent='Saved '+name+'.'},function(){});else if(!fb())m.textContent='Export is not available here.'});return}}catch(e){}
+ if(!fb())m.textContent='Export is not available here.'}
+$('exAll').onclick=function(){var m=$('exAllMsg');m.textContent='Preparing…';
+ setTimeout(function(){try{var used={},files=[],enc=new TextEncoder();
+  SDB.forEach(function(s,i){var base=(s.t||'Song').replace(/[\\/:*?"<>|]+/g,'').replace(/\s+/g,' ').trim()||'Song',nm=base,k=2;while(used[nm.toLowerCase()])nm=base+' ('+(k++)+')';used[nm.toLowerCase()]=1;
+   var txt=serOf(i);files.push({name:nm+'.cho',data:enc.encode(txt)})});
+  var d=new Date(),stamp=d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);
+  m.textContent='Exported '+files.length+(files.length===1?' song.':' songs.');save(zip(files),'Orpharion songs '+stamp+'.zip')}catch(e){console.error(e);m.textContent='Export did not work: '+e.message}},30)};
+}catch(e){console.error('export all',e)}})();
 
 })();
 </script>
