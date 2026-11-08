@@ -381,3 +381,4 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Chord diagrams follow the Display settings for position (top, left, right, bottom), order (alphabetical or order of appearance), and size.
 - Footer on every page: "Orpharion" left, "Page x of y" centered. Clean black on white; section names bold small caps style.
 - Melody staff is converted from the on-screen SVG to vector drawing; clef is a simplified bold G; dynamics and range overlays are not in PDFs yet.
+- PDF follow-up: a song that would run past one page now flows into a second column on the same page before starting a new page. Songs that fit on one page stay single-column. Setlist songs still start on a new page.

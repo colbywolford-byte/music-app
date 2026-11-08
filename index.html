@@ -3778,7 +3778,8 @@ var SZ={letter:[612,792],a4:[595,842]},FS={s:10,m:12,l:14,x:18},MG={n:36,m:54,w:
 // layout
 var pages=[];
 function wrapWords(s,f,z,mw){var w=String(s).split(/\s+/).filter(Boolean),out=[],cur='';w.forEach(function(x){var t=cur?cur+' '+x:x;if(cur&&TW(t,f,z)>mw){out.push(cur);cur=x}else cur=t});if(cur)out.push(cur);return out}
-function layoutSong(first){
+function layoutSong(first){var st0=pages.length;layoutSong1(first,false);if(pages.length-st0>1){pages.length=st0;layoutSong1(first,true)}}
+function layoutSong1(first,two){
  var Wd=SZ[O.size][0],Hd=SZ[O.size][1],m=MG[O.margin],fs=FS[O.font],top=m,bot=Hd-Math.max(m,52),bw=Wd-2*m,st0=document.getElementById('rngCz'),cz=st0?parseFloat(st0.value)||1:1,pos=st.pos,show=O.show,useDiag=O.diag&&show!=='lyrics';
  var S=SDB[st.song]||{},title=S.t||'Song';
  // diagrams in display order
@@ -3788,10 +3789,10 @@ function layoutSong(first){
  var ds=0.9*cz,dgap=8,dw=dg.length?Math.max.apply(null,dg.map(function(p){return p.w}))*ds:0,dh=80*ds;
  var side=(pos==='left'||pos==='right')&&dg.length,cols=0,colsW=0,perCol=0;
  if(side){perCol=Math.max(1,Math.floor((bot-top+dgap)/(dh+dgap)));cols=Math.ceil(dg.length/perCol);colsW=cols*dw+(cols-1)*dgap+14;if(colsW>bw*.4){var k=(bw*.4-14)/(cols*dw+(cols-1)*dgap);ds*=k;dw*=k;dh*=k;perCol=Math.max(1,Math.floor((bot-top+dgap)/(dh+dgap)));cols=Math.ceil(dg.length/perCol);colsW=cols*dw+(cols-1)*dgap+14}}
- var x0=m+(side&&pos==='left'?colsW:0),cw=bw-(side?colsW:0),pg=null,y=0;
+ var x0=m+(side&&pos==='left'?colsW:0),cw=bw-(side?colsW:0),pg=null,y=0,col=0,gut=20,colX=[x0,0];if(two){cw=(cw-gut)/2;colX[1]=x0+cw+gut}
  function drawSide(p){if(!side)return;var gx=pos==='left'?m:m+bw-colsW+14;for(var i=0;i<dg.length;i++){var c=Math.floor(i/perCol),r=i%perCol;emit(p,dg[i],gx+c*(dw+dgap),top+r*(dh+dgap),ds)}}
- function newPage(){pg=new Pg(Wd,Hd);pages.push(pg);y=top;drawSide(pg)}
- function ensure(h){if(y+h>bot)newPage()}
+ function newPage(){pg=new Pg(Wd,Hd);pages.push(pg);y=top;col=0;x0=colX[0];drawSide(pg)}
+ function ensure(h){if(y+h>bot){if(two&&col===0){col=1;x0=colX[1];y=top}else newPage()}}
  newPage();
  // title block
  var ts=fs*1.7;wrapWords(title,'B',ts,cw).forEach(function(l){pg.text(x0,y+ts*.85,l,'B',ts,0);y+=ts*1.12});
@@ -3818,7 +3819,7 @@ function layoutSong(first){
    if(isTab(l)){var rws=[];while(i<vl.length&&vl[i]&&isTab(vl[i])){rws.push(vl[i].replace(/⁣/g,'').replace(/\s+$/,''));i++}if(O.tab&&show!=='lyrics')blocks.push(tabBlock(rws));continue}
    var lb=lineBlock(parse(l));if(lb)blocks.push(lb);i++}
   var tot=hdr.h+blocks.reduce(function(a,b){return a+b.h},0),body=bot-top;
-  if(tot<=body&&y+tot>bot)newPage();
+  if(tot<=body)ensure(tot);
   ensure(hdr.h+(blocks[0]?blocks[0].h:0));hdr.draw(pg,x0,y);y+=hdr.h;
   blocks.forEach(function(b){ensure(b.h);b.draw(pg,x0,y);y+=b.h});y+=fs*.6});
  if(dg.length&&pos==='bottom')diagRow();
