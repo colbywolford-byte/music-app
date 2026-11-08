@@ -374,3 +374,10 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 ## v0.39.2: launch splash removed (shelved)
 - The animated launch splash (v0.39.1) is removed. On the tablet the page-drawn splash never lined up with Android's own splash screen: it appeared after Android's splash, showed only part of the animation, and jumped. A web page cannot animate Android's native splash, so the clean version of this idea needs a different approach (for example, a short in-app animation after the app is already showing, or the About logo). Shelved for later in the project.
 - The logo geometry, the rotation directions (rosette counter-clockwise, strings and scroll clockwise around the rosette center), and the measured Android splash icon size (about 151 CSS px at a device pixel ratio of about 1.33) are recorded above in v0.39.1 for reuse.
+
+## v0.40.0 — PDF export
+- New "Export PDF" group in Menu > Song Files. The app writes the PDF itself (PDF 1.4, standard fonts, Flate-compressed pages), so one tap saves a real file to Downloads.
+- Exports one song or a whole setlist (each song starts on a new page). Options (saved in 'orph.pdfopt'): page size Letter/A4 (default by locale), font size Small–Extra large, margins Narrow/Normal/Wide, Chords and lyrics / Lyrics only / Chords only, include chord diagrams, include tab and melody staff.
+- Chord diagrams follow the Display settings for position (top, left, right, bottom), order (alphabetical or order of appearance), and size.
+- Footer on every page: "Orpharion" left, "Page x of y" centered. Clean black on white; section names bold small caps style.
+- Melody staff is converted from the on-screen SVG to vector drawing; clef is a simplified bold G; dynamics and range overlays are not in PDFs yet.
