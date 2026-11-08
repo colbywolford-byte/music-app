@@ -203,3 +203,7 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Song Info > Song now has a Setlist dropdown above the Song dropdown (a setlist contains songs, so it comes first). It stays in sync with "Loaded Setlist" in Song Files.
 - Choosing a setlist loads it but does not change the open song. With a setlist loaded, the Song dropdown lists that setlist's songs first, in setlist order, then everything else under "Other songs". Choosing None brings back the grouped list (Stand-Alone, Easy, Medium, Hard, library folders).
 - Song Files keeps its Loaded Setlist dropdown and Edit Setlists button; no song picker was added there (user agreed).
+
+## v0.32.1 — Loading a setlist opens its first song
+- Choosing a setlist (Song Info or Song Files) opens its first song, so the setlist starts at the beginning. If the open song is already in that setlist, it stays open. Choosing None, or an empty setlist, changes nothing.
+- This replaces the v0.32.0 behavior, where a setlist loaded from a song outside it had no position, so Next Song, the pedal, and swipe could skip song 1 or do nothing. It now matches the Load button in Edit Setlists.
