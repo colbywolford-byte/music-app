@@ -269,3 +269,8 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.36.2 — Dark icon
 - The tab icon, home-screen icon, and installed-app colors now use the dark background instead of cream.
+
+## v0.37.0 — Logo follows the theme
+- Two transparent-background logos: a light silver-titanium version for dark backgrounds and a black-titanium version for light backgrounds. The browser tab icon switches with the browser's light or dark mode. The About box logo switches with the app's own theme, including custom colors (it checks how dark the card color is).
+- The installed-app (home screen) icon is one picture, so it keeps a solid dark background with the light logo.
+- About text: the "Concept, design, and direction" line also leaves room for the logo on narrow screens.
