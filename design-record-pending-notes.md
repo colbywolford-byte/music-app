@@ -363,3 +363,8 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Restore: the file picker now shows "Choose your backup file…", then "Reading <name> (<bytes>)…", and failures name the file, its size, and the technical reason. The picker listens for both change and input events.
 - Restore picker: the "Restore From a File" button is now a transparent file input laid over the button, so the tap opens the picker directly (some Android browsers ignore a programmatic click on a hidden input). The Restore dialog no longer closes the menu behind it.
 - Restore picker: when the browser supports the File System Access API (showOpenFilePicker), Restore uses it, which opens the full system file browser. The tablet browser showed only Camera, Camcorder, and Photos & videos with a plain file input. Browsers without the API fall back to the plain input.
+
+## v0.39.1: launch splash
+- Full-screen splash on app launch, about 2 seconds: the rosette (petals and center dot) turns once counter-clockwise while the strings and scroll orbit once clockwise around the rosette's center, then both settle into the finished logo and the splash fades out.
+- Shows once per session (so the update check's automatic reload does not repeat it); tap or press a key to skip; skipped entirely when the device asks for reduced motion.
+- Metal logo on dark palettes and black titanium on light palettes, matching the About logo.
