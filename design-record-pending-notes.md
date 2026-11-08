@@ -223,3 +223,7 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Duplicate check after an import: when an imported song matches a song already in the library (same title, and the same artist or a blank artist on either side), a prompt offers Keep both, Replace the old ones (overwrites edits to the old copy; setlists keep pointing at the same song), or Skip the new ones. Built-in sample songs are not checked. Escape means Keep both. The import message reports what was skipped or replaced.
 - Song Files > Export > Export all songs: saves one .zip with every song as a ChordPro .cho file (named by title, numbered if two share a title), including edits. The currently open song and the rest are all included; the open song is not disturbed.
 - Re-importing exported files gives the same cards (checked on a tab and grid song, a dynamics song, variations, and a long arrangement).
+
+## v0.33.1 — Duplicate prompt works one song at a time
+- Changed from the v0.33.0 batch prompt (user's feedback). During an import, each song that matches a library song stops with its own prompt: Keep both, Replace the original, or Keep the original. A checkbox, "Do this for the rest of this import (N more)", applies the same choice to every remaining duplicate without asking again; it only shows when more files are still to come. Escape means Keep both.
+- Wording: "Keep the original" replaces "Skip the new one"; "Replace the original" replaces "Replace the old one". The import message says how many originals were kept or replaced.
