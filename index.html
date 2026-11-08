@@ -3696,8 +3696,9 @@ D.addEventListener('click',function(e){e.stopPropagation()});$('bkNo').onclick=c
 $('bkGo').onclick=function(){if(!PK)return;var pack=PK,ws=pack.items&&$('bkC').checked;closeD();var R;try{R=applyPack(pack,ws)}catch(e){console.error(e);msg('The restore did not finish: '+(e&&e.message||e));return}
  var m=summary(R,pack);msg(m);toast(R.songs||R.sets||R.strums||R.settings?'Restore finished.':'Nothing new to restore.');try{fill()}catch(e){}
  if(R.settings){setTimeout(function(){location.reload()},1800)}};
-var inp=$('bkIn');inp.addEventListener('click',function(e){e.stopPropagation();lastF=null;inp.value='';msg('')});
-async function onPick(){var f=inp.files&&inp.files[0];if(!f||f===lastF)return;lastF=f;msg('Reading '+f.name+' ('+f.size+' bytes)…');
+var inp=$('bkIn');inp.addEventListener('click',function(e){e.stopPropagation();lastF=null;msg('');if(window.showOpenFilePicker){e.preventDefault();(async function(){try{var hs=await window.showOpenFilePicker({multiple:false}),f=hs&&hs[0]?await hs[0].getFile():null;if(f)handleFile(f)}catch(x){if(!x||x.name!=='AbortError')msg('I could not open the file picker: '+(x&&x.message||x))}})();return}inp.value=''});
+function onPick(){var f=inp.files&&inp.files[0];if(!f||f===lastF)return;lastF=f;handleFile(f)}
+async function handleFile(f){msg('Reading '+f.name+' ('+f.size+' bytes)…');
  try{var pack=await parseFile(f);PK=pack;var ul=[],c=function(n,a,b){return n+' '+(n===1?a:b)};
   var T={orz:'Backup',orl:'Setlist file',orp:'Strum file'}[pack.kind]||'File';$('bkT').textContent='Restore this '+T.toLowerCase()+'?';
   if(pack.songs.length)ul.push(c(pack.songs.length,'song','songs'));if(pack.folders.length&&pack.kind==='orz')ul.push(c(pack.folders.length,'folder','folders'));if(pack.sets.length)ul.push(c(pack.sets.length,'setlist','setlists'));if(pack.strums.length)ul.push(c(pack.strums.length,'strum pattern','strum patterns'));
