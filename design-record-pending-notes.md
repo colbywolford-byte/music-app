@@ -258,3 +258,8 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 ## v0.35.1 — About screen fixes
 - Version and copyright are back on their own lines under the app name, and the top lines leave room so they no longer run under the logo.
 - The About box now fits the visible screen height on phones and tablets (the browser's address bar had made it taller than the screen, hiding the lower half of the Close button). It scrolls fully to the Close button.
+
+## v0.36.0 — Full screen and installable app
+- New Screen block at the top of Menu > Display with a Full screen button. It hides the address bar, tab strip, and Android navigation bar; swiping in from the edge or tapping Leave full screen brings them back. The browser requires a tap to start full screen, so it cannot start automatically. The button is hidden where the browser lacks full-screen support, and replaced by a note when the app is already installed.
+- Installable as an app: added a web app manifest (name, icons, standalone display with full screen preferred), icons made from the Orpharion logo (192, 512, and a maskable version), and a tiny service worker that only enables the Install option and caches nothing, so updates always arrive fresh. After installing from the browser menu (Install app or Add to Home screen), Orpharion opens from its own icon with no address bar or tab strip. Only applies to the GitHub Pages copy.
+- New files in the repo next to index.html: manifest.json, sw.js, icon-192.png, icon-512.png, icon-maskable-512.png.
