@@ -198,3 +198,8 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - With the pedal off and the screen locked, a horizontal swipe on the locked screen steps sections (left is next, right is back). At the end or start of a song, a second swipe goes to the next or previous song, matching the pedal's behavior. Taps and everything else stay blocked, and the lock message says to swipe.
 - With the screen unlocked, swipe still changes songs (setlist only), and tapping a card still jumps to a section. This was the user's choice.
 - The first-run setup's Pedals step is unchanged.
+
+## v0.32.0 — Setlist picker above the Song picker
+- Song Info > Song now has a Setlist dropdown above the Song dropdown (a setlist contains songs, so it comes first). It stays in sync with "Loaded Setlist" in Song Files.
+- Choosing a setlist loads it but does not change the open song. With a setlist loaded, the Song dropdown lists that setlist's songs first, in setlist order, then everything else under "Other songs". Choosing None brings back the grouped list (Stand-Alone, Easy, Medium, Hard, library folders).
+- Song Files keeps its Loaded Setlist dropdown and Edit Setlists button; no song picker was added there (user agreed).
