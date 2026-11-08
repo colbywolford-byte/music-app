@@ -307,3 +307,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.38.2 (Nov 8, 2026)
 - Dragging a card chip near the left or right edge of the chip row now scrolls the row, so a chip can be carried to chips that are off screen and dropped there (owner's tablet report: a dragged chip stopped at the visible edge). Autoscroll stops at the end of the row.
+
+## v0.38.3 (Nov 8, 2026)
+- Fixed a leftover gray shield: loading a song from the Song picker closes the Song Info panel, but the translucent shield behind the side panels stayed up until the next tap. The shield now clears whenever the Song Info panel closes (owner's report).
