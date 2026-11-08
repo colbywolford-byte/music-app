@@ -3563,7 +3563,7 @@ $('bgOk').onclick=function(){var tx=$('bgTx').value.trim(),em=$('bgEm').value.tr
  if(em)body.email=em;
  $('bgOk').disabled=true;ms('Sending…');
  var ctl=window.AbortController?new AbortController():null,tm=setTimeout(function(){if(ctl)ctl.abort()},15000);
- fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(body),signal:ctl?ctl.signal:undefined}).then(function(r){return r.json().catch(function(){return{}}).then(function(j){return{ok:r.ok&&j.success!==false,j:j}})}).then(function(x){clearTimeout(tm);if(x.ok){$('bgTx').value='';hide();toast('Thank you. Your report was sent.')}else{$('bgOk').disabled=false;ms('The report could not be sent. Please try again later.')}}).catch(function(){clearTimeout(tm);$('bgOk').disabled=false;ms('The report could not be sent. Check your connection and try again.')});
+ fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(body),signal:ctl?ctl.signal:undefined}).then(function(r){return r.json().catch(function(){return{}}).then(function(j){return{ok:r.ok&&j.success!==false,j:j}})}).then(function(x){clearTimeout(tm);if(x.ok){$('bgTx').value='';hide();toast('Thank you. Your report was sent.')}else{$('bgOk').disabled=false;var em2=x.j&&x.j.message?String(x.j.message).slice(0,160):'';ms('The report could not be sent'+(em2?': '+em2:'. Please try again later.'))}}).catch(function(){clearTimeout(tm);$('bgOk').disabled=false;ms('The report could not be sent. Check your connection and try again.')});
 };
 }catch(e392){console.error(e392)}})();
 
