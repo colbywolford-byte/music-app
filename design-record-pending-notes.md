@@ -207,3 +207,7 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 ## v0.32.1 — Loading a setlist opens its first song
 - Choosing a setlist (Song Info or Song Files) opens its first song, so the setlist starts at the beginning. If the open song is already in that setlist, it stays open. Choosing None, or an empty setlist, changes nothing.
 - This replaces the v0.32.0 behavior, where a setlist loaded from a song outside it had no position, so Next Song, the pedal, and swipe could skip song 1 or do nothing. It now matches the Load button in Edit Setlists.
+
+## v0.32.2 — Loading a setlist always starts at its first song
+- Loading a setlist (from either dropdown or the Load button in Edit Setlists) now always opens song 1, even when the open song is already in that setlist. This replaces v0.32.1's "stay if already in it" exception (user's decision: loading means starting from the top).
+- Re-picking the already-loaded setlist in a dropdown does nothing (a dropdown does not fire for the same choice); the Load button resets it.
