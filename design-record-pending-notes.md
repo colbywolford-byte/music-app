@@ -329,3 +329,4 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Add Card and Edit Song Order from the list now work: the click no longer reaches the outside-click closer, and the action runs after the list closes.
 - Responsiveness safeguards: the pending-hairpin touch lock (touch-action none) applies only in Edit and is cleared on leaving Edit; interrupted chip drags are cleaned up on touchend, touchcancel, tab hide, window blur, and a 20-second guard.
 - Section list shows at most 8 rows with its own scroller; "+ Add Card" and "Edit Song Order…" (Edit mode only) are pinned below the scroller, always visible.
+- The two footer options are merged into one: "Add Card / Edit Order…" (both opened the same card palette).

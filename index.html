@@ -3523,7 +3523,7 @@ function lab(){if(!SEQ||!SEQ.length){b.innerHTML='<b>–</b>Sections';return}var
 function closeL(){L.hidden=true}
 function openL(){var h='';SEQ.forEach(function(x,i){var sc=secOf(x.s),nm=sc.name+(sc.v.length>1?' '+(x.v+1):'');h+='<button type="button" role="option" data-i="'+i+'" class="'+(i===st.step?'on':'')+'"><i>'+(x.n||i+1)+'</i>'+esc(nm)+'</button>'});
  h='<div id="secLs">'+h+'</div>';
- if(st.mode==='E')h+='<div id="secLf"><button type="button" class="sx" data-a="add">+ Add Card</button><button type="button" class="sx" data-a="ord">Edit Song Order…</button></div>';
+ if(st.mode==='E')h+='<div id="secLf"><button type="button" class="sx" data-a="add">Add Card / Edit Order…</button></div>';
  L.innerHTML=h;L.hidden=false;var r=b.getBoundingClientRect(),vh=window.innerHeight,top=r.bottom+4,mh=vh-top-12;if(mh<220){mh=Math.min(vh-24,420);top=Math.max(8,r.top-4-mh)}
  L.style.left=Math.max(8,Math.min(r.left,window.innerWidth-208))+'px';L.style.top=top+'px';L.style.width=Math.min(window.innerWidth-16,200)+'px';var sc=$('secLs');sc.style.maxHeight=Math.max(120,Math.min(mh-(st.mode==='E'?80:16),8*32+2))+'px';var on=L.querySelector('.on');if(on)sc.scrollTop=Math.max(0,on.offsetTop-sc.offsetTop-60)}
 b.addEventListener('click',function(e){e.stopPropagation();L.hidden?openL():closeL()});
