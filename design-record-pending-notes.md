@@ -342,3 +342,4 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Form: description (required), optional reply email (validated, never shown to anyone else), optional app version and device details, hidden spam trap. Sent through Web3Forms so the developer email is never in the app. Shows clear messages for empty text, bad email, offline, timeout, and failure.
 - Needs the developer Web3Forms access key in the KEY constant; until then the form says "Bug reporting is not set up yet."
 - Chip scroll handle now matches the chip window width.
+- Bug report: the technical-info checkbox now says what it adds (app version, mode, screen size, installed or not, browser type) and what it never includes.
