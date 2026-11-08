@@ -274,3 +274,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Two transparent-background logos: a light silver-titanium version for dark backgrounds and a black-titanium version for light backgrounds. The browser tab icon switches with the browser's light or dark mode. The About box logo switches with the app's own theme, including custom colors (it checks how dark the card color is).
 - The installed-app (home screen) icon is one picture, so it keeps a solid dark background with the light logo.
 - About text: the "Concept, design, and direction" line also leaves room for the logo on narrow screens.
+
+## v0.37.1 — Collapsible imported-songs list
+- In Menu > Song Files, the Imported songs list is now a collapsible section like the others, with the song count in its title ("Imported songs (13)"). It starts closed so Export is only a tap away; opening it closes the other collapsible sections, as the rest of that menu already does.
