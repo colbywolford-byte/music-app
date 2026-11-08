@@ -323,3 +323,8 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 ## v0.38.7 (Nov 8, 2026)
 - Section navigation: the card-chip row is replaced by default with one compact button showing the position and section name (for example "4 / 13 Chorus"). Tapping it opens a list of the whole play order to jump to any section; in Edit the list also offers "+ Add Card" and "Edit Song Order...". Chosen by the owner after weighing the chip row's cost in space and touch problems; drag-to-reorder chips remains available in the chip setting, and Edit Song Order handles reordering otherwise.
 - New setting under Display, "Section navigation": a compact button (default), a row of chips, or hidden. Saved on the device.
+
+## v0.38.7 follow-up (no version bump)
+- Section list is narrower (200 px) with smaller options (.8rem, 2rem rows).
+- Add Card and Edit Song Order from the list now work: the click no longer reaches the outside-click closer, and the action runs after the list closes.
+- Responsiveness safeguards: the pending-hairpin touch lock (touch-action none) applies only in Edit and is cleared on leaving Edit; interrupted chip drags are cleaned up on touchend, touchcancel, tab hide, window blur, and a 20-second guard.
