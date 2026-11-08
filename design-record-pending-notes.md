@@ -385,3 +385,7 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - PDF follow-up: words split by a chord change stay together when a line wraps.
 - PDF follow-up: two columns are used only when the song would pass one page AND every line fits the narrower column (no wrapped lines, shrunken tab, or shrunken staff); otherwise the song stays in one column. Info line under the title now wraps.
 - PDF follow-up: title, info line, and top chord diagrams span the full page width; both columns start together below them.
+
+## v0.40.1 — PDF polish
+- Two-column PDFs: header (title, info, top diagrams) spans the page and columns start level; chord-split words stay together; columns only when lines fit.
+- Footer now has the date and time of saving, right-aligned.
