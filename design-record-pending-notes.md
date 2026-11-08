@@ -237,3 +237,8 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Lyric lines wider than a card now wrap at spaces (long text between chords included). Cards with "no wrap" still keep each line on one line.
 - End of song with swipe or pedal: works even when the Previous/Next Song buttons are hidden. In a setlist it asks for a second swipe or press ("Next Song"/"Previous Song", or "Resume Setlist" when paused). With no setlist it says a setlist is needed. At the ends of a setlist it says so. Removed the "(this mockup reuses the same sheet)" text and the stale "Use Next song." hint.
 - Dedicated song pedal keys also work when the song buttons are hidden.
+
+## v0.34.1 — Articles in sorting, Code View rename, card-height safety net
+- Sorting and display by title now skip a leading "The", "A", or "An" ("Horse With No Name, A"). Words that only start with those letters (Another, Anna) are untouched.
+- "Text View" renamed "Code View" (button, page title, and messages) to make clear it is the ChordPro-style source editor, distinct from Edit All Lines.
+- Card height safety net: after each layout, any card whose lyric area still scrolls (content taller than its box) is grown to fit and redrawn. Added after a tablet screenshot showed scrollbars inside Scarborough Fair's verse cards and the Verse 1 card taller than Verse 2. I could not reproduce the height difference on the desktop test browser, so this is a safeguard, pending a recheck on the tablet.
