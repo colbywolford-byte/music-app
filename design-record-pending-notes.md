@@ -316,3 +316,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.38.5 (Nov 8, 2026)
 - Update check now loads the newer version automatically at launch (about 0.7 seconds after opening, before any editing), once per new version so it cannot loop. Later checks, when the app returns to the front mid-session, still show the Reload / Later bar so an edit is never lost (owner request).
+
+## v0.38.6 (Nov 8, 2026)
+- Card-chip row: the thin native scrollbar is replaced by a larger scroll handle under the row (24 px tall, with a thick thumb) that can be dragged or tapped to jump; it appears only when the chips overflow and is hidden in Performance (owner: the native scrollbar was too small to grab).
