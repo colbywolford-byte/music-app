@@ -384,3 +384,4 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - PDF follow-up: a song that would run past one page now flows into a second column on the same page before starting a new page. Songs that fit on one page stay single-column. Setlist songs still start on a new page.
 - PDF follow-up: words split by a chord change stay together when a line wraps.
 - PDF follow-up: two columns are used only when the song would pass one page AND every line fits the narrower column (no wrapped lines, shrunken tab, or shrunken staff); otherwise the song stays in one column. Info line under the title now wraps.
+- PDF follow-up: title, info line, and top chord diagrams span the full page width; both columns start together below them.

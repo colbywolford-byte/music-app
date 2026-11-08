@@ -3790,10 +3790,10 @@ function layoutSong1(first,two){
  var ds=0.9*cz,dgap=8,dw=dg.length?Math.max.apply(null,dg.map(function(p){return p.w}))*ds:0,dh=80*ds;
  var side=(pos==='left'||pos==='right')&&dg.length,cols=0,colsW=0,perCol=0;
  if(side){perCol=Math.max(1,Math.floor((bot-top+dgap)/(dh+dgap)));cols=Math.ceil(dg.length/perCol);colsW=cols*dw+(cols-1)*dgap+14;if(colsW>bw*.4){var k=(bw*.4-14)/(cols*dw+(cols-1)*dgap);ds*=k;dw*=k;dh*=k;perCol=Math.max(1,Math.floor((bot-top+dgap)/(dh+dgap)));cols=Math.ceil(dg.length/perCol);colsW=cols*dw+(cols-1)*dgap+14}}
- var x0=m+(side&&pos==='left'?colsW:0),cw=bw-(side?colsW:0),pg=null,y=0,col=0,gut=20,colX=[x0,0];if(two){cw=(cw-gut)/2;colX[1]=x0+cw+gut}
+ var x0=m+(side&&pos==='left'?colsW:0),cw=bw-(side?colsW:0),pg=null,y=0,col=0,gut=20,colX=[x0,0];var colw=two?(cw-gut)/2:cw,colTop=top,pg1=null;if(two)colX[1]=x0+colw+gut
  function drawSide(p){if(!side)return;var gx=pos==='left'?m:m+bw-colsW+14;for(var i=0;i<dg.length;i++){var c=Math.floor(i/perCol),r=i%perCol;emit(p,dg[i],gx+c*(dw+dgap),top+r*(dh+dgap),ds)}}
- function newPage(){pg=new Pg(Wd,Hd);pages.push(pg);y=top;col=0;x0=colX[0];drawSide(pg)}
- function ensure(h){if(y+h>bot){if(two&&col===0){col=1;x0=colX[1];y=top}else newPage()}}
+ function newPage(){pg=new Pg(Wd,Hd);pages.push(pg);if(!pg1)pg1=pg;y=top;col=0;x0=colX[0];drawSide(pg)}
+ function ensure(h){if(y+h>bot){if(two&&col===0){col=1;x0=colX[1];y=pg===pg1?colTop:top}else newPage()}}
  newPage();
  // title block
  var ts=fs*1.7;wrapWords(title,'B',ts,cw).forEach(function(l){pg.text(x0,y+ts*.85,l,'B',ts,0);y+=ts*1.12});
@@ -3802,7 +3802,7 @@ function layoutSong1(first,two){
  wrapWords(info.join('   \u00b7   '),'H',fs*.8,cw).forEach(function(l){pg.text(x0,y+fs*.85,l,'H',fs*.8,.35);y+=fs*1.1});y+=fs*.1;
  pg.line(x0,y+3,x0+cw,y+3,.7,.55);y+=fs*.9;
  function diagRow(){var per=Math.max(1,Math.floor((cw+dgap)/(dw+dgap)));for(var i=0;i<dg.length;i+=per){ensure(dh+dgap);var row=dg.slice(i,i+per);row.forEach(function(P,j){emit(pg,P,x0+j*(dw+dgap),y,ds)});y+=dh+dgap}y+=fs*.3}
- if(dg.length&&pos==='top')diagRow();
+ if(dg.length&&pos==='top')diagRow();cw=colw;colTop=y;
  // sections
  var cs=show==='chords'?fs:fs,csz=fs*.88;
  function lineBlock(segs){
