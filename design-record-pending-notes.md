@@ -288,3 +288,10 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Code View button now appears only in Edit mode and matches the height of its neighbors (owner's report: it showed, and did nothing, in Practice).
 - Cards of any kind can now be resized narrower than their automatic width, down to about 8 rem, so wasted space on the right can be reclaimed (owner report on a sample song).
 - Note: a browser "Create shortcut" keeps the browser frame unless "Open as window" is chosen; "Install app" is the full-screen route. Browser behavior, not changeable from the page.
+
+## v0.37.4 (Nov 8, 2026)
+- Card-chip row: on touch screens a chip now reorders only after a short press-and-hold (about a third of a second, with a small vibration and an outline); a quick drag scrolls the row. A mouse still drags at once (owner: scrolling kept moving chips).
+- Edit-mode buttons (Edit Song Order, Lyrics Page, Code View) made smaller to save vertical space (owner).
+- Hammer-on and pull-off marks: the H and P letters now sit above the arc instead of overlapping it (owner).
+- Following the active card now checks against the visible card area, so stepping to the previous section scrolls it into view in Practice too (owner: it only worked after a second pedal press).
+- Song picker category headings stay gray: the Android picker ignores page styling (owner's test of v0.37.3); alternative proposed.
