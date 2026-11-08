@@ -313,3 +313,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.38.4 (Nov 8, 2026)
 - Update check: on the hosted copy, the app fetches the newest page in the background about a second after launch and each time it returns to the front, bypassing the browser's 10-minute cache. If the version differs it shows "A new version is available" with Reload and Later buttons; Reload refreshes the cached copy and reloads. Never reloads on its own, so nothing is lost mid-edit (owner: installed app stayed on the old version after reopening).
+
+## v0.38.5 (Nov 8, 2026)
+- Update check now loads the newer version automatically at launch (about 0.7 seconds after opening, before any editing), once per new version so it cannot loop. Later checks, when the app returns to the front mid-session, still show the Reload / Later bar so an edit is never lost (owner request).
