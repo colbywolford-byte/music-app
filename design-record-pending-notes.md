@@ -336,3 +336,9 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## Chip scroll handle width (no version bump)
 - The chip-row scroll handle track now matches the left edge and width of the chip window instead of the full screen width.
+
+## v0.38.8: Report a Bug
+- New "Report a Bug" button in the global menu directly under About, with the same gap before Display that About used to have.
+- Form: description (required), optional reply email (validated, never shown to anyone else), optional app version and device details, hidden spam trap. Sent through Web3Forms so the developer email is never in the app. Shows clear messages for empty text, bad email, offline, timeout, and failure.
+- Needs the developer Web3Forms access key in the KEY constant; until then the form says "Bug reporting is not set up yet."
+- Chip scroll handle now matches the chip window width.
