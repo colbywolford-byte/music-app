@@ -281,3 +281,10 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 ## v0.37.2 — Pedal key tester
 - Menu > Bluetooth > Pedal now shows "Last key received" live, so you can see exactly what a pedal sends (key name, code, and key number). If nothing appears, the browser is not receiving keys from the pedal.
 - Keys that the browser reports without a name ("Unidentified", which some Bluetooth pedals do) are now given a usable name from their code, so they can be assigned with Set and used for sections and songs.
+
+## v0.37.3 (Nov 8, 2026)
+- Song picker category headings (Stand-Alone, Easy, Medium, Hard, Library) now use the accent color and heavy weight so they stand apart from song titles (owner request; depends on the Android picker honoring option-group styling).
+- Edit-mode card chips return to a single scrolling row (wrapping removed because long songs cost too much screen space); drag reordering unchanged (owner).
+- Code View button now appears only in Edit mode and matches the height of its neighbors (owner's report: it showed, and did nothing, in Practice).
+- Cards of any kind can now be resized narrower than their automatic width, down to about 8 rem, so wasted space on the right can be reclaimed (owner report on a sample song).
+- Note: a browser "Create shortcut" keeps the browser frame unless "Open as window" is chosen; "Install app" is the full-screen route. Browser behavior, not changeable from the page.
