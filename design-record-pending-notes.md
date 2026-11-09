@@ -430,3 +430,8 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 ## v0.40.12 — strum pattern layout
 - Built-in strum patterns no longer show the pattern slot row (they cannot be modified); your own patterns still show it.
 - Create Your Own is now Create a Pattern. In the creator, Set the Pattern labels the slot row on the left with the slots right-aligned, the tap hint below is right-aligned, and Save Pattern and Cancel are equal width, right-aligned, with space between. The Name box now matches the other controls (it was a bright white box).
+
+## v0.41.0 — five built-in strums per time signature
+- Built-in strum patterns reduced to five per time signature (4/4, 3/4, 2/4, 6/8). 4/4 keeps: down strums, down-down-down-up (D-D-DUDU), island, D-DUDUDU, and all down-up. Four patterns are new, written for 3/4, 2/4, and 6/8.
+- Songs, cards, and saved data that used a removed built-in pattern switch to an identical remaining pattern if there is one, otherwise to None.
+- The ukulelego.com credit was removed from About and from the Strum pattern group. Attorney review of this is still on the 1.0 checklist.
