@@ -468,3 +468,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Mode dial disk, labels, and marker hidden on phones; the Lock button stays. Taps on the dial are ignored.
 - The "Editing is available on tablets and computers" note now shows only for real taps, not for the automatic mode restore at startup.
 - Tablet and computer behavior unchanged.
+
+## v0.42.3 — Settings menu spacing
+- More vertical space between Report a Bug and Display in the menu's left column.
