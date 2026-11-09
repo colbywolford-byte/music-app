@@ -501,3 +501,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.42.11 — Warm-up BPM input
 - The BPM number beside the Tempo slider is now a number box (40-160): type a value or use the slider to fine-tune; they stay in sync, out-of-range entries are clamped, and Enter confirms. The box is centered under the Major/Minor control.
+
+## v0.42.12 — Warm-up BPM select-on-tap
+- Tapping the Warm-up BPM box selects the whole number, so typing replaces it.
