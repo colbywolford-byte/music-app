@@ -477,3 +477,7 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.42.5 — About
 - The "independent and not endorsed by Anthropic" line now sits directly under the "Code written with Claude" credit line.
+
+## v0.42.6 — Grouped drop-downs and About wording
+- Every grouped drop-down in the side menus (Instrument and any other list with sections) now shows accent-colored section headers with dividers, indented options, a tinted selected item, and headers that stay in view while scrolling, matching the song and strum pickers.
+- About: "This is an independent app and is not endorsed by Anthropic."
