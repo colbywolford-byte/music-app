@@ -444,3 +444,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.41.3 — tuner layout
 - Tuner: Reset strings moved above the string diagram, styled and right-aligned like the other buttons. The A4 control is now labeled Reference pitch (A4), right-aligned, with a tooltip explaining it is the pitch the tuner uses for the note A above middle C (440 Hz is standard).
+
+## v0.41.4 — Melody editor layout
+- Melody editor reorganized into labeled sections: Note length (5 equal buttons), Note options (Rest/Dotted toggles right, Accidental buttons right), Edit notes (4 equal buttons), Stacked notes (toggle, Chord select at control width, Clear Stack / Fill Chord equal buttons right), Lyrics (Syllable input at control width, Hold toggle, Clear Syllables / Fill From Card Lyrics equal buttons right). Existing controls re-parented so all handlers are unchanged.
