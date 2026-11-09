@@ -426,3 +426,7 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.40.11 — Song Info Setlist and Song selects
 - The Setlist and Song selects were stretching to fill their row; they now match the standard 13rem width and right edge like every other control.
+
+## v0.40.12 — strum pattern layout
+- Built-in strum patterns no longer show the pattern slot row (they cannot be modified); your own patterns still show it.
+- Create Your Own is now Create a Pattern. In the creator, Set the Pattern labels the slot row on the left with the slots right-aligned, the tap hint below is right-aligned, and Save Pattern and Cancel are equal width, right-aligned, with space between. The Name box now matches the other controls (it was a bright white box).
