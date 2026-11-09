@@ -471,3 +471,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.42.3 — Settings menu spacing
 - More vertical space between Report a Bug and Display in the menu's left column.
+
+## v0.42.4 — Strum slots right-aligned in Song Info
+- The strum slot boxes (shown for custom patterns) and the "Fits 3/4" note under them are right-aligned with the Pattern drop-down and buttons.
