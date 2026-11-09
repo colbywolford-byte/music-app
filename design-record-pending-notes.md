@@ -408,3 +408,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Applies to Display, Bluetooth, Song Files, and Backup (including Export all songs, Full screen, Reset Layout, Palette Designer, Use Global Defaults, Reset Pedal Keys, Edit Setlists, Add This Song to This Setlist, Back Up Everything, Restore, Save Setlist File, Save Strum File).
 - Bold Text, Thick Outlines, and Phone view's song buttons option are now switches like the rest.
 - Pedal Set and Clear buttons, segmented This Song/Global Defaults buttons, color pickers, and the imported songs search box are left as they were.
+
+## v0.40.7 — Phone view toggle fix
+- The Previous / Next Song buttons switch no longer gets squeezed by its long label; the label is shorter and the swipe/pedal note sits below as a hint.
