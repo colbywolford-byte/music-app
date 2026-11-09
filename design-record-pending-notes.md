@@ -457,3 +457,8 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Stacked notes and Lyrics moved to a bottom tabbed panel (collapsed by default; tap a tab again to close).
 - Page view: full-screen read-only sheet-music layout that wraps measures to the screen width; tapping a note closes it and jumps the editor to that note. A "Rotate for larger view" button (portrait only) tries full screen plus landscape lock and falls back to a hint; orientation is not forced.
 - Interim 0.41.4 restructure removed.
+
+## v0.42.1 — Phone = Performance mode only
+- On phones the app stays in Performance mode. Practice and Edit are blocked (mode buttons, mode picker, melody editor) and show the note "Editing is available on tablets and computers." A hint with the same text appears in Song Info and the Phone view settings.
+- Auto detection now uses the screen's smaller side (under 500 CSS px) instead of window width, so a 600 px-wide tablet keeps the full app and a narrow computer window does too. Phone View setting (Auto / Always On / Off) is the manual override.
+- If a saved session starts in Practice or Edit on a phone, it switches to Performance.
