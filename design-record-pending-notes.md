@@ -402,3 +402,9 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.40.5 — update prompt colors
 - The 'A new version is available' bar's Reload and Later buttons now use the bar's own contrast colors (Reload filled, Later outlined) in both themes.
+
+## v0.40.6 — flyout menu standardization
+- Menu controls share one size and alignment: buttons, selects, and sliders are 13rem wide and right-aligned with their labels on the left; toggles have the label on the left and the switch centered in the same 13rem column.
+- Applies to Display, Bluetooth, Song Files, and Backup (including Export all songs, Full screen, Reset Layout, Palette Designer, Use Global Defaults, Reset Pedal Keys, Edit Setlists, Add This Song to This Setlist, Back Up Everything, Restore, Save Setlist File, Save Strum File).
+- Bold Text, Thick Outlines, and Phone view's song buttons option are now switches like the rest.
+- Pedal Set and Clear buttons, segmented This Song/Global Defaults buttons, color pickers, and the imported songs search box are left as they were.
