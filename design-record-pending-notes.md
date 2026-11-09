@@ -414,3 +414,7 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.40.8 — toggles right-aligned
 - All menu switches sit on the same line as their label, right-aligned and vertically centered (no longer centered in the button column).
+
+## v0.40.9 — delete custom strum patterns
+- Strum pattern group has a Delete This Pattern button, shown only when one of your own patterns is selected. First tap arms it (shows the pattern name), second tap within 5 seconds deletes it.
+- Songs and cards that used the deleted pattern fall back to No strum pattern; built-in patterns cannot be deleted.
