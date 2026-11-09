@@ -498,3 +498,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.42.10 — Warm-up widths
 - Instrument drop-down now ends at the right edge of the Major/Minor control. Difficulty is three equal buttons totaling the Tempo slider's width. Major/Minor buttons are equal width.
+
+## v0.42.11 — Warm-up BPM input
+- The BPM number beside the Tempo slider is now a number box (40-160): type a value or use the slider to fine-tune; they stay in sync, out-of-range entries are clamped, and Enter confirms. The box is centered under the Major/Minor control.
