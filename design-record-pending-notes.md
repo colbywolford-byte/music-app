@@ -392,3 +392,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.40.2 — PDF menu buttons
 - Save This Song as PDF, the Setlist picker, and Save Setlist as PDF share one width (13rem) and sit right-aligned in the Export PDF group.
+
+## v0.40.3 — PDF option selects
+- Page size, Font size, Margins, and Show selects share the 13rem width of the PDF buttons.
