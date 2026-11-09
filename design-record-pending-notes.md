@@ -441,3 +441,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.41.2 — strum list alignment
 - The strum pattern list opens at exactly the width and left edge of its control.
+
+## v0.41.3 — tuner layout
+- Tuner: Reset strings moved above the string diagram, styled and right-aligned like the other buttons. The A4 control is now labeled Reference pitch (A4), right-aligned, with a tooltip explaining it is the pitch the tuner uses for the note A above middle C (440 Hz is standard).
