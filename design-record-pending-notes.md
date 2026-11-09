@@ -492,3 +492,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 ## v0.42.8 — Song order wording
 - Song order dialog counter reads "1 step" (singular) instead of "1 steps".
 - Second audit pass viewed first-run terms, Song order, Edit, Practice, Performance, and Warm-up screens. Open item for Colby: the Warm-up control panel (Instrument, Key, Length drop-downs and the Sound, Loop, Count-in switches) does not yet follow the menu standard (13rem right-aligned controls, switches on the right of their labels).
+
+## v0.42.9 — Warm-up panel alignment
+- Exercise is now a drop-down (Arpeggios, Progressions, Scales, Mixed). Exercise, Key, and the Tempo slider share one width (230 px) and left edge. Start, Shuffle, and Restart are centered under the strip.
