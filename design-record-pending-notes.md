@@ -481,3 +481,10 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 ## v0.42.6 — Grouped drop-downs and About wording
 - Every grouped drop-down in the side menus (Instrument and any other list with sections) now shows accent-colored section headers with dividers, indented options, a tinted selected item, and headers that stay in view while scrolling, matching the song and strum pickers.
 - About: "This is an independent app and is not endorsed by Anthropic."
+
+## v0.42.7 — Consistency audit fixes
+- Bluetooth pedal key rows: label and key readout stacked on the left, Set and Clear as equal 6.1rem buttons right-aligned beneath (Next/Previous Section show Set only, aligned to the same right edge).
+- Button text size standardized to 1rem in menus (Edit Setlists, Add Song to Setlist, Export all songs, Export PDF buttons, Colors design button); Backup buttons raised to the standard 44 px height; Backup drop-downs match other drop-downs' text size.
+- "Add This Song to This Setlist" shortened to "Add Song to Setlist" so it fits on one line.
+- The side tabs are hidden while the Chord Library, Melody editor, or Page view is open so they no longer cover content.
+- Audit scope: every group of Song Info, Song Files, Tuning, and Settings (Display, Bluetooth, Defaults, Backup) in Edit mode; Chord Library and Setlist builder viewed. Known small difference left alone: Song Info and Tuning controls sit 6 px further from the right edge than Song Files and Settings.
