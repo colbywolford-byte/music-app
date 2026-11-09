@@ -504,3 +504,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.42.12 — Warm-up BPM select-on-tap
 - Tapping the Warm-up BPM box selects the whole number, so typing replaces it.
+
+## v0.42.13 — Select number on tap everywhere
+- Tapping any tempo or number box (Edit header BPM, metronome BPM boxes, beats-per-measure, custom A4 pitch, Warm-up BPM) selects the whole number so typing replaces it.
