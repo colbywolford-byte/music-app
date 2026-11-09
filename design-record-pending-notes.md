@@ -411,3 +411,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.40.7 — Phone view toggle fix
 - The Previous / Next Song buttons switch no longer gets squeezed by its long label; the label is shorter and the swipe/pedal note sits below as a hint.
+
+## v0.40.8 — toggles right-aligned
+- All menu switches sit on the same line as their label, right-aligned and vertically centered (no longer centered in the button column).
