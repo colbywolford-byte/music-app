@@ -438,3 +438,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.41.1 — strum pattern list
 - The Strum pattern drop-down opens the same grouped list as the song picker, with colored time signature headings and the selected pattern highlighted.
+
+## v0.41.2 — strum list alignment
+- The strum pattern list opens at exactly the width and left edge of its control.
