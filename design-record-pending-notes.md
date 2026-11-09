@@ -447,3 +447,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.41.4 — Melody editor layout
 - Melody editor reorganized into labeled sections: Note length (5 equal buttons), Note options (Rest/Dotted toggles right, Accidental buttons right), Edit notes (4 equal buttons), Stacked notes (toggle, Chord select at control width, Clear Stack / Fill Chord equal buttons right), Lyrics (Syllable input at control width, Hold toggle, Clear Syllables / Fill From Card Lyrics equal buttons right). Existing controls re-parented so all handlers are unchanged.
+
+## v0.41.5 — PDF page orientation
+- Added Orientation (Portrait / Landscape) to PDF export options, persisted with the other options. Works for Letter and A4, single song and setlist; footer, columns, and diagrams adapt to the page width.
