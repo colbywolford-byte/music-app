@@ -488,3 +488,7 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - "Add This Song to This Setlist" shortened to "Add Song to Setlist" so it fits on one line.
 - The side tabs are hidden while the Chord Library, Melody editor, or Page view is open so they no longer cover content.
 - Audit scope: every group of Song Info, Song Files, Tuning, and Settings (Display, Bluetooth, Defaults, Backup) in Edit mode; Chord Library and Setlist builder viewed. Known small difference left alone: Song Info and Tuning controls sit 6 px further from the right edge than Song Files and Settings.
+
+## v0.42.8 — Song order wording
+- Song order dialog counter reads "1 step" (singular) instead of "1 steps".
+- Second audit pass viewed first-run terms, Song order, Edit, Practice, Performance, and Warm-up screens. Open item for Colby: the Warm-up control panel (Instrument, Key, Length drop-downs and the Sound, Loop, Count-in switches) does not yet follow the menu standard (13rem right-aligned controls, switches on the right of their labels).
