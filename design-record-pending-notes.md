@@ -507,3 +507,7 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.42.13 — Select number on tap everywhere
 - Tapping any tempo or number box (Edit header BPM, metronome BPM boxes, beats-per-measure, custom A4 pitch, Warm-up BPM) selects the whole number so typing replaces it.
+
+
+## Record status (Nov 9, 2026)
+- Design record Version 7 written Nov 9 (https://claude.ai/artifact/6SHuyGRX1eLE2QWPagyi1V), covering ver. 0.37.3 to 0.42.13 plus the Orphion comparison, the attorney/IP plan, and the Nov 7-9 decisions. Everything above this line is now in Version 7. New notes for Version 8 start below.
