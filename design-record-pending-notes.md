@@ -495,3 +495,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.42.9 — Warm-up panel alignment
 - Exercise is now a drop-down (Arpeggios, Progressions, Scales, Mixed). Exercise, Key, and the Tempo slider share one width (230 px) and left edge. Start, Shuffle, and Restart are centered under the strip.
+
+## v0.42.10 — Warm-up widths
+- Instrument drop-down now ends at the right edge of the Major/Minor control. Difficulty is three equal buttons totaling the Tempo slider's width. Major/Minor buttons are equal width.
