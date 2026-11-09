@@ -389,3 +389,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 ## v0.40.1 — PDF polish
 - Two-column PDFs: header (title, info, top diagrams) spans the page and columns start level; chord-split words stay together; columns only when lines fit.
 - Footer now has the date and time of saving, right-aligned.
+
+## v0.40.2 — PDF menu buttons
+- Save This Song as PDF, the Setlist picker, and Save Setlist as PDF share one width (13rem) and sit right-aligned in the Export PDF group.
