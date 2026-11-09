@@ -395,3 +395,7 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.40.3 — PDF option selects
 - Page size, Font size, Margins, and Show selects share the 13rem width of the PDF buttons.
+
+## v0.40.4 — menu alignment
+- Export PDF toggles: label on the left, toggle centered in the same 13rem column as the buttons.
+- Song Files: Import Songs and Choose Song Folder buttons are 13rem, right-aligned, each beside its text block and vertically centered with it (wraps below on narrow menus).
