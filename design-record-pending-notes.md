@@ -462,3 +462,9 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - On phones the app stays in Performance mode. Practice and Edit are blocked (mode buttons, mode picker, melody editor) and show the note "Editing is available on tablets and computers." A hint with the same text appears in Song Info and the Phone view settings.
 - Auto detection now uses the screen's smaller side (under 500 CSS px) instead of window width, so a 600 px-wide tablet keeps the full app and a narrow computer window does too. Phone View setting (Auto / Always On / Off) is the manual override.
 - If a saved session starts in Practice or Edit on a phone, it switches to Performance.
+
+## v0.42.2 — Phone menu (reuses the existing tabs)
+- On phones the side tabs return, limited to what a performer needs: Songs (Song picker, Transpose and Capo), Song Files (Setlist, Import Songs, Imported songs, Export; no PDF export), Tuning (full tuner), Settings (Display, Bluetooth and pedal settings, Backup, About, Phone View). Music defaults and all editing groups stay hidden. Same sections as the tablet, so settings stay in sync.
+- Mode dial disk, labels, and marker hidden on phones; the Lock button stays. Taps on the dial are ignored.
+- The "Editing is available on tablets and computers" note now shows only for real taps, not for the automatic mode restore at startup.
+- Tablet and computer behavior unchanged.
