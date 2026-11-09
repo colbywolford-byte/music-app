@@ -423,3 +423,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Song Info (and the tuner panel) now use the same control sizes and alignment as the global menu: 13rem right-aligned selects, sliders, text boxes, and buttons (Open Chord Library, Create Your Own, Delete This Pattern, Reset strings), with switches right-aligned on the label's line.
 - Metronome's beat light moved to the left of its label so the switch stays at the right edge.
 - Compact steppers (tempo, transpose, capo, key dial, Major/Minor) are unchanged.
+
+## v0.40.11 — Song Info Setlist and Song selects
+- The Setlist and Song selects were stretching to fill their row; they now match the standard 13rem width and right edge like every other control.
