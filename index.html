@@ -1365,7 +1365,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-var APPVER='0.42.13-2026-11-08';
+var APPVER='0.43.0-2026-11-08';
 function aboutHtml(wz){return (wz?'':'<p class="abt"><b>Orpharion</b> (working title)</p><p class="hint abt">Version '+APPVER+'</p><p class="hint abt">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p>')+'<p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p class="hint">This is an independent app and is not endorsed by Anthropic.</p><p>Tab sheets use the JetBrains Mono font (SIL Open Font License 1.1). PDF reading uses pdf.js from Mozilla (Apache License 2.0).</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging, and playing your own charts. It does not include, supply, or license any songs, lyrics, or recordings. You are responsible for having the right to use every song you enter, import, keep, share, or perform. This includes anything you bring in from text, ChordPro, PDF, or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share, or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'+'<div class="legal"><b>Privacy policy</b><p class="hint">Last updated November 7, 2026</p><p><b>Short version:</b> Orpharion has no accounts, no ads, and no tracking. Nothing you do in the app is sent to the developer.</p><p><b>What stays on your device.</b> Your settings, setlists, custom strum patterns, song edits, and similar choices are saved in your own browser on your own device. They are not uploaded anywhere. Clearing your browser&rsquo;s site data removes them.</p><p><b>What we collect.</b> We do not collect, sell, or share personal information, and the app has no analytics. The page is delivered by a web host (GitHub Pages), which, like any web host, may keep ordinary server logs such as your IP address and the time of your visit. See GitHub&rsquo;s own privacy statement for how it handles those. PDFs and other files you import are read on your device and are not uploaded.</p><p><b>Your files.</b> Files you import are read on your device. You decide which ones to bring in.</p><p><b>Changes.</b> If this policy changes, the date above will change and the new text will appear here.</p><p class="hint">This is general information, not legal advice.</p></div>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
@@ -4056,6 +4056,76 @@ function sel(e){try{e.select();e.setSelectionRange(0,e.value.length)}catch(x){}}
 document.addEventListener('focusin',function(ev){var e=ev.target;if(!e||!e.matches||!e.matches(Q))return;sel(e);setTimeout(function(){sel(e)},0);setTimeout(function(){sel(e)},60)});
 document.addEventListener('mouseup',function(ev){var e=ev.target;if(e&&e.matches&&e.matches(Q)&&document.activeElement===e)ev.preventDefault()},true);
 document.addEventListener('touchend',function(ev){var e=ev.target;if(e&&e.matches&&e.matches(Q))setTimeout(function(){sel(e)},0)},true);
+}catch(e){console.error(e)}})();
+
+/* ===== v0.43.0: hidden page ===== */
+(function(){try{
+var ab=$('about');if(!ab)return;var bx=ab.querySelector('.box');if(!bx)return;
+var css=document.createElement('style');css.textContent=
+'#oeg{position:fixed;inset:0;z-index:90;background:var(--bg);color:var(--ink);overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}#oeg[hidden]{display:none}'
++'#oeg .oi{max-width:640px;margin:0 auto;padding:18px 20px 36px;box-sizing:border-box}'
++'#oeg h2{margin:6px 0 2px;font-size:1.5rem;letter-spacing:.02em;color:var(--acc)}#oeg .os{opacity:.75;font-size:.85rem;margin:0 0 12px}'
++'#oeg svg.og{display:block;width:100%;height:auto;max-height:62vh;margin:4px auto 14px}'
++'#oeg h3{margin:18px 0 6px;font-size:1rem;color:var(--acc)}#oeg p{margin:0 0 10px;line-height:1.5;font-size:.95rem}#oeg .oq{font-size:.78rem;opacity:.7}'
++'#oeg button{display:block;margin:18px auto 0;min-height:44px;padding:.4rem 1.6rem;border-radius:10px;border:2px solid var(--acc);background:var(--card);color:var(--ink);font-size:1rem}';
+document.head.appendChild(css);
+var svg='<svg class="og" viewBox="0 0 400 700" role="img" aria-label="An orpharion, a wire-strung Renaissance plucked instrument">'
++'<defs><linearGradient id="oW" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8a4e22"/><stop offset=".45" stop-color="#d79a52"/><stop offset="1" stop-color="#7c431c"/></linearGradient>'
++'<linearGradient id="oN" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3a2415"/><stop offset=".5" stop-color="#6d4526"/><stop offset="1" stop-color="#35200f"/></linearGradient>'
++'<radialGradient id="oR" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#2a170a"/><stop offset=".7" stop-color="#3b2310"/><stop offset="1" stop-color="#5a3719"/></radialGradient>'
++'<linearGradient id="oS" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1f1ee"/><stop offset="1" stop-color="#b9b6ae"/></linearGradient></defs>'
+// body (pear shape, flat) and rim
++'<path d="M200 262 C118 262 62 330 62 424 C62 540 128 640 200 640 C272 640 338 540 338 424 C338 330 282 262 200 262 Z" fill="#3a2212"/>'
++'<path d="M200 270 C124 270 70 334 70 424 C70 534 132 630 200 630 C268 630 330 534 330 424 C330 334 276 270 200 270 Z" fill="url(#oW)"/>'
++'<path d="M200 284 C132 284 86 340 86 424 C86 524 140 616 200 616 C260 616 314 524 314 424 C314 340 268 284 200 284 Z" fill="none" stroke="#6b3d19" stroke-width="1.5" opacity=".6"/>'
+// rose
++'<circle cx="200" cy="440" r="46" fill="url(#oR)" stroke="#2a170a" stroke-width="3"/>'
++'<g fill="none" stroke="#c98a45" stroke-width="2"><circle cx="200" cy="440" r="36"/><circle cx="200" cy="440" r="24"/><circle cx="200" cy="440" r="11"/></g>'
++'<g stroke="#c98a45" stroke-width="2">'
++[0,45,90,135].map(function(a){return'<line x1="200" y1="404" x2="200" y2="476" transform="rotate('+a+' 200 440)"/>'}).join('')+'</g>'
++'<g fill="#c98a45">'+[0,60,120,180,240,300].map(function(a){return'<circle cx="200" cy="415" r="3.2" transform="rotate('+a+' 200 440)"/>'}).join('')+'</g>'
+// bridge
++'<rect x="146" y="560" width="108" height="14" rx="5" fill="#2a170a"/><rect x="146" y="560" width="108" height="4" rx="2" fill="#6b4524"/>'
+// neck
++'<path d="M174 268 L226 268 L222 40 L178 40 Z" fill="url(#oN)"/>'
++'<path d="M178 268 L222 268 L219 40 L181 40 Z" fill="#241408" opacity=".55"/>'
+// frets
++[110,148,184,216,246].map(function(y){return'<line x1="180" y1="'+y+'" x2="220" y2="'+y+'" stroke="#d9c79a" stroke-width="3" opacity=".8"/>'}).join('')
+// nut
++'<rect x="178" y="58" width="44" height="8" rx="2" fill="#efe9d3"/>'
+// pegbox (bent back, shown as lighter head)
++'<path d="M174 58 C172 30 176 14 184 6 L216 6 C224 14 228 30 226 58 Z" fill="url(#oN)" stroke="#241408" stroke-width="2"/>'
++'<g fill="#e4d7ae" stroke="#241408" stroke-width="1.5">'
++[[160,22],[160,38],[160,54],[240,22],[240,38],[240,54]].map(function(p){return'<rect x="'+(p[0]-8)+'" y="'+(p[1]-5)+'" width="16" height="10" rx="4"/>'}).join('')+'</g>'
++'<g stroke="#241408" stroke-width="3"><line x1="168" y1="22" x2="178" y2="22"/><line x1="168" y1="38" x2="176" y2="38"/><line x1="168" y1="54" x2="175" y2="54"/><line x1="232" y1="22" x2="222" y2="22"/><line x1="232" y1="38" x2="224" y2="38"/><line x1="232" y1="54" x2="225" y2="54"/></g>'
+// six courses of wire strings (pairs)
++'<g stroke="url(#oS)" stroke-width="1.6" fill="none" opacity=".95">'
++[0,1,2,3,4,5].map(function(i){var x1=181+i*7.6,x2=150+i*20;return'<path d="M'+(x1-1)+' 60 L'+(x2-2)+' 566"/><path d="M'+(x1+1)+' 60 L'+(x2+2)+' 566"/>'}).join('')+'</g>'
++'</svg>';
+var d=document.createElement('div');d.id='oeg';d.hidden=true;d.setAttribute('role','dialog');d.setAttribute('aria-label','The orpharion');
+d.innerHTML='<div class="oi"><h2>The Orpharion</h2><p class="os">A wire-strung, plucked instrument of Elizabethan England</p>'+svg
++'<h3>What it is</h3><p>The orpharion belongs to the cittern family and is built like a larger cousin, the bandora, with a flat back and a shallow, pear-shaped body. It carries metal strings in pairs, called courses, tuned much like a lute. The strings sit under low tension, so a player uses a light touch and the tone is soft and bright.</p>'
++'<h3>Where it came from</h3><p>It was invented in England in the second half of the sixteenth century. John Stow’s <i>Annals</i> (1631) credits John Rose of Bridewell, in 1581. A Rose orpharion at Helmingham Hall, said to be a gift to Queen Elizabeth I, may be that first instrument. The name is said to join Orpheus, the musician of Greek myth whose songs moved stones and beasts, and Arion, the poet-musician carried to shore by a dolphin.</p>'
++'<h3>The music</h3><p>In 1596 William Barley published <i>A new book of tablature for the orpharion</i>, with pieces by Dowland, Byrd, Holborne, Cutting, Rosseter, Philips, and Johnson. Players often shared music between the orpharion and the lute. Surviving instruments are rare: besides the Rose instrument, a nine-course orpharion dated 1617 is kept in the Claudius Collection in Copenhagen.</p>'
++'<h3>Our connection</h3><p>This app is named for that family of plucked strings. An orpharion’s job was to carry songs from the page into the room, and it is the same job this app does for the players it serves, on ukulele, guitar, lute, mandolin, and more. The picture above was drawn for Orpharion, and it is an illustration, not a photograph of a particular instrument.</p>'
++'<p class="oq">Sources: Wikipedia, “Orpharion” (citing Stow’s <i>Annals</i> and the Barley tablature book).</p>'
++'<button type="button" id="oegX">Close</button></div>';
+document.body.appendChild(d);
+var armed=false;
+function arm(){armed=true}
+function hide(){d.hidden=true}
+function show(){d.hidden=false;d.scrollTop=0}
+new MutationObserver(function(){if(ab.hidden){armed=false}else{bx.scrollTop=0;armed=true}}).observe(ab,{attributes:true,attributeFilter:['hidden']});
+bx.addEventListener('scroll',function(){if(bx.scrollTop>0)armed=false},{passive:true});
+bx.addEventListener('click',function(ev){
+ if(!armed||ab.hidden||bx.scrollTop!==0||ev.target.closest('button,a'))return;
+ var r=bx.getBoundingClientRect(),cs=getComputedStyle(bx),bw=parseFloat(cs.borderRightWidth)||0,bt=parseFloat(cs.borderTopWidth)||0;
+ var x=ev.clientX-r.left,y=ev.clientY-r.top;
+ var right=r.width-bw-14,left=right-124,top=bt+8,k=124/512,cx=left+196*k,cy=top+340*k,rad=112*k+3;
+ if((x-cx)*(x-cx)+(y-cy)*(y-cy)<=rad*rad){armed=false;show()}
+});
+d.addEventListener('click',function(ev){if(ev.target.id==='oegX'||ev.target===d)hide()});
+document.addEventListener('keydown',function(ev){if(ev.key==='Escape'&&!d.hidden){hide();ev.stopPropagation()}},true);
 }catch(e){console.error(e)}})();
 
 })();
