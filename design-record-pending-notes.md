@@ -450,3 +450,10 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.41.5 — PDF page orientation
 - Added Orientation (Portrait / Landscape) to PDF export options, persisted with the other options. Works for Letter and A4, single song and setlist; footer, columns, and diagrams adapt to the page width.
+
+## v0.42.0 — Melody editor rebuild (supersedes the 0.41.4 layout)
+- Compact toolbar on top: note lengths as a segmented row, Rest and Dotted as small toggle buttons, Accidental as a drop-down, Note up/down/Delete/Clear all, Zoom − / +. Controls stay put while the staff grows.
+- Staff is one continuous horizontal tape (scrolls sideways, follows the newest or selected note). New single-line option in the staff renderer; the wrapped renderer is unchanged for cards and PDFs.
+- Stacked notes and Lyrics moved to a bottom tabbed panel (collapsed by default; tap a tab again to close).
+- Page view: full-screen read-only sheet-music layout that wraps measures to the screen width; tapping a note closes it and jumps the editor to that note. A "Rotate for larger view" button (portrait only) tries full screen plus landscape lock and falls back to a hint; orientation is not forced.
+- Interim 0.41.4 restructure removed.

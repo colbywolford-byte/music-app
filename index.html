@@ -582,9 +582,36 @@ body.tdrag #tabH{transition:none}
 .mel{margin:4px 0 6px}
 .mel .staff{max-width:520px;min-width:240px}
 .melbtn{min-height:1.9rem;font-size:.7rem;padding:0 .6rem;margin:2px 0}
-#meStaff{margin:8px 0;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px;overflow:auto}
-#meDur button.on,#meAcc button.on{background:var(--acc);color:var(--bg)}
-#meAcc button{min-height:2.1rem;font-size:.9rem;padding:0 .7rem}
+#meStaff{margin:8px 0;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px}
+#meDur button.on{background:var(--acc);color:var(--bg)}
+#melEd #meBar{display:flex;flex-direction:column;gap:6px;margin:6px 0}
+#melEd .mebr{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+#melEd .meHd{display:flex;gap:8px}
+#melEd #meBar button,#melEd #meTabs button{min-height:2.1rem;padding:0 .65rem;font-size:.85rem}
+#melEd .meseg{display:flex;gap:4px}
+#melEd .tb{display:inline-flex;align-items:center;margin:0;min-height:2.1rem;padding:0 .7rem;border:2px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font-size:.85rem;cursor:pointer;position:relative}
+#melEd .tb input{position:absolute;opacity:0;width:0;height:0;margin:0;pointer-events:none}
+#melEd .tb:has(input:checked){background:var(--acc);color:var(--bg);border-color:var(--acc)}
+#melEd .tb:has(input:focus-visible){outline:2px solid var(--acc)}
+#melEd .mesel{display:inline-flex;gap:6px;align-items:center;margin:0 0 0 auto;font-size:.85rem}
+#melEd .mesel select{font:inherit;font-size:.85rem;min-height:2.1rem}
+#melEd .mezoom{display:inline-flex;gap:6px;align-items:center;margin-left:auto;font-size:.85rem}
+#melEd #meBar .mezoom button{min-width:2.1rem;padding:0}
+#melEd #meStaff{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;margin:6px 0}
+#melEd #meStaff svg.staff{width:auto;max-width:none}
+#melEd #meMsg{min-height:1.2em;margin:2px 0 4px}
+#melEd #meTabs{display:flex;gap:6px;margin:8px 0 0;border-bottom:2px solid var(--line)}
+#melEd #meTabs button{border-bottom-left-radius:0;border-bottom-right-radius:0;margin-bottom:-2px}
+#melEd #meTabs button.on{background:var(--acc);color:var(--bg)}
+#melEd .mepan{padding:6px 0}
+#melEd .melab{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:6px 0}
+#melEd .melab>span:first-child{flex:1}
+#melEd .melab>select,#melEd .melab>input[type=text]{width:13rem;max-width:60%;box-sizing:border-box;margin-left:auto}
+#melEd .mesw>input[role=switch]{flex:none;margin-left:auto}
+#melEd .mepair{display:flex;justify-content:flex-end;gap:12px;margin:8px 0;flex-wrap:wrap}
+#melEd .mepair button{width:13rem;max-width:100%;box-sizing:border-box}
+#melPv .meHd{display:flex;gap:8px}
+#melPv #pvBody .staff{width:100%;height:auto}
 
 /* ---- tab sheets ---- */
 :root{--sw:min(380px,88vw)}
@@ -653,7 +680,6 @@ body.topen:not(.tdrag) #tray{transform:none!important}
 .staff .lyr{font-family:system-ui,sans-serif;font-weight:600;text-anchor:start;fill:var(--ink)}
 .staff .lx{stroke:var(--ink);stroke-width:1}
 .staff .slur{fill:none;stroke:var(--ink);stroke-width:1.2}
-#meLyRow input[type=text]{width:9rem}
 
 /* tuner v2: strings on the left, readout and gauge on the right, sleeker look */
 .tn{display:flex;flex-direction:column;gap:10px}
@@ -1335,7 +1361,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-var APPVER='0.41.5-2026-11-08';
+var APPVER='0.42.0-2026-11-08';
 function aboutHtml(wz){return (wz?'':'<p class="abt"><b>Orpharion</b> (working title)</p><p class="hint abt">Version '+APPVER+'</p><p class="hint abt">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p>')+'<p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p>Tab sheets use the JetBrains Mono font (SIL Open Font License 1.1). PDF reading uses pdf.js from Mozilla (Apache License 2.0).</p><p class="hint">This app is independent and is not endorsed by Anthropic.</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging, and playing your own charts. It does not include, supply, or license any songs, lyrics, or recordings. You are responsible for having the right to use every song you enter, import, keep, share, or perform. This includes anything you bring in from text, ChordPro, PDF, or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share, or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'+'<div class="legal"><b>Privacy policy</b><p class="hint">Last updated November 7, 2026</p><p><b>Short version:</b> Orpharion has no accounts, no ads, and no tracking. Nothing you do in the app is sent to the developer.</p><p><b>What stays on your device.</b> Your settings, setlists, custom strum patterns, song edits, and similar choices are saved in your own browser on your own device. They are not uploaded anywhere. Clearing your browser&rsquo;s site data removes them.</p><p><b>What we collect.</b> We do not collect, sell, or share personal information, and the app has no analytics. The page is delivered by a web host (GitHub Pages), which, like any web host, may keep ordinary server logs such as your IP address and the time of your visit. See GitHub&rsquo;s own privacy statement for how it handles those. PDFs and other files you import are read on your device and are not uploaded.</p><p><b>Your files.</b> Files you import are read on your device. You decide which ones to bring in.</p><p><b>Changes.</b> If this policy changes, the date above will change and the new text will appear here.</p><p class="hint">This is general information, not legal advice.</p></div>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
@@ -1892,6 +1918,7 @@ function staffSvg(mel,o){o=o||{};var hs=o.hs||6,sp=2*hs,W=o.W||560,sel=o.sel,ks=
  var pre1=3.6*sp+ks.n*1.15*sp+2.8*sp,pre2=3.6*sp+ks.n*1.15*sp+0.8*sp;
  function evW(e){var w=16+evU(e)*5.2;if(e.a||(e.ex&&e.ex.some(function(x){return x.a})))w+=hs*1.8;if(e.ly)w=Math.max(w,String(e.ly).length*Math.max(2.2*hs,10)*0.55+hs*1.4);return Math.max(w,hs*4.8)}
  var mw=M.map(function(ids){return ids.reduce(function(a,i){return a+evW(mel[i])},0)+hs*3});
+ if(o.single){W=Math.max(W,pre1+mw.reduce(function(a,b){return a+b},0)+(o.pad||0)+10)}
  var S=[],cur={m:[],w:0};function avail(si){return W-(si===0?pre1:pre2)-10}
  M.forEach(function(ids,mi){if(cur.m.length&&cur.w+mw[mi]>avail(S.length)){S.push(cur);cur={m:[],w:0}}cur.m.push(mi);cur.w+=mw[mi]});S.push(cur);
  var P={pv:null},topPad=9*hs,sysH=topPad+8*hs+9*hs,H=S.length*sysH+hs,out='',hits=[],sys=[];
@@ -1988,9 +2015,20 @@ window.melTranspose=function(semi,fl,oi,ni){var oks=ksigOf(oi),nks=ksigOf(ni);fu
  SECS.forEach(function(sec){if(!sec.mel)return;sec.mel.forEach(function(e){if(e.r||!e.p)return;tr(e);(e.ex||[]).forEach(tr)})})};
 // ---- editor
 var E=document.createElement('div');E.id='melEd';E.className='ovl';E.hidden=true;
-E.innerHTML='<div class="lyh"><b id="meTitle">Melody</b><span><button type="button" id="meDone">Done</button></span></div><div class="hint">Treble clef. Choose a note length, then tap a line or space on the staff to add a note at the end. Tap a note to select it.</div><div id="meStaff"></div><div class="ftrow" id="meDur"><button type="button" data-d="w">Whole</button><button type="button" data-d="h">Half</button><button type="button" data-d="q">Quarter</button><button type="button" data-d="e">Eighth</button><button type="button" data-d="s">16th</button></div><div class="ftrow"><label class="sw">Rest <input type="checkbox" role="switch" id="meRest"></label><label class="sw">Dotted <input type="checkbox" role="switch" id="meDot"></label><span id="meAcc">Accidental <button type="button" data-a="">Auto</button><button type="button" data-a="#">\u266f</button><button type="button" data-a="b">\u266d</button><button type="button" data-a="n">\u266e</button></span></div><div class="ftrow"><button type="button" id="meUp">Note up</button><button type="button" id="meDn">Note down</button><button type="button" id="meDel">Delete</button><button type="button" id="meClr">Clear all</button></div><div class="ftrow" id="meStackRow"><label class="sw">Stack notes <input type="checkbox" role="switch" id="meStack"></label><button type="button" id="meUnstack">Clear Stack</button><label>Chord <select id="meChord"></select></label><button type="button" id="meChordBtn">Fill Chord</button></div><div class="hint">Stack notes: select a note, turn this on, then tap other lines or spaces in its column to add notes that sound together. Tap one again to remove it. Fill Chord replaces the selected note with the chosen chord from this card, in root position, and you can then stack or change notes by hand.</div><div class="ftrow" id="meLyRow"><label>Syllable <input type="text" id="meLy" maxlength="24" placeholder="Select a note"></label><label class="sw">Hold <input type="checkbox" role="switch" id="meHold"></label><button type="button" id="meFill">Fill From Card Lyrics</button><button type="button" id="meNoLy">Clear Syllables</button></div><div class="hint">Hold means the note continues the previous syllable (one syllable over several notes). After changing holds, tap Fill again to re-spread the lyrics. Syllable splitting is a best guess: tap a note and fix any syllable by hand.</div><div id="meMsg" class="hint" role="status"></div>';
+E.innerHTML='<div class="lyh"><b id="meTitle">Melody</b><span class="meHd"><button type="button" id="mePage">Page view</button><button type="button" id="meDone">Done</button></span></div>'
++'<div id="meBar"><div class="mebr"><span id="meDur" class="meseg"><button type="button" data-d="w">Whole</button><button type="button" data-d="h">Half</button><button type="button" data-d="q">Quarter</button><button type="button" data-d="e">8th</button><button type="button" data-d="s">16th</button></span>'
++'<label class="tb"><input type="checkbox" role="switch" id="meRest"><span>Rest</span></label><label class="tb"><input type="checkbox" role="switch" id="meDot"><span>Dotted</span></label>'
++'<label class="mesel"><span>Accidental</span><select id="meAcc"><option value="">Auto</option><option value="#">♯ Sharp</option><option value="b">♭ Flat</option><option value="n">♮ Natural</option></select></label></div>'
++'<div class="mebr"><button type="button" id="meUp">Note up</button><button type="button" id="meDn">Note down</button><button type="button" id="meDel">Delete</button><button type="button" id="meClr">Clear all</button>'
++'<span class="mezoom"><span>Zoom</span><button type="button" id="meZo" aria-label="Zoom out">−</button><button type="button" id="meZi" aria-label="Zoom in">+</button></span></div></div>'
++'<div id="meStaff"></div><div id="meMsg" class="hint" role="status"></div>'
++'<div id="meTabs" role="tablist"><button type="button" data-t="stack">Stacked notes</button><button type="button" data-t="ly">Lyrics</button></div>'
++'<div class="mepan" id="meP_stack" hidden><label class="melab mesw"><span>Stack notes</span><input type="checkbox" role="switch" id="meStack"></label><label class="melab"><span>Chord</span><select id="meChord"></select></label><div class="mepair"><button type="button" id="meUnstack">Clear Stack</button><button type="button" id="meChordBtn">Fill Chord</button></div>'
++'<div class="hint">Stack notes: select a note, turn this on, then tap other lines or spaces in its column to add notes that sound together. Tap one again to remove it. Fill Chord replaces the selected note with the chosen chord from this card, in root position, and you can then stack or change notes by hand.</div></div>'
++'<div class="mepan" id="meP_ly" hidden><label class="melab"><span>Syllable</span><input type="text" id="meLy" maxlength="24" placeholder="Select a note"></label><label class="melab mesw"><span>Hold</span><input type="checkbox" role="switch" id="meHold"></label><div class="mepair"><button type="button" id="meNoLy">Clear Syllables</button><button type="button" id="meFill">Fill From Card Lyrics</button></div>'
++'<div class="hint">Hold means the note continues the previous syllable (one syllable over several notes). After changing holds, tap Fill again to re-spread the lyrics. Syllable splitting is a best guess: tap a note and fix any syllable by hand.</div></div>';
 document.body.appendChild(E);E.addEventListener('keydown',function(e){e.stopPropagation()});
-var ed={id:null,d:'q',dot:false,rest:false,acc:'',sel:-1,info:null,clr:false,stack:false};
+var ed={hs:7,force:0,id:null,d:'q',dot:false,rest:false,acc:'',sel:-1,info:null,clr:false,stack:false};
 var CH_IV={'':[[0,0],[2,4],[4,7]],m:[[0,0],[2,3],[4,7]],'7':[[0,0],[2,4],[4,7],[6,10]],maj7:[[0,0],[2,4],[4,7],[6,11]],m7:[[0,0],[2,3],[4,7],[6,10]],'6':[[0,0],[2,4],[4,7],[5,9]],m6:[[0,0],[2,3],[4,7],[5,9]],sus2:[[0,0],[1,2],[4,7]],sus4:[[0,0],[3,5],[4,7]],dim:[[0,0],[2,3],[4,6]],aug:[[0,0],[2,4],[4,8]]};
 var CH_AL={M7:'maj7',Maj7:'maj7',min:'m',min7:'m7','-':'m',M:'',maj:'',dom7:'7',o:'dim','+':'aug',sus:'sus4','9':'7','11':'7','13':'7'};
 function chordNotes(name){var m=/^([A-G])(#|b)?([^\/]*)/.exec(String(name||''));if(!m)return null;var q=m[3];if(q in CH_AL)q=CH_AL[q];var iv=CH_IV[q];if(!iv)return null;
@@ -2001,8 +2039,9 @@ function cardChords(s){var seen={},o=[];((s&&s.v)||[]).forEach(function(l){(l?[l
  ((s&&s.v)||[]).forEach(function(vv){(vv||[]).forEach(function(l){if(!l)return;parse(l).forEach(function(g){if(g.c&&g.c!=='NC'&&!seen[g.c]){seen[g.c]=1;o.push(g.c)}})})});return o}
 function sec(){return SECS.filter(function(s){return s.id===ed.id})[0]}
 function msg(m){$('meMsg').textContent=m||''}
-function paintBtns(){[].forEach.call($('meDur').children,function(b){b.className=b.getAttribute('data-d')===ed.d?'on':''});[].forEach.call($('meAcc').querySelectorAll('button'),function(b){b.className=b.getAttribute('data-a')===ed.acc?'on':''});$('meClr').textContent=ed.clr?'Tap again to clear':'Clear all'}
-function redraw(){var s=sec();if(!s)return;if(!s.mel)s.mel=[];var W=Math.max(300,Math.min(760,(window.innerWidth||800)-32));ed.info=staffSvg(s.mel,{W:W,hs:7,sel:ed.sel,open:true});$('meStaff').innerHTML=ed.info.svg;$('meTitle').textContent='Melody: '+s.name;
+function paintBtns(){[].forEach.call($('meDur').children,function(b){b.className=b.getAttribute('data-d')===ed.d?'on':''});$('meAcc').value=ed.acc;$('meClr').textContent=ed.clr?'Tap again to clear':'Clear all'}
+function redraw(){var s=sec();if(!s)return;if(!s.mel)s.mel=[];var sc=$('meStaff'),sl=sc.scrollLeft,W=Math.max(300,sc.clientWidth-14);ed.info=staffSvg(s.mel,{W:W,hs:ed.hs,sel:ed.sel,open:true,single:true,pad:ed.hs*10});sc.innerHTML=ed.info.svg;var sv=sc.querySelector('svg');sv.style.width=ed.info.W+'px';sv.style.maxWidth='none';sc.scrollLeft=sl;
+ var hh=ed.sel>=0&&ed.info.hits[ed.sel];if(hh&&(ed.force||hh.x1+8>sc.scrollLeft+sc.clientWidth||hh.x0<sc.scrollLeft))sc.scrollLeft=Math.max(0,hh.x0-sc.clientWidth/2);ed.force=0;$('meTitle').textContent='Melody: '+s.name;
  var mu=mU(),used=lastUsed(s.mel);msg(s.mel.length?('Bar '+measures(s.mel).length+': '+used/4+' of '+mu/4+' beats used.'):'No notes yet. The bar holds '+mu/4+' beats.');paintBtns();lySync();chSync()}
 function chSync(){var s=sec(),sel=$('meChord'),cur=sel.value,l=cardChords(s).filter(function(c){return chordNotes(c)});sel.innerHTML=l.length?l.map(function(c){return '<option>'+c.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</option>'}).join(''):'<option value="">(no chords on this card)</option>';if(cur&&l.indexOf(cur)>=0)sel.value=cur;$('meChordBtn').disabled=!l.length}
 function commit(){SIG='';renderTop();redraw()}
@@ -2021,7 +2060,7 @@ $('meStaff').addEventListener('click',function(ev){var s=sec(),svg=$('meStaff').
  var eu=evU(e),mu=mU(),used=lastUsed(s.mel);if(eu>mu-used+0.001){msg('That note is longer than the space left in this bar ('+(mu-used)/4+' beats left). Choose a shorter note.');return}
  s.mel.push(e);ed.sel=s.mel.length-1;ed.clr=false;commit()});
 $('meDur').onclick=function(ev){var b=ev.target.closest('button[data-d]');if(b){ed.d=b.getAttribute('data-d');paintBtns()}};
-$('meAcc').onclick=function(ev){var b=ev.target.closest('button[data-a]');if(b){ed.acc=b.getAttribute('data-a');paintBtns()}};
+$('meAcc').onchange=function(){ed.acc=this.value;paintBtns()};
 $('meStack').onchange=function(){ed.stack=this.checked;msg(ed.stack?(ed.sel>=0?'Tap lines or spaces in the selected note\u2019s column to add or remove stacked notes.':'Select a note first, then tap in its column to stack notes.'):'')};
 $('meUnstack').onclick=function(){var e=selNote();if(!e||!e.ex){msg('Select a stacked note first.');return}delete e.ex;commit()};
 $('meChordBtn').onclick=function(){var e=selNote(),n=chordNotes($('meChord').value);if(!e||e.r){msg('Select a note first (not a rest), then pick a chord.');return}if(!n){msg('That chord is not supported yet.');return}
@@ -2041,7 +2080,19 @@ $('meFill').onclick=function(){var s=sec();if(!s||!s.mel||!s.mel.length){msg('Ad
  var k=0,notes=0;s.mel.forEach(function(e){if(e.r)return;delete e.ly;if(e.hold)return;notes++;if(k<sy.length)e.ly=sy[k++]});
  commit();msg(k+' syllables placed on '+notes+' notes'+(sy.length>k?'; '+(sy.length-k)+' syllables left over (add notes or hold fewer).':(notes>k?'; '+(notes-k)+' notes have no syllable.':'.')))};
 $('meDone').onclick=function(){E.hidden=true};
-window.openMelody=function(id){ed.id=id;ed.sel=-1;ed.clr=false;E.hidden=false;redraw()};
+$('meZo').onclick=function(){ed.hs=Math.max(4,ed.hs-1);redraw()};$('meZi').onclick=function(){ed.hs=Math.min(12,ed.hs+1);redraw()};
+function tab(t){['stack','ly'].forEach(function(k){$('meP_'+k).hidden=(k!==t)});[].forEach.call($('meTabs').children,function(b){b.className=b.getAttribute('data-t')===t?'on':''})}
+$('meTabs').onclick=function(ev){var b=ev.target.closest('button[data-t]');if(!b)return;var t=b.getAttribute('data-t');tab($('meP_'+t).hidden?t:'')};
+var PV=document.createElement('div');PV.id='melPv';PV.className='ovl';PV.hidden=true;PV.innerHTML='<div class="lyh"><b>Page view</b><span class="meHd"><button type="button" id="pvRot">Rotate for larger view</button><button type="button" id="pvClose">Close</button></span></div><div class="hint">Tap a note to edit it.</div><div id="pvBody"></div>';document.body.appendChild(PV);PV.addEventListener('keydown',function(e){e.stopPropagation()});
+var pvInfo=null;
+function pvDraw(){var s=sec();if(!s)return;var W=Math.max(300,Math.min(1100,(window.innerWidth||800)-32));pvInfo=staffSvg(s.mel||[],{W:W,hs:6,sel:ed.sel,open:true});$('pvBody').innerHTML=pvInfo.svg;$('pvRot').hidden=(window.innerWidth>=window.innerHeight)}
+$('mePage').onclick=function(){var s=sec();if(!s||!s.mel||!s.mel.length){msg('Add some notes first.');return}PV.hidden=false;pvDraw()};
+$('pvClose').onclick=function(){PV.hidden=true};
+window.addEventListener('resize',function(){if(!PV.hidden)pvDraw()});
+$('pvRot').onclick=async function(){try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();await screen.orientation.lock('landscape')}catch(e){toast('This device would not rotate automatically. Turn it sideways for a larger view.')}};
+$('pvBody').addEventListener('click',function(ev){var s=sec(),svg=$('pvBody').querySelector('svg');if(!s||!svg||!pvInfo)return;var r=svg.getBoundingClientRect(),k=pvInfo.W/r.width,x=(ev.clientX-r.left)*k,y=(ev.clientY-r.top)*k,i;
+ for(i=0;i<s.mel.length;i++){var h=pvInfo.hits[i];if(h&&x>=h.x0&&x<=h.x1&&y>=pvInfo.sys[h.si].y0&&y<=pvInfo.sys[h.si].y1){ed.sel=i;ed.force=1;ed.clr=false;PV.hidden=true;redraw();return}}});
+window.openMelody=function(id){ed.id=id;ed.sel=-1;ed.clr=false;E.hidden=false;PV.hidden=true;tab('');redraw()};
 $('map').addEventListener('click',function(ev){var b=ev.target.closest('.melbtn');if(b){ev.stopPropagation();openMelody(b.getAttribute('data-id'));return}var m=ev.target.closest('.mel');if(m&&st.mode==='E')openMelody(m.getAttribute('data-id'))});
 }catch(err11){console.error(err11);try{toast('Notation setup problem: '+err11.message)}catch(e1){}}})();
 (function(){try{
@@ -3969,44 +4020,6 @@ function fix(){[].forEach.call(document.querySelectorAll('.tn:not([data-tf])'),f
  var sel=t.querySelector('.tn-a4s');if(sel)sel.setAttribute('title','The pitch the tuner uses for the note A above middle C. 440 Hz is the standard.')})}
 fix();new MutationObserver(function(){if(document.querySelector('.tn:not([data-tf])'))fix()}).observe(document.body,{childList:true,subtree:true});
 }catch(e43){console.error(e43)}})();
-
-/* ===== v0.41.4: melody editor layout ===== */
-(function(){try{
-var E=$('melEd');if(!E||E.dataset.lay)return;E.dataset.lay='1';
-var g=function(i){return $(i)};
-var hints=E.querySelectorAll(':scope>.hint:not(#meMsg)');
-function H(t){var d=document.createElement('div');d.className='mesh';d.textContent=t;return d}
-function row(){var d=document.createElement('div');d.className='merow';[].slice.call(arguments).forEach(function(x){if(x)d.appendChild(x)});return d}
-function pair(a,b){var d=document.createElement('div');d.className='mepair';d.appendChild(a);d.appendChild(b);return d}
-function lab(t,ctl){var l=document.createElement('label');l.className='melab';var s=document.createElement('span');s.textContent=t;l.appendChild(s);l.appendChild(ctl);return l}
-// pull the controls out of their old rows
-var dur=g('meDur'),rest=g('meRest'),dot=g('meDot'),acc=g('meAcc'),up=g('meUp'),dn=g('meDn'),del=g('meDel'),clr=g('meClr'),stack=g('meStack'),unst=g('meUnstack'),chord=g('meChord'),chB=g('meChordBtn'),ly=g('meLy'),hold=g('meHold'),fill=g('meFill'),noly=g('meNoLy'),msg=g('meMsg'),staff=g('meStaff');
-var title=E.querySelector('.lyh'),h0=hints[0],hS=hints[1],hL=hints[2];
-var accBtns=[].slice.call(acc.querySelectorAll('button'));
-var accWrap=acc;[].slice.call(acc.childNodes).forEach(function(n){if(n.nodeType===3)acc.removeChild(n)});acc.classList.add('meseg');
-function sw(t,inp){var l=document.createElement('label');l.className='melab mesw';var s=document.createElement('span');s.textContent=t;l.appendChild(s);l.appendChild(inp);return l}
-var editRow=document.createElement('div');editRow.className='megrid4';[up,dn,del,clr].forEach(function(b){editRow.appendChild(b)});
-dur.className='megrid5';
-var nodes=[title,h0,staff,
- H('Note length'),dur,
- H('Note options'),sw('Rest',rest),sw('Dotted',dot),lab('Accidental',accWrap),
- H('Edit notes'),editRow,
- H('Stacked notes'),sw('Stack notes',stack),lab('Chord',chord),pair(unst,chB),hS,
- H('Lyrics'),lab('Syllable',ly),sw('Hold',hold),pair(noly,fill),hL,msg];
-E.innerHTML='';nodes.forEach(function(n){if(n)E.appendChild(n)});
-var c=document.createElement('style');c.textContent=
-'#melEd .mesh{font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin:16px 0 6px;padding-top:12px;border-top:1px solid var(--line)}'
-+'#melEd .merow,#melEd .melab{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:6px 0}'
-+'#melEd .melab>span:first-child{flex:1}'
-+'#melEd .melab>select,#melEd .melab>input[type=text]{width:13rem;max-width:60%;box-sizing:border-box;margin-left:auto}'
-+'#melEd .mesw>input[role=switch]{flex:none;margin-left:auto}'
-+'#melEd .meseg{display:flex;gap:6px}#melEd .meseg button{min-width:3rem}'
-+'#melEd .megrid5{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:6px 0}#melEd .megrid4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:6px 0}'
-+'#melEd .megrid5 button,#melEd .megrid4 button{width:100%;min-width:0;padding-left:.2rem;padding-right:.2rem}'
-+'#melEd .mepair{display:flex;justify-content:flex-end;gap:12px;margin:8px 0;flex-wrap:wrap}#melEd .mepair button{width:13rem;max-width:100%;box-sizing:border-box}'
-+'#melEd>.hint{margin:6px 0}';
-document.head.appendChild(c);
-}catch(e44){console.error(e44)}})();
 
 })();
 </script>
