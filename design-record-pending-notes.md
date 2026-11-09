@@ -418,3 +418,8 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 ## v0.40.9 — delete custom strum patterns
 - Strum pattern group has a Delete This Pattern button, shown only when one of your own patterns is selected. First tap arms it (shows the pattern name), second tap within 5 seconds deletes it.
 - Songs and cards that used the deleted pattern fall back to No strum pattern; built-in patterns cannot be deleted.
+
+## v0.40.10 — Song Info menu standardized
+- Song Info (and the tuner panel) now use the same control sizes and alignment as the global menu: 13rem right-aligned selects, sliders, text boxes, and buttons (Open Chord Library, Create Your Own, Delete This Pattern, Reset strings), with switches right-aligned on the label's line.
+- Metronome's beat light moved to the left of its label so the switch stays at the right edge.
+- Compact steppers (tempo, transpose, capo, key dial, Major/Minor) are unchanged.
