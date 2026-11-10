@@ -511,3 +511,7 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## Record status (Nov 9, 2026)
 - Design record Version 7 written Nov 9 (https://claude.ai/artifact/6SHuyGRX1eLE2QWPagyi1V), covering ver. 0.37.3 to 0.42.13 plus the Orphion comparison, the attorney/IP plan, and the Nov 7-9 decisions. Everything above this line is now in Version 7. New notes for Version 8 start below.
+
+## For Version 8 (added Nov 9, 2026)
+- Include the draft email to VLPA (separate doc: https://claude.ai/artifact/Kt47neA3tWAC7YMtSWKLBK) as an appendix or linked item in the legal section, plus whether and when it was sent and what VLPA answered.
+- Include the USPTO screenshots Colby took on Nov 9 as evidence of the name search (already summarized in Version 7, section 3).
