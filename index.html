@@ -3330,9 +3330,9 @@ var css=document.createElement('style');css.textContent='#dupDlg{position:fixed;
 (function(){try{
 var lib=$('hbLib');if(!lib||!window.TVX)return;
 var g=document.createElement('div');g.className='pg';g.id='gExpAll';
-g.innerHTML='<b class="mkh">Export</b><div class="hint" id="exAllHint"></div><label class="exfl">Format <select id="exFmt" aria-label="Export format"><option value="cho">ChordPro (.cho)</option><option value="txt">Plain text (.txt)</option><option value="md">Markdown (.md)</option></select></label><div class="prow"><button type="button" id="exOne">Save This Song</button></div><div class="prow"><button type="button" id="exAll">Export all songs</button></div><div class="hint" id="exAllMsg" role="status"></div>';
+g.innerHTML='<b class="mkh">Export</b><div class="hint" id="exAllHint"></div><div class="hint exq">Choose one or more formats. Each song is saved once per format you turn on.</div><label class="sw exsw"><span>ChordPro (.cho)</span><span class="tg"><input type="checkbox" role="switch" id="exF_cho" data-f="cho"></span></label><label class="sw exsw"><span>Plain text (.txt)</span><span class="tg"><input type="checkbox" role="switch" id="exF_txt" data-f="txt"></span></label><label class="sw exsw"><span>Markdown (.md)</span><span class="tg"><input type="checkbox" role="switch" id="exF_md" data-f="md"></span></label><div class="prow"><button type="button" id="exOne">Save This Song</button></div><div class="prow"><button type="button" id="exAll">Export all songs</button></div><div class="hint" id="exAllMsg" role="status"></div>';
 lib.appendChild(g);
-var css=document.createElement('style');css.textContent='#hbLib>#gExpAll{order:9}#gExpAll .exfl{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-top:6px}#gExpAll .prow{margin-top:8px;display:flex;justify-content:flex-end}#gExpAll #exFmt,#gExpAll #exOne,#gExpAll #exAll{width:13rem;max-width:100%;box-sizing:border-box;text-align:center}';document.head.appendChild(css);
+var css=document.createElement('style');css.textContent='#hbLib>#gExpAll{order:9}#gExpAll label.sw{display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:8px;margin-top:6px}#gExpAll label.sw>span:first-child{flex:1 1 9rem}#gExpAll .tg{flex:none;display:flex;align-items:center;margin-left:auto}#gExpAll .prow{margin-top:8px;display:flex;justify-content:flex-end}#gExpAll #exOne,#gExpAll #exAll{width:13rem;max-width:100%;box-sizing:border-box;text-align:center}';document.head.appendChild(css);
 function serOf(i){
  if(i===st.song)return TVX.ser();
  var keep={SECS:SECS,LAYOUT:LAYOUT,NUMS:NUMS,MARKS:MARKS,CSTR:CSTR,SEQ:SEQ,song:st.song,key:st.key,kmin:st.kmin,bpm:st.bpm,ts:st.ts,strum:st.strum};
@@ -3365,10 +3365,11 @@ function toSheet(cp,md){var H={},out=[],sec=null,body=[],ls=cp.replace(/\r/g,'')
  return hd.concat(out).join('\n').replace(/\n{3,}/g,'\n\n').replace(/\s+$/,'')+'\n'}
 window.__orpSheet=toSheet;
 function fmtText(i,f){var cp=serOf(i);return f==='cho'?cp:toSheet(cp,f==='md')}
-var FK='orpExFmt';function curFmt(){var v=$('exFmt').value;return FMT[v]?v:'cho'}
-(function(){var sel=$('exFmt'),h=$('exAllHint');try{var v=localStorage.getItem(FK);if(FMT[v])sel.value=v}catch(e){}
- function upd(){var f=FMT[curFmt()];h.textContent=f.h+' Your edits are included.';$('exOne').textContent='Save This Song as .'+f.ext;$('exAll').textContent='Export all songs (.zip)'}
- sel.onchange=function(){try{localStorage.setItem(FK,sel.value)}catch(e){}$('exAllMsg').textContent='';upd()};upd()})();
+var FK='orpExFmts',KS=['cho','txt','md'];function curFmts(){var o=KS.filter(function(k){var e=$('exF_'+k);return e&&e.checked});return o.length?o:['cho']}
+(function(){var h=$('exAllHint'),on=null;try{on=JSON.parse(localStorage.getItem(FK)||'null')}catch(e){}if(!Array.isArray(on)||!on.length)on=['cho'];
+ KS.forEach(function(k){$('exF_'+k).checked=on.indexOf(k)>=0});
+ function upd(){var f=curFmts(),ex=f.map(function(k){return'.'+FMT[k].ext}).join(' + ');$('exOne').textContent='Save This Song as '+ex;$('exAll').textContent='Export all songs (.zip)';h.textContent='Chords stay inline in ChordPro files. Text and Markdown files put the chords above the lyrics. Your edits are included.'}
+ KS.forEach(function(k){var e=$('exF_'+k);e.onchange=function(){if(!KS.some(function(q){return $('exF_'+q).checked}))e.checked=true;try{localStorage.setItem(FK,JSON.stringify(curFmts()))}catch(x){}$('exAllMsg').textContent='';upd()}});upd()})();
 function crc32(u){var t=crc32.t;if(!t){t=crc32.t=[];for(var n=0,c,k;n<256;n++){c=n;for(k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}}var c2=-1;for(var i=0;i<u.length;i++)c2=t[(c2^u[i])&255]^(c2>>>8);return(c2^-1)>>>0}
 function zip(files){var parts=[],cd=[],off=0,enc=new TextEncoder(),d=new Date(),dt=((d.getFullYear()-1980)<<9)|((d.getMonth()+1)<<5)|d.getDate(),tm=(d.getHours()<<11)|(d.getMinutes()<<5)|(d.getSeconds()>>1);
  files.forEach(function(f){var nm=enc.encode(f.name),crc=crc32(f.data),h=new DataView(new ArrayBuffer(30));
@@ -3382,13 +3383,15 @@ function save(blob,name){var m=$('exAllMsg');
  function fb(){try{var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1000);return true}catch(e){return false}}
  try{if(window.claude&&claude.use){claude.use('downloads').then(function(d){if(d)d.save({filename:name,data:blob}).then(function(){m.textContent='Saved '+name+'.'},function(){});else if(!fb())m.textContent='Export is not available here.'});return}}catch(e){}
  if(!fb())m.textContent='Export is not available here.'}
-$('exOne').onclick=function(){var m=$('exAllMsg'),F=curFmt();try{var base=((SDB[st.song]||{}).t||'Song').replace(/[\\/:*?"<>|]+/g,'').replace(/\s+/g,' ').trim()||'Song';save(new Blob([fmtText(st.song,F)],{type:FMT[F].mime}),base+'.'+FMT[F].ext)}catch(e){console.error(e);m.textContent='Export did not work: '+e.message}};
-$('exAll').onclick=function(){var m=$('exAllMsg'),F=curFmt();m.textContent='Preparing…';
+$('exOne').onclick=function(){var m=$('exAllMsg'),fs=curFmts();try{var base=((SDB[st.song]||{}).t||'Song').replace(/[\\/:*?"<>|]+/g,'').replace(/\s+/g,' ').trim()||'Song';
+ fs.forEach(function(F,n){var blob=new Blob([fmtText(st.song,F)],{type:FMT[F].mime});setTimeout(function(){save(blob,base+'.'+FMT[F].ext)},n*700)});
+ if(fs.length>1)m.textContent='Saving '+fs.length+' files. If your browser asks to allow multiple downloads, choose Allow.'}catch(e){console.error(e);m.textContent='Export did not work: '+e.message}};
+$('exAll').onclick=function(){var m=$('exAllMsg'),fs=curFmts();m.textContent='Preparing…';
  setTimeout(function(){try{var used={},files=[],enc=new TextEncoder();
   SDB.forEach(function(s,i){var base=(s.t||'Song').replace(/[\\/:*?"<>|]+/g,'').replace(/\s+/g,' ').trim()||'Song',nm=base,k=2;while(used[nm.toLowerCase()])nm=base+' ('+(k++)+')';used[nm.toLowerCase()]=1;
-   var txt=fmtText(i,F);files.push({name:nm+'.'+FMT[F].ext,data:enc.encode(txt)})});
+   fs.forEach(function(F){files.push({name:nm+'.'+FMT[F].ext,data:enc.encode(fmtText(i,F))})})});
   var d=new Date(),stamp=d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);
-  m.textContent='Exported '+files.length+(files.length===1?' song.':' songs.');save(zip(files),'Orpharion songs '+(F==='cho'?'':F+' ')+stamp+'.zip')}catch(e){console.error(e);m.textContent='Export did not work: '+e.message}},30)};
+  m.textContent='Exported '+SDB.length+(SDB.length===1?' song':' songs')+(fs.length>1?' in '+fs.length+' formats.':'.');save(zip(files),'Orpharion songs '+(fs.length===1&&fs[0]!=='cho'?fs[0]+' ':'')+stamp+'.zip')}catch(e){console.error(e);m.textContent='Export did not work: '+e.message}},30)};
 }catch(e){console.error('export all',e)}})();
 
 /* ===== v0.34.0: follow the active card, wrap chips in Edit, wrap long lyric lines ===== */
