@@ -1365,7 +1365,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-var APPVER='0.43.0-2026-11-08';
+var APPVER='0.44.0-2026-11-08';
 function aboutHtml(wz){return (wz?'':'<p class="abt"><b>Orpharion</b> (working title)</p><p class="hint abt">Version '+APPVER+'</p><p class="hint abt">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p>')+'<p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p class="hint">This is an independent app and is not endorsed by Anthropic.</p><p>Tab sheets use the JetBrains Mono font (SIL Open Font License 1.1). PDF reading uses pdf.js from Mozilla (Apache License 2.0).</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging, and playing your own charts. It does not include, supply, or license any songs, lyrics, or recordings. You are responsible for having the right to use every song you enter, import, keep, share, or perform. This includes anything you bring in from text, ChordPro, PDF, or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share, or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'+'<div class="legal"><b>Privacy policy</b><p class="hint">Last updated November 7, 2026</p><p><b>Short version:</b> Orpharion has no accounts, no ads, and no tracking. Nothing you do in the app is sent to the developer.</p><p><b>What stays on your device.</b> Your settings, setlists, custom strum patterns, song edits, and similar choices are saved in your own browser on your own device. They are not uploaded anywhere. Clearing your browser&rsquo;s site data removes them.</p><p><b>What we collect.</b> We do not collect, sell, or share personal information, and the app has no analytics. The page is delivered by a web host (GitHub Pages), which, like any web host, may keep ordinary server logs such as your IP address and the time of your visit. See GitHub&rsquo;s own privacy statement for how it handles those. PDFs and other files you import are read on your device and are not uploaded.</p><p><b>Your files.</b> Files you import are read on your device. You decide which ones to bring in.</p><p><b>Changes.</b> If this policy changes, the date above will change and the new text will appear here.</p><p class="hint">This is general information, not legal advice.</p></div>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
@@ -3328,9 +3328,9 @@ var css=document.createElement('style');css.textContent='#dupDlg{position:fixed;
 (function(){try{
 var lib=$('hbLib');if(!lib||!window.TVX)return;
 var g=document.createElement('div');g.className='pg';g.id='gExpAll';
-g.innerHTML='<b class="mkh">Export</b><div class="hint">Save every song in your library as a ChordPro (.cho) file inside one .zip. Your edits are included.</div><div class="prow"><button type="button" id="exAll">Export all songs</button></div><div class="hint" id="exAllMsg"></div>';
+g.innerHTML='<b class="mkh">Export</b><div class="hint" id="exAllHint"></div><label class="exfl">Format <select id="exFmt" aria-label="Export format"><option value="cho">ChordPro (.cho)</option><option value="txt">Plain text (.txt)</option><option value="md">Markdown (.md)</option></select></label><div class="prow"><button type="button" id="exOne">Save This Song</button></div><div class="prow"><button type="button" id="exAll">Export all songs</button></div><div class="hint" id="exAllMsg" role="status"></div>';
 lib.appendChild(g);
-var css=document.createElement('style');css.textContent='#hbLib>#gExpAll{order:9}';document.head.appendChild(css);
+var css=document.createElement('style');css.textContent='#hbLib>#gExpAll{order:9}#gExpAll .exfl{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-top:6px}#gExpAll .prow{margin-top:8px;display:flex;justify-content:flex-end}#gExpAll #exFmt,#gExpAll #exOne,#gExpAll #exAll{width:13rem;max-width:100%;box-sizing:border-box;text-align:center}';document.head.appendChild(css);
 function serOf(i){
  if(i===st.song)return TVX.ser();
  var keep={SECS:SECS,LAYOUT:LAYOUT,NUMS:NUMS,MARKS:MARKS,CSTR:CSTR,SEQ:SEQ,song:st.song,key:st.key,kmin:st.kmin,bpm:st.bpm,ts:st.ts,strum:st.strum};
@@ -3338,6 +3338,34 @@ function serOf(i){
  d.LAYOUT.forEach(function(id){(d.NUMS[id]||[]).forEach(function(n){sq.push({s:id,n:n})})});sq.sort(function(a,b){return a.n-b.n});
  try{SECS=d.SECS;LAYOUT=d.LAYOUT;NUMS=d.NUMS;MARKS=d.MARKS;CSTR=d.CSTR;SEQ=sq;st.song=i;st.key=d.key;st.kmin=d.kmin;st.bpm=d.bpm;st.ts=d.ts;st.strum=d.strum;return TVX.ser()}
  finally{SECS=keep.SECS;LAYOUT=keep.LAYOUT;NUMS=keep.NUMS;MARKS=keep.MARKS;CSTR=keep.CSTR;SEQ=keep.SEQ;st.song=keep.song;st.key=keep.key;st.kmin=keep.kmin;st.bpm=keep.bpm;st.ts=keep.ts;st.strum=keep.strum}}
+var FMT={cho:{ext:'cho',mime:'text/plain',nm:'ChordPro (.cho)',h:'ChordPro (.cho) keeps the chords inline and opens in other chord-sheet apps.'},txt:{ext:'txt',mime:'text/plain',nm:'plain text (.txt)',h:'Plain text (.txt) puts the chords above the lyrics and opens anywhere.'},md:{ext:'md',mime:'text/markdown',nm:'Markdown (.md)',h:'Markdown (.md) puts the chords above the lyrics in code blocks so the spacing stays aligned.'}};
+function cpLine(L){var lyr='',chd='',re=/\[([^\]]*)\]|([^\[]+)/g,m,has=false;
+ while((m=re.exec(L))){if(m[1]!==undefined){has=true;var need=chd?chd.length+1:0;if(lyr.length<need)lyr+=new Array(need-lyr.length+1).join(' ');if(chd.length<lyr.length)chd+=new Array(lyr.length-chd.length+1).join(' ');chd+=m[1]}else lyr+=m[2]}
+ lyr=lyr.replace(/\s+$/,'');chd=chd.replace(/\s+$/,'');
+ if(!has)return[lyr];if(!lyr.trim())return[chd];return[chd,lyr]}
+function toSheet(cp,md){var H={},out=[],sec=null,body=[],ls=cp.replace(/\r/g,'').split('\n');
+ function flush(){if(sec===null)return;var b=body.slice();while(b.length&&!b[b.length-1].trim())b.pop();
+  if(md){out.push('## '+(sec||'Section'),'');if(b.length){out.push('```');b.forEach(function(x){out.push(x)});out.push('```')}out.push('')}
+  else{out.push((sec||'Section').toUpperCase());b.forEach(function(x){out.push(x)});out.push('')}
+  sec=null;body=[]}
+ ls.forEach(function(L){var d=/^\{\s*([a-z_]+)\s*:?\s*([^}]*)\}\s*$/i.exec(L);
+  if(d){var k=d[1].toLowerCase(),v=d[2].trim();
+   if(/^(sov|soc|sob|sot|sog|start_of_.+)$/.test(k)){flush();sec=v||({sov:'Verse',soc:'Chorus',sob:'Bridge',sot:'Tab'}[k]||'Section');return}
+   if(/^(eov|eoc|eob|eot|eog|end_of_.+)$/.test(k)){flush();return}
+   if(k==='title'||k==='t')H.title=v;else if(k==='artist')H.artist=v;else if(k==='year')H.year=v;else if(k==='key')H.key=v;else if(k==='tempo')H.tempo=v;else if(k==='time')H.time=v;return}
+  if(sec===null){if(!L.trim())return;sec=''}
+  if(!L.trim()){body.push('');return}
+  cpLine(L).forEach(function(x){body.push(x)})});
+ flush();
+ var meta=[];if(H.artist)meta.push(H.artist);if(H.year)meta.push(H.year);var info=[];if(H.key)info.push('Key: '+H.key);if(H.tempo)info.push('Tempo: '+H.tempo+' BPM');if(H.time)info.push('Time: '+H.time);
+ var hd=[];if(md){hd.push('# '+(H.title||'Song'));if(meta.length)hd.push('',meta.join(' · '));if(info.length)hd.push('',info.join(' · '));hd.push('')}
+ else{hd.push(H.title||'Song');if(meta.length)hd.push(meta.join(' · '));if(info.length)hd.push(info.join(' · '));hd.push('')}
+ return hd.concat(out).join('\n').replace(/\n{3,}/g,'\n\n').replace(/\s+$/,'')+'\n'}
+function fmtText(i,f){var cp=serOf(i);return f==='cho'?cp:toSheet(cp,f==='md')}
+var FK='orpExFmt';function curFmt(){var v=$('exFmt').value;return FMT[v]?v:'cho'}
+(function(){var sel=$('exFmt'),h=$('exAllHint');try{var v=localStorage.getItem(FK);if(FMT[v])sel.value=v}catch(e){}
+ function upd(){var f=FMT[curFmt()];h.textContent=f.h+' Your edits are included.';$('exOne').textContent='Save This Song as .'+f.ext;$('exAll').textContent='Export all songs (.zip)'}
+ sel.onchange=function(){try{localStorage.setItem(FK,sel.value)}catch(e){}$('exAllMsg').textContent='';upd()};upd()})();
 function crc32(u){var t=crc32.t;if(!t){t=crc32.t=[];for(var n=0,c,k;n<256;n++){c=n;for(k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}}var c2=-1;for(var i=0;i<u.length;i++)c2=t[(c2^u[i])&255]^(c2>>>8);return(c2^-1)>>>0}
 function zip(files){var parts=[],cd=[],off=0,enc=new TextEncoder(),d=new Date(),dt=((d.getFullYear()-1980)<<9)|((d.getMonth()+1)<<5)|d.getDate(),tm=(d.getHours()<<11)|(d.getMinutes()<<5)|(d.getSeconds()>>1);
  files.forEach(function(f){var nm=enc.encode(f.name),crc=crc32(f.data),h=new DataView(new ArrayBuffer(30));
@@ -3351,12 +3379,13 @@ function save(blob,name){var m=$('exAllMsg');
  function fb(){try{var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1000);return true}catch(e){return false}}
  try{if(window.claude&&claude.use){claude.use('downloads').then(function(d){if(d)d.save({filename:name,data:blob}).then(function(){m.textContent='Saved '+name+'.'},function(){});else if(!fb())m.textContent='Export is not available here.'});return}}catch(e){}
  if(!fb())m.textContent='Export is not available here.'}
-$('exAll').onclick=function(){var m=$('exAllMsg');m.textContent='Preparing…';
+$('exOne').onclick=function(){var m=$('exAllMsg'),F=curFmt();try{var base=((SDB[st.song]||{}).t||'Song').replace(/[\\/:*?"<>|]+/g,'').replace(/\s+/g,' ').trim()||'Song';save(new Blob([fmtText(st.song,F)],{type:FMT[F].mime}),base+'.'+FMT[F].ext)}catch(e){console.error(e);m.textContent='Export did not work: '+e.message}};
+$('exAll').onclick=function(){var m=$('exAllMsg'),F=curFmt();m.textContent='Preparing…';
  setTimeout(function(){try{var used={},files=[],enc=new TextEncoder();
   SDB.forEach(function(s,i){var base=(s.t||'Song').replace(/[\\/:*?"<>|]+/g,'').replace(/\s+/g,' ').trim()||'Song',nm=base,k=2;while(used[nm.toLowerCase()])nm=base+' ('+(k++)+')';used[nm.toLowerCase()]=1;
-   var txt=serOf(i);files.push({name:nm+'.cho',data:enc.encode(txt)})});
+   var txt=fmtText(i,F);files.push({name:nm+'.'+FMT[F].ext,data:enc.encode(txt)})});
   var d=new Date(),stamp=d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);
-  m.textContent='Exported '+files.length+(files.length===1?' song.':' songs.');save(zip(files),'Orpharion songs '+stamp+'.zip')}catch(e){console.error(e);m.textContent='Export did not work: '+e.message}},30)};
+  m.textContent='Exported '+files.length+(files.length===1?' song.':' songs.');save(zip(files),'Orpharion songs '+(F==='cho'?'':F+' ')+stamp+'.zip')}catch(e){console.error(e);m.textContent='Export did not work: '+e.message}},30)};
 }catch(e){console.error('export all',e)}})();
 
 /* ===== v0.34.0: follow the active card, wrap chips in Edit, wrap long lyric lines ===== */

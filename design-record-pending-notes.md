@@ -515,3 +515,5 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 ## For Version 8 (added Nov 9, 2026)
 - Include the draft email to VLPA (separate doc: https://claude.ai/artifact/Kt47neA3tWAC7YMtSWKLBK) as an appendix or linked item in the legal section, plus whether and when it was sent and what VLPA answered.
 - Include the USPTO screenshots Colby took on Nov 9 as evidence of the name search (already summarized in Version 7, section 3).
+
+- v0.44.0 (Nov 9, 2026): Export section in the Library menu now has a Format choice (ChordPro .cho, plain text .txt, Markdown .md), a Save This Song button, and Export all songs (.zip) in the chosen format. Text and Markdown put chords above lyrics; Markdown uses code blocks to keep spacing. Choice is remembered. Not yet device-tested.
