@@ -517,3 +517,4 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Include the USPTO screenshots Colby took on Nov 9 as evidence of the name search (already summarized in Version 7, section 3).
 
 - v0.44.0 (Nov 9, 2026): Export section in the Library menu now has a Format choice (ChordPro .cho, plain text .txt, Markdown .md), a Save This Song button, and Export all songs (.zip) in the chosen format. Text and Markdown put chords above lyrics; Markdown uses code blocks to keep spacing. Choice is remembered. Not yet device-tested.
+- v0.44.0 also: Code View's export now offers Export .txt and Export .md (chords above lyrics, from the editor text including unapplied edits) instead of .cho. .cho stays only in the Library Export section.
