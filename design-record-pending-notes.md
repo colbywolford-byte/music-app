@@ -555,3 +555,4 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - The bug report's technical info now includes a line "Offline copy: on or off", so Colby can confirm on a device that the saved copy is active.
 - Needs one online launch after updating before offline launch works. The helper registers only on the github.io address, as before.
 - Possible later improvements: a small "saved for offline use" message after the first save, and an offline note in Help.
+- Page title changed from "Orpharion - mockup" to "Orpharion" (Nov 12, 2026), so the browser tab and installed-app name no longer say mockup. Same version, picked up by the build timestamp.
