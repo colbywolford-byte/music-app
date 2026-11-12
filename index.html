@@ -1365,7 +1365,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-var APPVER='0.46.0-2026-11-08';var APPBUILD='2026-11-12T14:49:07Z';
+var APPVER='0.46.0-2026-11-08';var APPBUILD='2026-11-12T14:57:21Z';
 function aboutHtml(wz){return (wz?'':'<p class="abt"><b>Orpharion</b></p><p class="hint abt">Version '+APPVER+'</p><p class="hint abt">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p>')+'<p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p class="hint">This is an independent app and is not endorsed by Anthropic.</p><p>Tab sheets use the JetBrains Mono font (SIL Open Font License 1.1). PDF reading uses pdf.js from Mozilla (Apache License 2.0).</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging, and playing your own charts. It does not include, supply, or license any songs, lyrics, or recordings. You are responsible for having the right to use every song you enter, import, keep, share, or perform. This includes anything you bring in from text, ChordPro, PDF, or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share, or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'+'<div class="legal"><b>Privacy policy</b><p class="hint">Last updated November 7, 2026</p><p><b>Short version:</b> Orpharion has no accounts, no ads, and no tracking. Nothing you do in the app is sent to the developer.</p><p><b>What stays on your device.</b> Your settings, setlists, custom strum patterns, song edits, and similar choices are saved in your own browser on your own device. They are not uploaded anywhere. Clearing your browser&rsquo;s site data removes them.</p><p><b>What we collect.</b> We do not collect, sell, or share personal information, and the app has no analytics. The page is delivered by a web host (GitHub Pages), which, like any web host, may keep ordinary server logs such as your IP address and the time of your visit. See GitHub&rsquo;s own privacy statement for how it handles those. PDFs and other files you import are read on your device and are not uploaded.</p><p><b>Your files.</b> Files you import are read on your device. You decide which ones to bring in.</p><p><b>Changes.</b> If this policy changes, the date above will change and the new text will appear here.</p><p class="hint">This is general information, not legal advice.</p></div>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
@@ -4230,16 +4230,26 @@ function ks(sr,f,dur,P,seed){
  var o=y.subarray(0,len),pk=0;for(i=0;i<len;i++){var a=o[i]<0?-o[i]:o[i];if(a>pk)pk=a}
  var sc=pk?1/pk:1,fade=Math.min(len>>1,Math.floor(sr*.04));for(i=0;i<len;i++){var w=1;if(i>len-fade)w=(len-i)/fade;o[i]*=sc*w}
  return o}
+function bq(x,sr,type,f0,q,gdb){var w=2*Math.PI*f0/sr,cw=Math.cos(w),sw=Math.sin(w),A=Math.pow(10,(gdb||0)/40),al=sw/(2*(q||.7)),b0,b1,b2,a0,a1,a2,s;
+ if(type==='peaking'){b0=1+al*A;b1=-2*cw;b2=1-al*A;a0=1+al/A;a1=-2*cw;a2=1-al/A}
+ else if(type==='lowshelf'){s=2*Math.sqrt(A)*al;b0=A*((A+1)-(A-1)*cw+s);b1=2*A*((A-1)-(A+1)*cw);b2=A*((A+1)-(A-1)*cw-s);a0=(A+1)+(A-1)*cw+s;a1=-2*((A-1)+(A+1)*cw);a2=(A+1)+(A-1)*cw-s}
+ else if(type==='highpass'){b0=(1+cw)/2;b1=-(1+cw);b2=b0;a0=1+al;a1=-2*cw;a2=1-al}
+ else return x;
+ b0/=a0;b1/=a0;b2/=a0;a1/=a0;a2/=a0;var y=new Float32Array(x.length),x1=0,x2=0,y1=0,y2=0,i,xi,yi;
+ for(i=0;i<x.length;i++){xi=x[i];yi=b0*xi+b1*x1+b2*x2-a1*y1-a2*y2;x2=x1;x1=xi;y2=y1;y1=yi;y[i]=yi}return y}
+/* Low-frequency tone shaping is done here, in double precision, because browsers can be noisy with filters below about 350 Hz. */
+function bake(d,sr,v){var F=v.F||[],i,pk=0;F.forEach(function(f){if(f.f<350)d=bq(d,sr,f.type,f.f,f.q,f.g)});
+ for(i=0;i<d.length;i++){var a=d[i]<0?-d[i]:d[i];if(a>pk)pk=a}var sc=pk?1/pk:1;for(i=0;i<d.length;i++)d[i]*=sc;return d}
 function renderBuf(c,v,midi){var P=v.P,f=hz(midi),t60=P.t60*Math.pow(Math.min(2.2,Math.max(.3,440/f)),P.tilt),dur=Math.min(5,Math.max(.6,t60*1.05)),sr=c.sampleRate,d;
  if(P.pair){var a=ks(sr,f*.9992,dur,P,777),b2=ks(sr,f*1.0008,dur,P,4242);d=new Float32Array(a.length);for(var i=0;i<a.length;i++)d[i]=.5*(a[i]+b2[i])}else d=ks(sr,f,dur,P,midi*97+11);
- var buf=c.createBuffer(1,d.length,sr);buf.getChannelData(0).set(d);return buf}
-function chain(v){var c=ctx();if(v._c&&v._cx===c)return v._c;var inp=c.createGain(),last=inp;(v.F||[]).forEach(function(f){var n=c.createBiquadFilter();n.type=f.type;n.frequency.value=f.f;if(f.q)n.Q.value=f.q;if(f.g)n.gain.value=f.g;last.connect(n);last=n});last.connect(OUT);v._c=inp;v._cx=c;return inp}
+ d=bake(d,sr,v);var buf=c.createBuffer(1,d.length,sr);buf.getChannelData(0).set(d);return buf}
+function chain(v){var c=ctx();if(v._c&&v._cx===c)return v._c;var inp=c.createGain(),last=inp;(v.F||[]).filter(function(f){return f.f>=350}).forEach(function(f){var n=c.createBiquadFilter();n.type=f.type;n.frequency.value=f.f;if(f.q)n.Q.value=f.q;if(f.g)n.gain.value=f.g;last.connect(n);last=n});last.connect(OUT);v._c=inp;v._cx=c;return inp}
 function handle(c,g,until){return{until:until,kill:function(){try{var n=c.currentTime;g.gain.cancelScheduledValues(n);g.gain.setValueAtTime(g.gain.value,n);g.gain.linearRampToValueAtTime(.0001,n+.06)}catch(e){}}}}
-function ksPlay(v,c,t,midi,vel,dur){
+function ksPlay(v,c,t,midi,vel,dur,det){
  var P=v.P,key=v.id+'|'+midi+'|'+c.sampleRate,b=CACHE[key];
  if(!b){b=renderBuf(c,v,midi);if(CN>=140){CACHE={};CN=0}CACHE[key]=b;CN++}
  var s=c.createBufferSource(),g=c.createGain(),pk=Math.max(.03,Math.min(1.2,vel))*P.lvl*(midi<45?.8:1),end=t+b.duration;
- s.buffer=b;g.gain.setValueAtTime(pk,t);
+ s.buffer=b;if(det)s.detune.value=det;g.gain.setValueAtTime(pk,t);
  if(dur&&dur<b.duration-P.rel-.02){g.gain.setValueAtTime(pk,t+dur);g.gain.linearRampToValueAtTime(.0001,t+dur+P.rel);end=t+dur+P.rel}
  s.connect(g);g.connect(chain(v));s.start(t);s.stop(end+.02);return handle(c,g,end)}
 function noiseBuf(c){if(NZ&&NZ.sampleRate===c.sampleRate)return NZ;var len=Math.floor(c.sampleRate*.04),nb=c.createBuffer(1,len,c.sampleRate),d=nb.getChannelData(0),i;for(i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3);NZ=nb;return nb}
@@ -4261,11 +4271,11 @@ var BUILTIN={id:'builtin',name:'Built-in instruments',note:'Synthesized in the a
  {id:'ukulele',name:'Ukulele',P:{t60:1.8,tilt:.35,b:.58,ex:.8,pick:.2,nz:.3,lvl:.6,rel:.1},F:[F('peaking',300,1.2,3),F('peaking',420,1.6,3),F('lowpass',3400,.6,0)]},
  {id:'nylon',name:'Nylon-string guitar',P:{t60:3.8,tilt:.3,b:.6,ex:.8,pick:.17,nz:.22,lvl:.6,rel:.12},F:[F('peaking',110,2.5,2),F('peaking',240,1.5,2),F('lowpass',3200,.6,0)]},
  {id:'steel',name:'Steel-string guitar',P:{t60:4.4,tilt:.3,b:.55,ex:.75,pick:.15,nz:.3,lvl:.55,rel:.12},F:[F('peaking',100,3,2),F('peaking',250,1.5,2),F('lowpass',3800,.6,0)]},
- {id:'bass',name:'Bass',shift:-12,P:{t60:3.4,tilt:.25,b:.62,ex:.85,pick:.22,nz:.12,lvl:.65,rel:.15},F:[F('lowshelf',120,.7,1),F('lowpass',2200,.6,0)]},
+ {id:'bass',name:'Bass',shift:-12,P:{t60:3.4,tilt:.25,b:.62,ex:.85,pick:.22,nz:.12,lvl:.65,rel:.15},F:[F('lowshelf',120,.7,1),F('peaking',180,1,4),F('peaking',300,1,3),F('lowpass',2200,.6,0)]},
  {id:'mandolin',name:'Mandolin',P:{t60:1.3,tilt:.35,b:.42,ex:.55,pick:.12,nz:.4,lvl:.55,rel:.08,pair:1},F:[F('peaking',520,1.4,3),F('highpass',180,.7,0),F('lowpass',4200,.6,0)]},
  {id:'banjo',name:'Banjo',P:{t60:.9,tilt:.3,b:.45,ex:.5,pick:.1,nz:.35,lvl:.55,rel:.06},F:[F('highpass',160,.7,0),F('peaking',1700,1.4,5),F('lowpass',4800,.6,0)]}]};
 function register(pack){if(!pack||!pack.id||!pack.voices)return false;PACKS=PACKS.filter(function(p){return p.id!==pack.id});PACKS.push(pack);
- pack.voices.forEach(function(v){v.pack=pack.id;if(v.P&&!v.play)v.play=function(c,t,m,vel,d){return ksPlay(v,c,t,m,vel,d)};VOICES[v.id]=v});paintUI();return true}
+ pack.voices.forEach(function(v){v.pack=pack.id;if(v.P&&!v.play)v.play=function(c,t,m,vel,d,det){return ksPlay(v,c,t,m,vel,d,det)};VOICES[v.id]=v});paintUI();return true}
 function loadPref(){try{var j=JSON.parse(localStorage.getItem(LSK)||'{}');PREF={chord:j.chord||'auto',mel:j.mel||'auto'}}catch(e){}}
 function savePref(){try{localStorage.setItem(LSK,JSON.stringify(PREF))}catch(e){}}
 function autoId(){var I={};try{I=window.ORPINST()||{}}catch(e){}var g=I.g||'',n=I.n||'';
@@ -4273,7 +4283,9 @@ function autoId(){var I={};try{I=window.ORPINST()||{}}catch(e){}var g=I.g||'',n=
 function voiceFor(role){var id=PREF[role]||'auto';if(id==='auto')id=autoId();return VOICES[id]||VOICES.piano}
 function keep(h){var c=CX,now=c?c.currentTime:0;ACTIVE=ACTIVE.filter(function(a){return a.until>now});ACTIVE.push(h)}
 function note(t,midi,vel,dur,role){var c=wake();if(!c)return null;var v=voiceFor(role||'chord');if(!v)return null;
- var h=v.play(c,t<c.currentTime?c.currentTime:t,midi+(v.shift||0),vel==null?.7:vel,dur);if(h)keep(h);return h}
+ var tt=t<c.currentTime?c.currentTime:t,m=midi+(v.shift||0),vv=vel==null?.7:vel,I={};try{I=window.ORPINST()||{}}catch(e){}
+ if(/12-String/.test(I.n||'')&&(v.id==='steel'||v.id==='nylon')){var h1=v.play(c,tt,m,vv,dur,-4),h2=m<=55?v.play(c,tt+.004,m+12,vv*.6,dur,3):v.play(c,tt+.004,m,vv*.7,dur,5);if(h1)keep(h1);if(h2)keep(h2);return h1}
+ var h=v.play(c,tt,m,vv,dur);if(h)keep(h);return h}
 function stopAll(){ACTIVE.forEach(function(a){try{a.kill()}catch(e){}});ACTIVE=[]}
 function keyAcc(ks,L){var arr=ks.t==='#'?SH:FL,k=arr.indexOf(L);return(k>=0&&k<ks.n)?(ks.t==='#'?1:-1):0}
 function midiOf(p,a,ks){var m=/^([A-G])(\d)$/.exec(p||'');if(!m)return null;var acc=a==='#'?1:a==='b'?-1:a==='n'?0:keyAcc(ks||{n:0,t:'#'},m[1]);return(+m[2]+1)*12+SEMI[m[1]]+acc}
@@ -4304,7 +4316,7 @@ function ui(){var mus=document.getElementById('hbDisplay');if(!mus||document.get
  g.addEventListener('change',function(e){var s=e.target.closest('select[data-r]');if(!s)return;PREF[s.dataset.r]=s.value;savePref();sample(s.dataset.r);s.blur()});
  g.addEventListener('click',function(e){var b=e.target.closest('button[data-h]');if(b)sample(b.dataset.h)});return true}
 loadPref();register(BUILTIN);
-window.ORPSND={ctx:ctx,out:function(){ctx();return OUT},ok:function(){return!!(window.AudioContext||window.webkitAudioContext)},register:register,packs:function(){return PACKS.slice()},voices:function(){return Object.keys(VOICES).map(function(k){return VOICES[k]})},voiceFor:voiceFor,note:note,playMelody:playMelody,stopAll:stopAll,sample:sample,midiOf:midiOf,_ks:ks};
+window.ORPSND={ctx:ctx,out:function(){ctx();return OUT},ok:function(){return!!(window.AudioContext||window.webkitAudioContext)},register:register,packs:function(){return PACKS.slice()},voices:function(){return Object.keys(VOICES).map(function(k){return VOICES[k]})},voiceFor:voiceFor,note:note,playMelody:playMelody,stopAll:stopAll,sample:sample,midiOf:midiOf,_ks:ks,_buf:function(id,m){var c=ctx(),v=VOICES[id];return v&&v.P?renderBuf(c,v,m).getChannelData(0):null}};
 if(!ui())setTimeout(ui,1500);
 }catch(e){console.error(e);try{toast('Sound setup problem: '+e.message)}catch(x){}}})();
 
