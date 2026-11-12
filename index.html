@@ -1365,7 +1365,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-var APPVER='0.45.0-2026-11-08';var APPBUILD='2026-11-12T00:04:39Z';
+var APPVER='0.46.0-2026-11-08';var APPBUILD='2026-11-12T02:01:53Z';
 function aboutHtml(wz){return (wz?'':'<p class="abt"><b>Orpharion</b></p><p class="hint abt">Version '+APPVER+'</p><p class="hint abt">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p>')+'<p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p class="hint">This is an independent app and is not endorsed by Anthropic.</p><p>Tab sheets use the JetBrains Mono font (SIL Open Font License 1.1). PDF reading uses pdf.js from Mozilla (Apache License 2.0).</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging, and playing your own charts. It does not include, supply, or license any songs, lyrics, or recordings. You are responsible for having the right to use every song you enter, import, keep, share, or perform. This includes anything you bring in from text, ChordPro, PDF, or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share, or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'+'<div class="legal"><b>Privacy policy</b><p class="hint">Last updated November 7, 2026</p><p><b>Short version:</b> Orpharion has no accounts, no ads, and no tracking. Nothing you do in the app is sent to the developer.</p><p><b>What stays on your device.</b> Your settings, setlists, custom strum patterns, song edits, and similar choices are saved in your own browser on your own device. They are not uploaded anywhere. Clearing your browser&rsquo;s site data removes them.</p><p><b>What we collect.</b> We do not collect, sell, or share personal information, and the app has no analytics. The page is delivered by a web host (GitHub Pages), which, like any web host, may keep ordinary server logs such as your IP address and the time of your visit. See GitHub&rsquo;s own privacy statement for how it handles those. PDFs and other files you import are read on your device and are not uploaded.</p><p><b>Your files.</b> Files you import are read on your device. You decide which ones to bring in.</p><p><b>Changes.</b> If this policy changes, the date above will change and the new text will appear here.</p><p class="hint">This is general information, not legal advice.</p></div>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
@@ -1415,7 +1415,7 @@ var oldFill3=mkFill;mkFill=function(){oldFill3();cfSet(KEYS.indexOf(st.key));$('
 var QUAL={'':[0,4,7],m:[0,3,7],'7':[0,4,7,10],maj7:[0,4,7,11],m7:[0,3,7,10],sus2:[0,2,7],sus4:[0,5,7],dim:[0,3,6],aug:[0,4,8],'6':[0,4,7,9],m6:[0,3,7,9],m7b5:[0,3,6,10],add9:[0,4,7,2],'9':[0,4,10,2]},FC={};
 var INS={uke:{g:'Ukulele',n:'Ukulele (Soprano, Concert, Tenor)',open:[7,0,4,9],cap:1},bari:{g:'Ukulele',n:'Baritone Ukulele',open:[2,7,11,4],cap:1},gtr6:{g:'Guitar',n:'Guitar (6-String)',open:[4,9,2,7,11,4],mute:1,cap:1,gt:1},gtr12:{g:'Guitar',n:'Guitar (12-String)',open:[4,9,2,7,11,4],mute:1,cap:1,gt:1},gtr7:{g:'Guitar',n:'Guitar (7-String)',open:[11,4,9,2,7,11,4],mute:1,cap:1,gt:1,pad:1},gtr8:{g:'Guitar',n:'Guitar (8-String)',open:[6,11,4,9,2,7,11,4],mute:1,cap:1,gt:1,pad:2},bass4:{g:'Bass',n:'Bass (4-String)',open:[4,9,2,7],kind:'bass'},bass5:{g:'Bass',n:'Bass (5-String)',open:[11,4,9,2,7],kind:'bass'},bass6:{g:'Bass',n:'Bass (6-String)',open:[11,4,9,2,7,0],kind:'bass'},mand:{g:'Mandolin and Banjo',n:'Mandolin',open:[7,2,9,4]},banjo5:{g:'Mandolin and Banjo',n:'Banjo (5-String, Open G)',open:[7,2,7,11,2],drone:0,cap:1},banjo4:{g:'Mandolin and Banjo',n:'Banjo (4-String Tenor)',open:[0,7,2,9],cap:1},dobro:{g:'Resonator and Lute',n:'Resonator or Dobro (Open G)',open:[2,7,2,7,11,2],slide:1},lute:{g:'Resonator and Lute',n:'Lute (Renaissance, G Tuning)',open:[7,0,5,9,2,7]}};
 var GM=[[-1,3,2,0,1,0],[-1,4,6,6,6,4],[-1,-1,0,2,3,2],[-1,6,8,8,8,6],[0,2,2,1,0,0],[1,3,3,2,1,1],[2,4,4,3,2,2],[3,2,0,0,0,3],[4,6,6,5,4,4],[-1,0,2,2,2,0],[-1,1,3,3,3,1],[-1,2,4,4,4,2]],Gm=[[-1,3,5,5,4,3],[-1,4,6,6,5,4],[-1,-1,0,2,3,1],[-1,6,8,8,7,6],[0,2,2,0,0,0],[1,3,3,1,1,1],[2,4,4,2,2,2],[3,5,5,3,3,3],[4,6,6,4,4,4],[-1,0,2,2,1,0],[-1,1,3,3,2,1],[-1,2,4,4,3,2]],G7=[[-1,3,2,3,1,0],[-1,4,6,4,6,4],[-1,-1,0,2,1,2],[-1,6,8,6,8,6],[0,2,0,1,0,0],[1,3,1,2,1,1],[2,4,2,3,2,2],[3,2,0,0,0,1],[4,6,4,5,4,4],[-1,0,2,0,2,0],[-1,1,3,1,3,1],[-1,2,1,2,0,2]],GL={'':GM,m:Gm,'7':G7};
-function INST(){return INS[st.inst]||INS.uke}
+window.ORPINST=function(){return INS[st.inst]||INS.uke};function INST(){return INS[st.inst]||INS.uke}
 function genBass(I,pc){var N=I.open.length,out=[],i,f;for(i=0;i<N;i++)out.push(-2);for(i=0;i<Math.min(2,N);i++){f=(pc-I.open[i]+12)%12;if(f<=7){out[i]=f;if(i+1<N)out[i+1]=f+2;return out}}f=(pc-I.open[0]+12)%12;out[0]=f;if(N>1)out[1]=f+2;return out}
 function gen(I,pc,q){var tones=QUAL[q].map(function(t){return(pc+t)%12}),N=I.open.length,need=tones.filter(function(t,i){return!((N>=6||N<=3)&&tones.length>=4&&i===2)}),best=null,bs=1e9,b;
  for(b=0;b<=8;b++){var cand=[];for(var i=0;i<N;i++){var c=[];if((I.mute&&i<2)||I.drone===i)c.push(-1);if(b>0&&tones.indexOf(I.open[i]%12)>=0)c.push(0);var lo=b,hi=b+(b?3:4);for(var f=lo;f<=hi;f++){if(I.drone===i&&f>0)continue;if(tones.indexOf((I.open[i]+f)%12)>=0)c.push(f)}cand.push(c)}
@@ -2020,7 +2020,7 @@ window.melTranspose=function(semi,fl,oi,ni){var oks=ksigOf(oi),nks=ksigOf(ni);fu
  SECS.forEach(function(sec){if(!sec.mel)return;sec.mel.forEach(function(e){if(e.r||!e.p)return;tr(e);(e.ex||[]).forEach(tr)})})};
 // ---- editor
 var E=document.createElement('div');E.id='melEd';E.className='ovl';E.hidden=true;
-E.innerHTML='<div class="lyh"><b id="meTitle">Melody</b><span class="meHd"><button type="button" id="mePage">Page view</button><button type="button" id="meDone">Done</button></span></div>'
+E.innerHTML='<div class="lyh"><b id="meTitle">Melody</b><span class="meHd"><button type="button" id="meListen">Listen</button><button type="button" id="mePage">Page view</button><button type="button" id="meDone">Done</button></span></div>'
 +'<div id="meBar"><div class="mebr"><span id="meDur" class="meseg"><button type="button" data-d="w">Whole</button><button type="button" data-d="h">Half</button><button type="button" data-d="q">Quarter</button><button type="button" data-d="e">8th</button><button type="button" data-d="s">16th</button></span>'
 +'<label class="tb"><input type="checkbox" role="switch" id="meRest"><span>Rest</span></label><label class="tb"><input type="checkbox" role="switch" id="meDot"><span>Dotted</span></label>'
 +'<label class="mesel"><span>Accidental</span><select id="meAcc"><option value="">Auto</option><option value="#">♯ Sharp</option><option value="b">♭ Flat</option><option value="n">♮ Natural</option></select></label></div>'
@@ -2091,6 +2091,10 @@ $('meTabs').onclick=function(ev){var b=ev.target.closest('button[data-t]');if(!b
 var PV=document.createElement('div');PV.id='melPv';PV.className='ovl';PV.hidden=true;PV.innerHTML='<div class="lyh"><b>Page view</b><span class="meHd"><button type="button" id="pvRot">Rotate for larger view</button><button type="button" id="pvClose">Close</button></span></div><div class="hint">Tap a note to edit it.</div><div id="pvBody"></div>';document.body.appendChild(PV);PV.addEventListener('keydown',function(e){e.stopPropagation()});
 var pvInfo=null;
 function pvDraw(){var s=sec();if(!s)return;var W=Math.max(300,Math.min(1100,(window.innerWidth||800)-32));pvInfo=staffSvg(s.mel||[],{W:W,hs:6,sel:ed.sel,open:true});$('pvBody').innerHTML=pvInfo.svg;$('pvRot').hidden=(window.innerWidth>=window.innerHeight)}
+var lis=null;function lisStop(){if(lis){var l=lis;lis=null;try{l.stop()}catch(e){}}$('meListen').textContent='Listen'}
+$('meListen').onclick=function(){if(lis){lisStop();return}var s=sec();if(!s||!s.mel||!s.mel.length){msg('Add some notes first.');return}if(!window.ORPSND||!ORPSND.ok()){msg('This browser cannot play sound.');return}
+ lis=ORPSND.playMelody(s.mel,{bpm:st.bpm||90,ks:ksigOf(KEYS.indexOf(st.key)),onDone:function(){lis=null;$('meListen').textContent='Listen'}});if(lis)$('meListen').textContent='Stop'};
+$('meDone').addEventListener('click',lisStop);
 $('mePage').onclick=function(){var s=sec();if(!s||!s.mel||!s.mel.length){msg('Add some notes first.');return}PV.hidden=false;pvDraw()};
 $('pvClose').onclick=function(){PV.hidden=true};
 window.addEventListener('resize',function(){if(!PV.hidden)pvDraw()});
@@ -2405,13 +2409,13 @@ function gen(n){var out=[];while(out.length<n){var m=Math.min(4,n-out.length),b=
  return out.slice(0,n)}
 /* ---------- sound ---------- */
 var ctx=null,mst=null;
-function actx(){if(!ctx){var C=window.AudioContext||window.webkitAudioContext;if(!C)return null;ctx=new C();var cp=ctx.createDynamicsCompressor();mst=ctx.createGain();mst.gain.value=.75;mst.connect(cp);cp.connect(ctx.destination)}
+function actx(){if(!ctx){var X=window.ORPSND&&ORPSND.ctx();if(X){ctx=X;mst=ORPSND.out()}else{var C=window.AudioContext||window.webkitAudioContext;if(!C)return null;ctx=new C();var cp=ctx.createDynamicsCompressor();mst=ctx.createGain();mst.gain.value=.75;mst.connect(cp);cp.connect(ctx.destination)}}
  if(ctx.state==='suspended')ctx.resume();return ctx}
 function nm2m(n){var m=/^([A-G])([#b]?)(-?\d)$/.exec(n);if(!m)return null;return(+m[3]+1)*12+PCN[m[1]]+(m[2]==='#'?1:m[2]==='b'?-1:0)}
 function stringMidi(){var I=INST(),T=(window.TUNE||{})[st.inst],N=I.open.length,out=[];
  for(var i=0;i<N;i++){var m=T&&T.length===N?nm2m(T[i]):null;if(m==null){var pc=I.open[i];m=48+((pc+12)%12)}out.push(m)}
  return out}
-function pluck(t,mid,vel,len){var c=ctx,f=440*Math.pow(2,(mid-69)/12),o1=c.createOscillator(),o2=c.createOscillator(),g=c.createGain(),g2=c.createGain(),lp=c.createBiquadFilter();
+function pluck(t,mid,vel,len){if(window.ORPSND&&ctx===ORPSND.ctx()){ORPSND.note(t,mid,vel,null,'chord');return}var c=ctx,f=440*Math.pow(2,(mid-69)/12),o1=c.createOscillator(),o2=c.createOscillator(),g=c.createGain(),g2=c.createGain(),lp=c.createBiquadFilter();
  o1.type='triangle';o2.type='sine';o1.frequency.value=f;o2.frequency.value=f*2;g2.gain.value=.3;lp.type='lowpass';lp.frequency.setValueAtTime(Math.min(9000,f*9),t);lp.frequency.exponentialRampToValueAtTime(Math.max(300,f*2),t+len);
  g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(vel,t+.006);g.gain.exponentialRampToValueAtTime(.0008,t+len);
  o1.connect(g);o2.connect(g2);g2.connect(g);g.connect(lp);lp.connect(mst);o1.start(t);o2.start(t);o1.stop(t+len+.05);o2.stop(t+len+.05)}
@@ -4207,6 +4211,102 @@ function ui(){var ph=$('selPhone');var host=ph&&ph.closest&&ph.closest('.pg');if
  host.parentNode.insertBefore(ng,host.nextSibling);var s=ng.querySelector('select');s.value=get();s.onchange=function(){set(this.value);this.blur()}}
 ui();paint();
 }catch(e){console.error(e);try{toast('Simple or Advanced setup problem: '+e.message)}catch(x){}}})();
+/* v0.46.0: Sound engine with instrument packs. Built-in voices are synthesized; other packs can be added with ORPSND.register(). */
+(function(){try{
+var LSK='orp.snd',CX=null,OUT=null,NZ=null,CACHE={},CN=0,PACKS=[],VOICES={},ACTIVE=[],PREF={chord:'auto',mel:'auto'},ROLE_LBL={chord:'Chords and strums',mel:'Melody and stacked notes'};
+var SH=['F','C','G','D','A','E','B'],FL=['B','E','A','D','G','C','F'],SEMI={C:0,D:2,E:4,F:5,G:7,A:9,B:11},UN={w:16,h:8,q:4,e:2,s:1};
+function ctx(){if(!CX){var C=window.AudioContext||window.webkitAudioContext;if(!C)return null;CX=new C();var cp=CX.createDynamicsCompressor();OUT=CX.createGain();OUT.gain.value=.75;OUT.connect(cp);cp.connect(CX.destination)}return CX}
+function wake(){var c=ctx();if(c&&c.state==='suspended'){try{c.resume()}catch(e){}}return c}
+function hz(m){return 440*Math.pow(2,(m-69)/12)}
+/* Karplus-Strong plucked string, rendered to a buffer. y[i] feeds on the samples one period earlier, with a two-point average that darkens the tone as it decays. */
+function ks(sr,f,dur,P,seed){
+ var b=P.b,L=sr/f-b,li=Math.floor(L),fr=L-li,N=li+3,len=Math.ceil(sr*dur),y=new Float32Array(len+N),i,prev=0,rs=seed||12345;
+ function rnd(){rs=(Math.imul(rs,1664525)+1013904223)>>>0;return rs/2147483648-1}
+ for(i=0;i<N;i++){prev=prev*P.ex+rnd()*(1-P.ex);y[i]=prev}
+ var pp=Math.max(1,Math.round(L*P.pick));for(i=N-1;i>=pp;i--)y[i]-=y[i-pp];
+ var m=0;for(i=0;i<N;i++)m+=y[i];m/=N;for(i=0;i<N;i++)y[i]-=m;
+ var t60=P.t60*Math.pow(Math.min(2.2,Math.max(.3,440/f)),P.tilt),g=Math.min(.99995,Math.pow(.001,1/(f*t60)));
+ for(i=N;i<len+N;i++){var d1=y[i-li]*(1-fr)+y[i-li-1]*fr,d2=y[i-li-1]*(1-fr)+y[i-li-2]*fr;y[i]=g*((1-b)*d1+b*d2)}
+ var o=y.subarray(0,len),pk=0;for(i=0;i<len;i++){var a=o[i]<0?-o[i]:o[i];if(a>pk)pk=a}
+ var sc=pk?1/pk:1,fade=Math.min(len>>1,Math.floor(sr*.04));for(i=0;i<len;i++){var w=1;if(i>len-fade)w=(len-i)/fade;o[i]*=sc*w}
+ return o}
+function renderBuf(c,v,midi){var P=v.P,f=hz(midi),t60=P.t60*Math.pow(Math.min(2.2,Math.max(.3,440/f)),P.tilt),dur=Math.min(5,Math.max(.6,t60*1.05)),sr=c.sampleRate,d;
+ if(P.pair){var a=ks(sr,f*.9992,dur,P,777),b2=ks(sr,f*1.0008,dur,P,4242);d=new Float32Array(a.length);for(var i=0;i<a.length;i++)d[i]=.5*(a[i]+b2[i])}else d=ks(sr,f,dur,P,midi*97+11);
+ var buf=c.createBuffer(1,d.length,sr);buf.getChannelData(0).set(d);return buf}
+function chain(v){var c=ctx();if(v._c&&v._cx===c)return v._c;var inp=c.createGain(),last=inp;(v.F||[]).forEach(function(f){var n=c.createBiquadFilter();n.type=f.type;n.frequency.value=f.f;if(f.q)n.Q.value=f.q;if(f.g)n.gain.value=f.g;last.connect(n);last=n});last.connect(OUT);v._c=inp;v._cx=c;return inp}
+function handle(c,g,until){return{until:until,kill:function(){try{var n=c.currentTime;g.gain.cancelScheduledValues(n);g.gain.setValueAtTime(g.gain.value,n);g.gain.linearRampToValueAtTime(.0001,n+.06)}catch(e){}}}}
+function ksPlay(v,c,t,midi,vel,dur){
+ var P=v.P,key=v.id+'|'+midi+'|'+c.sampleRate,b=CACHE[key];
+ if(!b){b=renderBuf(c,v,midi);if(CN>=140){CACHE={};CN=0}CACHE[key]=b;CN++}
+ var s=c.createBufferSource(),g=c.createGain(),pk=Math.max(.03,Math.min(1.2,vel))*P.lvl,end=t+b.duration;
+ s.buffer=b;g.gain.setValueAtTime(pk,t);
+ if(dur&&dur<b.duration-P.rel-.02){g.gain.setValueAtTime(pk,t+dur);g.gain.linearRampToValueAtTime(.0001,t+dur+P.rel);end=t+dur+P.rel}
+ s.connect(g);g.connect(chain(v));s.start(t);s.stop(end+.02);return handle(c,g,end)}
+function noiseBuf(c){if(NZ&&NZ.sampleRate===c.sampleRate)return NZ;var len=Math.floor(c.sampleRate*.04),nb=c.createBuffer(1,len,c.sampleRate),d=nb.getChannelData(0),i;for(i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3);NZ=nb;return nb}
+function pianoPlay(c,t,midi,vel,dur){
+ var f=hz(midi),out=c.createGain(),lp=c.createBiquadFilter(),amps=[1,.62,.4,.27,.17,.11,.07,.045],t60=Math.max(.9,Math.min(7,5.2*Math.pow(220/f,.5))),B=.0003,maxEnd=t;
+ vel=Math.max(.03,Math.min(1.2,vel));lp.type='lowpass';lp.frequency.value=Math.min(9000,f*8+1400+vel*3000);lp.Q.value=.3;out.connect(lp);lp.connect(OUT);
+ if(f<130){amps[0]=.4;amps[1]=.9;amps[2]=.8;amps[3]=.5}
+ amps.forEach(function(a,i){var k=i+1,fk=k*f*Math.sqrt(1+B*k*k);if(fk>11000)return;var dd=t60*.9/Math.pow(k,.7),n=k<=2?2:1,q;
+  for(q=0;q<n;q++){var o=c.createOscillator(),g=c.createGain(),pk=.2*a*vel/n,stop=dur?Math.min(t+dd+.1,t+dur+.3):t+dd+.1;
+   o.type='sine';o.frequency.value=fk*(n===2?(q?1.0007:.9993):1);
+   g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(pk,t+.005);g.gain.exponentialRampToValueAtTime(.0001,t+dd);
+   o.connect(g);g.connect(out);o.start(t);o.stop(stop);if(stop>maxEnd)maxEnd=stop}});
+ var ns=c.createBufferSource(),ng=c.createGain(),bp=c.createBiquadFilter();ns.buffer=noiseBuf(c);bp.type='bandpass';bp.frequency.value=Math.min(4000,f*3);bp.Q.value=.8;ng.gain.value=.3*vel;ns.connect(bp);bp.connect(ng);ng.connect(out);ns.start(t);
+ if(dur){out.gain.setValueAtTime(1,t+dur);out.gain.linearRampToValueAtTime(.0001,t+dur+.2)}
+ return handle(c,out,maxEnd+.05)}
+function F(type,f,q,g){return{type:type,f:f,q:q,g:g}}
+var BUILTIN={id:'builtin',name:'Built-in instruments',note:'Synthesized in the app. Free, and always available offline.',voices:[
+ {id:'piano',name:'Piano',play:pianoPlay},
+ {id:'ukulele',name:'Ukulele',P:{t60:1.5,tilt:.35,b:.42,ex:.55,pick:.16,lvl:.55,rel:.1},F:[F('peaking',420,1.6,5),F('peaking',1100,1.2,2),F('highshelf',4500,.7,-5)]},
+ {id:'nylon',name:'Nylon-string guitar',P:{t60:3.2,tilt:.3,b:.5,ex:.6,pick:.15,lvl:.55,rel:.12},F:[F('peaking',110,2.5,5),F('peaking',240,1.5,2),F('highshelf',4000,.7,-6)]},
+ {id:'steel',name:'Steel-string guitar',P:{t60:3.8,tilt:.3,b:.38,ex:.4,pick:.13,lvl:.5,rel:.12},F:[F('peaking',100,3,4),F('peaking',250,1.5,2),F('peaking',3200,1,2)]},
+ {id:'bass',name:'Bass',shift:-12,P:{t60:3,tilt:.25,b:.56,ex:.7,pick:.22,lvl:.6,rel:.15},F:[F('lowshelf',120,.7,3),F('highshelf',1800,.7,-8)]},
+ {id:'mandolin',name:'Mandolin',P:{t60:1.1,tilt:.35,b:.33,ex:.35,pick:.1,lvl:.5,rel:.08,pair:1},F:[F('peaking',520,1.4,3),F('peaking',2800,1,2),F('highpass',180,.7,0)]},
+ {id:'banjo',name:'Banjo',P:{t60:.75,tilt:.3,b:.28,ex:.22,pick:.08,lvl:.5,rel:.06},F:[F('highpass',160,.7,0),F('peaking',1700,1.4,6),F('peaking',3600,1,3)]}]};
+function register(pack){if(!pack||!pack.id||!pack.voices)return false;PACKS=PACKS.filter(function(p){return p.id!==pack.id});PACKS.push(pack);
+ pack.voices.forEach(function(v){v.pack=pack.id;if(v.P&&!v.play)v.play=function(c,t,m,vel,d){return ksPlay(v,c,t,m,vel,d)};VOICES[v.id]=v});paintUI();return true}
+function loadPref(){try{var j=JSON.parse(localStorage.getItem(LSK)||'{}');PREF={chord:j.chord||'auto',mel:j.mel||'auto'}}catch(e){}}
+function savePref(){try{localStorage.setItem(LSK,JSON.stringify(PREF))}catch(e){}}
+function autoId(){var I={};try{I=window.ORPINST()||{}}catch(e){}var g=I.g||'',n=I.n||'';
+ if(/Ukulele/.test(g))return'ukulele';if(g==='Guitar')return'steel';if(g==='Bass')return'bass';if(/^Mandolin/.test(n))return'mandolin';if(/^Banjo/.test(n))return'banjo';if(/^Resonator/.test(n))return'steel';if(/^Lute/.test(n))return'nylon';return'piano'}
+function voiceFor(role){var id=PREF[role]||'auto';if(id==='auto')id=autoId();return VOICES[id]||VOICES.piano}
+function keep(h){var c=CX,now=c?c.currentTime:0;ACTIVE=ACTIVE.filter(function(a){return a.until>now});ACTIVE.push(h)}
+function note(t,midi,vel,dur,role){var c=wake();if(!c)return null;var v=voiceFor(role||'chord');if(!v)return null;
+ var h=v.play(c,t<c.currentTime?c.currentTime:t,midi+(v.shift||0),vel==null?.7:vel,dur);if(h)keep(h);return h}
+function stopAll(){ACTIVE.forEach(function(a){try{a.kill()}catch(e){}});ACTIVE=[]}
+function keyAcc(ks,L){var arr=ks.t==='#'?SH:FL,k=arr.indexOf(L);return(k>=0&&k<ks.n)?(ks.t==='#'?1:-1):0}
+function midiOf(p,a,ks){var m=/^([A-G])(\d)$/.exec(p||'');if(!m)return null;var acc=a==='#'?1:a==='b'?-1:a==='n'?0:keyAcc(ks||{n:0,t:'#'},m[1]);return(+m[2]+1)*12+SEMI[m[1]]+acc}
+function playMelody(mel,o){var c=wake();o=o||{};if(!c||!mel||!mel.length)return null;
+ var us=60/Math.max(30,Math.min(300,o.bpm||90))/4,t=c.currentTime+.12,t0=t,timers=[],stopped=false;
+ mel.forEach(function(e,i){var u=(UN[e.d]||4)*(e.dot?1.5:1),len=u*us;
+  if(!e.r&&e.p){var m=midiOf(e.p,e.a,o.ks);if(m!=null)note(t,m,.75,len*.95,'mel');(e.ex||[]).forEach(function(x){var m2=midiOf(x.p,x.a,o.ks);if(m2!=null)note(t,m2,.6,len*.95,'mel')})}
+  if(o.onNote)timers.push(setTimeout(function(){if(!stopped)o.onNote(i)},Math.max(0,(t-c.currentTime)*1000)));
+  t+=len});
+ var total=t-t0;timers.push(setTimeout(function(){if(!stopped){stopped=true;if(o.onDone)o.onDone()}},(t-c.currentTime)*1000+350));
+ return{seconds:total,stop:function(){if(stopped)return;stopped=true;timers.forEach(clearTimeout);stopAll();if(o.onDone)o.onDone()}}}
+/* Short samples for the Settings "Hear it" buttons. */
+function sample(role){var c=wake();if(!c)return;stopAll();var t=c.currentTime+.05,ms=role==='chord'?[60,64,67,72]:[60,62,64,67,64,62,60],gap=role==='chord'?.09:.3,i;
+ for(i=0;i<ms.length;i++)note(t+i*gap,ms[i],.7,role==='chord'?null:gap*.95,role)}
+/* Settings: a Sound group in Music. */
+function paintUI(){var host=document.getElementById('sndBox');if(!host)return;
+ ['chord','mel'].forEach(function(r){var s=host.querySelector('select[data-r="'+r+'"]');if(!s)return;
+  var h='<option value="auto">Match the song</option>';PACKS.forEach(function(p){h+='<optgroup label="'+p.name+'">'+p.voices.map(function(v){return'<option value="'+v.id+'">'+v.name+'</option>'}).join('')+'</optgroup>'});
+  s.innerHTML=h;s.value=VOICES[PREF[r]]||PREF[r]==='auto'?PREF[r]:'auto'});
+ var pl=host.querySelector('.sndPacks');if(pl)pl.innerHTML=PACKS.map(function(p){return'<div class="hint"><b>'+p.name+'.</b> '+(p.note||'')+'</div>'}).join('')}
+function ui(){var mus=document.getElementById('hbDisplay');if(!mus||document.getElementById('sndBox'))return false;
+ var g=document.createElement('div');g.className='pg';g.id='sndBox';
+ g.innerHTML='<b class="mkh">Sound</b><div class="hint">Choose which instrument you hear when the app plays notes. By default it matches the instrument of the song you are working on.</div>'
+ +'<label>'+ROLE_LBL.chord+' <select data-r="chord" aria-label="'+ROLE_LBL.chord+'"></select></label><button type="button" data-h="chord">Hear it</button>'
+ +'<label>'+ROLE_LBL.mel+' <select data-r="mel" aria-label="'+ROLE_LBL.mel+'"></select></label><button type="button" data-h="mel">Hear it</button>'
+ +'<div class="sndPacks"></div>';
+ mus.appendChild(g);paintUI();
+ g.addEventListener('change',function(e){var s=e.target.closest('select[data-r]');if(!s)return;PREF[s.dataset.r]=s.value;savePref();sample(s.dataset.r);s.blur()});
+ g.addEventListener('click',function(e){var b=e.target.closest('button[data-h]');if(b)sample(b.dataset.h)});return true}
+loadPref();register(BUILTIN);
+window.ORPSND={ctx:ctx,out:function(){ctx();return OUT},ok:function(){return!!(window.AudioContext||window.webkitAudioContext)},register:register,packs:function(){return PACKS.slice()},voices:function(){return Object.keys(VOICES).map(function(k){return VOICES[k]})},voiceFor:voiceFor,note:note,playMelody:playMelody,stopAll:stopAll,sample:sample,midiOf:midiOf,_ks:ks};
+if(!ui())setTimeout(ui,1500);
+}catch(e){console.error(e);try{toast('Sound setup problem: '+e.message)}catch(x){}}})();
 
 })();
 </script>
