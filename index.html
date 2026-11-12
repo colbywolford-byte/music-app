@@ -1365,7 +1365,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-var APPVER='0.44.3-2026-11-08';var APPBUILD='2026-11-10T02:11:10Z';
+var APPVER='0.45.0-2026-11-08';var APPBUILD='2026-11-12T00:04:39Z';
 function aboutHtml(wz){return (wz?'':'<p class="abt"><b>Orpharion</b></p><p class="hint abt">Version '+APPVER+'</p><p class="hint abt">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p>')+'<p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p class="hint">This is an independent app and is not endorsed by Anthropic.</p><p>Tab sheets use the JetBrains Mono font (SIL Open Font License 1.1). PDF reading uses pdf.js from Mozilla (Apache License 2.0).</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging, and playing your own charts. It does not include, supply, or license any songs, lyrics, or recordings. You are responsible for having the right to use every song you enter, import, keep, share, or perform. This includes anything you bring in from text, ChordPro, PDF, or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share, or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'+'<div class="legal"><b>Privacy policy</b><p class="hint">Last updated November 7, 2026</p><p><b>Short version:</b> Orpharion has no accounts, no ads, and no tracking. Nothing you do in the app is sent to the developer.</p><p><b>What stays on your device.</b> Your settings, setlists, custom strum patterns, song edits, and similar choices are saved in your own browser on your own device. They are not uploaded anywhere. Clearing your browser&rsquo;s site data removes them.</p><p><b>What we collect.</b> We do not collect, sell, or share personal information, and the app has no analytics. The page is delivered by a web host (GitHub Pages), which, like any web host, may keep ordinary server logs such as your IP address and the time of your visit. See GitHub&rsquo;s own privacy statement for how it handles those. PDFs and other files you import are read on your device and are not uploaded.</p><p><b>Your files.</b> Files you import are read on your device. You decide which ones to bring in.</p><p><b>Changes.</b> If this policy changes, the date above will change and the new text will appear here.</p><p class="hint">This is general information, not legal advice.</p></div>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
@@ -2240,6 +2240,10 @@ function(b){head(b,'Pedals','If you use a Bluetooth pedal, pair it in the tablet
 },
 function(b){head(b,'Song folder','Choose the folder on this device where you keep your chord sheets. Import opens there, and you can make or delete folders inside it. You can skip this step and set it later in Library.');var w=window.IMPF;if(!w||!w.api){var n0=document.createElement('p');n0.className='wz-sub';n0.textContent='This browser cannot show folders, so Import will ask you to pick files each time.';b.appendChild(n0);return}
  var pp=document.createElement('p');pp.className='wz-sub';var bb=document.createElement('b');pp.appendChild(document.createTextNode('Folder: '));pp.appendChild(bb);b.appendChild(pp);var up=function(){bb.textContent=w.name()||'none chosen yet'};up();var cb=document.createElement('button');cb.type='button';cb.textContent='Choose Folder\u2026';cb.onclick=function(){w.choose().then(up)};b.appendChild(cb)},
+function(b){head(b,'Simple or Advanced','Choose how many editing tools you want to see. You can change this any time in Settings.');
+ var w=window.ORPLEVEL;if(w&&!w.isSet())w.set('simple');var cur=w?w.get():'advanced',wrap=document.createElement('div');wrap.className='wz-opts';
+ [['simple','Simple','Chords and lyrics. Good for getting started.'],['advanced','Advanced','Adds dynamics, technique marks, and melody editing.']].forEach(function(m){var o=document.createElement('button');o.type='button';o.className='wz-opt'+(m[0]===cur?' on':'');o.innerHTML='<b></b><span></span>';o.firstChild.textContent=m[1];o.lastChild.textContent=m[2];
+  o.onclick=function(){if(w)w.set(m[0]);[].forEach.call(wrap.children,function(c){c.classList.remove('on')});o.classList.add('on')};wrap.appendChild(o)});b.appendChild(wrap)},
 function(b){head(b,'Opening screen','Choose the screen Orpharion opens on. Many players like to warm up before they play.');
  var MS=[['W','Warm-up','Scales, arpeggios, and chord progressions'],['R','Practice','Play along with the song'],['E','Edit','Write and arrange songs'],['P','Performance','The gig screen']],cur=SU.mode||'W',wrap=document.createElement('div');wrap.className='wz-opts';
  MS.forEach(function(m){var o=document.createElement('button');o.type='button';o.className='wz-opt'+(m[0]===cur?' on':'');o.innerHTML='<b></b><span></span>';o.firstChild.textContent=m[1];o.lastChild.textContent=m[2];
@@ -2248,7 +2252,7 @@ function(b){head(b,'Opening screen','Choose the screen Orpharion opens on. Many 
   wrap.appendChild(o)});b.appendChild(wrap)},
 function(b){head(b,'You’re all set','These are your defaults. You can change any of them later in Settings, and Run Setup Again is in the Settings menu.');
  var items=[['Instrument',(function(){var r=$('selInst');return r&&r.options[r.selectedIndex]?r.options[r.selectedIndex].text:''})()],['Tuning pitch','A4 = '+((a4Real()||{}).value||'440')+' Hz'],['Color mode',optText('selTheme')],['Palette',optText('selPal')],['Text size',optText('selSize')],['Chord diagrams',optText('selPos')],['Opens on',({W:'Warm-up',R:'Practice',E:'Edit',P:'Performance'})[SU.mode||'W']],['Chord letters',optText('selCp')],['Next section pedal',$('pdN')?$('pdN').textContent:'']];
- var ul=document.createElement('ul');ul.className='wz-sum';items.forEach(function(x){var li=document.createElement('li'),a=document.createElement('span'),c=document.createElement('span');a.textContent=x[0];c.textContent=x[1];li.appendChild(a);li.appendChild(c);ul.appendChild(li)});b.appendChild(ul)}
+ items.push(['Editing tools',window.ORPLEVEL&&ORPLEVEL.get()==='simple'?'Simple':'Advanced']);var ul=document.createElement('ul');ul.className='wz-sum';items.forEach(function(x){var li=document.createElement('li'),a=document.createElement('span'),c=document.createElement('span');a.textContent=x[0];c.textContent=x[1];li.appendChild(a);li.appendChild(c);ul.appendChild(li)});b.appendChild(ul)}
 ];
 function termsBody(b){var h=document.createElement('h2');h.textContent='Before you begin';b.appendChild(h);var p=document.createElement('p');p.className='wz-sub';p.textContent='Please read these terms. You need to accept them to use Orpharion.';b.appendChild(p);
  var box=document.createElement('div');box.className='wz-terms';box.innerHTML=aboutHtml(true);b.appendChild(box);
@@ -4170,6 +4174,39 @@ bx.addEventListener('click',function(ev){
 d.addEventListener('click',function(ev){if(ev.target.id==='oegX'||ev.target===d)hide()});
 document.addEventListener('keydown',function(ev){if(ev.key==='Escape'&&!d.hidden){hide();ev.stopPropagation()}},true);
 }catch(e){console.error(e)}})();
+
+/* ===== v0.45.0: Simple or Advanced, and collapsible sections in the Edit flyout ===== */
+(function(){try{
+var LK='orp.level';
+function stored(){try{return localStorage.getItem(LK)}catch(e){return null}}
+function get(){return stored()==='simple'?'simple':'advanced'}
+function paint(){document.body.classList.toggle('simple',get()==='simple');var s=$('selLevel');if(s)s.value=get()}
+var openChord=function(){};
+function set(v){try{localStorage.setItem(LK,v==='simple'?'simple':'advanced')}catch(e){}paint();if(get()==='simple')openChord()}
+window.ORPLEVEL={get:get,set:set,isSet:function(){var v=stored();return v==='simple'||v==='advanced'},isSimple:function(){return get()==='simple'}};
+var css=document.createElement('style');css.textContent=
+'body.simple #mkpal .mks[data-k="dynamic"],body.simple #mkpal .mks[data-k="technique"],body.simple .melbtn{display:none!important}'+
+'#mkpal .mks{flex:1 1 100%;display:flex;flex-wrap:wrap;gap:6px;border-top:1px solid var(--line);padding-top:4px;align-content:flex-start}'+
+'#mkpal .mks:first-of-type{border-top:0;padding-top:0}'+
+'#mkpal .mks>.mkh[data-acc]{flex:1 1 100%;display:flex;align-items:center;justify-content:space-between;min-height:36px;padding:2px 2px 2px 0;margin:0;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}'+
+'#mkpal .mks.acc-c{padding-bottom:0}';
+document.head.appendChild(css);
+var P=$('mkpal');
+if(P){var cur=null;[].slice.call(P.children).forEach(function(e){if(e.id==='mkTitle')return;
+ if(e.classList.contains('mkh')){cur=document.createElement('div');cur.className='mks';cur.dataset.k=e.textContent.trim().toLowerCase();e.dataset.acc='1';e.setAttribute('role','button');e.tabIndex=0;P.insertBefore(cur,e)}
+ if(cur)cur.appendChild(e)});
+ var G=[].slice.call(P.querySelectorAll(':scope>.mks'));
+ function setOpen(g,on){g.classList.toggle('acc-c',!on);var h=g.querySelector(':scope>.mkh');if(h)h.setAttribute('aria-expanded',on?'true':'false')}
+ G.forEach(function(g){setOpen(g,g.dataset.k==='chord')});
+ openChord=function(){G.forEach(function(g){setOpen(g,g.dataset.k==='chord')})};
+ function tog(h){var g=h.parentNode,wasClosed=g.classList.contains('acc-c');if(wasClosed){G.forEach(function(o){setOpen(o,o===g)});try{g.scrollIntoView({block:'nearest'})}catch(e){}}else setOpen(g,false)}
+ P.addEventListener('click',function(e){var h=e.target.closest('.mkh[data-acc]');if(h&&P.contains(h))tog(h)});
+ P.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('.mkh[data-acc]')){e.preventDefault();tog(e.target)}})}
+function ui(){var ph=$('selPhone');var host=ph&&ph.closest&&ph.closest('.pg');if(!host||$('selLevel'))return;
+ var ng=document.createElement('div');ng.className='pg';ng.innerHTML='<b class="mkh">Simple or Advanced</b><div class="hint">Simple shows chords and lyrics when you edit. Advanced adds dynamics, technique marks, and melody editing. Marks already in your songs still show either way.</div><label>Editing tools <select id="selLevel" aria-label="Simple or Advanced"><option value="simple">Simple</option><option value="advanced">Advanced</option></select></label>';
+ host.parentNode.insertBefore(ng,host.nextSibling);var s=ng.querySelector('select');s.value=get();s.onchange=function(){set(this.value);this.blur()}}
+ui();paint();
+}catch(e){console.error(e);try{toast('Simple or Advanced setup problem: '+e.message)}catch(x){}}})();
 
 })();
 </script>
