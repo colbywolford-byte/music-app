@@ -580,3 +580,5 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Fix: the arrow at the right of collapsible group titles showed as a plain bar on Display (Section navigation, Screen), Sound, and Backup. The arrow style was limited to the older menus; extended it to the new ones (no version bump, same 0.48.0 release).
 
 - Refactor: the arrow layout for collapsible group titles now applies to any heading the script marks as foldable (.pg and .trg children with data-acc), so a new menu cannot miss it. The only list left to maintain is the script list of foldable menus. Checked: Display, Sound, Backup, Library, and Song Info match; plain headings unchanged (same 0.48.0 release).
+
+- Bluetooth (Pedal) and Defaults (Defaults for songs) groups now fold with an arrow like the other menus (same 0.48.0 release). Every menu tab's groups now fold.
