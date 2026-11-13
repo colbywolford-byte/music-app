@@ -574,3 +574,5 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Steel versus nylon made clearly different (Colby heard no difference): steel is brighter (boosts near 2.8 and 5.2 kHz, lowpass 6.5 kHz, slight pick snap, longer ring), nylon is rounder (lowpass 1.8 kHz, warm boost near 550 Hz, shorter ring). Measured 1.5 to 4 kHz level about 18 dB apart.
 
 - v0.48.0: Sound tab now has three collapsible groups (Instruments, Guitar strings, Sound packs). The Display tab's Section navigation and Screen groups now fold together with the other Display groups (one open at a time). Setup wizard got a Sound step after Pedals (Chords and strums choice, Guitar strings, Hear it buttons; skippable; shown to every instrument, since the guitar choice only matters for guitars). Wizard is now 8 steps.
+
+- Backup tab groups (Back up everything, Restore, Share a setlist, Share strum patterns) now fold like the other menus (no version bump; same release 0.48.0).
