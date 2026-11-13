@@ -569,3 +569,6 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Bass pick, second pass (no version bump): Colby suggested softer pick on lower notes so strings keep their relative heard volume. Removed the bass pick click and added a pitch-scaled fade-in on notes under 130 Hz (`fade`, lower note gets a longer fade). Tablet-model measurement barely moved (E string attack about 14.5 dB over sustain). The remaining ratio comes from overtones decaying faster than the fundamental, so judge by ear before changing more.
 
 - v0.47.2: bass sound fixed. Colby confirmed the tapping noise at the start of bass notes is gone after the pick click was removed and low notes were given a pitch-scaled soft start. Changes since v0.47.1: bass level 1.15 to 1.0, pick position .08 to .06, decay 4.5 s, saturation and fade on notes under 130 Hz, no pick click.
+
+- Sound settings moved out of Display into their own Sound tab (after Display) in the menu, at Colby's request (no version bump yet).
+- Steel versus nylon made clearly different (Colby heard no difference): steel is brighter (boosts near 2.8 and 5.2 kHz, lowpass 6.5 kHz, slight pick snap, longer ring), nylon is rounder (lowpass 1.8 kHz, warm boost near 550 Hz, shorter ring). Measured 1.5 to 4 kHz level about 18 dB apart.
