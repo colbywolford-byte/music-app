@@ -576,3 +576,5 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - v0.48.0: Sound tab now has three collapsible groups (Instruments, Guitar strings, Sound packs). The Display tab's Section navigation and Screen groups now fold together with the other Display groups (one open at a time). Setup wizard got a Sound step after Pedals (Chords and strums choice, Guitar strings, Hear it buttons; skippable; shown to every instrument, since the guitar choice only matters for guitars). Wizard is now 8 steps.
 
 - Backup tab groups (Back up everything, Restore, Share a setlist, Share strum patterns) now fold like the other menus (no version bump; same release 0.48.0).
+
+- Fix: the arrow at the right of collapsible group titles showed as a plain bar on Display (Section navigation, Screen), Sound, and Backup. The arrow style was limited to the older menus; extended it to the new ones (no version bump, same 0.48.0 release).
