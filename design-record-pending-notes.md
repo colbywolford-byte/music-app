@@ -654,3 +654,8 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Every screen has Cancel, Back, and (after step 1) Skip. "Skip all and start" is on every screen except the last and is available as soon as there is a title; it creates the song with defaults (C major, 100 BPM, 4/4, no strum, Verse and Chorus, your default color set).
 - The song is added to the library, opens in Edit mode, and everything stays editable in Song Info.
 - Song Info order is now Song, Song details, then the rest.
+
+## Record status (Nov 14, 2026)
+- Design record Version 8 written Nov 14 (https://claude.ai/artifact/2cS3UUmgYJ38dq4yiYp57z), covering ver. 0.44.0 to 0.58.0. Everything above this line is now in Version 8. New notes for Version 9 start below.
+- Test checklist for 0.58.0 (printable doc): https://claude.ai/artifact/C5tU3HposPq7EMMHVehoJp
+- Open for Version 9: whether and when the VLPA email was sent and what they answered; device-test results for 0.44 to 0.58.
