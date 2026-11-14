@@ -1365,7 +1365,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-var APPVER='0.59.1-2026-11-14';var APPBUILD='2026-11-14T15:02:59Z';
+var APPVER='0.60.0-2026-11-14';var APPBUILD='2026-11-14T16:19:53Z';
 function aboutHtml(wz){return (wz?'':'<p class="abt"><b>Orpharion</b></p><p class="hint abt">Version '+APPVER+'</p><p class="hint abt">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p>')+'<p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p class="hint">This is an independent app and is not endorsed by Anthropic.</p><p>Tab sheets use the JetBrains Mono font (SIL Open Font License 1.1). PDF reading uses pdf.js from Mozilla (Apache License 2.0).</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging, and playing your own charts. It does not include, supply, or license any songs, lyrics, or recordings. You are responsible for having the right to use every song you enter, import, keep, share, or perform. This includes anything you bring in from text, ChordPro, PDF, or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share, or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'+'<div class="legal"><b>Privacy policy</b><p class="hint">Last updated November 7, 2026</p><p><b>Short version:</b> Orpharion has no accounts, no ads, and no tracking. Nothing you do in the app is sent to the developer.</p><p><b>What stays on your device.</b> Your settings, setlists, custom strum patterns, song edits, and similar choices are saved in your own browser on your own device. They are not uploaded anywhere. Clearing your browser&rsquo;s site data removes them.</p><p><b>What we collect.</b> We do not collect, sell, or share personal information, and the app has no analytics. The page is delivered by a web host (GitHub Pages), which, like any web host, may keep ordinary server logs such as your IP address and the time of your visit. See GitHub&rsquo;s own privacy statement for how it handles those. PDFs and other files you import are read on your device and are not uploaded.</p><p><b>Your files.</b> Files you import are read on your device. You decide which ones to bring in.</p><p><b>Changes.</b> If this policy changes, the date above will change and the new text will appear here.</p><p class="hint">This is general information, not legal advice.</p></div>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
@@ -1468,7 +1468,7 @@ function loadSong(i){var d=DBS[i]||(DBS[i]=cloneSong(i));SECS=d.SECS;LAYOUT=d.LA
 function saveSong(){var d=DBS[st.song];if(d){d.SECS=SECS;d.LAYOUT=LAYOUT;d.NUMS=NUMS;d.MARKS=MARKS;d.CSTR=CSTR;d.POS=POS;d.KOV=KOV;d.free=st.free;d.key=st.key;d.kmin=st.kmin;d.bpm=st.bpm;d.ts=st.ts;d.strum=st.strum}}
 function saveTC(){TC[st.song]={tr:st.tr,capo:st.capo,inst:st.inst};saveSong()}
 function loadTC(){var t=TC[st.song]||{tr:0,capo:0,inst:DEFINST||st.inst};st.tr=t.tr;st.capo=t.capo;st.inst=t.inst||'uke';loadSong(st.song)}
-function subUpd(){var S=SDB[st.song],a=(S.a||'Traditional')+(S.y?' ('+S.y+')':''),t=$('title');t.textContent=t.textContent;var s=document.createElement('span');s.className='art';s.textContent=a;t.appendChild(s);$('sub').textContent=bkTxt();$('sub2').innerHTML='<span class="mi">Key: '+(window.keyHdr?keyHdr():kNameT())+'</span><span class="mi">BPM: '+(window.bpmHdr?bpmHdr():st.bpm)+'</span><span class="mi">Instrument: '+instHdr()+'</span>'+(st.capo?'<span class="mi">Capo: '+ordn(st.capo)+' fret</span>':'')+wakeNote()}
+function subUpd(){var S=SDB[st.song],a=(S.a||'')+(S.y?(S.a?' ':'')+'('+S.y+')':''),t=$('title');t.textContent=t.textContent;if(a){var s=document.createElement('span');s.className='art';s.textContent=a;t.appendChild(s)}$('sub').textContent=bkTxt();$('sub2').innerHTML='<span class="mi">Key: '+(window.keyHdr?keyHdr():kNameT())+'</span><span class="mi">BPM: '+(window.bpmHdr?bpmHdr():st.bpm)+'</span><span class="mi">Instrument: '+instHdr()+'</span>'+(st.capo?'<span class="mi">Capo: '+ordn(st.capo)+' fret</span>':'')+wakeNote()}
 function instUpd(){$('selInst').value=st.inst;$('selSong').value=st.song;if(!INST().cap){st.capo=0;$('capSeg').hidden=true}}
 SETS.bday=[1,2,3,4,5];BN.bday='Birthday Test Set';st.book='bday';
 $('selBook').innerHTML='<option value="">None (Stand-Alone Song)</option><option value="bday">Birthday Test Set</option>';
@@ -3035,6 +3035,7 @@ function pickVersion(pages){window.PDFDIAG=null;if(pages.length<2)return pages;
 function pdfToCP(ab,name){return extractPdf(ab).then(function(pages){pages=pickVersion(pages);var c=toChordPro(pages);if(!c.text)throw new Error('noText');var t=c.text;if(!c.hdr||c.nh<=1)t=splitParas(t);if(!/^\{title:/m.test(t))t='{title: '+name.replace(/\.pdf$/i,'').replace(/_+/g,' ')+'}\n'+t;return t})}
 /* ===== import ===== */
 function addSong(cp,name){var s=parseCP(cp,/\.(md|markdown)$/i.test(name));if(!s)return null;var base=name.replace(/\.[^.]+$/,'').replace(/_+/g,' ').trim();if(s.t==='Imported Song'&&base)s.t=base;s.secs.forEach(function(sc){if(sc.v.length>1){var j0=JSON.stringify(sc.v[0]);if(sc.v.every(function(v){return JSON.stringify(v)===j0}))sc.v=[sc.v[0]]}});try{if(window.COLSET)COLSET.def(s.secs)}catch(e){}s.fold=LIBDEF;s.imp=Math.max(Date.now(),(addSong._l||0)+1);addSong._l=s.imp;SDB.push(s);SONGS.push(s.t);return SDB.length-1}
+window.ORPMKSONG=function(cp,name){var s=parseCP(cp,false);if(!s)return null;s.secs.forEach(function(sc){if(sc.v.length>1){var j0=JSON.stringify(sc.v[0]);if(sc.v.every(function(v){return JSON.stringify(v)===j0}))sc.v=[sc.v[0]]}});return s};
 async function unzipEntry(ab,want){var u=new Uint8Array(ab),dv=new DataView(ab),i,n=u.length,eo=-1;for(i=n-22;i>=Math.max(0,n-70000);i--){if(dv.getUint32(i,true)===0x06054b50){eo=i;break}}if(eo<0)throw new Error('zip');var cnt=dv.getUint16(eo+10,true),off=dv.getUint32(eo+16,true);for(var k=0;k<cnt;k++){if(dv.getUint32(off,true)!==0x02014b50)break;var meth=dv.getUint16(off+10,true),csz=dv.getUint32(off+20,true),nl=dv.getUint16(off+28,true),el=dv.getUint16(off+30,true),cl=dv.getUint16(off+32,true),lo=dv.getUint32(off+42,true),nm=new TextDecoder().decode(u.subarray(off+46,off+46+nl));if(nm===want){var ds=lo+30+dv.getUint16(lo+26,true)+dv.getUint16(lo+28,true),data=u.subarray(ds,ds+csz);if(meth===0)return new TextDecoder().decode(data);if(meth!==8||typeof DecompressionStream==='undefined')throw new Error('zip');return await new Response(new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).text()}off+=46+nl+el+cl}throw new Error('zip')}
 function docxText(xml){var d=new DOMParser().parseFromString(xml,'application/xml'),ps=d.getElementsByTagName('w:p'),out=[];for(var i=0;i<ps.length;i++){var t='';(function walk(n){for(var c=n.firstChild;c;c=c.nextSibling){var nm=c.nodeName;if(nm==='w:t')t+=c.textContent;else if(nm==='w:tab')t+='    ';else if(nm==='w:br'||nm==='w:cr')t+='\n';else if(nm==='w:noBreakHyphen')t+='-';else if(nm==='w:p'||nm==='mc:Fallback')continue;else walk(c)}})(ps[i]);out.push(t)}return out.join('\n')}
 async function docxToCP(ab,name){var xml=await unzipEntry(ab,'word/document.xml');return toCP(docxText(xml),name,{head:1})}
@@ -3056,13 +3057,14 @@ if(lib){var g=mk('div','pg');g.id='gImp';g.innerHTML='<b style="font-size:1rem">
  $('imOpen').onclick=function(){if(window.closeHamb)closeHamb();openDlg()};
  if(API)$('imRootBtn').onclick=function(){choose()};else $('imRootBtn').hidden=true;paintRoot()}
 var armed=-1,armT=null;
-function listSongs(){var b=$('imSongs');if(!b)return;b.textContent='';var hd=$('imHdr');if(hd){var nn=SDB.filter(function(x){return x.fold}).length;hd.textContent='Imported songs'+(nn?' ('+nn+')':'')}var any=false,fe=$('imFilt'),fq=fe?fe.value.trim().toLowerCase():'',cnt=SDB.filter(function(x){return x.fold}).length;if(fe){fe.hidden=cnt<6;if(!fe._b){fe._b=1;fe.oninput=listSongs}}function row(x,i){var r=mk('div','imsr'),s=mk('span','',TTD(x.t)+(x.a?' \u2013 '+x.a:''));r.appendChild(s);var d=mk('button','','Delete');d.type='button';d.onclick=function(ev){ev.stopPropagation();if(window.ORPDEL)ORPDEL.ask(i);else delSong(i)};r.appendChild(d);return r}
+function listSongs(){listSongs0();try{window.ORPBOX&&ORPBOX()}catch(e){}}window.ORPLIST=function(){listSongs()};
+function listSongs0(){var b=$('imSongs');if(!b)return;b.textContent='';var hd=$('imHdr');if(hd){var nn=SDB.filter(function(x){return x.fold}).length;hd.textContent='Imported songs'+(nn?' ('+nn+')':'')}var any=false,fe=$('imFilt'),fq=fe?fe.value.trim().toLowerCase():'',cnt=SDB.filter(function(x){return x.fold}).length;if(fe){fe.hidden=cnt<6;if(!fe._b){fe._b=1;fe.oninput=listSongs}}function row(x,i){var r=mk('div','imsr'),s=mk('span','',TTD(x.t)+(x.a?' \u2013 '+x.a:''));r.appendChild(s);var d=mk('button','','Delete');d.type='button';d.onclick=function(ev){ev.stopPropagation();if(window.ORPDEL)ORPDEL.ask(i);else delSong(i)};r.appendChild(d);return r}
  var ent=[];SDB.forEach(function(x,i){if(!x.fold)return;any=true;if(fq&&(x.t+' '+x.a).toLowerCase().indexOf(fq)<0)return;ent.push({x:x,i:i})});
  var alpha=ent.slice().sort(function(p,q){return TTK(p.x.t,q.x.t)});
  if(!fq&&cnt>5){var rec=ent.slice().sort(function(p,q){return(q.x.imp||0)-(p.x.imp||0)||q.i-p.i}).slice(0,Math.min(5,Math.max(3,Math.floor(cnt/3))));b.appendChild(mk('div','imsh','Recently imported'));rec.forEach(function(e){b.appendChild(row(e.x,e.i))});b.appendChild(mk('div','imsh','All songs, A to Z'))}
  alpha.forEach(function(e){b.appendChild(row(e.x,e.i))});
  if(!any)b.appendChild(mk('div','hint','No imported songs yet.'))}
-window.ORPDELSONG=function(i){return delSong(i)};function delSong(i){try{window.SETB&&SETB.snap&&SETB.snap();saveTC();SDB.splice(i,1);SONGS.splice(i,1);DBS.splice(i,1);var n=SDB.length,k;for(k=i;k<n;k++){if((k+1) in TC)TC[k]=TC[k+1];else delete TC[k]}delete TC[n];if(st.song===i)st.song=1;else if(st.song>i)st.song--;libSave();songOpts();window.SETB&&SETB.resync&&SETB.resync();loadTC();st.step=0;st.run=false;hideCount();renderTop()}catch(e){console.error(e)}listSongs()}
+window.ORPDELSONG=function(i){return delSong(i)};function delSong(i){try{window.SETB&&SETB.snap&&SETB.snap();saveTC();SDB.splice(i,1);SONGS.splice(i,1);DBS.splice(i,1);var n=SDB.length,k;for(k=i;k<n;k++){if((k+1) in TC)TC[k]=TC[k+1];else delete TC[k]}delete TC[n];if(st.song===i)st.song=Math.max(0,Math.min(i,SDB.length-1));else if(st.song>i)st.song--;libSave();songOpts();window.SETB&&SETB.resync&&SETB.resync();loadTC();st.step=0;st.run=false;hideCount();renderTop()}catch(e){console.error(e)}listSongs()}
 listSongs();
 window.IMPX={open:openDlg,toCP:toCP,list:listSongs,pdfToCP:pdfToCP};
 }catch(erri){console.error(erri);try{toast('Import setup problem: '+erri.message)}catch(e1){}}})();
@@ -4570,7 +4572,7 @@ document.addEventListener('click',function(){setTimeout(load,0)},true);load();ad
 var css=document.createElement('style');css.textContent='#gDetails label{display:flex;flex-direction:column;gap:3px;margin:4px 0;font-size:.8rem}#gDetails input{width:100%;box-sizing:border-box;min-height:2.4rem;border-radius:8px;padding:0 8px;font:inherit}';document.head.appendChild(css);
 var T=$('sdT'),A=$('sdA'),Y=$('sdY');if(!T)return;
 function cl(v,n){return String(v||'').replace(/[<>\r\n]+/g,' ').replace(/\s+/g,' ').trim().slice(0,n)}
-function load(){var S=SDB[st.song];if(!S)return;if(document.activeElement!==T)T.value=S.t||'';if(document.activeElement!==A)A.value=S.a||'';if(document.activeElement!==Y)Y.value=S.y||'';$('sdHint').textContent=S.fold?'':'This is a built-in sample song. Changes here last until you reload, and it cannot be deleted. Songs in your library are saved.'}
+function load(){var S=SDB[st.song];if(!S)return;if(document.activeElement!==T)T.value=S.t||'';if(document.activeElement!==A)A.value=S.a||'';if(document.activeElement!==Y)Y.value=S.y||'';$('sdHint').textContent=S.fold?'':'This is a sample song. Changes here last until you reload. Songs in your library are saved.'}
 function save(){var S=SDB[st.song];if(!S)return;var t=cl(T.value,80),a=cl(A.value,80),y=cl(Y.value,12);if(!t){T.value=S.t||'';t=S.t}
  var ch=(S.t||'')!==t||(S.a||'')!==a||(S.y||'')!==y;if(!ch)return;S.t=t;S.a=a;S.y=y;SONGS[st.song]=t;try{songOpts()}catch(e){}try{renderTop()}catch(e){}try{TVX.sync(true)}catch(e){}load()}
 [T,A,Y].forEach(function(i){i.addEventListener('change',save);i.addEventListener('keydown',function(e){e.stopPropagation();if(e.key==='Enter'){e.preventDefault();i.blur()}})});
@@ -4657,26 +4659,86 @@ var st0=document.createElement('style');st0.textContent=css;document.head.append
 var root=document.createElement('div');root.id='dlg';root.hidden=true;root.setAttribute('role','alertdialog');root.setAttribute('aria-modal','true');root.setAttribute('aria-labelledby','dlgT');
 root.innerHTML='<div class="db"><h3 id="dlgT">Delete this song?</h3><p id="dlgP"></p><p class="dn">Tip: Settings, then Backup, saves a copy of your whole library first.</p><div class="dr"><button type="button" id="dlgNo">Cancel</button><button type="button" class="dy" id="dlgYes">Delete song</button></div></div>';
 document.body.appendChild(root);
-var cur=-1,prev=null;
-function close(){root.hidden=true;cur=-1;try{prev&&prev.focus&&prev.focus()}catch(e){}prev=null}
-function ask(i){var S=SDB[i];if(!S)return;if(!S.fold){toast('Built-in sample songs cannot be deleted.');return}
- cur=i;prev=document.activeElement;
+var cur=-1,prev=null,act=null,T0='Delete this song?',Y0='Delete song';
+function close(){root.hidden=true;cur=-1;act=null;try{prev&&prev.focus&&prev.focus()}catch(e){}prev=null}
+function confirmX(t,p,y,fn){act=fn;prev=document.activeElement;$('dlgT').textContent=t;$('dlgP').textContent=p;$('dlgYes').textContent=y;root.hidden=false;$('dlgNo').focus()}
+window.ORPCONFIRM=confirmX;
+function ask(i){var S=SDB[i];if(!S)return;if(!S.fold&&!S.sample)return;
+ cur=i;act=null;prev=document.activeElement;
  var t=(S.t||'Untitled')+(S.a?' by '+S.a:'');
- $('dlgP').textContent='“'+t+'” will be removed from your library and from any setlists. This cannot be undone.';
+ if(S.sample){$('dlgT').textContent='Remove this sample song?';$('dlgP').textContent='\u201C'+t+'\u201D will be removed from your song list and from the Sample Setlist. You can bring it back with Restore sample songs in Song Files.';$('dlgYes').textContent='Remove song'}
+ else{$('dlgT').textContent=T0;$('dlgP').textContent='\u201C'+t+'\u201D will be removed from your library and from any setlists. This cannot be undone.';$('dlgYes').textContent=Y0}
  root.hidden=false;$('dlgNo').focus()}
 $('dlgNo').onclick=close;
 root.addEventListener('click',function(e){e.stopPropagation();if(e.target===root)close()});
 document.addEventListener('keydown',function(e){if(!root.hidden&&e.key==='Escape'){e.preventDefault();e.stopPropagation();close()}},true);
-$('dlgYes').onclick=function(){var i=cur,S=SDB[i];if(!S||!S.fold){close();return}var t=S.t||'Untitled';
- close();try{ORPDELSONG(i)}catch(e){console.error(e);toast('Could not delete the song.');return}
+$('dlgYes').onclick=function(){if(act){var f=act;close();try{f()}catch(e){console.error(e)}return}var i=cur,S=SDB[i];if(!S||!(S.fold||S.sample)){close();return}var t=S.t||'Untitled';
+ if(S.sample){close();try{ORPSAMPLES.remove(i)}catch(e){console.error(e);toast('Could not remove the song.');return}toast('Removed \u201C'+t+'\u201D.');return}
+ close();try{if(SDB.length<2&&window.ORPNEWBLANK)ORPNEWBLANK();ORPDELSONG(i)}catch(e){console.error(e);toast('Could not delete the song.');return}
  try{vis()}catch(e){}
  try{var L=$('imSongs');if(L)L.dispatchEvent(new Event('x'))}catch(e){}
  toast('Deleted “'+t+'”.')};
 /* Song Info button */
 var d=$('gDetails');if(d&&!$('sdDel')){var b=document.createElement('button');b.type='button';b.id='sdDel';b.textContent='Delete song…';b.onclick=function(){ask(st.song)};d.appendChild(b)}
-function vis(){var b=$('sdDel');if(!b)return;var S=SDB[st.song];b.hidden=false;var off=!(S&&S.fold);b.setAttribute('aria-disabled',off?'true':'false');b.style.opacity=off?'.45':'';b.title=off?'Built-in sample songs cannot be deleted.':''}
+function vis(){var b=$('sdDel');if(!b)return;var S=SDB[st.song];b.hidden=false;var off=!(S&&(S.fold||S.sample));b.setAttribute('aria-disabled',off?'true':'false');b.style.opacity=off?'.45':'';b.title=off?'This song cannot be deleted.':''}
 document.addEventListener('click',function(){setTimeout(vis,0)},true);document.addEventListener('change',function(){setTimeout(vis,50)},true);vis();
 window.ORPDEL={ask:ask};
+}catch(e){console.error(e)}})();
+
+;(function(){try{
+/* ===== v0.60.0: five public-domain sample songs, a Sample Setlist, and removal ===== */
+var SMP=[{"k": "susanna", "diff": "Easy", "cp": "{title: Oh! Susanna}\n{artist: Stephen Foster}\n{year: 1848}\n{key: C}\n{tempo: 116}\n{time: 4/4}\n{x_strum: island}\n{x_order: Verse 1 | Chorus | Verse 2 | Chorus}\n\n{sov: Count in: 1 2 3 4}\n{x_kind: note}\n{eov}\n\n{sov: Verse 1}\n{x_color: fill=#e3f0ff border=#4a86c5 text=#1c2b3a chord=#b3261e}\n{x_note: Easy and bouncy. Three chords is all you need.}\nI [C][*mf]come from Alabama with my [F]banjo on my [C]knee,\nI'm [C]going to Louisiana, my [G7]true love for to [C]see.\nIt [C]rained all night the day I left, the [F]weather it was [C]dry,\nThe [C]sun so hot I froze to death, Su[G7]sanna, don't you [C]cry.\n{eov}\n\n{sov: Chorus}\n{x_color: fill=#fff2cc border=#d6a21e text=#3a2a00 chord=#a3280f}\n{x_note: Everybody sings! Strum a little harder.}\nOh! [C][*f]Susanna, [F]oh don't you [C]cry for me,\nFor I [C]come from Alabama with my [G7]banjo on my [C]knee.\n{eov}\n\n{sov: Verse 2}\n{x_color: fill=#e3f0ff border=#4a86c5 text=#1c2b3a chord=#b3261e}\nI [C][*mf]had a dream the other night, when [F]everything was [C]still,\nI [C]thought I saw Susanna dear, a-[G7]coming down the [C]hill.\nThe [C]buckwheat cake was in her mouth, the [F]tear was in her [C]eye,\nSays [C]I, I'm coming from the south, Su[G7]sanna, don't you [C]cry.\n{eov}\n\n{sov: Repeat Chorus}\n{x_kind: repeat Chorus}\n{eov}\n"}, {"k": "grace", "diff": "Easy", "cp": "{title: Amazing Grace}\n{artist: John Newton}\n{year: 1779}\n{key: C}\n{tempo: 72}\n{time: 3/4}\n{x_strum: waltz}\n{x_order: Verse 1 | Verse 2 | Verse 3}\n\n{sov: Verse 1}\n{x_color: fill=#eef3e6 border=#6b8f47 text=#223018 chord=#7a3b8f}\n{x_note: Slow and gentle. Count 1-2-3 and keep the thumb soft.}\n[C][*p]Amazing [F]grace, how [C]sweet the [C7]sound,\nThat [F]saved a [C]wretch like [G7]me.\nI [C]once was [F]lost, but [C]now am [Am]found,\nWas [C]blind, but [G7]now I [C][*fermata]see.\n{eov}\n\n{sov: Verse 2}\n{x_color: fill=#eef3e6 border=#6b8f47 text=#223018 chord=#7a3b8f}\n{x_note: Grow with the words. Watch the crescendo.}\n'Twas [C][*mp]grace that [F]taught my [C]heart to [C7]fear,\nAnd [F]grace my [C]fears re[G7]lieved;\nHow [C][*cresc-start]precious [F]did that [C]grace ap[Am]pear\nThe [C]hour I [G7]first be[C][*cresc-end]lieved.\n{eov}\n\n{sov: Verse 3}\n{x_color: fill=#f7ece3 border=#b5651d text=#3a1f0a chord=#7a3b8f}\n{x_note: Sing out here, then ease back for the last line.}\nThrough [C][*f]many dangers, [F]toils, and [C]snares, I [C7]have\n[F]already [C]come;\n'Tis [C]grace has [F]brought me [C]safe thus [Am]far,\nAnd [C]grace will [G7][*rit.]lead me [C][*dim.]home.\n{eov}\n"}, {"k": "saints", "diff": "Easy", "cp": "{title: When the Saints Go Marching In}\n{artist: Traditional}\n{year: 1896}\n{key: C}\n{tempo: 112}\n{time: 4/4}\n{x_strum: island}\n{x_order: Verse 1 | Verse 2 | Verse 3}\n\n{sov: Build it up: soft, then louder each verse}\n{x_kind: note}\n{eov}\n\n{sov: Verse 1}\n{x_color: fill=#e3f0ff border=#4a86c5 text=#1c2b3a chord=#b3261e}\n{x_note: Start soft and steady.}\nOh, when the [C][*mp]saints go marching in,\nOh, when the [C]saints go marching in,\nOh, Lord, I want to be in that [C]number,\nWhen the [G7]saints go marching [C]in.\n{eov}\n\n{sov: Verse 2}\n{x_color: fill=#fff2cc border=#d6a21e text=#3a2a00 chord=#a3280f}\n{x_note: Add a little more strum. Try a slide up on \"Lord\".}\nOh, when the [C][*mf]sun begins to shine,\nOh, when the [C]sun begins to shine,\nOh, [*slide-up]Lord, I want to be in that [C]number,\nWhen the [G7]sun begins to [C]shine.\n{eov}\n\n{sov: Verse 3}\n{x_color: fill=#fde2d3 border=#c4541d text=#3a1608 chord=#8a1f0f}\n{x_note: Big finish! Chuck (mute) the very last chord.}\nOh, when the [C][*ff]stars begin to shine,\nOh, when the [C]stars begin to shine,\nOh, Lord, I want to be in that [C]number,\nWhen the [G7]stars begin to [C]shine[*mute].\n{eov}\n"}, {"k": "scarborough", "diff": "Medium", "cp": "{title: Scarborough Fair}\n{artist: Traditional}\n{year: c. 1670}\n{key: Am}\n{tempo: 84}\n{time: 3/4}\n{x_strum: waltz}\n{x_order: Verse 1 | Verse 2}\n\n{sov: Verse 1}\n{x_color: fill=#ebe6f5 border=#6c55a8 text=#241a42 chord=#a3280f}\n{x_note: A minor key. Play it soft and a little mysterious.}\n[Am][*pp]Are you going to [G]Scarborough [Am]Fair?\n[Am]Parsley, sage, [C]rosemary and [Am]thyme.\nRe[Am]member me to [G]one who lives [Am]there,\nShe [C]once was a [G]true love of [Am]mine[*fermata].\n{eov}\n\n{sov: Verse 2}\n{x_color: fill=#ebe6f5 border=#6c55a8 text=#241a42 chord=#a3280f}\n{x_note: Fade in on the middle lines, then let the last chord ring.}\n[Am][*p]Tell her to make me a [G]cambric [Am]shirt,\n[Am]Parsley, sage, [C]rosemary and [Am]thyme.\nWith[Am][*cresc-start]out any seam or [G]needle[Am]work,\nThen [C]she'll be a [G]true love of [Am]mine[*vibrato][*cresc-end].\n{eov}\n"}, {"k": "joyful", "diff": "Medium", "cp": "{title: Joyful, Joyful (Ode to Joy)}\n{artist: Beethoven, words by Henry van Dyke}\n{year: 1824}\n{key: C}\n{tempo: 100}\n{time: 4/4}\n{x_strum: island}\n{x_order: Melody | Second half}\n\n{sov: Melody}\n{x_color: fill=#e6f4f1 border=#2f8f83 text=#0f2f2b chord=#a3280f}\n{x_note: Tap Listen to hear the tune, then play along with the notes.}\n{x_melody: [{\"p\":\"E5\",\"d\":\"q\",\"ly\":\"Joy-\"},{\"p\":\"E5\",\"d\":\"q\",\"ly\":\"ful,\"},{\"p\":\"F5\",\"d\":\"q\",\"ly\":\"joy-\"},{\"p\":\"G5\",\"d\":\"q\",\"ly\":\"ful,\"},{\"p\":\"G5\",\"d\":\"q\",\"ly\":\"we\"},{\"p\":\"F5\",\"d\":\"q\",\"ly\":\"a-\"},{\"p\":\"E5\",\"d\":\"q\",\"ly\":\"dore\"},{\"p\":\"D5\",\"d\":\"q\",\"ly\":\"Thee,\"},{\"p\":\"C5\",\"d\":\"q\",\"ly\":\"God\"},{\"p\":\"C5\",\"d\":\"q\",\"ly\":\"of\"},{\"p\":\"D5\",\"d\":\"q\",\"ly\":\"glo-\"},{\"p\":\"E5\",\"d\":\"q\",\"ly\":\"ry,\"},{\"p\":\"E5\",\"d\":\"q\",\"dot\":1,\"ly\":\"Lord\"},{\"p\":\"D5\",\"d\":\"e\",\"ly\":\"of\"},{\"p\":\"D5\",\"d\":\"h\",\"ly\":\"love;\"}]}\n[C][*mf]Joyful, joyful, we a[G7]dore [C]Thee,\n[C]God of glory, [G7]Lord of [C]love;\n{eov}\n\n{sov: Second half}\n{x_color: fill=#e6f4f1 border=#2f8f83 text=#0f2f2b chord=#a3280f}\n{x_note: Hum the tune as you strum these lines.}\n[C][*cresc-start]Hearts unfold like [F]flowers be[C]fore Thee,\n[C]Opening to the [G7]sun a[C]bove.[*cresc-end]\n{eov}\n"}];
+var OFFK='orp.smpOff',SETK='orp.smpSet';
+var OLDB=['9 to 5 (Placeholder Lyrics)','Happy Birthday to You','When the Saints Go Marching In','Oh! Susanna','Scarborough Fair','Greensleeves'];
+function off(){try{var a=JSON.parse(localStorage.getItem(OFFK)||'[]');return Array.isArray(a)?a:[]}catch(e){return[]}}
+function setOff(a){try{localStorage.setItem(OFFK,JSON.stringify(a))}catch(e){}}
+function mkS(d){var s=ORPMKSONG(d.cp,d.k+'.cho');if(!s)return null;s.sample=d.k;s.diff=d.diff;return s}
+function titlesOf(a){return a.map(function(i){return SONGS[i]}).filter(function(t){return t!=null})}
+function blank(){var s=ORPMKSONG('{title: My First Song}\n{key: C}\n{tempo: 100}\n{time: 4/4}\n\n{sov: Verse}\n[C]Start typing your lyrics [G]here\n{eov}\n','My First Song.cho');if(!s)return;s.fold=LIBDEF;s.imp=Date.now();SDB.push(s);SONGS.push(s.t);try{libSave()}catch(e){}}
+function apply(o){o=o||{};
+ try{window.SETB&&SETB.snap&&SETB.snap()}catch(e){}
+ var drop=[];[['fri','Friday Gig'],['bday','Birthday Test Set']].forEach(function(x){if(SETS[x[0]]&&BN[x[0]]===x[1]&&titlesOf(SETS[x[0]]).every(function(t){return OLDB.indexOf(t)>-1}))drop.push(x[0])});var bookWas=st.book;
+ var libs=[],oldI=[];SDB.forEach(function(s,i){if(s.fold){libs.push(s);oldI.push(i)}});
+ var oldTC=oldI.map(function(i){return TC[i]}),oldDB=oldI.map(function(i){return DBS[i]});
+ var cur=SDB[st.song],hide=off();
+ var smp=[];SMP.forEach(function(d){if(hide.indexOf(d.k)<0){var s=mkS(d);if(s)smp.push(s)}});
+ SDB.length=0;smp.concat(libs).forEach(function(s){SDB.push(s)});
+ SONGS.length=0;SDB.forEach(function(s){SONGS.push(s.t)});
+ DBS.length=0;Object.keys(TC).forEach(function(k){delete TC[k]});
+ libs.forEach(function(s,k){var n=smp.length+k;if(oldDB[k])DBS[n]=oldDB[k];if(oldTC[k])TC[n]=oldTC[k]});
+ if(!SDB.length)blank();
+ st.song=(cur&&cur.fold&&SDB.indexOf(cur)>-1)?SDB.indexOf(cur):0;
+ try{window.SETB&&SETB.resync&&SETB.resync()}catch(e){}
+ drop.forEach(function(k){delete SETS[k];delete BN[k]});
+ var ix=[];SDB.forEach(function(s,i){if(s.sample)ix.push(i)});
+ var made=false;try{made=localStorage.getItem(SETK)==='1'}catch(e){}
+ if(!ix.length){delete SETS.samples;delete BN.samples;if(st.book==='samples')st.book=''}
+ else if(o.reset||(!made&&!SETS.samples)){SETS.samples=ix;BN.samples='Sample Setlist'}
+ if(ix.length){try{localStorage.setItem(SETK,'1')}catch(e){}}
+ if(drop.indexOf(bookWas)>-1||(st.book&&!SETS[st.book]))st.book=SETS.samples?'samples':'';
+ try{window.SETB&&SETB.sync&&SETB.sync()}catch(e){}
+ try{songOpts()}catch(e){}
+ try{loadTC()}catch(e){console.error(e)}
+ st.step=0;st.run=false;try{hideCount()}catch(e){}
+ try{renderTop()}catch(e){}
+ try{window.ORPLIST&&ORPLIST()}catch(e){}}
+window.ORPNEWBLANK=blank;
+window.ORPSAMPLES={
+ remove:function(i){var S=SDB[i];if(!S||!S.sample)return;var a=off();if(a.indexOf(S.sample)<0)a.push(S.sample);setOff(a);apply()},
+ removeAll:function(){setOff(SMP.map(function(d){return d.k}));apply()},
+ restore:function(){setOff([]);apply({reset:true})},
+ count:function(){return SDB.filter(function(s){return s.sample}).length},
+ total:SMP.length,apply:apply};
+apply();
+/* Song Files panel: controls under the imported-songs list */
+function box(){var b=$('imSongs');if(!b||b.querySelector('.smpbox'))return;var n=ORPSAMPLES.count(),d=document.createElement('div');d.className='smpbox';
+ d.innerHTML='<b>Sample songs</b><div class="hint">'+(n?n+' of '+ORPSAMPLES.total+' sample songs are in your song list, with a Sample Setlist.':'No sample songs in your song list.')+'</div>'+
+ '<div class="smpr">'+(n?'<button type="button" id="smpRm">Remove sample songs</button>':'')+(n<ORPSAMPLES.total?'<button type="button" id="smpRs">Restore sample songs</button>':'')+'</div>';
+ b.appendChild(d);var r=$('smpRm');if(r)r.onclick=function(){ORPCONFIRM('Remove the sample songs?','The '+n+' sample songs and the Sample Setlist will be removed from your song list. Your own songs are not touched. You can bring the samples back any time with Restore sample songs.','Remove samples',function(){ORPSAMPLES.removeAll();toast('Sample songs removed.')})};
+ var q=$('smpRs');if(q)q.onclick=function(){ORPSAMPLES.restore();toast('Sample songs restored.')}}
+window.ORPBOX=box;
+var sc=document.createElement('style');sc.textContent='.smpbox{margin-top:10px;padding-top:8px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px}.smpbox .smpr{display:flex;gap:8px;flex-wrap:wrap}.smpbox button{min-height:2.4rem;border-radius:10px;padding:0 14px;font:inherit;border:1px solid var(--line);background:var(--card);color:var(--ink)}';document.head.appendChild(sc);
+try{window.ORPLIST&&ORPLIST()}catch(e){}
 }catch(e){console.error(e)}})();
 
 })();
