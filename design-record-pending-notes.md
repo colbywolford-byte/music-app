@@ -659,3 +659,11 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Design record Version 8 written Nov 14 (https://claude.ai/artifact/2cS3UUmgYJ38dq4yiYp57z), covering ver. 0.44.0 to 0.58.0. Everything above this line is now in Version 8. New notes for Version 9 start below.
 - Test checklist for 0.58.0 (printable doc): https://claude.ai/artifact/C5tU3HposPq7EMMHVehoJp
 - Open for Version 9: whether and when the VLPA email was sent and what they answered; device-test results for 0.44 to 0.58.
+
+## v0.59.0 - Delete songs with confirmation
+- Gap found by Colby (Nov 14): the only delete was a "tap twice" button in the Imported songs list in Song Files, easy to miss and with no clear warning.
+- Now every delete asks first in a dialog: "Delete this song?" naming the song, saying it is removed from the library and from any setlists, that it cannot be undone, and suggesting a backup first. Buttons: Cancel (focused by default) and a red "Delete song". Escape or tapping outside also cancels.
+- Two entry points: "Delete song..." button at the bottom of Song Info > Song details (only for library songs), and the Delete button on each row of the Imported songs list.
+- Built-in sample songs cannot be deleted (the button is hidden in Song Info; the list only holds library songs).
+- After deleting, the app opens the first song and shows a "Deleted ..." message. Tested: cancel, Escape, confirm from both places, built-in protection, and that the deletion survives a reload.
+- No undo yet; a possible later step is a short "Undo" message instead of or as well as the dialog.
