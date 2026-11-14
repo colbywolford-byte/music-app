@@ -622,3 +622,10 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Morristown sheet findings: red bracket notes on nearly every section header; shaded cards in several colors; repeat bars colored like the card they repeat; callout boxes ("POWER TAB on next page"); tab inside cards; footer with group name and links.
 - Decided NOT to build: the "1st Note" diagram (meaning not explained), parenthetical starting chord, inline diagram placement.
 - Next (agreed order): note-only cards (callouts and repeat bars that copy the repeated card's color by default, with override); song notes (arrangement credit and video link). Open: line-end notes like [hang] would clash with chord brackets; not built yet.
+
+## v0.55.0 - Saved card color sets
+- In the card color panel (Advanced): "Color sets". Save the current song's card colors under a name (fill, border, text, chord per card, matched by card name); Apply to this song; Delete; Export and Import as a small .json file (shareable with other leaders).
+- Matching by card name ignores case and trailing numbers: "Verse 1" and "Verse 2" both match "Verse". Apply skips cards that already have colors unless "Replace colors" is checked. Cards with no match are left alone.
+- "Use for new songs": the chosen set is applied automatically to imported songs (only cards the file did not already color).
+- Stored on the device as orph.colsets, up to 40 sets, so it is included in backups and restores. Card notes are not part of a set.
+- Preference: give Colby only the app version number, never the artifact publish counter.
