@@ -684,14 +684,14 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Fixes found on the way: deleting the open song now opens the nearest remaining song (it used to jump to song 2, which broke with one song left); songs with no artist no longer show "Traditional" in the header.
 - Lyrics checked as public domain: Foster 1848, Newton 1779, traditional 1896 and c. 1670, van Dyke 1907, Beethoven 1824. The earlier plan to audit samples for rights before 1.0 is done for these five.
 
-## v0.61.0 — Animated startup logo
+## v0.60.1 — Animated startup logo (a tweak to the existing logo, so no new minor version)
 - New startup splash on every load: the ring, strings, and flag draw in; the sound hole arcs in from a random direction (new trajectory each load) and bursts like a small firework; sparks trace the nine rosette petals, which then fill with color.
 - About 3.5 seconds; tap anywhere to skip. Reduced-motion setting shows the finished logo briefly with no animation.
 - Theme-aware: light-on-dark or dark-on-light palette follows the background.
 - Open: an option to turn the splash off.
 
-## v0.62.0 and v0.63.0 — Opening animation, varied
-- v0.62.0: splash timing is frame-based and about a third slower so a slow device cannot skip ahead; taps in the first second are ignored.
-- v0.63.0: the opening animation is chosen at random each launch. Classic plays most often. On holiday dates a holiday version joins the mix: it adds a second firework from the sound hole and a greeting that writes itself in from top to bottom, in that holiday's colors. Holidays covered: New Year, Valentine's Day, St. Patrick's Day, Fourth of July, Halloween, Thanksgiving, Christmas.
+## v0.60.1 (continued) — Opening animation, varied
+- Splash timing is frame-based and about a third slower so a slow device cannot skip ahead; taps in the first second are ignored.
+- The opening animation is chosen at random each launch. Classic plays most often. On holiday dates a holiday version joins the mix: it adds a second firework from the sound hole and a greeting that writes itself in from top to bottom, in that holiday's colors. Holidays covered: New Year, Valentine's Day, St. Patrick's Day, Fourth of July, Halloween, Thanksgiving, Christmas.
 - Settings has "Opening animation": Surprise me, Classic only, or Off, plus a Preview menu.
 - Open: Easter and other movable holidays; icons for the Android launch screen still show the old logo.
