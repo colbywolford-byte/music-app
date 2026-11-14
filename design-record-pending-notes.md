@@ -689,3 +689,9 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - About 3.5 seconds; tap anywhere to skip. Reduced-motion setting shows the finished logo briefly with no animation.
 - Theme-aware: light-on-dark or dark-on-light palette follows the background.
 - Open: an option to turn the splash off.
+
+## v0.62.0 and v0.63.0 — Opening animation, varied
+- v0.62.0: splash timing is frame-based and about a third slower so a slow device cannot skip ahead; taps in the first second are ignored.
+- v0.63.0: the opening animation is chosen at random each launch. Classic plays most often. On holiday dates a holiday version joins the mix: it adds a second firework from the sound hole and a greeting that writes itself in from top to bottom, in that holiday's colors. Holidays covered: New Year, Valentine's Day, St. Patrick's Day, Fourth of July, Halloween, Thanksgiving, Christmas.
+- Settings has "Opening animation": Surprise me, Classic only, or Off, plus a Preview menu.
+- Open: Easter and other movable holidays; icons for the Android launch screen still show the old logo.

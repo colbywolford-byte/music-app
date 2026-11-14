@@ -1365,7 +1365,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-var APPVER='0.62.0-2026-11-14';var APPBUILD='2026-11-14T16:30:01Z';
+var APPVER='0.63.0-2026-11-14';var APPBUILD='2026-11-14T16:32:06Z';
 function aboutHtml(wz){return (wz?'':'<p class="abt"><b>Orpharion</b></p><p class="hint abt">Version '+APPVER+'</p><p class="hint abt">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p>')+'<p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p class="hint">This is an independent app and is not endorsed by Anthropic.</p><p>Tab sheets use the JetBrains Mono font (SIL Open Font License 1.1). PDF reading uses pdf.js from Mozilla (Apache License 2.0).</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging, and playing your own charts. It does not include, supply, or license any songs, lyrics, or recordings. You are responsible for having the right to use every song you enter, import, keep, share, or perform. This includes anything you bring in from text, ChordPro, PDF, or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share, or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'+'<div class="legal"><b>Privacy policy</b><p class="hint">Last updated November 7, 2026</p><p><b>Short version:</b> Orpharion has no accounts, no ads, and no tracking. Nothing you do in the app is sent to the developer.</p><p><b>What stays on your device.</b> Your settings, setlists, custom strum patterns, song edits, and similar choices are saved in your own browser on your own device. They are not uploaded anywhere. Clearing your browser&rsquo;s site data removes them.</p><p><b>What we collect.</b> We do not collect, sell, or share personal information, and the app has no analytics. The page is delivered by a web host (GitHub Pages), which, like any web host, may keep ordinary server logs such as your IP address and the time of your visit. See GitHub&rsquo;s own privacy statement for how it handles those. PDFs and other files you import are read on your device and are not uploaded.</p><p><b>Your files.</b> Files you import are read on your device. You decide which ones to bring in.</p><p><b>Changes.</b> If this policy changes, the date above will change and the new text will appear here.</p><p class="hint">This is general information, not legal advice.</p></div>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
@@ -4770,8 +4770,8 @@ function run(opt){
  var pets=PET.map(function(c,k){var p=el('path',{d:'M196 341 A14 41 0 1 1 196 259 A14 41 0 1 1 196 341',pathLength:1,fill:c,'fill-opacity':0,stroke:c,'stroke-width':4,'stroke-dasharray':1,'stroke-dashoffset':1,'stroke-linecap':'round',transform:'rotate('+(k*40)+' '+CX+' '+CY+')'},body);return p});
  var hole=el('circle',{cx:CX,cy:CY,r:18,fill:holeC,opacity:0},body);
  root.appendChild(svg);root.appendChild(cv);
- var HUNT=!!opt.hunt,tx=null;
- if(HUNT){tx=document.createElement('div');tx.id='splTx';tx.innerHTML='The orpharion<br>hides something.';tx.style.color=dark?'#f6dd96':'#7a4d0e';tx.style.textShadow=dark?'0 0 14px rgba(255,200,90,.75),0 0 3px rgba(255,240,200,.9)':'0 0 10px rgba(255,170,40,.55)';root.appendChild(tx)}
+ var HUNT=!!opt.msg,tx=null,PAL=opt.pal||['#ffd36a','#ffffff','#ff9a3e'],TCOL=opt.tc||['#f6dd96','#7a4d0e'];
+ if(HUNT){tx=document.createElement('div');tx.id='splTx';tx.innerHTML=opt.msg;var tcl=dark?TCOL[0]:TCOL[1];tx.style.color=tcl;tx.style.textShadow=dark?'0 0 14px '+tcl+',0 0 3px #fff8':'0 0 10px '+tcl+'66';root.appendChild(tx)}
  var sk=document.createElement('div');sk.id='splSkip';sk.textContent='Tap to skip';sk.style.color=getComputedStyle(document.body).color;root.appendChild(sk);
  document.body.appendChild(root);
  var W,H,dpr,ctx=cv.getContext('2d');
@@ -4816,12 +4816,12 @@ function run(opt){
     var hx=X(CX+rx),hy=Y(CY+ry),hf=1-ease((q-.9)/.25),gr3=ctx.createRadialGradient(hx,hy,0,hx,hy,10*sc*1.2);gr3.addColorStop(0,'rgba(255,255,255,'+hf+')');gr3.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=gr3;ctx.beginPath();ctx.arc(hx,hy,10*sc*1.2,0,6.283);ctx.fill()}});
   if(HUNT){
    if(t>=RK&&t<BT){var ru=(t-RK)/RD,re=1-Math.pow(1-ru,2.2),rx=CX+(RX-CX)*re+Math.sin(ru*3.14)*14,ry=CY+(RY-CY)*re;
-    trail.push({x:rx,y:ry,t:t});sparks.push({x:rx,y:ry,vx:(Math.random()-.5)*20,vy:20+Math.random()*30,l:.5,t:0,c:'#ffd36a'});
+    trail.push({x:rx,y:ry,t:t});sparks.push({x:rx,y:ry,vx:(Math.random()-.5)*20,vy:20+Math.random()*30,l:.5,t:0,c:PAL[0]});
     var rg=ctx.createRadialGradient(X(rx),Y(ry),0,X(rx),Y(ry),16*sc);rg.addColorStop(0,'rgba(255,240,200,1)');rg.addColorStop(1,'rgba(255,180,60,0)');ctx.fillStyle=rg;ctx.beginPath();ctx.arc(X(rx),Y(ry),16*sc,0,6.283);ctx.fill()}
-   if(t>=BT&&!rbang){rbang=true;for(var i=0;i<90;i++){var a=Math.random()*6.283,sp=40+Math.random()*230;sparks.push({x:RX,y:RY,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,l:.9+Math.random()*.9,t:0,c:i%3?'#ffd36a':(i%2?'#ffffff':'#ff9a3e')})}}
+   if(t>=BT&&!rbang){rbang=true;for(var i=0;i<90;i++){var a=Math.random()*6.283,sp=40+Math.random()*230;sparks.push({x:RX,y:RY,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,l:.9+Math.random()*.9,t:0,c:PAL[i%PAL.length]})}}
    var tp=ease((t-BT-.2)/TXD);
    if(tx&&t>=BT+.2){tx.style.clipPath='inset(0 0 '+((1-tp)*100).toFixed(1)+'% 0)';
-    if(tp<1){var tr=tx.getBoundingClientRect(),ey=tr.top+tr.height*tp;for(var j=0;j<4;j++){var sx=W/2+(Math.random()-.5)*S*0.8;sparks.push({x:256+(sx-W/2)*512/S,y:256+(ey-H/2-OY)*512/S,vx:(Math.random()-.5)*30,vy:10+Math.random()*50,l:.5,t:0,c:Math.random()<.5?'#ffe9a8':'#ffc65a'})}}}
+    if(tp<1){var tr=tx.getBoundingClientRect(),ey=tr.top+tr.height*tp;for(var j=0;j<4;j++){var sx=W/2+(Math.random()-.5)*S*0.8;sparks.push({x:256+(sx-W/2)*512/S,y:256+(ey-H/2-OY)*512/S,vx:(Math.random()-.5)*30,vy:10+Math.random()*50,l:.5,t:0,c:PAL[Math.floor(Math.random()*PAL.length)]})}}}
   }
   // sparks
   sparks=sparks.filter(function(s){s.t+=dt;return s.t<s.l});
@@ -4833,9 +4833,43 @@ function run(opt){
  window.ORPSPLASH.cur={root:root,finish:finish};
 }
 window.ORPSPLASH={run:run};
-try{var xb=document.getElementById('oegX');if(xb){var rb=document.createElement('button');rb.type='button';rb.id='oegR';rb.textContent='Replay the opening';rb.onclick=function(){run({hunt:true})};xb.parentNode.insertBefore(rb,xb)}}catch(e){}
-var hunt=false;try{hunt=/(^|[?#&])hunt\b/i.test(location.search+location.hash)}catch(e){}
-run({hunt:hunt});
+try{var xb=document.getElementById('oegX');if(xb){var rb=document.createElement('button');rb.type='button';rb.id='oegR';rb.textContent='Replay the opening';rb.onclick=function(){run({msg:'The orpharion<br>hides something.'})};xb.parentNode.insertBefore(rb,xb)}}catch(e){}
+
+var HUNTV={id:'hunt',msg:'The orpharion<br>hides something.'};
+function nthDow(y,m,dow,n){var d=new Date(y,m,1),k=(dow-d.getDay()+7)%7;return new Date(y,m,1+k+7*(n-1))}
+var HOL=[
+ {id:'newyear',name:'New Year',msg:'Happy New Year!',pal:['#ffd36a','#ffffff','#c9d3e0'],tc:['#f6dd96','#7a4d0e'],on:function(d){return(d.getMonth()===11&&d.getDate()>=29)||(d.getMonth()===0&&d.getDate()<=2)}},
+ {id:'valentine',name:"Valentine’s Day",msg:"Happy Valentine’s Day",pal:['#ff4d79','#ff9ab5','#ffffff','#e8203f'],tc:['#ffb3c6','#a3123a'],on:function(d){return d.getMonth()===1&&d.getDate()>=9&&d.getDate()<=14}},
+ {id:'stpat',name:"St. Patrick’s Day",msg:"Happy St. Patrick’s Day",pal:['#3ddc6b','#a8f0b8','#ffd36a','#ffffff'],tc:['#9af0b0','#146b34'],on:function(d){return d.getMonth()===2&&d.getDate()>=13&&d.getDate()<=17}},
+ {id:'july4',name:'Fourth of July',msg:'Happy Fourth of July',pal:['#ff4a4a','#ffffff','#4a8cff'],tc:['#ffffff','#1e3a8a'],on:function(d){return d.getMonth()===6&&d.getDate()>=1&&d.getDate()<=4}},
+ {id:'halloween',name:'Halloween',msg:'Happy Halloween',pal:['#ff7a1a','#ffb347','#a35cff','#ffffff'],tc:['#ffa94d','#a64b00'],on:function(d){return d.getMonth()===9&&d.getDate()>=24}},
+ {id:'thanks',name:'Thanksgiving',msg:'Happy Thanksgiving',pal:['#ff9a3e','#e0572b','#ffd36a','#c98a45'],tc:['#ffc27a','#8a3d0c'],on:function(d){var t=nthDow(d.getFullYear(),10,4,4),x=Math.round((d-new Date(t.getFullYear(),t.getMonth(),t.getDate()))/864e5);return x>=-6&&x<=1}},
+ {id:'xmas',name:'Christmas',msg:'Merry Christmas',pal:['#ff3b3b','#2fbf5a','#ffffff','#ffd36a'],tc:['#ffffff','#9b1c1c'],on:function(d){return d.getMonth()===11&&d.getDate()>=8&&d.getDate()<=26}}
+];
+var AK='orp.anim';
+function pref(){try{var v=localStorage.getItem(AK);return v==='classic'||v==='off'?v:'random'}catch(e){return'random'}}
+function active(){var n=new Date();return HOL.filter(function(h){try{return h.on(n)}catch(e){return false}})}
+function choose(){
+ var m=(location.search+location.hash).match(/anim=([a-z0-9]+)/i);
+ if(m){var f=HOL.filter(function(h){return h.id===m[1].toLowerCase()})[0];if(f)return f;if(m[1]==='classic')return{}}
+ if(/(^|[?#&])hunt\b/i.test(location.search+location.hash))return HUNTV;
+ var pf=pref();if(pf==='off')return null;if(pf==='classic')return{};
+ var pool=[{w:6,v:{}},{w:1,v:HUNTV}],hs=active();
+ hs.forEach(function(h){pool.push({w:6,v:h})});
+ var tot=pool.reduce(function(a,b){return a+b.w},0),r=Math.random()*tot;
+ for(var i=0;i<pool.length;i++){r-=pool[i].w;if(r<0)return pool[i].v}
+ return{}}
+window.ORPSPLASH.hunt=function(){run(HUNTV)};
+window.ORPSPLASH.holidays=HOL;
+window.ORPSPLASH.preview=function(id){var f=HOL.filter(function(h){return h.id===id})[0];run(f||{})};
+// settings
+try{var sl=document.getElementById('selLevel'),host=sl&&sl.closest('.pg');if(host&&!document.getElementById('selAnim')){
+ var ng=document.createElement('div');ng.className='pg';
+ ng.innerHTML='<b class="mkh">Opening animation</b><div class="hint">The logo animation that plays when the app opens. Surprise me mixes the classic one with holiday versions on the right dates, and now and then something rarer.</div><label>Play <select id="selAnim" aria-label="Opening animation"><option value="random">Surprise me</option><option value="classic">Classic only</option><option value="off">Off</option></select></label><label>Preview <select id="selAnimP" aria-label="Preview an opening animation"><option value="">Classic</option>'+HOL.map(function(h){return'<option value="'+h.id+'">'+h.name+'</option>'}).join('')+'</select></label><button type="button" id="btnAnimP">Preview</button>';
+ host.parentNode.insertBefore(ng,host.nextSibling);
+ var sa=ng.querySelector('#selAnim');sa.value=pref();sa.onchange=function(){try{localStorage.setItem(AK,this.value)}catch(e){}this.blur()};
+ ng.querySelector('#btnAnimP').onclick=function(){ORPSPLASH.preview(ng.querySelector('#selAnimP').value)}}}catch(e){console.error(e)}
+var cv0=choose();if(cv0)run(cv0);
 }catch(e){console.error(e)}})();
 
 })();
