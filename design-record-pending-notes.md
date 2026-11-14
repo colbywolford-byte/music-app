@@ -636,3 +636,5 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Song file: {x_kind: note} or {x_kind: repeat Chorus} after the section line. Names keep the typed capitalization.
 - Repeat bars match the repeated card by name, so renaming the target breaks the link (the bar keeps its own name and loses the copied color).
 - Idea logged: "Orph" assistant. Phase one: offline help finder (type what you want, tap to open the setting or see steps; no AI, no data sent). Phase two (post 1.0): real AI chat needs a relay server, a cost per use, and a privacy statement change; same relay as the bug report plan.
+
+- Build: the date after the version in About (for example 0.56.0-2026-11-13) now follows the build date in Eastern time. It had been stuck at 2026-11-08 since 0.39.2.
