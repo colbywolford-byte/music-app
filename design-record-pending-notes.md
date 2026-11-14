@@ -617,7 +617,7 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 ## v0.54.0 - Card notes (from the Morristown Uke Jam sheets)
 - Each card can carry one short note (up to 80 characters), shown in red brackets after the card title: for example [Bouncy strum: D-du Dudu!], [hang], [FOUR TIMES]. Brackets, braces, and line breaks are removed from what you type.
-- Edit mode: the half-filled circle button on each card header now opens "Note" plus the colors. In Simple mode the button shows with only the note field; colors stay Advanced.
+- Edit mode: the card note field sits at the top of the lyric edit panel (tap a lyric line, then "Card note"). Tapping the red note on a card opens the same panel with the field focused. The half-filled circle button on the card header is for colors only (Advanced).
 - Song file: {x_note: text} before the card's lines. PDF: prints in red after the card title in both the card map and the chord sheet; "Print card notes" switch (on by default). Notes print gray if "Print card colors" is off. On a dark card fill, the note turns light red.
 - Morristown sheet findings: red bracket notes on nearly every section header; shaded cards in several colors; repeat bars colored like the card they repeat; callout boxes ("POWER TAB on next page"); tab inside cards; footer with group name and links.
 - Decided NOT to build: the "1st Note" diagram (meaning not explained), parenthetical starting chord, inline diagram placement.
