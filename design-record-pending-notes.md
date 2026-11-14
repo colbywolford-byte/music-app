@@ -629,3 +629,10 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - "Use for new songs": the chosen set is applied automatically to imported songs (only cards the file did not already color).
 - Stored on the device as orph.colsets, up to 40 sets, so it is included in backups and restores. Card notes are not part of a set.
 - Preference: give Colby only the app version number, never the artifact publish counter.
+
+## v0.56.0 - Note cards and repeat bars
+- Song order editor, new card row: a kind menu next to the title: Chord card, Note card, Repeat bar. A note card shows only its title (for example "POWER TAB on next page"). A repeat bar picks a card and titles itself "Repeat <card>"; it copies that card's colors until you give it its own colors ("Reset card" goes back to copying).
+- Note cards and repeat bars never join the play order (no numbers), so they do not play or appear as steps. They are placed, sized, and colored like any card, and print in the card map PDF as a short titled box.
+- Song file: {x_kind: note} or {x_kind: repeat Chorus} after the section line. Names keep the typed capitalization.
+- Repeat bars match the repeated card by name, so renaming the target breaks the link (the bar keeps its own name and loses the copied color).
+- Idea logged: "Orph" assistant. Phase one: offline help finder (type what you want, tap to open the setting or see steps; no AI, no data sent). Phase two (post 1.0): real AI chat needs a relay server, a cost per use, and a privacy statement change; same relay as the bug report plan.
