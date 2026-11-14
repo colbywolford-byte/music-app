@@ -1365,7 +1365,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-var APPVER='0.49.0-2026-11-08';var APPBUILD='2026-11-14T03:06:28Z';
+var APPVER='0.50.0-2026-11-08';var APPBUILD='2026-11-14T03:16:41Z';
 function aboutHtml(wz){return (wz?'':'<p class="abt"><b>Orpharion</b></p><p class="hint abt">Version '+APPVER+'</p><p class="hint abt">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p>')+'<p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p class="hint">This is an independent app and is not endorsed by Anthropic.</p><p>Tab sheets use the JetBrains Mono font (SIL Open Font License 1.1). PDF reading uses pdf.js from Mozilla (Apache License 2.0).</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging, and playing your own charts. It does not include, supply, or license any songs, lyrics, or recordings. You are responsible for having the right to use every song you enter, import, keep, share, or perform. This includes anything you bring in from text, ChordPro, PDF, or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share, or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'+'<div class="legal"><b>Privacy policy</b><p class="hint">Last updated November 7, 2026</p><p><b>Short version:</b> Orpharion has no accounts, no ads, and no tracking. Nothing you do in the app is sent to the developer.</p><p><b>What stays on your device.</b> Your settings, setlists, custom strum patterns, song edits, and similar choices are saved in your own browser on your own device. They are not uploaded anywhere. Clearing your browser&rsquo;s site data removes them.</p><p><b>What we collect.</b> We do not collect, sell, or share personal information, and the app has no analytics. The page is delivered by a web host (GitHub Pages), which, like any web host, may keep ordinary server logs such as your IP address and the time of your visit. See GitHub&rsquo;s own privacy statement for how it handles those. PDFs and other files you import are read on your device and are not uploaded.</p><p><b>Your files.</b> Files you import are read on your device. You decide which ones to bring in.</p><p><b>Changes.</b> If this policy changes, the date above will change and the new text will appear here.</p><p class="hint">This is general information, not legal advice.</p></div>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
@@ -2247,6 +2247,10 @@ function(b){head(b,'Sound','Choose what you hear when the app plays notes. The d
  if(!gm||!cm){var nx=document.createElement('p');nx.className='wz-sub';nx.textContent='Sound choices are in Settings, under Sound.';b.appendChild(nx);return}
  function row(lbl,src,hr){var l=el('<label class="wz-f"></label>');l.appendChild(document.createTextNode(lbl+' '));var s=document.createElement('select');s.innerHTML=src.innerHTML;s.value=src.value;s.onchange=function(){src.value=this.value;fire(src,'change')};l.appendChild(s);b.appendChild(l);var h=document.createElement('button');h.type='button';h.textContent='Hear it';h.onclick=function(){var x=document.querySelector('#sndBox button[data-h="'+hr+'"]');if(x)x.click()};b.appendChild(h)}
  row('Chords and strums',cm,'chord');row('Guitar strings',gm,'chord')},
+function(b){head(b,'Personalize','Add your name or group and contact details to the bottom of the PDFs you print. This is optional, and you can change it later in Settings under Personalize.');
+ var M=window.ORPME;if(!M){var nx=document.createElement('p');nx.className='wz-sub';nx.textContent='You can add these in Settings, under Personalize.';b.appendChild(nx);return}
+ [['name','Name or group'],['contact','Contact (email, phone, or website)'],['note','Note for every page']].forEach(function(f){var l=el('<label class="wz-f wz-i"></label>');l.appendChild(document.createTextNode(f[1]));var i=document.createElement('input');i.type='text';i.maxLength=120;i.value=M.get()[f[0]];i.autocomplete='off';i.setAttribute('aria-label',f[1]);i.oninput=function(){M.set(f[0],this.value)};l.appendChild(i);b.appendChild(l)});
+ var n=document.createElement('p');n.className='wz-sub';n.textContent=M.NOTE;b.appendChild(n)},
 function(b){head(b,'Song folder','Choose the folder on this device where you keep your chord sheets. Import opens there, and you can make or delete folders inside it. You can skip this step and set it later in Library.');var w=window.IMPF;if(!w||!w.api){var n0=document.createElement('p');n0.className='wz-sub';n0.textContent='This browser cannot show folders, so Import will ask you to pick files each time.';b.appendChild(n0);return}
  var pp=document.createElement('p');pp.className='wz-sub';var bb=document.createElement('b');pp.appendChild(document.createTextNode('Folder: '));pp.appendChild(bb);b.appendChild(pp);var up=function(){bb.textContent=w.name()||'none chosen yet'};up();var cb=document.createElement('button');cb.type='button';cb.textContent='Choose Folder\u2026';cb.onclick=function(){w.choose().then(up)};b.appendChild(cb)},
 function(b){head(b,'Simple or Advanced','Choose how many editing tools you want to see. You can change this any time in Settings.');
@@ -2313,7 +2317,7 @@ var mb=document.querySelector('#hnav button[data-s="Music"]');if(mb)mb.textConte
 var mh=document.querySelector('#hbMusic .hbt');if(mh)mh.textContent='Song Defaults';
 }catch(errM){console.error(errM);try{toast('Menu reorganize problem: '+errM.message)}catch(e1){}}})();
 (function(){try{
-var CS=['#sinfo','#panel.inham','#hbLib','#hbDisplay','#sndBox','#hbBackup','#hbBt','#hbMusic'];
+var CS=['#sinfo','#panel.inham','#hbLib','#hbDisplay','#sndBox','#hbBackup','#hbBt','#hbMusic','#persBox'];
 function secs(c){var cs=(c.id==='hbDisplay'||c.id==='panel')?[document.getElementById('hbDisplay'),document.getElementById('panel')]:[c],o=[];cs.forEach(function(x){if(x)o=o.concat(secs1(x))});return o}
 function secs1(c){var a=[].filter.call(c.children,function(e){return (e.classList.contains('pg')||e.classList.contains('trg'))&&e.querySelector(':scope>.mkh')});
  return a.map(function(e,i){return {e:e,i:i,o:parseInt(getComputedStyle(e).order)||0}}).sort(function(x,y){return x.o-y.o||x.i-y.i}).map(function(x){return x.e})}
@@ -3906,7 +3910,7 @@ function wrapWords(s,f,z,mw){var w=String(s).split(/\s+/).filter(Boolean),out=[]
 var tight=false;
 function layoutSong(first){var st0=pages.length;tight=false;layoutSong1(first,false);var n1=pages.length-st0;if(n1>1){var keep=pages.splice(st0);tight=false;layoutSong1(first,true);if(tight||pages.length-st0>=n1){pages.length=st0;keep.forEach(function(q){pages.push(q)})}}}
 function layoutSong1(first,two){
- var Wd=SZ[O.size][O.orient==='l'?1:0],Hd=SZ[O.size][O.orient==='l'?0:1],m=MG[O.margin],fs=FS[O.font],top=m,bot=Hd-Math.max(m,52),bw=Wd-2*m,st0=document.getElementById('rngCz'),cz=st0?parseFloat(st0.value)||1:1,pos=st.pos,show=O.show,useDiag=O.diag&&show!=='lyrics';
+ var Wd=SZ[O.size][O.orient==='l'?1:0],Hd=SZ[O.size][O.orient==='l'?0:1],m=MG[O.margin],fs=FS[O.font],top=m,bot=Hd-Math.max(m,52)-fExtra(),bw=Wd-2*m,st0=document.getElementById('rngCz'),cz=st0?parseFloat(st0.value)||1:1,pos=st.pos,show=O.show,useDiag=O.diag&&show!=='lyrics';
  var S=SDB[st.song]||{},title=S.t||'Song';
  // diagrams in display order
  var every={};SEQ.forEach(function(x){var o=chordsIn(secOf(x.s).v[x.v]);for(var q in o)every[q]=1});SECS.forEach(function(s){s.v.forEach(function(v){var o=chordsIn(v);for(var q in o)every[q]=1})});
@@ -3964,7 +3968,7 @@ function mkB(fs,csz,cw,show){var two=false;
  function tabBlock(rows){var mx=Math.max.apply(null,rows.map(function(r){return r.length}))||1,tsz=Math.min(fs*.8,cw/(mx*.6));if(tsz<fs*.8)tight=true;return{h:rows.length*tsz*1.25+fs*.4,draw:function(p,X,Y){rows.forEach(function(r,i){p.text(X,Y+tsz*.95+i*tsz*1.25,r,'C',tsz,0)})}}}
  return{line:lineBlock,tab:tabBlock,fs:fs}}
 function layoutMap(first){
- var Wd=SZ[O.size][O.orient==='l'?1:0],Hd=SZ[O.size][O.orient==='l'?0:1],m=MG[O.margin],fs0=FS[O.font],top=m,bot=Hd-Math.max(m,52),bw=Wd-2*m,show=O.show;
+ var Wd=SZ[O.size][O.orient==='l'?1:0],Hd=SZ[O.size][O.orient==='l'?0:1],m=MG[O.margin],fs0=FS[O.font],top=m,bot=Hd-Math.max(m,52)-fExtra(),bw=Wd-2*m,show=O.show;
  var cz0=document.getElementById('rngCz'),cz=cz0?parseFloat(cz0.value)||1:1,useDiag=O.diag&&show!=='lyrics';
  var S=SDB[st.song]||{},title=S.t||'Song';
  var every={};SEQ.forEach(function(x){var o=chordsIn(secOf(x.s).v[x.v]);for(var q in o)every[q]=1});SECS.forEach(function(s){s.v.forEach(function(v){var o=chordsIn(v);for(var q in o)every[q]=1})});
@@ -4003,7 +4007,8 @@ function layoutMap(first){
  if(!pages.length||res.pgs.length===0){pages.push(new Pg(Wd,Hd));head(pages[pages.length-1])}
  mapInfo={scale:s,pages:res.pgs.length,shrunk:s<sW-.001||sW<1}}
 var mapInfo=null;
-function finish(title){var STAMP;try{STAMP=new Date().toLocaleString([],{dateStyle:'medium',timeStyle:'short'})}catch(e){STAMP=new Date().toLocaleString()}var N=pages.length,Wd=pages[0].W;pages.forEach(function(p,i){var m=MG[O.margin],fy=p.H-Math.max(24,Math.min(m,40)*.6);p.text(m,p.H-fy+0,'', 'H',8,0);p.text(m,fy,'Orpharion','H',8.5,.4);var t='Page '+(i+1)+' of '+N;p.text(p.W/2-TW(t,'H',8.5)/2,fy,t,'H',8.5,.4);var ts=STAMP;p.text(p.W-m-TW(ts,'H',8.5),fy,ts,'H',8.5,.4)})}
+function fExtra(){try{return window.ORPME?ORPME.lines().length*12:0}catch(e){return 0}}
+function finish(title){var STAMP;try{STAMP=new Date().toLocaleString([],{dateStyle:'medium',timeStyle:'short'})}catch(e){STAMP=new Date().toLocaleString()}var N=pages.length,Wd=pages[0].W;pages.forEach(function(p,i){var m=MG[O.margin],fy=p.H-Math.max(24,Math.min(m,40)*.6);p.text(m,p.H-fy+0,'', 'H',8,0);p.text(m,fy,'Orpharion','H',8.5,.4);var fl=[];try{fl=window.ORPME?ORPME.lines():[]}catch(e){}fl.forEach(function(s,j){var yy=fy-12*(fl.length-j),mw=p.W-2*m;while(s.length>1&&TW(s,'H',8.5)>mw)s=s.slice(0,-2)+'\u2026';p.text(p.W/2-TW(s,'H',8.5)/2,yy,s,'H',8.5,.25)});var t='Page '+(i+1)+' of '+N;p.text(p.W/2-TW(t,'H',8.5)/2,fy,t,'H',8.5,.4);var ts=STAMP;p.text(p.W-m-TW(ts,'H',8.5),fy,ts,'H',8.5,.4)})}
 // pdf file
 async function zl(u){if(typeof CompressionStream==='undefined')return null;try{return new Uint8Array(await new Response(new Blob([u]).stream().pipeThrough(new CompressionStream('deflate'))).arrayBuffer())}catch(e){return null}}
 async function build(title){var enc=new TextEncoder(),parts=[],off=0,xr=[];function put(x){var b=typeof x==='string'?enc.encode(x):x;parts.push(b);off+=b.length}
@@ -4387,6 +4392,25 @@ loadPref();register(BUILTIN);
 window.ORPSND={ctx:ctx,out:function(){ctx();return OUT},ok:function(){return!!(window.AudioContext||window.webkitAudioContext)},register:register,packs:function(){return PACKS.slice()},voices:function(){return Object.keys(VOICES).map(function(k){return VOICES[k]})},voiceFor:voiceFor,note:note,playMelody:playMelody,stopAll:stopAll,sample:sample,midiOf:midiOf,_ks:ks,_buf:function(id,m){var c=ctx(),v=VOICES[id];return v&&v.P?renderBuf(c,v,m).getChannelData(0):null}};
 if(!ui())setTimeout(ui,1500);
 }catch(e){console.error(e);try{toast('Sound setup problem: '+e.message)}catch(x){}}})();
+
+/* ===== v0.50.0: Personalize (print footer) ===== */
+(function(){try{
+var K='orp.me',ME={name:'',contact:'',note:''},NOTE='This is used only for printing on your PDFs. It stays on this device, and Orpharion never sends it, collects it, or shares it.';
+try{var sm=JSON.parse(localStorage.getItem(K)||'null');if(sm)Object.keys(ME).forEach(function(k){if(typeof sm[k]==='string')ME[k]=sm[k].slice(0,120)})}catch(e){}
+function save(){try{localStorage.setItem(K,JSON.stringify(ME))}catch(e){}}
+window.ORPME={NOTE:NOTE,get:function(){return{name:ME.name,contact:ME.contact,note:ME.note}},set:function(k,v){if(k in ME){ME[k]=String(v==null?'':v).slice(0,120);save()}},lines:function(){var a=[],l1=[ME.name.trim(),ME.contact.trim()].filter(Boolean).join('   \u00b7   ');if(l1)a.push(l1);if(ME.note.trim())a.push(ME.note.trim());return a}};
+var css=document.createElement('style');css.textContent='#persBox label.pl{display:block;margin-top:8px;font-size:.85rem}#persBox label.pl input,#wzBody label.wz-i input{display:block;width:100%;box-sizing:border-box;margin-top:4px;font:inherit;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}#wzBody label.wz-i{display:block;margin-top:10px}';document.head.appendChild(css);
+var FIELDS=[['name','Name or group'],['contact','Contact (email, phone, or website)'],['note','Note for every page']];
+function ui(){var snd=document.getElementById('sndBox'),nv=document.getElementById('hnav');if(!snd||!nv||document.getElementById('persBox'))return false;
+ var g=document.createElement('section');g.dataset.s='Personalize';g.id='persBox';g.hidden=true;
+ g.innerHTML='<h3 class="hbt">Personalize</h3><div class="pg"><b class="mkh">Print footer</b><div class="hint">Adds your details to the bottom of every page of the PDFs you save, such as your name or group, how to reach you, and a short note. '+NOTE+'</div>'+FIELDS.map(function(f){return '<label class="pl">'+f[1]+'<input type="text" data-k="'+f[0]+'" maxlength="120" autocomplete="off" aria-label="'+f[1]+'"></label>'}).join('')+'</div>';
+ snd.parentNode.insertBefore(g,snd.nextSibling);
+ var nb=document.createElement('button');nb.dataset.s='Personalize';nb.textContent='Personalize';var sb=nv.querySelector('button[data-s="Sound"]');nv.insertBefore(nb,sb?sb.nextSibling:null);
+ function refill(){[].forEach.call(g.querySelectorAll('input[data-k]'),function(i){i.value=ME[i.dataset.k]})}refill();
+ [].forEach.call(g.querySelectorAll('input[data-k]'),function(i){i.addEventListener('input',function(){ME[i.dataset.k]=i.value.slice(0,120);save()})});
+ nv.addEventListener('click',function(e){if(e.target.closest('button[data-s="Personalize"]'))refill()});return true}
+if(!ui())setTimeout(function(){if(!ui())setTimeout(ui,2500)},1800);
+}catch(e){console.error(e)}})();
 
 })();
 </script>
