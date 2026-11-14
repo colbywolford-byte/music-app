@@ -609,3 +609,8 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - PDF card map prints the colors (switch: "Print card colors", on by default). Chord sheet layout has no cards, so no colors.
 - Still open: colors in Warm-up/Rehearse card views are shown wherever the card is drawn; dark-theme check on device.
 - Chords have their own color (4th picker, "Chords"). Left on Auto, chords pick a contrasting accent (red or blue on light fills, yellow or light blue on dark fills) so they always differ from the lyrics, on screen and in the PDF. Song file line: chord=#rrggbb.
+
+## v0.53.0 - Melody staff in card map PDF
+- Card map cards now print the section's melody staff above the lyrics (same staff drawing as the chord sheet), controlled by "Include tab and melody staff".
+- Cards with a melody widen as needed; a long melody wraps onto a second staff line inside the card; no card splits across pages.
+- Decided: no parenthetical chord at the start of each card (player picks the card, printout has the chord sheet). Diagram left/right placement already exists in the chord sheet layout; the map keeps diagrams on top.
