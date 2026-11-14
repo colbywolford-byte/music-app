@@ -614,3 +614,11 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Card map cards now print the section's melody staff above the lyrics (same staff drawing as the chord sheet), controlled by "Include tab and melody staff".
 - Cards with a melody widen as needed; a long melody wraps onto a second staff line inside the card; no card splits across pages.
 - Decided: no parenthetical chord at the start of each card (player picks the card, printout has the chord sheet). Diagram left/right placement already exists in the chord sheet layout; the map keeps diagrams on top.
+
+## v0.54.0 - Card notes (from the Morristown Uke Jam sheets)
+- Each card can carry one short note (up to 80 characters), shown in red brackets after the card title: for example [Bouncy strum: D-du Dudu!], [hang], [FOUR TIMES]. Brackets, braces, and line breaks are removed from what you type.
+- Edit mode: the half-filled circle button on each card header now opens "Note" plus the colors. In Simple mode the button shows with only the note field; colors stay Advanced.
+- Song file: {x_note: text} before the card's lines. PDF: prints in red after the card title in both the card map and the chord sheet; "Print card notes" switch (on by default). Notes print gray if "Print card colors" is off. On a dark card fill, the note turns light red.
+- Morristown sheet findings: red bracket notes on nearly every section header; shaded cards in several colors; repeat bars colored like the card they repeat; callout boxes ("POWER TAB on next page"); tab inside cards; footer with group name and links.
+- Decided NOT to build: the "1st Note" diagram (meaning not explained), parenthetical starting chord, inline diagram placement.
+- Next (agreed order): note-only cards (callouts and repeat bars that copy the repeated card's color by default, with override); song notes (arrangement credit and video link). Open: line-end notes like [hang] would clash with chord brackets; not built yet.
