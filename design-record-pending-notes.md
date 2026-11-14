@@ -648,3 +648,9 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 
 - v0.57.0 addition: Song Info has a "Song details" group (Title, Artist, Year) at the top. Changes update the header, the song list, and the saved library copy right away. Built-in sample songs show a note that changes last until reload.
 - GAP FOUND: the app has no way to create a new blank song (only Import Songs and Code View paste). Needs a "New song" entry in Song Files.
+
+## v0.58.0 - New Song wizard
+- "New Song" button in the Song Info title bar and in Song Files next to Import Songs. Five steps: Title (the only required one), About the song (artist, year, video link), How it plays (key, tempo, time signature, strum), Sections (Intro, Verse, Chorus, Bridge, Outro; Verse and Chorus start checked), Last step (library folder and, if you have saved color sets, a color set).
+- Every screen has Cancel, Back, and (after step 1) Skip. "Skip all and start" is on every screen except the last and is available as soon as there is a title; it creates the song with defaults (C major, 100 BPM, 4/4, no strum, Verse and Chorus, your default color set).
+- The song is added to the library, opens in Edit mode, and everything stays editable in Song Info.
+- Song Info order is now Song, Song details, then the rest.

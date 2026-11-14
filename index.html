@@ -1365,7 +1365,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-var APPVER='0.57.0-2026-11-13';var APPBUILD='2026-11-14T04:58:47Z';
+var APPVER='0.58.0-2026-11-14';var APPBUILD='2026-11-14T05:06:31Z';
 function aboutHtml(wz){return (wz?'':'<p class="abt"><b>Orpharion</b></p><p class="hint abt">Version '+APPVER+'</p><p class="hint abt">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p>')+'<p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p class="hint">This is an independent app and is not endorsed by Anthropic.</p><p>Tab sheets use the JetBrains Mono font (SIL Open Font License 1.1). PDF reading uses pdf.js from Mozilla (Apache License 2.0).</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging, and playing your own charts. It does not include, supply, or license any songs, lyrics, or recordings. You are responsible for having the right to use every song you enter, import, keep, share, or perform. This includes anything you bring in from text, ChordPro, PDF, or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share, or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'+'<div class="legal"><b>Privacy policy</b><p class="hint">Last updated November 7, 2026</p><p><b>Short version:</b> Orpharion has no accounts, no ads, and no tracking. Nothing you do in the app is sent to the developer.</p><p><b>What stays on your device.</b> Your settings, setlists, custom strum patterns, song edits, and similar choices are saved in your own browser on your own device. They are not uploaded anywhere. Clearing your browser&rsquo;s site data removes them.</p><p><b>What we collect.</b> We do not collect, sell, or share personal information, and the app has no analytics. The page is delivered by a web host (GitHub Pages), which, like any web host, may keep ordinary server logs such as your IP address and the time of your visit. See GitHub&rsquo;s own privacy statement for how it handles those. PDFs and other files you import are read on your device and are not uploaded.</p><p><b>Your files.</b> Files you import are read on your device. You decide which ones to bring in.</p><p><b>Changes.</b> If this policy changes, the date above will change and the new text will appear here.</p><p class="hint">This is general information, not legal advice.</p></div>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
@@ -4515,7 +4515,7 @@ function store(){try{localStorage.setItem(K,JSON.stringify(D))}catch(e){}}
 function find(n){for(var i=0;i<D.sets.length;i++)if(D.sets[i].name===n)return D.sets[i];return null}
 function applyTo(secs,set,rep){var n=0;secs.forEach(function(sc){var c=set.map[baseOf(sc.name)];if(!c)return;if(sc.col&&!rep)return;sc.col=JSON.parse(JSON.stringify(c));n++});return n}
 load();
-window.COLSET={def:function(secs){load();var s=D.def&&find(D.def);if(s)applyTo(secs,s,false)}};
+window.COLSET={def:function(secs){load();var s=D.def&&find(D.def);if(s)applyTo(secs,s,false)},names:function(){load();return D.sets.map(function(x){return x.name})},defName:function(){load();return D.def||''},apply:function(secs,name){load();var s=find(name);if(s)applyTo(secs,s,false)}};
 var css=document.createElement('style');css.textContent='#colpal{max-height:calc(100vh - 16px);overflow:auto}#colpal details{margin:6px 0;border-top:1px solid var(--line);padding-top:6px}#colpal summary{cursor:pointer;font-weight:700;min-height:2rem;display:flex;align-items:center}#colpal .cr label{display:flex;align-items:center;gap:6px;font-size:.8rem}#colpal .cr select,#colpal .cr input[type=text]{flex:1;min-width:0;min-height:2.2rem;border-radius:8px;font:inherit;padding:0 6px}#colpal #csMsg{min-height:1.2em;font-size:.78rem}';document.head.appendChild(css);
 var pal=$('colpal');if(!pal)return;
 var dt=document.createElement('details');dt.id='csBox';dt.innerHTML='<summary>Color sets</summary><div class="cr"><select id="csSel" aria-label="Saved color sets"></select></div><div class="cr"><button type="button" id="csApply">Apply to this song</button><label><input type="checkbox" id="csRep"> Replace colors</label></div><div class="cr"><label><input type="checkbox" id="csDef"> Use for new songs</label></div><div class="cr"><input type="text" id="csName" maxlength="40" placeholder="Name for a new set" autocomplete="off"><button type="button" id="csSave">Save</button></div><div class="cr"><button type="button" id="csDel">Delete</button><button type="button" id="csExp">Export</button><button type="button" id="csImp">Import</button></div><div id="csMsg" role="status"></div><input type="file" id="csFile" accept=".json,application/json" hidden>';
@@ -4575,6 +4575,72 @@ function save(){var S=SDB[st.song];if(!S)return;var t=cl(T.value,80),a=cl(A.valu
  var ch=(S.t||'')!==t||(S.a||'')!==a||(S.y||'')!==y;if(!ch)return;S.t=t;S.a=a;S.y=y;SONGS[st.song]=t;try{songOpts()}catch(e){}try{renderTop()}catch(e){}try{TVX.sync(true)}catch(e){}load()}
 [T,A,Y].forEach(function(i){i.addEventListener('change',save);i.addEventListener('keydown',function(e){e.stopPropagation();if(e.key==='Enter'){e.preventDefault();i.blur()}})});
 document.addEventListener('click',function(){setTimeout(load,0)},true);document.addEventListener('change',function(e){if(e.target&&e.target.id==='selSong')setTimeout(load,50)},true);load();
+}catch(e){console.error(e)}})();
+
+
+/* ===== v0.58.0: New Song wizard ===== */
+(function(){try{
+var css=document.createElement('style');css.textContent=
+'#nsw{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:12px}#nsw[hidden]{display:none}'+
+'#nsw .nb{background:var(--card);color:var(--ink);border:2px solid var(--acc);border-radius:16px;width:min(560px,100%);max-height:calc(100vh - 24px);overflow:auto;padding:16px 18px;box-shadow:0 14px 40px rgba(0,0,0,.4);display:flex;flex-direction:column;gap:10px}'+
+'#nsw h3{margin:0;font-size:1.1rem}#nsw .np{font-size:.78rem;opacity:.75}#nsw .nh{font-size:.82rem;opacity:.85;margin:0}'+
+'#nsw label{display:flex;flex-direction:column;gap:3px;font-size:.82rem}#nsw input[type=text],#nsw input[type=url],#nsw input[type=number],#nsw select{min-height:2.5rem;border-radius:8px;padding:0 8px;font:inherit;box-sizing:border-box;width:100%}'+
+'#nsw .nr{display:flex;gap:10px;flex-wrap:wrap}#nsw .nr>label{flex:1;min-width:8rem}#nsw .nck{display:flex;flex-direction:row;align-items:center;gap:8px;min-height:2.4rem;font-size:.95rem}#nsw .nck input{width:1.3rem;height:1.3rem}'+
+'#nsw .nf{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;margin-top:6px}#nsw .nf button{min-height:2.5rem;border-radius:10px;padding:0 14px;font:inherit}#nsw .nf .go{background:var(--acc);color:var(--bg);border-color:var(--acc);font-weight:700}#nsw .nf button[disabled]{opacity:.45}#nsw .nf .grp{display:flex;gap:8px;flex-wrap:wrap}'+
+'#nsw .nx{align-self:flex-end;min-height:2.2rem;border-radius:8px}#nsw .nbar{display:flex;gap:4px}#nsw .nbar i{flex:1;height:5px;border-radius:3px;background:var(--line)}#nsw .nbar i.on{background:var(--acc)}'+
+'#sinfo .ph{display:flex;align-items:center;justify-content:space-between;gap:8px}#sinfo .nsb,#imNsb{min-height:2.4rem;border-radius:10px;font:inherit;padding:0 14px}#imNsb{margin-left:6px}';document.head.appendChild(css);
+var CARDS=['Intro','Verse','Chorus','Bridge','Outro'],D=null,step=0,STEPS=5;
+function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
+function fresh(){var sets=window.COLSET?COLSET.names():[];return{t:'',a:'',y:'',vid:'',ki:0,kmin:0,bpm:100,ts:'4/4',strum:'none',cards:{Verse:1,Chorus:1},cset:window.COLSET?COLSET.defName():'',fold:LIBDEF}}
+var root=document.createElement('div');root.id='nsw';root.hidden=true;root.setAttribute('role','dialog');root.setAttribute('aria-modal','true');root.setAttribute('aria-label','New song');document.body.appendChild(root);
+function tsList(){var k=[];try{k=(typeof TSD!=='undefined'&&TSD&&TSD.length?TSD.slice():Object.keys(TS)).filter(function(x){return /\//.test(x)})}catch(e){}return k.length?k:['4/4','3/4','2/4','6/8']}
+function body(){
+ if(step===0)return '<h3>What is the song called?</h3><p class="nh">The title is the only thing you need. Everything else can wait or be changed later in Song Info.</p><label>Title <input type="text" id="nsT" maxlength="80" autocomplete="off" value="'+esc(D.t)+'"></label>';
+ if(step===1)return '<h3>About the song</h3><p class="nh">All optional.</p><div class="nr"><label>Artist <input type="text" id="nsA" maxlength="80" autocomplete="off" value="'+esc(D.a)+'"></label><label>Year <input type="text" id="nsY" maxlength="12" inputmode="numeric" autocomplete="off" value="'+esc(D.y)+'"></label></div><label>Video link <input type="url" id="nsV" inputmode="url" maxlength="290" placeholder="https://" autocomplete="off" value="'+esc(D.vid)+'"></label><p class="nh" id="nsVh"></p>';
+ if(step===2){var ko='';for(var i=0;i<12;i++)ko+='<option value="'+i+'|0"'+(D.ki===i&&!D.kmin?' selected':'')+'>'+KEYS[i]+' major</option>';for(i=0;i<12;i++)ko+='<option value="'+i+'|1"'+(D.ki===i&&D.kmin?' selected':'')+'>'+KEYSM[i]+' minor</option>';
+  var to=tsList().map(function(t){return '<option'+(t===D.ts?' selected':'')+'>'+t+'</option>'}).join(''),so=Object.keys(SP).map(function(k){return '<option value="'+esc(k)+'"'+(k===D.strum?' selected':'')+'>'+esc(SP[k].n||k)+'</option>'}).join('');
+  return '<h3>How it plays</h3><p class="nh">All optional. The defaults are C major, 100 beats per minute, 4/4, and no strum pattern.</p><div class="nr"><label>Key <select id="nsK">'+ko+'</select></label><label>Beats per minute <input type="number" id="nsB" min="20" max="400" value="'+D.bpm+'"></label></div><div class="nr"><label>Time signature <select id="nsS">'+to+'</select></label><label>Strum pattern <select id="nsP">'+so+'</select></label></div>'}
+ if(step===3)return '<h3>Which sections do you want to start with?</h3><p class="nh">They start empty and you fill them in. You can add, rename, or remove cards later.</p>'+CARDS.map(function(c){return '<label class="nck"><input type="checkbox" data-c="'+c+'"'+(D.cards[c]?' checked':'')+'> '+c+'</label>'}).join('');
+ var fo=LIBF.map(function(f){return '<option value="'+esc(f.id)+'"'+(f.id===D.fold?' selected':'')+'>'+esc(f.name)+'</option>'}).join(''),names=window.COLSET?COLSET.names():[],co='<option value="">None</option>'+names.map(function(n){return '<option'+(n===D.cset?' selected':'')+'>'+esc(n)+'</option>'}).join('');
+ return '<h3>Last step</h3><p class="nh">Choose where the song is saved'+(names.length?' and a color set for its cards':'')+'.</p><label>Save in folder <select id="nsF">'+fo+'</select></label>'+(names.length?'<label>Card colors <select id="nsC">'+co+'</select></label>':'')+'<p class="nh">When you create it, the song opens in Edit mode.</p>'}
+function read(){var g=function(id){return document.getElementById(id)};
+ if(step===0){var t=g('nsT');if(t)D.t=t.value}
+ else if(step===1){if(g('nsA'))D.a=g('nsA').value;if(g('nsY'))D.y=g('nsY').value;if(g('nsV'))D.vid=g('nsV').value}
+ else if(step===2){var k=(g('nsK').value||'0|0').split('|');D.ki=+k[0];D.kmin=+k[1];var b=parseInt(g('nsB').value,10);D.bpm=(b>=20&&b<=400)?b:100;D.ts=g('nsS').value;D.strum=g('nsP').value}
+ else if(step===3){D.cards={};root.querySelectorAll('input[data-c]').forEach(function(i){if(i.checked)D.cards[i.dataset.c]=1})}
+ else{if(g('nsF'))D.fold=g('nsF').value;if(g('nsC'))D.cset=g('nsC').value}}
+function titleOk(){return !!cl(D.t,80)}
+function cl(v,n){return String(v||'').replace(/[<>\r\n]+/g,' ').replace(/\s+/g,' ').trim().slice(0,n)}
+function draw(){var last=step===STEPS-1,bar='';for(var i=0;i<STEPS;i++)bar+='<i class="'+(i<=step?'on':'')+'"></i>';
+ root.innerHTML='<div class="nb"><button type="button" class="nx" id="nsX" aria-label="Cancel and close">Cancel</button><div class="np">Step '+(step+1)+' of '+STEPS+'</div><div class="nbar" aria-hidden="true">'+bar+'</div>'+body()+
+ '<div class="nf"><div class="grp">'+(step>0?'<button type="button" id="nsBack">Back</button>':'')+(step>0&&!last?'<button type="button" id="nsSkip">Skip</button>':'')+'</div><div class="grp">'+(!last?'<button type="button" id="nsAll">Skip all and start</button>':'')+(last?'<button type="button" class="go" id="nsGo">Create song</button>':'<button type="button" class="go" id="nsNext">Next</button>')+'</div></div></div>';
+ upd();var f=root.querySelector('input[type=text],input,select');if(f&&step===0)setTimeout(function(){try{f.focus()}catch(e){}},30)}
+function upd(){if(step!==0)return;var ok=titleOk();['nsNext','nsAll'].forEach(function(id){var b=document.getElementById(id);if(b)b.disabled=!ok})}
+function open(){D=fresh();step=0;draw();root.hidden=false}
+function close(){root.hidden=true;root.innerHTML=''}
+function create(){read();var title=cl(D.t,80);if(!title){step=0;draw();return}
+ var names=CARDS.filter(function(c){return D.cards[c]});if(!names.length)names=['Verse'];
+ var secs=names.map(function(n,i){return{id:'s'+(i+1),name:n,v:[['']]}}),vid=window.SAFEURL?SAFEURL(D.vid):'';
+ var so={t:title,a:cl(D.a,80),y:cl(D.y,12),key:KEYS[D.ki]||'C',kmin:!!D.kmin,bpm:D.bpm||100,ts:(TS[D.ts]?D.ts:'4/4'),strum:SP[D.strum]?D.strum:'none',marks:{},cstr:{},diff:'Imported',secs:secs,seq:secs.map(function(x){return x.id}),layout:secs.map(function(x){return x.id})};
+ if(vid)so.vid=vid;so.fold=LIBF.some(function(f){return f.id===D.fold})?D.fold:LIBDEF;so.imp=Math.max(Date.now(),Math.max.apply(null,SDB.map(function(x){return x.imp||0}))+1);
+ try{if(window.COLSET&&D.cset)COLSET.apply(secs,D.cset)}catch(e){}
+ SDB.push(so);SONGS.push(so.t);var idx=SDB.length-1;try{libSave()}catch(e){}try{songOpts()}catch(e){}try{window.SETB&&SETB.resync&&SETB.resync()}catch(e){}try{if(typeof listSongs==='function')listSongs()}catch(e){}
+ close();var sel=$('selSong');if(sel){sel.value=String(idx);sel.dispatchEvent(new Event('change',{bubbles:true}))}
+ try{var si=$('sinfo');if(si&&!si.hidden){si.hidden=true;var ib=$('infoBtn');if(ib)ib.className=''}}catch(e){}
+ setTimeout(function(){try{$('mE').click()}catch(e){}try{toast('Created "'+title+'". Add your chords and lyrics.')}catch(e){}},60)}
+root.addEventListener('input',function(e){if(step===0&&e.target.id==='nsT'){D.t=e.target.value;upd()}});
+root.addEventListener('keydown',function(e){e.stopPropagation();if(e.key==='Escape'){close();return}if(e.key==='Enter'&&e.target.tagName==='INPUT'&&e.target.type!=='checkbox'){e.preventDefault();var n=document.getElementById('nsNext')||document.getElementById('nsGo');if(n&&!n.disabled)n.click()}});
+root.addEventListener('click',function(e){var id=e.target.id;if(e.target===root)return;
+ if(id==='nsX'){close();return}
+ if(id==='nsNext'){read();if(step===0&&!titleOk())return;if(step===1&&D.vid.trim()&&!SAFEURL(D.vid)){var h=document.getElementById('nsVh');if(h)h.textContent='That does not look like a web address. It should start with https://. Fix it or clear it to continue.';return}step++;draw();return}
+ if(id==='nsSkip'){read();step++;draw();return}
+ if(id==='nsBack'){read();step--;draw();return}
+ if(id==='nsAll'){read();if(step===1&&D.vid.trim()&&!SAFEURL(D.vid))D.vid='';create();return}
+ if(id==='nsGo'){create();return}});
+function addBtns(){var g=$('gSong'),ph=document.querySelector('#sinfo .ph');if(ph&&!ph.querySelector('.nsb')){var b=document.createElement('button');b.type='button';b.className='nsb';b.textContent='New Song';b.onclick=open;ph.appendChild(b)}
+ var im=$('imOpen');if(im&&!$('imNsb')){var c=document.createElement('button');c.type='button';c.id='imNsb';c.textContent='New Song';c.onclick=function(){open()};im.insertAdjacentElement('afterend',c)}
+ var d=$('gDetails');if(g&&d&&g.nextElementSibling!==d)g.insertAdjacentElement('afterend',d)}
+addBtns();window.ORPNEWSONG={open:open};
 }catch(e){console.error(e)}})();
 
 })();
