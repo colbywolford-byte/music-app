@@ -1365,7 +1365,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-var APPVER='0.50.0-2026-11-08';var APPBUILD='2026-11-14T03:20:07Z';
+var APPVER='0.51.0-2026-11-08';var APPBUILD='2026-11-14T03:29:53Z';
 function aboutHtml(wz){return (wz?'':'<p class="abt"><b>Orpharion</b></p><p class="hint abt">Version '+APPVER+'</p><p class="hint abt">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p>')+'<p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p class="hint">This is an independent app and is not endorsed by Anthropic.</p><p>Tab sheets use the JetBrains Mono font (SIL Open Font License 1.1). PDF reading uses pdf.js from Mozilla (Apache License 2.0).</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging, and playing your own charts. It does not include, supply, or license any songs, lyrics, or recordings. You are responsible for having the right to use every song you enter, import, keep, share, or perform. This includes anything you bring in from text, ChordPro, PDF, or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share, or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'+'<div class="legal"><b>Privacy policy</b><p class="hint">Last updated November 7, 2026</p><p><b>Short version:</b> Orpharion has no accounts, no ads, and no tracking. Nothing you do in the app is sent to the developer.</p><p><b>What stays on your device.</b> Your settings, setlists, custom strum patterns, song edits, and similar choices are saved in your own browser on your own device. They are not uploaded anywhere. Clearing your browser&rsquo;s site data removes them.</p><p><b>What we collect.</b> We do not collect, sell, or share personal information, and the app has no analytics. The page is delivered by a web host (GitHub Pages), which, like any web host, may keep ordinary server logs such as your IP address and the time of your visit. See GitHub&rsquo;s own privacy statement for how it handles those. PDFs and other files you import are read on your device and are not uploaded.</p><p><b>Your files.</b> Files you import are read on your device. You decide which ones to bring in.</p><p><b>Changes.</b> If this policy changes, the date above will change and the new text will appear here.</p><p class="hint">This is general information, not legal advice.</p></div>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
@@ -3908,9 +3908,18 @@ var SZ={letter:[612,792],a4:[595,842],legal:[612,1008],a5:[420,595],tabloid:[792
 var pages=[];
 function wrapWords(s,f,z,mw){var w=String(s).split(/\s+/).filter(Boolean),out=[],cur='';w.forEach(function(x){var t=cur?cur+' '+x:x;if(cur&&TW(t,f,z)>mw){out.push(cur);cur=x}else cur=t});if(cur)out.push(cur);return out}
 var tight=false;
+var fontNote=false;
+function needV(v,fs,show){var B=mkB(fs,fs*.88,1e6,show),mx=0,cap={text:function(x,y,t,f,z){mx=Math.max(mx,x+TW(t,f,z))}},i=0;
+ while(i<v.length){var l=v[i];if(!l){i++;continue}if(isTab(l)){while(i<v.length&&v[i]&&isTab(v[i]))i++;continue}var lb=B.line(parse(l));if(lb)lb.draw(cap,0,0);i++}return mx}
+function fontLimit(){var W=SZ[O.size][O.orient==='l'?1:0],bw=W-2*MG[O.margin],ok={};
+ ['s','m','l','x'].forEach(function(k){var fs=FS[k],mx=0,pad=O.layout==='map'?2*fs*.6:0;
+  try{SECS.forEach(function(sc){mx=Math.max(mx,O.layout==='map'?TW(sc.name.toUpperCase(),'B',fs*.88)+(sc.v.length>1?TW('variation 1 of 1','I',fs*.72)+8:0):0);sc.v.forEach(function(v){mx=Math.max(mx,needV(v||[''],fs,O.show))})})}catch(e){}
+  ok[k]=mx+pad<=bw+.5});return ok}
+function bestFont(){var ok=fontLimit(),ks=['s','m','l','x'],i=ks.indexOf(O.font);for(;i>=0;i--)if(ok[ks[i]])return ks[i];return 's'}
+function effFont(){var k=bestFont();if(k!==O.font)fontNote=true;return k}
 function layoutSong(first){var st0=pages.length;tight=false;layoutSong1(first,false);var n1=pages.length-st0;if(n1>1){var keep=pages.splice(st0);tight=false;layoutSong1(first,true);if(tight||pages.length-st0>=n1){pages.length=st0;keep.forEach(function(q){pages.push(q)})}}}
 function layoutSong1(first,two){
- var Wd=SZ[O.size][O.orient==='l'?1:0],Hd=SZ[O.size][O.orient==='l'?0:1],m=MG[O.margin],fs=FS[O.font],top=m,bot=Hd-Math.max(m,52)-fExtra(),bw=Wd-2*m,st0=document.getElementById('rngCz'),cz=st0?parseFloat(st0.value)||1:1,pos=st.pos,show=O.show,useDiag=O.diag&&show!=='lyrics';
+ var Wd=SZ[O.size][O.orient==='l'?1:0],Hd=SZ[O.size][O.orient==='l'?0:1],m=MG[O.margin],fs=FS[effFont()],top=m,bot=Hd-Math.max(m,52)-fExtra(),bw=Wd-2*m,st0=document.getElementById('rngCz'),cz=st0?parseFloat(st0.value)||1:1,pos=st.pos,show=O.show,useDiag=O.diag&&show!=='lyrics';
  var S=SDB[st.song]||{},title=S.t||'Song';
  // diagrams in display order
  var every={};SEQ.forEach(function(x){var o=chordsIn(secOf(x.s).v[x.v]);for(var q in o)every[q]=1});SECS.forEach(function(s){s.v.forEach(function(v){var o=chordsIn(v);for(var q in o)every[q]=1})});
@@ -3968,7 +3977,7 @@ function mkB(fs,csz,cw,show){var two=false;
  function tabBlock(rows){var mx=Math.max.apply(null,rows.map(function(r){return r.length}))||1,tsz=Math.min(fs*.8,cw/(mx*.6));if(tsz<fs*.8)tight=true;return{h:rows.length*tsz*1.25+fs*.4,draw:function(p,X,Y){rows.forEach(function(r,i){p.text(X,Y+tsz*.95+i*tsz*1.25,r,'C',tsz,0)})}}}
  return{line:lineBlock,tab:tabBlock,fs:fs}}
 function layoutMap(first){
- var Wd=SZ[O.size][O.orient==='l'?1:0],Hd=SZ[O.size][O.orient==='l'?0:1],m=MG[O.margin],fs0=FS[O.font],top=m,bot=Hd-Math.max(m,52)-fExtra(),bw=Wd-2*m,show=O.show;
+ var Wd=SZ[O.size][O.orient==='l'?1:0],Hd=SZ[O.size][O.orient==='l'?0:1],m=MG[O.margin],fs0=FS[effFont()],top=m,bot=Hd-Math.max(m,52)-fExtra(),bw=Wd-2*m,show=O.show;
  var cz0=document.getElementById('rngCz'),cz=cz0?parseFloat(cz0.value)||1:1,useDiag=O.diag&&show!=='lyrics';
  var S=SDB[st.song]||{},title=S.t||'Song';
  var every={};SEQ.forEach(function(x){var o=chordsIn(secOf(x.s).v[x.v]);for(var q in o)every[q]=1});SECS.forEach(function(s){s.v.forEach(function(v){var o=chordsIn(v);for(var q in o)every[q]=1})});
@@ -3989,13 +3998,13 @@ function layoutMap(first){
   if(isTab(l)){var rws=[];while(i<vl.length&&vl[i]&&isTab(vl[i])){rws.push(vl[i].replace(/⁣/g,'').replace(/\s+$/,''));i++}if(O.tab&&show!=='lyrics')bl.push(B.tab(rws));continue}
   var lb=B.line(parse(l));if(lb)bl.push(lb);i++}return bl}
  function need(c){var B=mkB(fs0,fs0*.88,1e6,show),mx=0,cap={text:function(x,y,t,f,z){mx=Math.max(mx,x+TW(t,f,z))}};blocksOf(c,B).forEach(function(b){b.draw(cap,0,0)});var hd=c.s.name.toUpperCase(),hw=TW(hd,'B',fs0*.88)+(c.s.v.length>1?TW('variation 1 of 1','I',fs0*.72)+8:0);return Math.max(mx,hw)}
- var sW=1;cards.forEach(function(c){var cardW=c.k*cwc+(c.k-1)*gp0,r=cardW/(need(c)+2*fs0*.6);if(r<sW)sW=r});sW=Math.max(.5,Math.min(1,sW));
+ var sW=1;cards.forEach(function(c){c.nd1=need(c);var r=bw/(c.nd1+2*fs0*.6);if(r<sW)sW=r});sW=Math.max(.5,Math.min(1,sW));
  function attempt(s){var fs=fs0*s,csz=fs*.88,pad=fs*.6,hh=fs*1.7,pgs=[],cur=null,over=false,tall=false;
   function np(){var y=pgs.length?top:y1;cur={items:[],sky:[]};for(var i=0;i<n;i++)cur.sky.push(y);pgs.push(cur)}
-  function pick(c,h){var best=null;var lo=0,hi=n-c.k;if(c.p){lo=hi=Math.max(0,Math.min(c.p.c-1,n-c.k))}for(var c0=lo;c0<=hi;c0++){var y=0;for(var j=0;j<c.k;j++)y=Math.max(y,cur.sky[c0+j]);if(!best||y<best.y-.01)best={c0:c0,y:y}}return best}
-  cards.forEach(function(c){var cardW=c.k*cwc+(c.k-1)*gp0,B=mkB(fs,csz,cardW-2*pad,show),bl=blocksOf(c,B),h=pad*2+hh+bl.reduce(function(a,b){return a+b.h},0);if(h>bot-top)tall=true;
-   if(!cur)np();var bp=pick(c,h);if(bp.y+h>bot){if(pgs.length>0&&bp.y>(pgs.length===1?y1:top)+.5||true){if(cur.items.length){if(O.fit==='one')over=true;np();bp=pick(c,h)}}}
-   cur.items.push({c:c,x:m+bp.c0*(cwc+gp0),y:bp.y,w:cardW,h:h,bl:bl,pad:pad,hh:hh,fs:fs});for(var j=0;j<c.k;j++)cur.sky[bp.c0+j]=bp.y+h+gp0});
+  function pick(c,h,kk){var best=null;var lo=0,hi=n-kk;if(c.p){lo=hi=Math.max(0,Math.min(c.p.c-1,n-kk))}for(var c0=lo;c0<=hi;c0++){var y=0;for(var j=0;j<kk;j++)y=Math.max(y,cur.sky[c0+j]);if(!best||y<best.y-.01)best={c0:c0,y:y}}return best}
+  cards.forEach(function(c){var kk=c.k;while(kk<n&&kk*cwc+(kk-1)*gp0<c.nd1*s+2*pad)kk++;var cardW=kk*cwc+(kk-1)*gp0,B=mkB(fs,csz,cardW-2*pad,show),bl=blocksOf(c,B),h=pad*2+hh+bl.reduce(function(a,b){return a+b.h},0);if(h>bot-top)tall=true;
+   if(!cur)np();var bp=pick(c,h,kk);if(bp.y+h>bot){if(pgs.length>0&&bp.y>(pgs.length===1?y1:top)+.5||true){if(cur.items.length){if(O.fit==='one')over=true;np();bp=pick(c,h,kk)}}}
+   cur.items.push({c:c,x:m+bp.c0*(cwc+gp0),y:bp.y,w:cardW,h:h,bl:bl,pad:pad,hh:hh,fs:fs});for(var j=0;j<kk;j++)cur.sky[bp.c0+j]=bp.y+h+gp0});
   return{pgs:pgs,over:over,tall:tall}}
  var s=sW,res;
  if(O.fit==='one'){for(;;){res=attempt(s);if(!res.over||s<=.35)break;s=Math.max(.35,s*.94)}}
@@ -4028,12 +4037,12 @@ function safe(s){return String(s||'file').replace(/[^\w\- ]+/g,'').trim().replac
 async function withSong(i,fn){if(i===st.song)return fn();var o={song:st.song,step:st.step};try{saveTC()}catch(e){}st.song=i;loadTC();try{return fn()}finally{st.song=o.song;loadTC();st.step=o.step;try{renderTop()}catch(e){}}}
 function msg(t){var e=$('pdfMsg');if(e)e.textContent=t||''}
 var busy=false;
-async function run(kind){if(busy)return;busy=true;msg('Making the PDF…');
+async function run(kind){if(busy)return;busy=true;msg('Making the PDF…');fontNote=false;
  try{pages=[];var title,name;
   if(kind==='song'){title=(SDB[st.song]||{}).t||'Song';(O.layout==='map'?layoutMap:layoutSong)(true);name=safe(title)+'.pdf'}
   else{var k=$('pdfSet').value;if(!k||!SETS[k]||!SETS[k].length){msg('Choose a setlist with songs in it first.');busy=false;return}title=BN[k]||'Setlist';var list=SETS[k].slice();
    for(var j=0;j<list.length;j++){var idx=list[j];await withSong(idx,function(){(O.layout==='map'?layoutMap:layoutSong)(j===0)});}name=safe(title)+'.pdf'}
-  finish(title);var n=pages.length,blob=await build(title);pages=[];save(blob,name);msg('Saved '+name+' ('+n+(n===1?' page':' pages')+'). Look in your Downloads folder.');try{toast('PDF saved.')}catch(e){}}
+  finish(title);var n=pages.length,blob=await build(title);pages=[];save(blob,name);msg('Saved '+name+' ('+n+(n===1?' page':' pages')+'). Look in your Downloads folder.'+(fontNote?' Text size was reduced for at least one song so no line wraps.':''));try{toast('PDF saved.')}catch(e){}}
  catch(e){console.error(e);msg('The PDF could not be made: '+(e&&e.message||e))}
  busy=false}
 // ui
@@ -4044,6 +4053,7 @@ g.innerHTML='<b class="mkh">Export PDF</b><div class="hint">Saves a clean black-
  +'<label>Page size <select id="pdfSize"><option value="letter">Letter</option><option value="a4">A4</option><option value="legal">Legal</option><option value="a5">A5</option><option value="tabloid">Tabloid (11 x 17)</option></select></label>'
  +'<label>Orientation <select id="pdfOri"><option value="p">Portrait</option><option value="l">Landscape</option></select></label>'
  +'<label>Font size <select id="pdfFont"><option value="s">Small</option><option value="m">Medium</option><option value="l">Large</option><option value="x">Extra large</option></select></label>'
+ +'<div class="hint" id="pdfFontNote"></div>'
  +'<label>Margins <select id="pdfMar"><option value="n">Narrow</option><option value="m">Normal</option><option value="w">Wide</option></select></label>'
  +'<label>Show <select id="pdfShow"><option value="both">Chords and lyrics</option><option value="lyrics">Lyrics only</option><option value="chords">Chords only</option></select></label>'
  +'<label class="sw"><span>Include chord diagrams</span><span class="tg"><input type="checkbox" role="switch" id="pdfDiag"></span></label><label class="sw"><span>Include tab and melody staff</span><span class="tg"><input type="checkbox" role="switch" id="pdfTab"></span></label>'
@@ -4054,6 +4064,9 @@ var css=document.createElement('style');css.textContent='#hbLib>#gExpPdf{order:1
 $('pdfSize').value=O.size;$('pdfLay').value=O.layout;$('pdfFit').value=O.fit;$('pdfOri').value=O.orient||'p';$('pdfFont').value=O.font;$('pdfMar').value=O.margin;$('pdfShow').value=O.show;$('pdfDiag').checked=O.diag;$('pdfTab').checked=O.tab;
 [['pdfLay','layout'],['pdfFit','fit'],['pdfSize','size'],['pdfOri','orient'],['pdfFont','font'],['pdfMar','margin'],['pdfShow','show']].forEach(function(p){$(p[0]).onchange=function(){O[p[1]]=this.value;saveO()}});
 $('pdfDiag').onchange=function(){O.diag=this.checked;saveO()};$('pdfTab').onchange=function(){O.tab=this.checked;saveO()};
+
+function refreshFont(){var f=$('pdfFont');if(!f||!f.offsetParent)return;try{var ok=fontLimit(),nm={s:'Small',m:'Medium',l:'Large',x:'Extra large'},best=bestFont();Array.prototype.forEach.call(f.options,function(o){o.disabled=!ok[o.value]});var n=$('pdfFontNote');if(n)n.textContent=best!==O.font?'Larger text sizes do not fit this song on this page size. Exports will use '+nm[best]+'.':''}catch(e){}}
+document.addEventListener('click',function(){setTimeout(refreshFont,60)},true);document.addEventListener('change',function(){setTimeout(refreshFont,60)},true);
 function fillSets(){var s=$('pdfSet'),cur=s.value,ks=Object.keys(SETS);s.innerHTML=ks.length?ks.map(function(k){var o=document.createElement('option');o.value=k;o.textContent=BN[k]||'Setlist';return o.outerHTML}).join(''):'<option value="">No setlists yet</option>';if(cur&&SETS[cur])s.value=cur;else if(st.book&&SETS[st.book])s.value=st.book;$('pdfSetBtn').disabled=!ks.length}
 fillSets();$('hnav').addEventListener('click',fillSets);$('pdfSet').addEventListener('focus',fillSets);
 $('pdfSong').onclick=function(){run('song')};$('pdfSetBtn').onclick=function(){run('set')};

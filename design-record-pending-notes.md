@@ -594,3 +594,8 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Print footer safeguards (same 0.50.0 release): footer text wraps to as many lines as it needs instead of being cut off, very long unbroken text such as web addresses is broken to fit, name and contact go on separate lines when they do not fit together, and the page's usable height shrinks to match so the footer never overlaps the song, at any margin, page size, or orientation. Checked with Wide margins on A5 portrait and Narrow margins on Letter landscape. Characters outside the PDF fonts' Latin set (for example Cyrillic, Chinese, or emoji) print as "?", which applies to all PDF text, not only the footer.
 
 - Personalize privacy wording tightened (same 0.50.0 release), shown in the wizard step and the Personalize tab: "Used only to print on your PDFs. Kept on this device, and never sent, collected, or shared." This replaces the longer wording in the v0.50.0 entry above.
+
+## v0.51.0 - PDF text never wraps
+- Map cards widen (up to full page width) instead of wrapping a line; page-wide shrink only if a line cannot fit even at full width.
+- PDF Font size: sizes that cannot fit the current song on the chosen page size are grayed out, with a note naming the size exports will use.
+- At export, text size is clamped down if needed (per song for setlists) and the saved message says so.
