@@ -1365,7 +1365,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-var APPVER='0.61.0-2026-11-14';var APPBUILD='2026-11-14T16:23:51Z';
+var APPVER='0.62.0-2026-11-14';var APPBUILD='2026-11-14T16:29:06Z';
 function aboutHtml(wz){return (wz?'':'<p class="abt"><b>Orpharion</b></p><p class="hint abt">Version '+APPVER+'</p><p class="hint abt">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p>')+'<p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p class="hint">This is an independent app and is not endorsed by Anthropic.</p><p>Tab sheets use the JetBrains Mono font (SIL Open Font License 1.1). PDF reading uses pdf.js from Mozilla (Apache License 2.0).</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging, and playing your own charts. It does not include, supply, or license any songs, lyrics, or recordings. You are responsible for having the right to use every song you enter, import, keep, share, or perform. This includes anything you bring in from text, ChordPro, PDF, or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share, or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'+'<div class="legal"><b>Privacy policy</b><p class="hint">Last updated November 7, 2026</p><p><b>Short version:</b> Orpharion has no accounts, no ads, and no tracking. Nothing you do in the app is sent to the developer.</p><p><b>What stays on your device.</b> Your settings, setlists, custom strum patterns, song edits, and similar choices are saved in your own browser on your own device. They are not uploaded anywhere. Clearing your browser&rsquo;s site data removes them.</p><p><b>What we collect.</b> We do not collect, sell, or share personal information, and the app has no analytics. The page is delivered by a web host (GitHub Pages), which, like any web host, may keep ordinary server logs such as your IP address and the time of your visit. See GitHub&rsquo;s own privacy statement for how it handles those. PDFs and other files you import are read on your device and are not uploaded.</p><p><b>Your files.</b> Files you import are read on your device. You decide which ones to bring in.</p><p><b>Changes.</b> If this policy changes, the date above will change and the new text will appear here.</p><p class="hint">This is general information, not legal advice.</p></div>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
@@ -4747,7 +4747,7 @@ var PET=['#e93e5a','#e9933e','#cde93e','#5ae93e','#3ee993','#3ecde9','#3e5ae9','
 var CX=196,CY=340,NS='http://www.w3.org/2000/svg';
 function lumOf(){var c=getComputedStyle(document.body).backgroundColor,m=/rgba?\(([\d.]+)[ ,]+([\d.]+)[ ,]+([\d.]+)/.exec(c);return m?(0.2126*m[1]+0.7152*m[2]+0.0722*m[3])/255:1}
 var st=document.createElement('style');
-st.textContent='#spl{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity .5s;touch-action:manipulation}#spl.out{opacity:0;pointer-events:none}#spl svg{position:absolute;left:50%;top:50%;overflow:visible}#spl canvas{position:absolute;inset:0;width:100%;height:100%}#splSkip{position:absolute;bottom:calc(14px + env(safe-area-inset-bottom,0px));left:0;right:0;text-align:center;font:.8rem system-ui,sans-serif;opacity:.55}';
+st.textContent='#spl{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity .5s;touch-action:manipulation}#spl.out{opacity:0;pointer-events:none}#spl svg{position:absolute;left:50%;top:50%;overflow:visible}#spl canvas{position:absolute;inset:0;width:100%;height:100%}#splTx{position:absolute;left:0;right:0;text-align:center;font:italic 600 1em Georgia,Palatino,serif;letter-spacing:.04em;line-height:1.25;clip-path:inset(0 0 100% 0);pointer-events:none}#splSkip{position:absolute;bottom:calc(14px + env(safe-area-inset-bottom,0px));left:0;right:0;text-align:center;font:.8rem system-ui,sans-serif;opacity:.55}';
 document.head.appendChild(st);
 function el(n,a,p){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
 function run(opt){
@@ -4759,7 +4759,7 @@ function run(opt){
  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
  var root=document.createElement('div');root.id='spl';root.style.background=bg;root.setAttribute('role','img');root.setAttribute('aria-label','Orpharion');
  var cv=document.createElement('canvas');
- var S=0,svg=el('svg',{viewBox:'0 0 512 512'});
+ var S=0,OY=0,svg=el('svg',{viewBox:'0 0 512 512'});
  var df=el('defs',{},svg),g=el('linearGradient',{id:'spt',gradientUnits:'userSpaceOnUse',x1:70,y1:90,x2:400,y2:460},df);
  [0,.35,.55,.8,1].forEach(function(o,i){el('stop',{offset:o,'stop-color':stops[i]},g)});
  var body=el('g',{},svg);
@@ -4770,23 +4770,25 @@ function run(opt){
  var pets=PET.map(function(c,k){var p=el('path',{d:'M196 341 A14 41 0 1 1 196 259 A14 41 0 1 1 196 341',pathLength:1,fill:c,'fill-opacity':0,stroke:c,'stroke-width':4,'stroke-dasharray':1,'stroke-dashoffset':1,'stroke-linecap':'round',transform:'rotate('+(k*40)+' '+CX+' '+CY+')'},body);return p});
  var hole=el('circle',{cx:CX,cy:CY,r:18,fill:holeC,opacity:0},body);
  root.appendChild(svg);root.appendChild(cv);
+ var HUNT=!!opt.hunt,tx=null;
+ if(HUNT){tx=document.createElement('div');tx.id='splTx';tx.innerHTML='The orpharion<br>hides something.';tx.style.color=dark?'#f6dd96':'#7a4d0e';tx.style.textShadow=dark?'0 0 14px rgba(255,200,90,.75),0 0 3px rgba(255,240,200,.9)':'0 0 10px rgba(255,170,40,.55)';root.appendChild(tx)}
  var sk=document.createElement('div');sk.id='splSkip';sk.textContent='Tap to skip';sk.style.color=getComputedStyle(document.body).color;root.appendChild(sk);
  document.body.appendChild(root);
  var W,H,dpr,ctx=cv.getContext('2d');
- function size(){dpr=window.devicePixelRatio||1;W=innerWidth;H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;S=Math.min(W,H)*0.62;svg.style.width=S+'px';svg.style.height=S+'px';svg.style.marginLeft=(-S/2)+'px';svg.style.marginTop=(-S/2)+'px'}
+ function size(){dpr=window.devicePixelRatio||1;W=innerWidth;H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;S=Math.min(W,H)*(HUNT?0.5:0.62);OY=HUNT?-S*0.1:0;svg.style.width=S+'px';svg.style.height=S+'px';svg.style.marginLeft=(-S/2)+'px';svg.style.marginTop=(-S/2+OY)+'px';if(tx){tx.style.fontSize=(S*0.085)+'px';tx.style.top=(H/2+OY+S*0.5+S*0.02)+'px'}}
  size();
- function X(x){return W/2+(x-256)*S/512}function Y(y){return H/2+(y-256)*S/512}
+ function X(x){return W/2+(x-256)*S/512}function Y(y){return H/2+OY+(y-256)*S/512}
  var done=false;
  function finish(){if(done)return;done=true;root.classList.add('out');setTimeout(function(){root.remove()},600);window.removeEventListener('resize',size)}
  root.addEventListener('click',finish);window.addEventListener('resize',size);
- if(reduce){ring.setAttribute('stroke-dashoffset',0);Array.prototype.forEach.call(strings.children,function(p){p.setAttribute('stroke-dashoffset',0)});flag.setAttribute('opacity',1);pets.forEach(function(p){p.setAttribute('stroke-dashoffset',0);p.setAttribute('fill-opacity',.22)});hole.setAttribute('opacity',1);sk.style.display='none';setTimeout(finish,opt.hold||900);return}
+ if(reduce){ring.setAttribute('stroke-dashoffset',0);Array.prototype.forEach.call(strings.children,function(p){p.setAttribute('stroke-dashoffset',0)});flag.setAttribute('opacity',1);pets.forEach(function(p){p.setAttribute('stroke-dashoffset',0);p.setAttribute('fill-opacity',.22)});hole.setAttribute('opacity',1);sk.style.display='none';if(tx)tx.style.clipPath='none';setTimeout(finish,HUNT?2600:(opt.hold||900));return}
  // random arced approach
  var R=Math.hypot(W,H)/2*512/S+60,th=Math.random()*Math.PI*2;
  var P0={x:256+R*Math.cos(th),y:256+R*Math.sin(th)},P2={x:CX,y:CY};
  var mx=(P0.x+P2.x)/2,my=(P0.y+P2.y)/2,dx=P2.x-P0.x,dy=P2.y-P0.y,L=Math.hypot(dx,dy),sg=Math.random()<.5?-1:1,amt=(0.22+Math.random()*0.28)*L*sg;
  var P1={x:mx-dy/L*amt,y:my+dx/L*amt};
  function bz(u){var a=(1-u)*(1-u),b=2*(1-u)*u,c=u*u;return{x:a*P0.x+b*P1.x+c*P2.x,y:a*P0.y+b*P1.y+c*P2.y}}
- var T0=0,TF=1.15,TI=1.2,PD=.85,STG=.09,END=TI+PD+STG*8+.9;
+ var T0=0,TF=1.15,TI=1.2,PD=.85,STG=.09,PE=TI+.1+STG*8+PD,RK=PE+.3,RD=.85,RX=CX+(Math.random()-.5)*50,RY=-30,BT=RK+RD,TXD=1.7,END=HUNT?BT+.2+TXD+2.4:TI+PD+STG*8+.9,rbang=false;
  var sparks=[],trail=[],impact=false,start=performance.now(),ease=function(t){return t<0?0:t>1?1:t*t*(3-2*t)};
  function mk(x,y,a,sp,life,col){sparks.push({x:x,y:y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,l:life,t:0,c:col})}
  function burst(){impact=true;hole.setAttribute('opacity',1);
@@ -4812,6 +4814,15 @@ function run(opt){
    if(q<1.15){var tt=Math.PI/2+6.283*Math.min(e,1),ang=k*40*Math.PI/180,lx=14*Math.cos(tt),ly=41*Math.sin(tt)+(300-CY),rx=lx*Math.cos(ang)-ly*Math.sin(ang),ry=lx*Math.sin(ang)+ly*Math.cos(ang);
     for(var j=0;j<3;j++)if(Math.random()<.9&&q<1)sparks.push({x:CX+rx,y:CY+ry,vx:(Math.random()-.5)*30,vy:(Math.random()-.5)*30,l:.35,t:0,c:PET[k]});
     var hx=X(CX+rx),hy=Y(CY+ry),hf=1-ease((q-.9)/.25),gr3=ctx.createRadialGradient(hx,hy,0,hx,hy,10*sc*1.2);gr3.addColorStop(0,'rgba(255,255,255,'+hf+')');gr3.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=gr3;ctx.beginPath();ctx.arc(hx,hy,10*sc*1.2,0,6.283);ctx.fill()}});
+  if(HUNT){
+   if(t>=RK&&t<BT){var ru=(t-RK)/RD,re=1-Math.pow(1-ru,2.2),rx=CX+(RX-CX)*re+Math.sin(ru*3.14)*14,ry=CY+(RY-CY)*re;
+    trail.push({x:rx,y:ry,t:t});sparks.push({x:rx,y:ry,vx:(Math.random()-.5)*20,vy:20+Math.random()*30,l:.5,t:0,c:'#ffd36a'});
+    var rg=ctx.createRadialGradient(X(rx),Y(ry),0,X(rx),Y(ry),16*sc);rg.addColorStop(0,'rgba(255,240,200,1)');rg.addColorStop(1,'rgba(255,180,60,0)');ctx.fillStyle=rg;ctx.beginPath();ctx.arc(X(rx),Y(ry),16*sc,0,6.283);ctx.fill()}
+   if(t>=BT&&!rbang){rbang=true;for(var i=0;i<90;i++){var a=Math.random()*6.283,sp=40+Math.random()*230;sparks.push({x:RX,y:RY,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,l:.9+Math.random()*.9,t:0,c:i%3?'#ffd36a':(i%2?'#ffffff':'#ff9a3e')})}}
+   var tp=ease((t-BT-.2)/TXD);
+   if(tx&&t>=BT+.2){tx.style.clipPath='inset(0 0 '+((1-tp)*100).toFixed(1)+'% 0)';
+    if(tp<1){var tr=tx.getBoundingClientRect(),ey=tr.top+tr.height*tp;for(var j=0;j<4;j++){var sx=W/2+(Math.random()-.5)*S*0.8;sparks.push({x:256+(sx-W/2)*512/S,y:256+(ey-H/2-OY)*512/S,vx:(Math.random()-.5)*30,vy:10+Math.random()*50,l:.5,t:0,c:Math.random()<.5?'#ffe9a8':'#ffc65a'})}}}
+  }
   // sparks
   sparks=sparks.filter(function(s){s.t+=dt;return s.t<s.l});
   sparks.forEach(function(s){s.x+=s.vx*dt;s.y+=s.vy*dt;s.vx*=.96;s.vy=s.vy*.96+60*dt;var a=1-s.t/s.l;ctx.fillStyle=s.c;ctx.globalAlpha=a;ctx.beginPath();ctx.arc(X(s.x),Y(s.y),Math.max(.8,2.4*a*sc*1.4),0,6.283);ctx.fill()});
@@ -4822,7 +4833,8 @@ function run(opt){
  window.ORPSPLASH.cur={root:root,finish:finish};
 }
 window.ORPSPLASH={run:run};
-run();
+var hunt=false;try{hunt=/(^|[?#&])hunt\b/i.test(location.search+location.hash)}catch(e){}
+run({hunt:hunt});
 }catch(e){console.error(e)}})();
 
 })();
