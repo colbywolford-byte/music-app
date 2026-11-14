@@ -667,3 +667,7 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Built-in sample songs cannot be deleted (the button is hidden in Song Info; the list only holds library songs).
 - After deleting, the app opens the first song and shows a "Deleted ..." message. Tested: cancel, Escape, confirm from both places, built-in protection, and that the deletion survives a reload.
 - No undo yet; a possible later step is a short "Undo" message instead of or as well as the dialog.
+
+## v0.59.1 - New Song wizard above the menus; full screen message
+- Found on the phone and tablet (Nov 14): tapping New Song opened the wizard behind the Song Info menu, because the side menus sit above the wizard on small screens, so the menu looked like it kept focus (and the keyboard opened with nothing visible). Fix: the wizard and the delete dialog now sit above every menu, and opening the wizard closes the side menu first. Tested at 601x961 and 390x844.
+- Full screen: the button fails when the app runs inside the Claude artifact preview, because the preview frame does not allow it (it is not a phone bug). The message now says so and points to the app's own web address or installing it to the home screen. Outside a preview frame the old message stays.
