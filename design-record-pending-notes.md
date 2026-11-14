@@ -695,3 +695,10 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - The opening animation is chosen at random each launch. Classic plays most often. On holiday dates a holiday version joins the mix: it adds a second firework from the sound hole and a greeting that writes itself in from top to bottom, in that holiday's colors. Holidays covered: New Year, Valentine's Day, St. Patrick's Day, Fourth of July, Halloween, Thanksgiving, Christmas.
 - Settings has "Opening animation": Surprise me, Classic only, or Off, plus a Preview menu.
 - Open: Easter and other movable holidays; icons for the Android launch screen still show the old logo.
+
+## v0.60.2 - Holiday opening animations (logo tweak)
+- The holiday opening animations from the approved concept art now play in the app: New Year, Valentine's Day, St. Patrick's Day (gold coins), Fourth of July, Halloween, Día de los Muertos, Thanksgiving, Hanukkah, and Christmas.
+- Each shows its themed logo on its own dark backdrop with its animation and a greeting, about 6.5 to 10 seconds. Tap to skip after about a second. With reduced motion, a still version shows for under 3 seconds.
+- Dates: existing windows, plus Día de los Muertos Nov 1 to 2 and Hanukkah (25 Kislev through 2 Tevet, worked out from the device's Hebrew calendar).
+- Selection is unchanged: the Settings "Opening animation" choice (Surprise me, Classic only, Off) and Preview list, which now includes all nine. `#anim=<name>` opens one directly.
+- Fourth of July re-rolls each firework's timing every time it plays.
