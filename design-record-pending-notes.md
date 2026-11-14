@@ -683,3 +683,9 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Empty library: if the last song is deleted or all samples are removed with no songs of your own, the app creates a blank "My First Song" so it never has zero songs.
 - Fixes found on the way: deleting the open song now opens the nearest remaining song (it used to jump to song 2, which broke with one song left); songs with no artist no longer show "Traditional" in the header.
 - Lyrics checked as public domain: Foster 1848, Newton 1779, traditional 1896 and c. 1670, van Dyke 1907, Beethoven 1824. The earlier plan to audit samples for rights before 1.0 is done for these five.
+
+## v0.61.0 — Animated startup logo
+- New startup splash on every load: the ring, strings, and flag draw in; the sound hole arcs in from a random direction (new trajectory each load) and bursts like a small firework; sparks trace the nine rosette petals, which then fill with color.
+- About 3.5 seconds; tap anywhere to skip. Reduced-motion setting shows the finished logo briefly with no animation.
+- Theme-aware: light-on-dark or dark-on-light palette follows the background.
+- Open: an option to turn the splash off.
