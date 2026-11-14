@@ -640,3 +640,8 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Build: the date after the version in About (for example 0.56.0-2026-11-13) now follows the build date in Eastern time. It had been stuck at 2026-11-08 since 0.39.2.
 
 - v0.56.0 follow-up: a repeat bar follows its card's rename (and updates its own "Repeat X" title if it was auto-titled). Note cards and repeat bars show only in Edit mode and in the printed PDF; hidden in Perform and Rehearse. They were already outside the chips, swipes, and pedal steps.
+
+## v0.57.0 - Three-part PDF footer and video link
+- PDF footer is now one row in three zones: left = your name and contact line (Personalize), center = your note, right = "Orpharion (date)" followed by bold "Pg x of N". When the zones do not fit one row (narrow pages, long text), the footer wraps into columns, and on very narrow pages stacks; it still never overlaps the page content.
+- Video link: Song Info has a "Video link" group (collapsible like the others). When a song has a link, a small play button in the app's accent color appears before the song title in Rehearse and Edit (hidden in Perform), and opens the video in a new tab. The link is saved in the song file as {x_video: https://...} and in backups, but it is not printed. Only web addresses starting with http:// or https:// are accepted.
+- Decided: no separate credit line (title, artist, and year are enough). Chord sheet placement of note cards and repeat bars is undecided (needs both versions to compare), so they stay map-only.
