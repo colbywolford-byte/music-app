@@ -601,10 +601,11 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - At export, text size is clamped down if needed (per song for setlists) and the saved message says so.
 
 ## v0.52.0 - Free card colors
-- Each card can have its own fill, border, and text color, chosen with the device color picker (no preset limits). "Auto" clears one; "Reset card" clears all.
+- Each card can have its own fill, border, text, and chord color, chosen with the device color picker (no preset limits). "Auto" clears one; "Reset card" clears all.
 - Edit mode, Advanced only: a half-filled circle button at the right of each card header opens the color panel. Cards that already have colors still show them in Simple mode.
 - If only a fill is set, text turns black or white automatically so it stays readable.
 - Gentle hint (never blocks) when text and fill contrast is low.
 - Saved in the song file as one line per card: {x_color: fill=#rrggbb border=#rrggbb text=#rrggbb}. About 25-60 bytes per colored card. Other apps ignore it.
 - PDF card map prints the colors (switch: "Print card colors", on by default). Chord sheet layout has no cards, so no colors.
 - Still open: colors in Warm-up/Rehearse card views are shown wherever the card is drawn; dark-theme check on device.
+- Chords have their own color (4th picker, "Chords"). Left on Auto, chords pick a contrasting accent (red or blue on light fills, yellow or light blue on dark fills) so they always differ from the lyrics, on screen and in the PDF. Song file line: chord=#rrggbb.
