@@ -702,3 +702,22 @@ Record to update: Version 5 doc (Claude Docs). It was last updated through v0.14
 - Dates: existing windows, plus Día de los Muertos Nov 1 to 2 and Hanukkah (25 Kislev through 2 Tevet, worked out from the device's Hebrew calendar).
 - Selection is unchanged: the Settings "Opening animation" choice (Surprise me, Classic only, Off) and Preview list, which now includes all nine. `#anim=<name>` opens one directly.
 - Fourth of July re-rolls each firework's timing every time it plays.
+
+## Holiday opening animations: full list in calendar order (design record entry, covers v0.60.2 and the concept art for five more)
+Why: the opening animation is a chance to make the app feel welcoming to more of its musicians. Each holiday has its own version of the logo on its own backdrop, with a greeting. A concept gallery (separate Artifact) was used to tune each design before building. Status in brackets.
+1. New Year, Dec 29 to Jan 2 [built]: a lit quaver slides down the neck, then fireworks shoot out of the sound hole toward the top and confetti sprays toward the viewer.
+2. Lunar New Year, New Year's Day through the Lantern Festival, dates from the device's Chinese calendar [concept only]: red lacquer body with a gold and coral rosette, gold strings, and a red paper lantern as the quaver, hanging on a cord and swaying. Gold, red, and white fireworks from the sound hole.
+3. Valentine's Day, Feb 9 to 14 [built]: a heart replaces the rosette. Neck lines and quaver match the heart colors. Small hearts grow from dots and pop around the logo.
+4. St. Patrick's Day, Mar 13 to 17 [built]: Irish green ring, quaver, and outer neck lines, with an orange middle line and sound hole rim. Gold coins pop out of the sound hole, land at the base, and pile up. (A snake gag was tried first and dropped.)
+5. Easter, Good Friday through Easter Monday, calculated by formula [concept only]: pastel painted-egg body in a lavender ring, light mint backdrop, and four decorated eggs that pop out of the sound hole, land at the base, and bounce.
+6. Eid al-Fitr and Eid al-Adha, dates from the device's Islamic calendar (can be a day off, since the real date depends on moon sighting) [concept only]: emerald and gold eight-pointed star body, gold crescent and star as the quaver, twinkling stars. No figures, on purpose.
+7. Fourth of July, Jul 1 to 4 [built]: red, white, and blue fireworks from the sound hole, each on its own timing, re-rolled each play.
+8. Halloween, Oct 24 to 31 [built]: the body is a jack-o'-lantern with cut walls and a flickering candle, green vines as the neck lines, and a pumpkin leaf as the quaver.
+9. Día de los Muertos, Nov 1 to 2 [built]: a decorated sugar skull fills the body (from the user's reference), and its flower petals bloom at random times.
+10. Diwali, the five days of the festival, needs a small date table (to be checked before building) [concept only]: marigold ring, a rangoli rosette ringed by 24 twinkling dots, five gold neck strings topped with flickering flames, and pink and gold fireworks.
+11. Thanksgiving, six days before to the day after [built]: a turkey body with a fan of 13 feathers that opens like a Japanese fan, and the quaver as the gobbler.
+12. Hanukkah, 25 Kislev through 2 Tevet, from the device's Hebrew calendar [built]: nine blue and white strings with a single calm flame on the middle one.
+13. Christmas, Dec 8 to 26 [built]: a Santa hat in place of the quaver, falling snow, and twinkling lights wrapped around the neck.
+14. Kwanzaa, Dec 26 to Jan 1 [concept only]: the neck is a kinara of seven candles (three red, black in the middle, three green) lit one at a time from the center outward, and they stay lit. The body border is red, black, and green stripes with gold edges.
+- Decisions made along the way: anything that comes out of the sound hole starts at its exact center. The Kwanzaa candles play once and stay lit, so there is no loop. The Easter concept uses a light backdrop, the only light one.
+- Open: build the five concept holidays into the app (needs a version bump to 0.60.3 or similar, still a logo tweak), check the Diwali dates, optional second batch (Mid-Autumn Festival, Holi, Mardi Gras).
