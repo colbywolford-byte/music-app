@@ -771,3 +771,6 @@ Why: the opening animation is a chance to make the app feel welcoming to more of
 
 - Nov 15, 2026: Colby confirmed on the tablet that one Support message of each kind (bug, feature request, question) arrived in his inbox. The Web3Forms send is now device-tested. Test checklist groups 1, 2, 3, 4, 6, and 7 are complete.
 - Nov 15, 2026 (device test of the Support screen): subject lines were correct for all three kinds, no email address was sent unless its box was checked, no device info was sent unless its box was checked, and the double-tap to send a question anonymously worked.
+
+## v0.63.1 (Nov 15, 2026): Import Songs folds like the other Song Files groups
+- In Menu > Song Files (and the dock's Song Files panel), "Import Songs" is now a collapsible group like Setlist, Imported Songs, Export, and Export PDF, so the panel opens with every group collapsed. It had been the one group that was always open. Its hint, Import Songs and New Song buttons, and song-folder controls are inside the group, unchanged. Checked on a tablet-size screen in both the menu and the dock panel.
