@@ -738,3 +738,8 @@ Why: the opening animation is a chance to make the app feel welcoming to more of
 ## v0.60.5
 - Edit mode: tapping a line on a card opens the Edit Card panel with the matching section expanded. A lyric line opens Lyrics, a chord line opens Chord, and a dynamics or technique line opens Dynamic (or Technique when the mark is a technique). In Simple mode, dynamics and technique taps fall back to Chord.
 - Setlist PDF: verified that every song already starts on a new page, in both the sheet and card-map layouts.
+
+## v0.60.6
+- New Song wizard: the strum pattern list shows each pattern's arrows (grouped as "Fits <time signature>" first, then the other time signatures) instead of internal names, and refreshes when the time signature changes.
+- Video link: http:// and https:// are both accepted. The placeholder and the error note now say "http:// or https://".
+- Video link, bad entry: focus stays in the box with the text selected until the entry is fixed or cleared. In the wizard, Next, Skip, and Back are blocked the same way on that step.
