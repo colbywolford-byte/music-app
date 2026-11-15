@@ -774,3 +774,6 @@ Why: the opening animation is a chance to make the app feel welcoming to more of
 
 ## v0.63.1 (Nov 15, 2026): Import Songs folds like the other Song Files groups
 - In Menu > Song Files (and the dock's Song Files panel), "Import Songs" is now a collapsible group like Setlist, Imported Songs, Export, and Export PDF, so the panel opens with every group collapsed. It had been the one group that was always open. Its hint, Import Songs and New Song buttons, and song-folder controls are inside the group, unchanged. Checked on a tablet-size screen in both the menu and the dock panel.
+
+## v0.63.2 (Nov 15, 2026): menu button text matches the drop-downs
+- Colby noticed the Save This Song as PDF and Save Setlist as PDF buttons looked larger than the drop-downs above them. Cause: the Nov 8 standard set action-button text to 1rem while drop-downs are 0.9rem. Changed every action button in the global menu (Import Songs, New Song, Choose Song Folder, Edit Setlists, Add Song to Setlist, Export, Export PDF, Backup, Sound's Hear it, Display, and Pedal Reset) to 0.9rem so buttons and drop-downs match. Button heights are unchanged. Supersedes the "button text size standardized to 1rem" line in the earlier menu notes.
