@@ -797,3 +797,6 @@ Why: the opening animation is a chance to make the app feel welcoming to more of
 
 ## v0.63.8 (Nov 15, 2026): Apply to this song always recolors
 - Colby asked why a box had to be ticked before Apply to this song would recolor cards that already had colors, since pressing the button is a deliberate choice. Removed the "Also recolor cards that already have colors" checkbox. Apply to this song now replaces the colors on every card whose name matches the set. The automatic default set for new songs is unchanged and still leaves any colors a song already has alone. If no card name matches, the message says so. Checked that a set applied to Verse and Chorus cards recolors them, including repeated ones.
+
+## v0.63.9 (Nov 15, 2026): choose "use for new songs" while saving
+- Colby asked that the new-songs choice be available before a set is saved, and that the word "every" be dropped. Step 1 (Save this song's colors) now has its own box, "Use this set for new songs", available any time: tick it, name the set, press Save set, and the saved set becomes the one new songs start with. Step 3 (Manage the selected set) keeps the same box for a set that is already saved, and it stays gray until a saved set is picked. Both read "Use this set for new songs". Checked that saving with the box ticked stores the set as the default and ticks the Step 3 box.
