@@ -729,3 +729,8 @@ Why: the opening animation is a chance to make the app feel welcoming to more of
 - Greetings: Happy Lunar New Year, Happy Easter, Eid Mubarak, Happy Diwali, Happy Kwanzaa. Easter is the only light backdrop, so its greeting and skip hint use dark text.
 - Kwanzaa plays once: the candles light one at a time and stay lit for the rest of the opening (about 13 seconds).
 - Lunar New Year, Diwali, and Fourth of July re-roll their firework timing each time.
+
+## v0.60.4 - Mode renamed to Perform, and the launch screen no longer shows the old logo first
+- The mode "Performance" is now "Perform" everywhere in the app: the mode wheel (the full word did not fit), the mode menu and phone menu, the Settings "Opens on" choice, the Phone view and pedal hints, the screen-lock tooltip ("Lock the Perform screen"), and the support info. It now matches Warm-up, Rehearse, and Edit, which are all verbs.
+- Launch screen: Android shows its own launch screen before the app loads, built from the install icon, which was the still logo. The animated opening then played on top of it. The install icon for general use is now a transparent picture, so the launch screen shows only the dark background. The home-screen icon still uses the maskable logo. Because the launch screen is stored when the app is installed, the new look appears once Android updates the installed app, which can take a day or a few launches. Removing the app and adding it again from the browser applies it right away.
+- The offline cache name moved to v2 so the new manifest and icon files are fetched.

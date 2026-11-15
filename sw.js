@@ -1,9 +1,9 @@
 /* Orpharion service worker. It keeps a copy of the app on the device so the app opens with no connection.
    With a connection it asks the network first, so a new version still arrives right away. If the network
    is slow (more than 4 seconds), the saved copy is shown and the fresh copy is saved for next time. */
-var CACHE='orpharion-offline-v1',SLOW=4000;
+var CACHE='orpharion-offline-v2',SLOW=4000;
 var PAGE=new URL('./',self.registration.scope).href;
-var FILES=[PAGE,'manifest.json','icon-192.png','icon-512.png','icon-maskable-512.png'];
+var FILES=[PAGE,'manifest.json','icon-192.png','icon-512.png','icon-blank-192.png','icon-blank-512.png','icon-maskable-512.png'];
 function keyOf(req){var u=new URL(req.url);u.search='';u.hash='';if(req.mode==='navigate'||/\/index\.html$/.test(u.pathname)||u.href===PAGE)return PAGE;return u.href}
 self.addEventListener('install',function(e){
  e.waitUntil(caches.open(CACHE).then(function(c){
