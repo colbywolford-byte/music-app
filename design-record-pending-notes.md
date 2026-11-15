@@ -743,3 +743,10 @@ Why: the opening animation is a chance to make the app feel welcoming to more of
 - New Song wizard: the strum pattern list shows each pattern's arrows (grouped as "Fits <time signature>" first, then the other time signatures) instead of internal names, and refreshes when the time signature changes.
 - Video link: http:// and https:// are both accepted. The placeholder and the error note now say "http:// or https://".
 - Video link, bad entry: focus stays in the box with the text selected until the entry is fixed or cleared. In the wizard, Next, Skip, and Back are blocked the same way on that step.
+
+## v0.61.0
+- "Report a Bug" in the Library menu is now "Support". It opens a short wizard: Something is broken (bug report), I have an idea (feature request), or I have a question.
+- Bug report: unchanged (what happened, optional email, technical info on by default with a preview).
+- Feature request: what the person would like Orpharion to do, plus why it would help, an optional email, and an optional app-version and device line (off by default).
+- Question: the question, an email (a gentle one-time nudge if blank, since an answer needs one), and the same optional version and device line.
+- All three go to the same Web3Forms inbox, with the subject line naming the kind, for example "Orpharion feature request (0.61.0)".
