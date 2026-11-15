@@ -768,3 +768,5 @@ Why: the opening animation is a chance to make the app feel welcoming to more of
 
 ## v0.63.0
 - New instrument: Orpharion (Lute Tuning), in the Resonator and Lute group after the Lute. Six courses tuned G, C, F, A, D, G (low to high), as in Praetorius's 1620 six-course tuning, which matches the lute. Chord diagrams, the tuner, and the transposition all work from that tuning. The sound is the steel (wire-strung) voice. Fingerings come from the same chord generator as the other 6-string instruments.
+
+- Nov 15, 2026: Colby confirmed on the tablet that one Support message of each kind (bug, feature request, question) arrived in his inbox. The Web3Forms send is now device-tested. Test checklist groups 1, 2, 3, 4, 6, and 7 are complete.
