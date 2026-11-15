@@ -756,3 +756,9 @@ Why: the opening animation is a chance to make the app feel welcoming to more of
 
 ## v0.61.2
 - Support wizard: minimum length raised to 20 characters for bug reports and feature requests, and 10 for questions (short questions are legitimate). The limit is stated in each label and error note.
+
+## v0.62.0
+- First-time setup has a new optional step, "Your email" (after Personalize). The address is kept only on this device.
+- Support: the email box is now grayed out and prefilled with that address. Checking "Include my email so I can reply" turns it active (and editable). Unchecked, no email is sent.
+- If someone types a different address in Support, a "Remember this email on this device" checkbox appears, so people who skipped setup can save it there.
+- Footer wording changed to "Without your email, your message stays anonymous."
