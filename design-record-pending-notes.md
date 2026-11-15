@@ -762,3 +762,6 @@ Why: the opening animation is a chance to make the app feel welcoming to more of
 - Support: the email box is now grayed out and prefilled with that address. Checking "Include my email so I can reply" turns it active (and editable). Unchecked, no email is sent.
 - If someone types a different address in Support, a "Remember this email on this device" checkbox appears, so people who skipped setup can save it there.
 - Footer wording changed to "Without your email, your message stays anonymous."
+
+## v0.62.1
+- Reload: the half-built screen (bare controls) that showed before the splash is now hidden by a plain cover in the theme's background color. The splash removes it as it starts, and a failsafe removes it 2.5 seconds after load if the splash is turned off.
