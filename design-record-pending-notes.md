@@ -750,3 +750,6 @@ Why: the opening animation is a chance to make the app feel welcoming to more of
 - Feature request: what the person would like Orpharion to do, plus why it would help, an optional email, and an optional app-version and device line (off by default).
 - Question: the question, an email (a gentle one-time nudge if blank, since an answer needs one), and the same optional version and device line.
 - All three go to the same Web3Forms inbox, with the subject line naming the kind, for example "Orpharion feature request (0.61.0)".
+
+## v0.61.1
+- Support wizard: the 5-character minimum is now stated in each box's label and in the error note.
