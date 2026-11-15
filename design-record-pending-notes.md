@@ -753,3 +753,6 @@ Why: the opening animation is a chance to make the app feel welcoming to more of
 
 ## v0.61.1
 - Support wizard: the 5-character minimum is now stated in each box's label and in the error note.
+
+## v0.61.2
+- Support wizard: minimum length raised to 20 characters for bug reports and feature requests, and 10 for questions (short questions are legitimate). The limit is stated in each label and error note.
