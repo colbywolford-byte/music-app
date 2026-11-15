@@ -1365,7 +1365,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-var APPVER='0.60.4-2026-11-14';var APPBUILD='2026-11-15T03:06:45Z';
+var APPVER='0.60.5-2026-11-14';var APPBUILD='2026-11-15T03:33:09Z';
 function aboutHtml(wz){return (wz?'':'<p class="abt"><b>Orpharion</b></p><p class="hint abt">Version '+APPVER+'</p><p class="hint abt">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p>')+'<p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p class="hint">This is an independent app and is not endorsed by Anthropic.</p><p>Tab sheets use the JetBrains Mono font (SIL Open Font License 1.1). PDF reading uses pdf.js from Mozilla (Apache License 2.0).</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging, and playing your own charts. It does not include, supply, or license any songs, lyrics, or recordings. You are responsible for having the right to use every song you enter, import, keep, share, or perform. This includes anything you bring in from text, ChordPro, PDF, or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share, or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'+'<div class="legal"><b>Privacy policy</b><p class="hint">Last updated November 7, 2026</p><p><b>Short version:</b> Orpharion has no accounts, no ads, and no tracking. Nothing you do in the app is sent to the developer.</p><p><b>What stays on your device.</b> Your settings, setlists, custom strum patterns, song edits, and similar choices are saved in your own browser on your own device. They are not uploaded anywhere. Clearing your browser&rsquo;s site data removes them.</p><p><b>What we collect.</b> We do not collect, sell, or share personal information, and the app has no analytics. The page is delivered by a web host (GitHub Pages), which, like any web host, may keep ordinary server logs such as your IP address and the time of your visit. See GitHub&rsquo;s own privacy statement for how it handles those. PDFs and other files you import are read on your device and are not uploaded.</p><p><b>Your files.</b> Files you import are read on your device. You decide which ones to bring in.</p><p><b>Changes.</b> If this policy changes, the date above will change and the new text will appear here.</p><p class="hint">This is general information, not legal advice.</p></div>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
@@ -4951,6 +4951,24 @@ try{var sl=document.getElementById('selLevel'),host=sl&&sl.closest('.pg');if(hos
  var sa=ng.querySelector('#selAnim');sa.value=pref();sa.onchange=function(){try{localStorage.setItem(AK,this.value)}catch(e){}this.blur()};
  ng.querySelector('#btnAnimP').onclick=function(){ORPSPLASH.preview(ng.querySelector('#selAnimP').value)}}}catch(e){console.error(e)}
 var cv0=choose();if(cv0)run(cv0);
+}catch(e){console.error(e)}})();
+
+
+/* ===== v0.60.5: tapping a card line opens the Edit Card panel on the matching section ===== */
+(function(){try{
+var P=$('mkpal'),M=$('map');if(!P||!M)return;
+function which(e){var t=e.target;if(!t||!t.closest)return null;var sg=t.closest('.sg');if(!sg)return null;
+ if(t.closest('.dy')){var v=(typeof MARKS!=='undefined'&&MARKS[sg.dataset.k])||'';var tb=v&&[].slice.call(P.querySelectorAll('.mks[data-k="technique"] button[data-v]')).some(function(b){return b.dataset.v===String(v)});return tb?'technique':'dynamic'}
+ if(t.closest('.ch'))return 'chord';
+ if(t.closest('.tx'))return 'lyrics';
+ var d=sg.querySelector('.dy'),c=sg.querySelector('.ch'),y=e.clientY;
+ if(d&&y<d.getBoundingClientRect().bottom)return 'dynamic';
+ if(c&&y<c.getBoundingClientRect().bottom)return 'chord';
+ return 'lyrics'}
+M.addEventListener('click',function(e){if(st.mode!=='E')return;var w=which(e);if(!w)return;
+ if(document.body.classList.contains('simple')&&(w==='dynamic'||w==='technique'))w='chord';
+ var G=[].slice.call(P.querySelectorAll(':scope>.mks')),tg=G.filter(function(g){return g.dataset.k===w})[0];if(!tg)return;
+ G.forEach(function(g){var on=g===tg;g.classList.toggle('acc-c',!on);var h=g.querySelector(':scope>.mkh');if(h)h.setAttribute('aria-expanded',on?'true':'false')})});
 }catch(e){console.error(e)}})();
 
 })();

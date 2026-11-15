@@ -734,3 +734,7 @@ Why: the opening animation is a chance to make the app feel welcoming to more of
 - The mode "Performance" is now "Perform" everywhere in the app: the mode wheel (the full word did not fit), the mode menu and phone menu, the Settings "Opens on" choice, the Phone view and pedal hints, the screen-lock tooltip ("Lock the Perform screen"), and the support info. It now matches Warm-up, Rehearse, and Edit, which are all verbs.
 - Launch screen: Android shows its own launch screen before the app loads, built from the install icon, which was the still logo. The animated opening then played on top of it. The install icon for general use is now a transparent picture, so the launch screen shows only the dark background. The home-screen icon still uses the maskable logo. Because the launch screen is stored when the app is installed, the new look appears once Android updates the installed app, which can take a day or a few launches. Removing the app and adding it again from the browser applies it right away.
 - The offline cache name moved to v2 so the new manifest and icon files are fetched.
+
+## v0.60.5
+- Edit mode: tapping a line on a card opens the Edit Card panel with the matching section expanded. A lyric line opens Lyrics, a chord line opens Chord, and a dynamics or technique line opens Dynamic (or Technique when the mark is a technique). In Simple mode, dynamics and technique taps fall back to Chord.
+- Setlist PDF: verified that every song already starts on a new page, in both the sheet and card-map layouts.
