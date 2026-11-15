@@ -765,3 +765,6 @@ Why: the opening animation is a chance to make the app feel welcoming to more of
 
 ## v0.62.1
 - Reload: the half-built screen (bare controls) that showed before the splash is now hidden by a plain cover in the theme's background color. The splash removes it as it starts, and a failsafe removes it 2.5 seconds after load if the splash is turned off.
+
+## v0.63.0
+- New instrument: Orpharion (Lute Tuning), in the Resonator and Lute group after the Lute. Six courses tuned G, C, F, A, D, G (low to high), as in Praetorius's 1620 six-course tuning, which matches the lute. Chord diagrams, the tuner, and the transposition all work from that tuning. The sound is the steel (wire-strung) voice. Fingerings come from the same chord generator as the other 6-string instruments.
