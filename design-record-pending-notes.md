@@ -803,3 +803,7 @@ Why: the opening animation is a chance to make the app feel welcoming to more of
 
 ### v0.64.0: In-app color picker
 - Card color swatches now open the app's own compact picker instead of Android's full-screen "Select color" dialog. It shows the current color beside the new one, 32 preset swatches, and a "Custom Color" button that reveals Hue, Saturation, Brightness, and hex-code controls already set to the color being edited. Cancel and Set confirm. About 268 px wide, so it no longer fills the screen.
+
+### v0.64.1: Overwrite warning and "color scheme" wording
+- Saving a color scheme under a name that already exists now asks first ("A scheme named ... already exists. Overwrite it with this song's colors?") with Overwrite and Cancel buttons, like saving a file. Typing a different name dismisses the question.
+- All user-facing text that said "color set" now says "color scheme."
