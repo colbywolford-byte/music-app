@@ -815,3 +815,9 @@ Why: the opening animation is a chance to make the app feel welcoming to more of
 - New Rename button. Renaming keeps the ID, so songs keep following the scheme, and the scheme remembers its earlier names so a song file saved under an old name is matched on import (the tag is updated, colors are left alone).
 - Delete asks first and says how many songs use the scheme. Those songs switch to the default scheme and take its colors. With no default scheme, they keep their current colors and are untagged.
 - A scheme export file now carries the ID and earlier names, so importing restores the links.
+
+### v0.66.0: Three new holiday opening animations
+- Passover (Nisan 14 to 22, from the Hebrew calendar built into the phone): the Orpharion in wine red and gold with a silver cup of wine. Message: "Happy Passover."
+- Ramadan (the whole month, from the Islamic calendar built into the phone): the Orpharion in indigo and gold with a glowing lantern and a small crescent. Message: "Ramadan Mubarak."
+- Veterans Day (November 10 and 11): the Orpharion in navy, red, and white with a gently waving flag. It shows a longer message and stays on screen 13 seconds: "Orpharion appreciates and commends the courage, service, and sacrifice of all past, present, and future armed services members. Thank you." The layout moves the logo up and shrinks the type so all five lines fit on phone and tablet, portrait and landscape.
+- All three appear in the Preview list under Opening animation, so they can be viewed on any date. Passover and Ramadan dates follow the phone's calendars and can be a day off, like Eid.
