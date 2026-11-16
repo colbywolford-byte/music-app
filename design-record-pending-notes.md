@@ -800,3 +800,6 @@ Why: the opening animation is a chance to make the app feel welcoming to more of
 
 ## v0.63.9 (Nov 15, 2026): choose "use for new songs" while saving
 - Colby asked that the new-songs choice be available before a set is saved, and that the word "every" be dropped. Step 1 (Save this song's colors) now has its own box, "Use this set for new songs", available any time: tick it, name the set, press Save set, and the saved set becomes the one new songs start with. Step 3 (Manage the selected set) keeps the same box for a set that is already saved, and it stays gray until a saved set is picked. Both read "Use this set for new songs". Checked that saving with the box ticked stores the set as the default and ticks the Step 3 box.
+
+### v0.64.0: In-app color picker
+- Card color swatches now open the app's own compact picker instead of Android's full-screen "Select color" dialog. It shows the current color beside the new one, 32 preset swatches, and a "Custom Color" button that reveals Hue, Saturation, Brightness, and hex-code controls already set to the color being edited. Cancel and Set confirm. About 268 px wide, so it no longer fills the screen.

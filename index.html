@@ -1366,7 +1366,7 @@ function kUpd(){var i=KEYS.indexOf(st.key);$('kTick').style.transform='rotate('+
 var capWhy='';
 function capoHint(){capWhy='';var cc=chordCounts();if(!Object.keys(cc).length)return '';var cur=hardSet(st.capo);if(!cur.t)return '';var best=-1,bh=null,bc=0,i;for(i=0;i<=7;i++){var h=hardSet(i),c=capoCost(i);if(best<0||h.t<bh.t||(h.t===bh.t&&c<bc-.01)){best=i;bh=h;bc=c}}if(best===st.capo||bh.t>=cur.t)return '';var sh=Object.keys(cc).sort(function(a,b){return cc[b]-cc[a]}).slice(0,5).map(function(n){return trs(n,st.tr-best)}).filter(function(x,k,a){return a.indexOf(x)===k}).join(', ');capWhy=(best?'Capo '+ordn(best)+' fret':'No capo')+' avoids hard chords ('+cur.names.join(', ')+'). Shapes: '+sh+(bh.t?' (still hard: '+bh.names.join(', ')+')':'')+'.';return best?'HINT: Capo '+ordn(best)+' fret.':'HINT: No capo.'}
 var CREDIT_NAME='Colby Wolford';
-var APPVER='0.63.9-2026-11-15';var APPBUILD='2026-11-15T23:47:51Z';
+var APPVER='0.64.0-2026-11-15';var APPBUILD='2026-11-16T00:31:30Z';
 function aboutHtml(wz){return (wz?'':'<p class="abt"><b>Orpharion</b></p><p class="hint abt">Version '+APPVER+'</p><p class="hint abt">\u00a9 2026 '+CREDIT_NAME+'. All rights reserved.</p>')+'<p>Concept, design, and direction: '+CREDIT_NAME+'.</p><p>Code written with Claude, an AI assistant made by Anthropic.</p><p class="hint">This is an independent app and is not endorsed by Anthropic.</p><p>Tab sheets use the JetBrains Mono font (SIL Open Font License 1.1). PDF reading uses pdf.js from Mozilla (Apache License 2.0).</p><div class="legal"><b>Legal notice</b><p>Orpharion is a tool for writing, arranging, and playing your own charts. It does not include, supply, or license any songs, lyrics, or recordings. You are responsible for having the right to use every song you enter, import, keep, share, or perform. This includes anything you bring in from text, ChordPro, PDF, or any other file. By importing material you confirm that you have the right to use it. Imported files are kept on your own device only.</p><p><b>Know your local laws.</b> Copyright and fair-use rules differ from country to country and can change. You are responsible for finding out and following the laws that apply where you live and where you perform, and for getting any licenses you need. This app cannot decide that for you.</p><p>The app is provided &ldquo;as is&rdquo; with no warranty. To the fullest extent the law allows, the developer is not liable for misuse of the app, or for any claim about music that you enter, import, share, or perform. This is general information, not legal advice.</p><p class="hint">Example (U.S.): <a href="https://www.copyright.gov/fair-use/" target="_blank" rel="noopener noreferrer">Copyright Office, What is fair use?</a></p></div>'+'<div class="legal"><b>Privacy policy</b><p class="hint">Last updated November 7, 2026</p><p><b>Short version:</b> Orpharion has no accounts, no ads, and no tracking. Nothing you do in the app is sent to the developer.</p><p><b>What stays on your device.</b> Your settings, setlists, custom strum patterns, song edits, and similar choices are saved in your own browser on your own device. They are not uploaded anywhere. Clearing your browser&rsquo;s site data removes them.</p><p><b>What we collect.</b> We do not collect, sell, or share personal information, and the app has no analytics. The page is delivered by a web host (GitHub Pages), which, like any web host, may keep ordinary server logs such as your IP address and the time of your visit. See GitHub&rsquo;s own privacy statement for how it handles those. PDFs and other files you import are read on your device and are not uploaded.</p><p><b>Your files.</b> Files you import are read on your device. You decide which ones to bring in.</p><p><b>Changes.</b> If this policy changes, the date above will change and the new text will appear here.</p><p class="hint">This is general information, not legal advice.</p></div>'}
 $('aboutBtn').onclick=function(e){e.stopPropagation();$('aboutBody').innerHTML=aboutHtml();$('about').hidden=false};
 $('about').addEventListener('click',function(e){e.stopPropagation();if(e.target===this||e.target.id==='aboutClose')this.hidden=true});
@@ -5020,6 +5020,56 @@ window.ORPTITLE=titleCase;
 function fix(e){var t=e.target;if(!t||!t.id||(t.id!=='sdT'&&t.id!=='nsT'))return;
  var v=t.value,n=titleCase(v);if(n!==v){t.value=n;try{t.dispatchEvent(new Event('input',{bubbles:true}))}catch(x){}}}
 document.addEventListener('change',fix,true);
+}catch(e){console.error(e)}})();
+
+/* ===== v0.64.0: the app's own compact color picker ===== */
+(function(){try{
+var css=document.createElement('style');
+css.textContent='#cpop{position:fixed;z-index:96;box-sizing:border-box;width:268px;max-width:calc(100vw - 16px);background:var(--bg);color:var(--ink);border:2px solid var(--edge);border-radius:12px;padding:10px;box-shadow:0 6px 24px rgba(0,0,0,.35);font-size:.85rem}#cpop[hidden]{display:none}'+
+'#cpop .cpt{display:flex;align-items:center;gap:8px;margin-bottom:8px}#cpop .cpv{width:34px;height:26px;border-radius:6px;border:1px solid var(--edge);display:inline-block}#cpop .cpt b{margin-left:auto;font-weight:700;font-variant-numeric:tabular-nums}'+
+'#cpop .cpg{display:grid;grid-template-columns:repeat(8,1fr);gap:4px}#cpop .cpg button{aspect-ratio:1;min-height:0;padding:0;border-radius:6px;border:1px solid var(--edge);cursor:pointer}#cpop .cpg button.on{outline:3px solid var(--acc);outline-offset:1px}'+
+'#cpop .cpb{display:block;width:100%;margin-top:8px;min-height:38px;font:inherit;font-weight:700;border-radius:8px;border:1px solid var(--edge);background:transparent;color:inherit}'+
+'#cpop #cpSl{margin-top:6px}#cpop #cpSl label{display:flex;align-items:center;gap:8px;margin:4px 0}#cpop #cpSl label span{width:5.2rem;flex:none}#cpop #cpSl input[type=range]{flex:1;min-width:0;height:22px;margin:0;border-radius:6px;-webkit-appearance:none;appearance:none;border:1px solid var(--edge)}'+
+'#cpop #cpSl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:26px;border-radius:5px;background:#fff;border:2px solid #222}#cpop #cpSl input[type=range]::-moz-range-thumb{width:12px;height:22px;border-radius:5px;background:#fff;border:2px solid #222}'+
+'#cpop #cpHx{width:6.2rem;min-height:34px;font:inherit;border-radius:8px;padding:0 8px;border:1px solid var(--edge);background:transparent;color:inherit;box-sizing:border-box}'+
+'#cpop .cpf{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}#cpop .cpf button{min-height:38px;min-width:5rem;font:inherit;border-radius:8px;border:1px solid var(--edge);background:transparent;color:inherit}#cpop .cpf .pri{background:var(--acc);color:var(--bg);font-weight:700;border-color:var(--acc)}';
+document.head.appendChild(css);
+var SW=['#000000','#333333','#555555','#777777','#999999','#bbbbbb','#dddddd','#ffffff','#e53935','#fb8c00','#fdd835','#43a047','#00897b','#1e88e5','#8e24aa','#d81b60','#b71c1c','#e65100','#f9a825','#1b5e20','#004d40','#0d47a1','#4a148c','#880e4f','#ffcdd2','#ffe0b2','#fff9c4','#c8e6c9','#b2dfdb','#bbdefb','#e1bee7','#f8bbd0'];
+var pop=document.createElement('div');pop.id='cpop';pop.hidden=true;pop.setAttribute('role','dialog');pop.setAttribute('aria-label','Choose a color');
+pop.innerHTML='<div class="cpt"><span class="cpv" id="cpOld" title="Current color"></span><span aria-hidden="true">→</span><span class="cpv" id="cpNew" title="New color"></span><b id="cpHex"></b></div><div class="cpg" id="cpG"></div><button type="button" class="cpb" id="cpCus" aria-expanded="false">Custom Color</button><div id="cpSl" hidden><label><span>Hue</span><input type="range" id="cpH" min="0" max="360" step="1"></label><label><span>Saturation</span><input type="range" id="cpS" min="0" max="100" step="1"></label><label><span>Brightness</span><input type="range" id="cpV" min="0" max="100" step="1"></label><label><span>Hex code</span><input type="text" id="cpHx" maxlength="7" autocomplete="off" spellcheck="false" aria-label="Hex color code"></label></div><div class="cpf"><button type="button" id="cpCan">Cancel</button><button type="button" id="cpSet" class="pri">Set</button></div>';
+document.body.appendChild(pop);
+function $(i){return document.getElementById(i)}
+var inp=null,orig='#000000',H=0,S=0,V=0,EX=null;
+function hex2hsv(x){var r=parseInt(x.slice(1,3),16)/255,g=parseInt(x.slice(3,5),16)/255,b=parseInt(x.slice(5,7),16)/255,mx=Math.max(r,g,b),mn=Math.min(r,g,b),d=mx-mn,h=0;if(d){if(mx===r)h=((g-b)/d)%6;else if(mx===g)h=(b-r)/d+2;else h=(r-g)/d+4;h*=60;if(h<0)h+=360}return[Math.round(h),Math.round(mx?d/mx*100:0),Math.round(mx*100)]}
+function hsv2hex(h,s,v){s/=100;v/=100;var c=v*s,x=c*(1-Math.abs((h/60)%2-1)),m=v-c,r=0,g=0,b=0;if(h<60){r=c;g=x}else if(h<120){r=x;g=c}else if(h<180){g=c;b=x}else if(h<240){g=x;b=c}else if(h<300){r=x;b=c}else{r=c;b=x}function t(n){return('0'+Math.round((n+m)*255).toString(16)).slice(-2)}return'#'+t(r)+t(g)+t(b)}
+function cur(){return EX||hsv2hex(H,S,V)}
+function paint(skipHx){var c=cur();$('cpNew').style.background=c;$('cpHex').textContent=c.toUpperCase();$('cpH').value=H;$('cpS').value=S;$('cpV').value=V;
+ $('cpH').style.background='linear-gradient(to right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)';
+ $('cpS').style.background='linear-gradient(to right,'+hsv2hex(H,0,V)+','+hsv2hex(H,100,V)+')';
+ $('cpV').style.background='linear-gradient(to right,#000,'+hsv2hex(H,S,100)+')';
+ if(!skipHx)$('cpHx').value=c.toUpperCase();
+ [].forEach.call($('cpG').children,function(b){b.classList.toggle('on',b.dataset.c===c)})}
+function setHex(x){var a=hex2hsv(x);H=a[0];S=a[1];V=a[2];EX=x;paint()}
+var g=$('cpG');SW.forEach(function(c){var b=document.createElement('button');b.type='button';b.dataset.c=c;b.style.background=c;b.setAttribute('aria-label',c);g.appendChild(b)});
+g.addEventListener('click',function(e){var b=e.target.closest('button[data-c]');if(!b)return;e.stopPropagation();setHex(b.dataset.c)});
+function sl(id,fn){$(id).addEventListener('input',function(){EX=null;fn(+this.value);paint(false)})}
+sl('cpH',function(v){H=v});sl('cpS',function(v){S=v});sl('cpV',function(v){V=v});
+$('cpHx').addEventListener('input',function(){var t=this.value.trim();if(t&&t[0]!=='#')t='#'+t;if(/^#[0-9a-f]{6}$/i.test(t)){var a=hex2hsv(t.toLowerCase());H=a[0];S=a[1];V=a[2];EX=t.toLowerCase();paint(true)}});
+$('cpCus').addEventListener('click',function(e){e.stopPropagation();var o=$('cpSl').hidden;$('cpSl').hidden=!o;this.setAttribute('aria-expanded',o?'true':'false');place()});
+function shut(){pop.hidden=true;inp=null}
+function place(){if(!inp)return;var r=inp.getBoundingClientRect(),W=innerWidth,Hh=innerHeight,w=pop.offsetWidth,h=pop.offsetHeight;
+ var left=Math.max(8,Math.min(r.left,W-w-8)),top=r.bottom+6;if(top+h>Hh-8)top=Math.max(8,r.top-h-6);if(top+h>Hh-8)top=Math.max(8,Hh-h-8);
+ var dk=document.getElementById('tabDock');if(dk&&getComputedStyle(dk).display!=='none'&&dk.getBoundingClientRect().width>0){var dr=dk.getBoundingClientRect();if(top<dr.bottom&&top+h>dr.top&&left<dr.right+8)left=Math.min(W-w-8,dr.right+8)}
+ pop.style.left=left+'px';pop.style.top=top+'px'}
+function show(i){inp=i;orig=/^#[0-9a-f]{6}$/i.test(i.value)?i.value.toLowerCase():'#000000';$('cpOld').style.background=orig;$('cpSl').hidden=true;$('cpCus').setAttribute('aria-expanded','false');setHex(orig);pop.hidden=false;place()}
+$('cpSet').addEventListener('click',function(e){e.stopPropagation();var i=inp,c=cur();shut();if(i&&i.value.toLowerCase()!==c){i.value=c;i.dispatchEvent(new Event('input',{bubbles:true}));i.dispatchEvent(new Event('change',{bubbles:true}))}});
+$('cpCan').addEventListener('click',function(e){e.stopPropagation();shut()});
+function mine(t){var s=t&&t.closest&&t.closest('input[type=color]');return s&&!s.disabled?s:null}
+document.addEventListener('click',function(e){var s=mine(e.target);if(!s)return;e.preventDefault();e.stopPropagation();if(inp===s){shut();return}show(s)},true);
+document.addEventListener('pointerdown',function(e){if(pop.hidden)return;if(e.target.closest('#cpop')||mine(e.target))return;shut()},true);
+pop.addEventListener('mousedown',function(e){if(!e.target.closest('input[type=text]'))e.preventDefault()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!pop.hidden){e.stopPropagation();shut()}},true);
+window.addEventListener('resize',shut);
 }catch(e){console.error(e)}})();
 
 })();
