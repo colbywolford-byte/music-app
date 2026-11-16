@@ -821,3 +821,7 @@ Why: the opening animation is a chance to make the app feel welcoming to more of
 - Ramadan (the whole month, from the Islamic calendar built into the phone): the Orpharion in indigo and gold with a glowing lantern and a small crescent. Message: "Ramadan Mubarak."
 - Veterans Day (November 10 and 11): the Orpharion in navy, red, and white with a gently waving flag. It shows a longer message and stays on screen 13 seconds: "Orpharion appreciates and commends the courage, service, and sacrifice of all past, present, and future armed services members. Thank you." The layout moves the logo up and shrinks the type so all five lines fit on phone and tablet, portrait and landscape.
 - All three appear in the Preview list under Opening animation, so they can be viewed on any date. Passover and Ramadan dates follow the phone's calendars and can be a day off, like Eid.
+
+### v0.67.0: Holi opening animation
+- Holi (the Festival of Colors, a Hindu spring festival on the Phalguna full moon, usually in March): the Orpharion in violet and magenta with bursts of colored powder puffing and fading. Message: "Happy Holi!" It shows on the full-moon date and the day before and after.
+- No phone calendar covers Holi, so the dates are a table for 2026 through 2035, worked out from the moon's phases. It is one day wide on each side, so a one-day difference in the festival's date should still be covered. In 2036 and later the animation will not appear until the table is extended (Diwali's table ends at 2035 too).
