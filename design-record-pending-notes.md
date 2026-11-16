@@ -807,3 +807,11 @@ Why: the opening animation is a chance to make the app feel welcoming to more of
 ### v0.64.1: Overwrite warning and "color scheme" wording
 - Saving a color scheme under a name that already exists now asks first ("A scheme named ... already exists. Overwrite it with this song's colors?") with Overwrite and Cancel buttons, like saving a file. Typing a different name dismisses the question.
 - All user-facing text that said "color set" now says "color scheme."
+
+### v0.65.0: Color schemes follow their songs
+- Every song can carry a color scheme tag (a permanent hidden ID plus the scheme's name). The tag is saved with the song, in song files as `{x_scheme: Name | id}`, in the library, and in backups.
+- Tags are set when you apply a scheme to a song, save or update a scheme from a song, create a song with a scheme chosen in the wizard, or import a song while a default scheme exists. Songs made earlier start untagged.
+- Saving under an existing name now offers Update (changes only the card names in this song and keeps the rest), Replace whole scheme, and Cancel. Every song using the scheme changes with it.
+- New Rename button. Renaming keeps the ID, so songs keep following the scheme, and the scheme remembers its earlier names so a song file saved under an old name is matched on import (the tag is updated, colors are left alone).
+- Delete asks first and says how many songs use the scheme. Those songs switch to the default scheme and take its colors. With no default scheme, they keep their current colors and are untagged.
+- A scheme export file now carries the ID and earlier names, so importing restores the links.
