@@ -842,3 +842,4 @@ Why: the opening animation is a chance to make the app feel welcoming to more of
 - Scrolling is free; when it stops, the cursor moves to the line under the band. Typing, tapping, and arrow keys center the active line. The cursor skips divider lines.
 - Save (left), Reset (center, keeps line and column), Cancel (right). Save refuses if a divider line was changed or removed. Font shrinks automatically so long lines stay on one row.
 - Lyric taps still open the Edit Card panel because chord and dynamic placement start from the tapped word.
+- Settings, Display: Keyboard Fit slider (0 to 120 px, stored on this device only). It adds room for the navigation bar under the on-screen keyboard so Save, Reset, and Cancel stay visible. Default is 48 on Android and 0 elsewhere. The Android default was measured on the Android tablet (viewport 601x961 CSS px, navigation bar 48 px); iPad is untested.
