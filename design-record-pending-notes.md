@@ -836,3 +836,9 @@ Why: the opening animation is a chance to make the app feel welcoming to more of
 - Card corners (Nov 16, 2026, Colby's request): the on-screen cards' corner curve went from 12 pixels to 6 pixels. The PDF card map was not changed. Possible later: 4 pixels, or matching the PDF.
 - This is the first step toward lead and follower: a leader shares a setlist file, and followers import it. A later live version, where followers' devices follow the leader's song changes, can build on it and could be the paid feature.
 
+### v0.66.1: Typewriter lyric editor
+- Edit Card panel, Lyrics section: Edit This Line and Edit All Lines are replaced by one Edit Lyrics button. It opens a typewriter-style editor docked above the keyboard, reaching up to the song header's border (it covers the cards).
+- The editor holds all of the song's lyrics (same sections as the Lyrics Page) with chords inline in brackets, and a thin divider with the section name between parts. A marker band like a typewriter's line guide sits at mid-height; other lines are softened slightly.
+- Scrolling is free; when it stops, the cursor moves to the line under the band. Typing, tapping, and arrow keys center the active line. The cursor skips divider lines.
+- Save (left), Reset (center, keeps line and column), Cancel (right). Save refuses if a divider line was changed or removed. Font shrinks automatically so long lines stay on one row.
+- Lyric taps still open the Edit Card panel because chord and dynamic placement start from the tapped word.
